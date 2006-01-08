@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Setting>
+  <Header>
+    <Name name="PocketLadio" />
+    <Version version="0.3" />
+    <Date date="2006/01/08 20:23:22" />
+  </Header>
+  <Content>
+    <RssUrl url="http://www.podcastnavi.com/feed.php?channel_id=1150" />
+    <HeadlineViewType type="[[TITLE]]" />
+  </Content>
+</Setting>

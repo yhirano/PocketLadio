@@ -5,7 +5,7 @@ namespace PocketLadio.Netladio
     /// <summary>
     /// ねとらじの番組
     /// </summary>
-    public class Chanel
+    public class Chanel : PocketLadio.StationInterface.IChanel
     {
 
         /// <summary>
@@ -73,26 +73,45 @@ namespace PocketLadio.Netladio
         /// </summary>
         public string Bit = "";
 
-        public Chanel()
+        /// <summary>
+        /// 親ヘッドライン
+        /// </summary>
+        private Headline ParentHeadline;
+
+        /// <summary>
+        /// チャンネルのコンストラクタ
+        /// </summary>
+        /// <param name="ParentHeadline">親ヘッドライン</param>
+        public Chanel(Headline parentHeadline)
         {
+            this.ParentHeadline = parentHeadline;
         }
 
         /// <summary>
         /// 番組の放送URLを返す
         /// </summary>
         /// <returns>番組の放送URL</returns>
-        public string GetPlayUrl()
+        public virtual string GetPlayUrl()
         {
             return "http://" + Srv + ":" + Prt + Mnt + ".m3u";
         }
 
         /// <summary>
-        /// チャンネルの表示方法に従ってチャンネルの情報を返す
+        /// 番組のウェブサイトURLを返す
         /// </summary>
-        /// <returns>チャンネルの表示方法に従ったチャンネルの情報</returns>
-        public string GetChanelView()
+        /// <returns>番組のウェブサイトURL</returns>
+        public virtual string GetWebSiteUrl()
         {
-            string View = (string)UserSetting.HeadlineViewType.Clone();
+            return Url;
+        }
+
+        /// <summary>
+        /// 番組の表示方法に従って番組の情報を返す
+        /// </summary>
+        /// <returns>番組の表示方法に従った番組の情報</returns>
+        public virtual string GetChanelView()
+        {
+            string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType.Clone();
             if (!View.Equals(""))
             {
                 View = View.Replace("[[NAME]]", Nam);
@@ -105,6 +124,17 @@ namespace PocketLadio.Netladio
             }
 
             return View;
+        }
+
+        /// <summary>
+        /// フィルタリング対象のワードを返す。
+        /// 返されたワードに従い、フィルタリングを行う。
+        /// </summary>
+        /// <returns>フィルタリング対象のワード</returns>
+        public virtual string GetFilterdWord()
+        {
+            //return Nam + " " + Gnl + " " + Nam + " " + Tit;
+            return Nam + " " + Gnl;
         }
     }
 }

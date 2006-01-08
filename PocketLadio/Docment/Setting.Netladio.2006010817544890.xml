@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Setting>
+  <Header>
+    <Name name="PocketLadio" />
+    <Version version="0.3" />
+    <Date date="2006/01/08 19:08:12" />
+  </Header>
+  <Content>
+    <HeadlineCsvUrl url="http://yp.ladio.livedoor.jp/stats/list.csv" />
+    <HeadlineXmlUrl url="http://yp.ladio.livedoor.jp/stats/list.xml" />
+    <HeadlineGetType type="Cvs" />
+    <HeadlineViewType type="[[NAME]] - [[GENRE]] ([[CLN]]/[[CLNS]])" />
+  </Content>
+</Setting>

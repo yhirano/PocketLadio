@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChanelList.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="FilterSettingForm.cs">
       <SubType>Form</SubType>
@@ -66,15 +65,28 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Netladio\UserSetting.cs" />
+    <Compile Include="RssPodcast\Chanel.cs" />
+    <Compile Include="RssPodcast\ChanelPropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RssPodcast\Headline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RssPodcast\SettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RssPodcast\UserSetting.cs" />
     <Compile Include="SettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Station.cs" />
+    <Compile Include="RssPodcast\StationInterface\IChanel.cs" />
+    <Compile Include="RssPodcast\StationInterface\IHeadline.cs" />
+    <Compile Include="StationList.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="VersionInfoForm.cs">
       <SubType>Form</SubType>
@@ -100,6 +112,14 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="RssPodcast\ChanelPropertyForm.resx">
+      <DependentUpon>ChanelPropertyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RssPodcast\SettingForm.resx">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SettingForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SettingForm.cs</DependentUpon>
@@ -110,7 +130,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
+    <Content Include="Docment\Readme.txt" />
+    <Content Include="Docment\Setting.Netladio.2006010817544890.xml" />
+    <Content Include="Docment\Setting.RssPodcast.2006010817552320.xml" />
+    <Content Include="Docment\Setting.RssPodcast.2006010817554590.xml" />
+    <Content Include="Docment\Setting.xml" />
   </ItemGroup>
   <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />
   <Import Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

@@ -6,7 +6,7 @@ using System.Data;
 using System.Net;
 using System.IO;
 using System.Xml;
-using PocketLadio.Netladio;
+using PocketLadio.StationInterface;
 
 namespace PocketLadio
 {
@@ -18,7 +18,7 @@ namespace PocketLadio
         private System.Windows.Forms.MenuItem MenuMenuItem;
         private System.Windows.Forms.MenuItem HeadlineCheckTimerMenuItem;
         private System.Windows.Forms.MenuItem FilterSettingMenuItem;
-        private System.Windows.Forms.MenuItem SettingMenuItem;
+        private System.Windows.Forms.MenuItem StationSettingMenuItem;
         private System.Windows.Forms.MenuItem VersionInfoMenuItem;
         private System.Windows.Forms.MenuItem SeparateMenuItem1;
         private System.Windows.Forms.MenuItem ExitMenuItem;
@@ -33,7 +33,7 @@ namespace PocketLadio
         private System.Windows.Forms.MenuItem BrowserMenuItem;
         private System.Windows.Forms.MenuItem ChanelPropertyMenuItem;
         private System.Windows.Forms.MenuItem PocketLadioSettingMenuItem;
-        private System.Windows.Forms.MenuItem NetladioSettingMenuItem;
+        private ComboBox StationListComboBox;
         private System.Windows.Forms.Timer HeadlineCheckTimer;
 
         public MainForm()
@@ -61,9 +61,8 @@ namespace PocketLadio
             this.MenuMenuItem = new System.Windows.Forms.MenuItem();
             this.HeadlineCheckTimerMenuItem = new System.Windows.Forms.MenuItem();
             this.FilterSettingMenuItem = new System.Windows.Forms.MenuItem();
-            this.SettingMenuItem = new System.Windows.Forms.MenuItem();
             this.PocketLadioSettingMenuItem = new System.Windows.Forms.MenuItem();
-            this.NetladioSettingMenuItem = new System.Windows.Forms.MenuItem();
+            this.StationSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.VersionInfoMenuItem = new System.Windows.Forms.MenuItem();
             this.SeparateMenuItem1 = new System.Windows.Forms.MenuItem();
             this.ExitMenuItem = new System.Windows.Forms.MenuItem();
@@ -77,6 +76,7 @@ namespace PocketLadio
             this.FilterCheckBox = new System.Windows.Forms.CheckBox();
             this.InfomationLabel = new System.Windows.Forms.Label();
             this.HeadlineCheckTimer = new System.Windows.Forms.Timer();
+            this.StationListComboBox = new System.Windows.Forms.ComboBox();
             // 
             // MainMenu
             // 
@@ -86,7 +86,8 @@ namespace PocketLadio
             // 
             this.MenuMenuItem.MenuItems.Add(this.HeadlineCheckTimerMenuItem);
             this.MenuMenuItem.MenuItems.Add(this.FilterSettingMenuItem);
-            this.MenuMenuItem.MenuItems.Add(this.SettingMenuItem);
+            this.MenuMenuItem.MenuItems.Add(this.PocketLadioSettingMenuItem);
+            this.MenuMenuItem.MenuItems.Add(this.StationSettingMenuItem);
             this.MenuMenuItem.MenuItems.Add(this.VersionInfoMenuItem);
             this.MenuMenuItem.MenuItems.Add(this.SeparateMenuItem1);
             this.MenuMenuItem.MenuItems.Add(this.ExitMenuItem);
@@ -102,21 +103,14 @@ namespace PocketLadio
             this.FilterSettingMenuItem.Text = "フィルター設定(&F)";
             this.FilterSettingMenuItem.Click += new System.EventHandler(this.FilterSettingMenuItem_Click);
             // 
-            // SettingMenuItem
-            // 
-            this.SettingMenuItem.MenuItems.Add(this.PocketLadioSettingMenuItem);
-            this.SettingMenuItem.MenuItems.Add(this.NetladioSettingMenuItem);
-            this.SettingMenuItem.Text = "設定(&S)";
-            // 
             // PocketLadioSettingMenuItem
             // 
             this.PocketLadioSettingMenuItem.Text = "PocketLadio設定(&P)";
             this.PocketLadioSettingMenuItem.Click += new System.EventHandler(this.PocketLadioSettingMenuItem_Click);
             // 
-            // NetladioSettingMenuItem
+            // StationSettingMenuItem
             // 
-            this.NetladioSettingMenuItem.Text = "ねとらじ設定(&N)";
-            this.NetladioSettingMenuItem.Click += new System.EventHandler(this.NetladioSettingMenuItem_Click);
+            this.StationSettingMenuItem.Text = "放送局の設定(&S)";
             // 
             // VersionInfoMenuItem
             // 
@@ -142,8 +136,8 @@ namespace PocketLadio
             // HeadlineListBox
             // 
             this.HeadlineListBox.ContextMenu = this.HeadlineContextMenu;
-            this.HeadlineListBox.Location = new System.Drawing.Point(3, 32);
-            this.HeadlineListBox.Size = new System.Drawing.Size(234, 212);
+            this.HeadlineListBox.Location = new System.Drawing.Point(3, 60);
+            this.HeadlineListBox.Size = new System.Drawing.Size(234, 184);
             this.HeadlineListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             // 
             // HeadlineContextMenu
@@ -193,9 +187,17 @@ namespace PocketLadio
             // 
             this.HeadlineCheckTimer.Tick += new System.EventHandler(this.HeadlineCheckTimer_Tick);
             // 
+            // StationListComboBox
+            // 
+            this.StationListComboBox.Location = new System.Drawing.Point(3, 29);
+            this.StationListComboBox.Size = new System.Drawing.Size(234, 22);
+            this.StationListComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.StationListComboBox.SelectedIndexChanged += new System.EventHandler(this.StationListComboBox_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
+            this.Controls.Add(this.StationListComboBox);
             this.Controls.Add(this.InfomationLabel);
             this.Controls.Add(this.FilterCheckBox);
             this.Controls.Add(this.GetButton);
@@ -205,8 +207,8 @@ namespace PocketLadio
             this.Menu = this.MainMenu;
             this.Text = "PocketLadio";
             this.Resize += new System.EventHandler(this.MainForm_Resize);
+            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
-            this.GotFocus += new System.EventHandler(this.MainForm_GotFocus);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.Load += new System.EventHandler(this.MainForm_Load);
 
@@ -226,11 +228,11 @@ namespace PocketLadio
         /// 番組リストを更新する
         /// </summary>
         /// <param name="chanels">番組の配列</param>
-        private void UpdateRadioList(Chanel[] chanels)
+        private void UpdateRadioList(IChanel[] chanels)
         {
             HeadlineListBox.Items.Clear();
 
-            foreach (Chanel Chanel in chanels)
+            foreach (IChanel Chanel in chanels)
             {
                 HeadlineListBox.Items.Add(Chanel.GetChanelView());
             }
@@ -243,7 +245,7 @@ namespace PocketLadio
         {
             if (HeadlineListBox.SelectedIndex != -1)
             {
-                Controller.PlayStreaming(ChanelList.GetChanels()[HeadlineListBox.SelectedIndex].GetPlayUrl());
+                Controller.PlayStreaming(StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetPlayUrl());
             }
         }
 
@@ -254,15 +256,15 @@ namespace PocketLadio
         {
             if (HeadlineListBox.SelectedIndex != -1)
             {
-                if (ChanelList.GetChanels()[HeadlineListBox.SelectedIndex].Url != "")
+                if (StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebSiteUrl() != "")
                 {
-                    Controller.AccessWebSite(ChanelList.GetChanels()[HeadlineListBox.SelectedIndex].Url);
+                    Controller.AccessWebSite(StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebSiteUrl());
                 }
             }
         }
 
         /// <summary>
-        /// ヘッドラインを取得する
+        /// ヘッドラインを取得、表示する
         /// </summary>
         private void CheckHeadline()
         {
@@ -270,9 +272,16 @@ namespace PocketLadio
             {
                 lock (this)
                 {
-                    Headline.WebGetHeadline();
-                    InfomationLabel.Text = "Last " + DateTime.Now.ToString() + " - " + Headline.GetChanels().Length.ToString() + " CHs";
-                    UpdateRadioList(ChanelList.GetChanels());
+                    StationList.WebGetHeadlineOfCurrentStation();
+                    if (StationList.GetLastCheckTimeOfCurrentStation().Equals(DateTime.MinValue))
+                    {
+                        InfomationLabel.Text = "No Check - 0 CHs";
+                    }
+                    else
+                    {
+                        InfomationLabel.Text = "Last " + StationList.GetLastCheckTimeOfCurrentStation().ToString() + " - " + StationList.GetChanelsOfCurrentStation().Length.ToString() + " CHs";
+                    }
+                    UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
                 }
             }
             catch (WebException ex)
@@ -358,8 +367,10 @@ namespace PocketLadio
             this.GetButton.Location = new System.Drawing.Point(3, 3);
             this.PlayButton.Location = new System.Drawing.Point(81, 3);
             this.FilterCheckBox.Location = new System.Drawing.Point(181, 3);
-            this.HeadlineListBox.Location = new System.Drawing.Point(3, 32);
-            this.HeadlineListBox.Size = new System.Drawing.Size(234, 212);
+            this.HeadlineListBox.Location = new System.Drawing.Point(3, 60);
+            this.HeadlineListBox.Size = new System.Drawing.Size(234, 184);
+            this.StationListComboBox.Location = new System.Drawing.Point(3, 29);
+            this.StationListComboBox.Size = new System.Drawing.Size(234, 22);
             this.InfomationLabel.Location = new System.Drawing.Point(3, 247);
             this.InfomationLabel.Size = new System.Drawing.Size(234, 16);
         }
@@ -372,10 +383,82 @@ namespace PocketLadio
             this.GetButton.Location = new System.Drawing.Point(3, 3);
             this.PlayButton.Location = new System.Drawing.Point(81, 3);
             this.FilterCheckBox.Location = new System.Drawing.Point(261, 3);
-            this.HeadlineListBox.Location = new System.Drawing.Point(3, 32);
-            this.HeadlineListBox.Size = new System.Drawing.Size(314, 128);
+            this.HeadlineListBox.Location = new System.Drawing.Point(3, 60);
+            this.HeadlineListBox.Size = new System.Drawing.Size(314, 100);
+            this.StationListComboBox.Location = new System.Drawing.Point(3, 29);
+            this.StationListComboBox.Size = new System.Drawing.Size(314, 22);
             this.InfomationLabel.Location = new System.Drawing.Point(3, 163);
             this.InfomationLabel.Size = new System.Drawing.Size(314, 16);
+        }
+
+        /// <summary>
+        /// Station情報を持った継承MenuItemクラス
+        /// </summary>
+        class StationMenuItem : MenuItem
+        {
+            private Station Station;
+
+            public Station GetStation()
+            {
+                return Station;
+            }
+
+            public void SetStation(Station station)
+            {
+                this.Station = station;
+            }
+
+        }
+
+        /// <summary>
+        /// Stationごとの設定をクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EachStationSettingMenuItem_Click(object sender, System.EventArgs e)
+        {
+            StationList.ShowSettingForm(((StationMenuItem)sender).GetStation());
+        }
+
+        private void HeadlineContextMenu_Popup(object sender, System.EventArgs e)
+        {
+            if (HeadlineListBox.SelectedIndex == -1)
+            {
+                ChanelPropertyMenuItem.Enabled = false;
+                PlayMenuItem.Enabled = false;
+                BrowserMenuItem.Enabled = false;
+            }
+            else
+            {
+                ChanelPropertyMenuItem.Enabled = true;
+                PlayMenuItem.Enabled = true;
+                BrowserMenuItem.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// 各Stationの設定メニューと切り替えボックスの追加
+        /// </summary>
+        private void StationsSettingAndCheckBoxAdd()
+        {
+            // 各Stationの設定メニューを追加
+            this.StationSettingMenuItem.MenuItems.Clear();
+            foreach (Station Station in StationList.GetStationList())
+            {
+                StationMenuItem EachStationSettingMenuItem = new StationMenuItem();
+                this.StationSettingMenuItem.MenuItems.Add(EachStationSettingMenuItem);
+                EachStationSettingMenuItem.Text = Station.GetDisplayName() + " 設定";
+                EachStationSettingMenuItem.SetStation(Station);
+                EachStationSettingMenuItem.Click += new System.EventHandler(this.EachStationSettingMenuItem_Click);
+            }
+
+            // 各Stationの切り替えボックスの追加
+            StationListComboBox.Items.Clear();
+            foreach (Station Station in StationList.GetStationList())
+            {
+                StationListComboBox.Items.Add(Station.GetDisplayName());
+            }
+
         }
 
         private void ExitMenuItem_Click(object sender, System.EventArgs e)
@@ -400,6 +483,7 @@ namespace PocketLadio
         private void GetButton_Click(object sender, System.EventArgs e)
         {
             GetButton.Enabled = false;
+            StationListComboBox.Enabled = false;
 
             try
             {
@@ -424,9 +508,8 @@ namespace PocketLadio
             finally
             {
                 GetButton.Enabled = true;
+                StationListComboBox.Enabled = true;
             }
-
-            GetButton.Enabled = true;
         }
 
         private void PlayButton_Click(object sender, System.EventArgs e)
@@ -438,22 +521,20 @@ namespace PocketLadio
         {
             if (FilterCheckBox.Checked == true)
             {
-                ChanelList.FilterEnable = true;
+                StationList.FilterEnable = true;
             }
             else
             {
-                ChanelList.FilterEnable = false;
+                StationList.FilterEnable = false;
             }
-            UpdateRadioList(ChanelList.GetChanels());
+            UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
         }
 
         private void ChanelPropertyMenuItem_Click(object sender, System.EventArgs e)
         {
-            if (HeadlineListBox.SelectedIndex != -1 && ChanelList.GetChanels().Length > 0)
+            if (HeadlineListBox.SelectedIndex != -1 && StationList.GetChanelsFilteredOfCurrentStation().Length > 0)
             {
-                ChanelPropertyForm ChanelPropertyForm = new ChanelPropertyForm(ChanelList.GetChanels()[HeadlineListBox.SelectedIndex]);
-                DialogResult Result = ChanelPropertyForm.ShowDialog();
-                ChanelPropertyForm.Dispose();
+                StationList.ShowPropertyFormOfCurrentStation(StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex]);
             }
         }
 
@@ -468,30 +549,16 @@ namespace PocketLadio
             {
                 HeadlineCheckTimerStop();
             }
-            
+
             // 番組リストがある場合
-            if (ChanelList.GetChanels().Length > 0)
+            if (StationList.GetChanelsFilteredOfCurrentStation().Length > 0)
             {
-                UpdateRadioList(ChanelList.GetChanels());
+                UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
             }
+
+            StationsSettingAndCheckBoxAdd();
 
             FixWindowSize();
-        }
-
-        private void HeadlineContextMenu_Popup(object sender, System.EventArgs e)
-        {
-            if (HeadlineListBox.SelectedIndex == -1)
-            {
-                ChanelPropertyMenuItem.Enabled = false;
-                PlayMenuItem.Enabled = false;
-                BrowserMenuItem.Enabled = false;
-            }
-            else
-            {
-                ChanelPropertyMenuItem.Enabled = true;
-                PlayMenuItem.Enabled = true;
-                BrowserMenuItem.Enabled = true;
-            }
         }
 
         private void PlayMenuItem_Click(object sender, System.EventArgs e)
@@ -519,6 +586,7 @@ namespace PocketLadio
         private void HeadlineCheckTimer_Tick(object sender, System.EventArgs e)
         {
             GetButton.Enabled = false;
+            StationListComboBox.Enabled = false;
 
             try
             {
@@ -547,14 +615,8 @@ namespace PocketLadio
             finally
             {
                 GetButton.Enabled = true;
+                StationListComboBox.Enabled = true;
             }
-
-            GetButton.Enabled = true;
-        }
-
-        private void MainForm_GotFocus(object sender, System.EventArgs e)
-        {
-            HeadlineCheckTimer.Interval = UserSetting.HeadlineTimerMillSecond;
         }
 
         private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -565,13 +627,6 @@ namespace PocketLadio
         private void PocketLadioSettingMenuItem_Click(object sender, System.EventArgs e)
         {
             SettingForm settingForm = new SettingForm();
-            DialogResult result = settingForm.ShowDialog();
-            settingForm.Dispose();
-        }
-
-        private void NetladioSettingMenuItem_Click(object sender, System.EventArgs e)
-        {
-            PocketLadio.Netladio.SettingForm settingForm = new PocketLadio.Netladio.SettingForm();
             DialogResult result = settingForm.ShowDialog();
             settingForm.Dispose();
         }
@@ -589,6 +644,36 @@ namespace PocketLadio
                 PlayStreaming();
             }
 
+        }
+
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            HeadlineCheckTimer.Interval = UserSetting.HeadlineTimerMillSecond;
+
+            StationsSettingAndCheckBoxAdd();
+
+            /*
+            // 放送局が選択されておらず、かつ放送局がある場合
+            if (StationListComboBox.SelectedIndex == -1 && StationListComboBox.Items.Count > 0)
+            {
+                // トップの放送局を選択
+                StationListComboBox.SelectedIndex = 0;
+            }
+            */
+        }
+
+        private void StationListComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            StationList.ChangeCurrentStationAt(StationListComboBox.SelectedIndex);
+            if (StationList.GetLastCheckTimeOfCurrentStation().Equals(DateTime.MinValue))
+            {
+                InfomationLabel.Text = "No Check - 0 CHs";
+            }
+            else
+            {
+                InfomationLabel.Text = "Last " + StationList.GetLastCheckTimeOfCurrentStation().ToString() + " - " + StationList.GetChanelsOfCurrentStation().Length.ToString() + " CHs";
+            }
+            UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
         }
     }
 }

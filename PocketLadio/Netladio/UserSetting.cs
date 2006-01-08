@@ -14,17 +14,17 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// ねとらじのヘッドラインのURL CSV
         /// </summary>
-        public static string HeadlineCsvUrl = "http://yp.ladio.livedoor.jp/stats/list.csv";
+        public string HeadlineCsvUrl = "http://yp.ladio.livedoor.jp/stats/list.csv";
 
         /// <summary>
         /// ねとらじのヘッドラインのURL XML
         /// </summary>
-        public static string HeadlineXmlUrl = "http://yp.ladio.livedoor.jp/stats/list.xml";
+        public string HeadlineXmlUrl = "http://yp.ladio.livedoor.jp/stats/list.xml";
 
         /// <summary>
         /// ヘッドラインの取得方法
         /// </summary>
-        public static HeadlineGetTypeEnum HeadlineGetType = HeadlineGetTypeEnum.Cvs;
+        public HeadlineGetTypeEnum HeadlineGetType = HeadlineGetTypeEnum.Cvs;
 
         /// <summary>
         /// ねとらじヘッドラインの取得方法の列挙
@@ -37,32 +37,36 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// ねとらじヘッドラインの表示方法
         /// </summary>
-        public static string HeadlineViewType = "[[NAME]] - [[GENRE]] ([[CLN]]/[[CLNS]])";
-
-        // アプリケーションの設定ファイル
-        private const string SettingPath = "Setting.Netladio.xml";
+        public string HeadlineViewType = "[[NAME]] - [[GENRE]] ([[CLN]]/[[CLNS]])";
 
         /// <summary>
-        /// シングルトンのためプライベート
+        /// 親ヘッドライン
         /// </summary>
-        private UserSetting()
+        private Headline ParentHeadline;
+
+        /// <summary>
+        /// 設定のコンストラクタ
+        /// </summary>
+        /// <param name="ParentHeadline">親ヘッドライン</param>
+        public UserSetting(Headline parentHeadline)
         {
+            this.ParentHeadline = parentHeadline;
         }
 
         /// <summary>
         /// ねとらじの設定ファイルの保存場所を返す
         /// </summary>
         /// <returns>設定ファイルの保存場所</returns>
-        public static string GetSettingPath()
+        private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return Controller.GetExecutablePath() + "\\" + SettingPath;
+            return Controller.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetID() + ".xml";
         }
 
         /// <summary>
         /// ねとらじの設定をファイルから読み込む
         /// </summary>
-        public static void LoadSetting()
+        public void LoadSetting()
         {
             if (File.Exists(GetSettingPath()))
             {
@@ -141,12 +145,8 @@ namespace PocketLadio.Netladio
                                     } while (Reader.MoveToNextAttribute());
                                 }
                             } // End of HeadlineViewType
-
                         }
                     }
-
-                    Reader.Close();
-                    Fs.Close();
                 }
                 catch (XmlException)
                 {
@@ -156,62 +156,77 @@ namespace PocketLadio.Netladio
                 {
                     ;
                 }
+                finally
+                {
+                    Reader.Close();
+                    Fs.Close();
+                }
             }
         }
 
         /// <summary>
         /// ねとらじの設定をファイルに保存
         /// </summary>
-        public static void SaveSetting()
+        public void SaveSetting()
         {
             FileStream Fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
             Encoding Encode = Encoding.GetEncoding("utf-8");
             XmlTextWriter Writer = new XmlTextWriter(Fs, Encode);
-            Writer.Formatting = Formatting.Indented;
-            Writer.WriteStartDocument(true);
+            try
+            {
+                Writer.Formatting = Formatting.Indented;
+                Writer.WriteStartDocument(true);
 
-            Writer.WriteStartElement("Setting");
+                Writer.WriteStartElement("Setting");
 
-            Writer.WriteStartElement("Header");
+                Writer.WriteStartElement("Header");
 
-            Writer.WriteStartElement("Name");
-            Writer.WriteAttributeString("name", Controller.ApplicationName);
-            Writer.WriteEndElement(); // End of Name.
-            Writer.WriteStartElement("Version");
-            Writer.WriteAttributeString("version", Controller.VersionNumber);
-            Writer.WriteEndElement(); // End of Version.
+                Writer.WriteStartElement("Name");
+                Writer.WriteAttributeString("name", Controller.ApplicationName);
+                Writer.WriteEndElement(); // End of Name.
+                Writer.WriteStartElement("Version");
+                Writer.WriteAttributeString("version", Controller.VersionNumber);
+                Writer.WriteEndElement(); // End of Version.
 
-            Writer.WriteStartElement("Date");
-            Writer.WriteAttributeString("date", DateTime.Now.ToString());
-            Writer.WriteEndElement(); // End of Date.
+                Writer.WriteStartElement("Date");
+                Writer.WriteAttributeString("date", DateTime.Now.ToString());
+                Writer.WriteEndElement(); // End of Date.
 
-            Writer.WriteEndElement(); // End of Header.
+                Writer.WriteEndElement(); // End of Header.
 
-            Writer.WriteStartElement("Content");
+                Writer.WriteStartElement("Content");
 
-            Writer.WriteStartElement("HeadlineCsvUrl");
-            Writer.WriteAttributeString("url", HeadlineCsvUrl);
-            Writer.WriteEndElement(); // End of HeadlineCsvUrl
+                Writer.WriteStartElement("HeadlineCsvUrl");
+                Writer.WriteAttributeString("url", HeadlineCsvUrl);
+                Writer.WriteEndElement(); // End of HeadlineCsvUrl
 
-            Writer.WriteStartElement("HeadlineXmlUrl");
-            Writer.WriteAttributeString("url", HeadlineXmlUrl);
-            Writer.WriteEndElement(); // End of HeadlineXmlUrl
+                Writer.WriteStartElement("HeadlineXmlUrl");
+                Writer.WriteAttributeString("url", HeadlineXmlUrl);
+                Writer.WriteEndElement(); // End of HeadlineXmlUrl
 
-            Writer.WriteStartElement("HeadlineGetType");
-            Writer.WriteAttributeString("type", HeadlineGetType.ToString());
-            Writer.WriteEndElement(); // End of HeadlineGetType
+                Writer.WriteStartElement("HeadlineGetType");
+                Writer.WriteAttributeString("type", HeadlineGetType.ToString());
+                Writer.WriteEndElement(); // End of HeadlineGetType
 
-            Writer.WriteStartElement("HeadlineViewType");
-            Writer.WriteAttributeString("type", HeadlineViewType);
-            Writer.WriteEndElement(); // End of HeadlineViewType
+                Writer.WriteStartElement("HeadlineViewType");
+                Writer.WriteAttributeString("type", HeadlineViewType);
+                Writer.WriteEndElement(); // End of HeadlineViewType
 
-            Writer.WriteEndElement(); // End of Content.
+                Writer.WriteEndElement(); // End of Content.
 
-            Writer.WriteEndElement(); // End of Setting.
+                Writer.WriteEndElement(); // End of Setting.
 
-            Writer.WriteEndDocument();
-            Writer.Close();
-            Fs.Close();
+                Writer.WriteEndDocument();
+            }
+            catch (IOException)
+            {
+                ;
+            }
+            finally
+            {
+                Writer.Close();
+                Fs.Close();
+            }
         }
     }
 }

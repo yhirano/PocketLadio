@@ -108,8 +108,8 @@ namespace PocketLadio.Netladio
             // TimsCaptionLabel
             // 
             this.TimsCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.TimsCaptionLabel.Size = new System.Drawing.Size(80, 16);
-            this.TimsCaptionLabel.Text = "放送開始時間";
+            this.TimsCaptionLabel.Size = new System.Drawing.Size(88, 16);
+            this.TimsCaptionLabel.Text = "放送開始時刻";
             // 
             // TimsLabel
             // 
@@ -290,7 +290,7 @@ namespace PocketLadio.Netladio
         {
             if (UrlLabel.Text.Trim() != "")
             {
-                Controller.AccessWebSite(Chanel.Url.Trim());
+                Controller.AccessWebSite(Chanel.GetWebSiteUrl());
             }
         }
 

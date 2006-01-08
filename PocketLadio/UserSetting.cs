@@ -36,7 +36,9 @@ namespace PocketLadio
         /// </summary>
         public static string[] FilterWords = new string[0];
 
-        // アプリケーションの設定ファイル
+        /// <summary>
+        /// アプリケーションの設定ファイル
+        /// </summary>
         private const string SettingPath = "Setting.xml";
 
         /// <summary>
@@ -68,6 +70,7 @@ namespace PocketLadio
                 XmlTextReader Reader = new XmlTextReader(Fs);
 
                 ArrayList AlFilterWords = new ArrayList();
+                ArrayList AlStation = new ArrayList();
 
                 try
                 {
@@ -75,6 +78,41 @@ namespace PocketLadio
                     {
                         if (Reader.NodeType == XmlNodeType.Element)
                         {
+                            if (Reader.LocalName.Equals("Station"))
+                            {
+                                string ID = "";
+                                string Name = "";
+                                Station.StationKindEnum StationKind = Station.StationKindEnum.Netladio;
+
+                                if (Reader.MoveToFirstAttribute())
+                                {
+                                    do
+                                    {
+                                        if (Reader.Name.Equals("id"))
+                                        {
+                                            ID = Reader.Value;
+                                        }
+                                        else if (Reader.Name.Equals("name"))
+                                        {
+                                            Name = Reader.Value;
+                                        }
+                                        else if (Reader.Name.Equals("kind"))
+                                        {
+                                            if (Reader.Value.Equals(Station.StationKindEnum.Netladio.ToString()))
+                                            {
+                                                StationKind = Station.StationKindEnum.Netladio;
+                                            }
+                                            else if (Reader.Value.Equals(Station.StationKindEnum.RssPodcast.ToString()))
+                                            {
+                                                StationKind = Station.StationKindEnum.RssPodcast;
+                                            }
+                                        }
+                                    } while (Reader.MoveToNextAttribute());
+                                }
+
+                                AlStation.Add(new Station(ID, Name, StationKind));
+                            } // End of Station
+
                             if (Reader.LocalName.Equals("MediaPlayerPath"))
                             {
                                 if (Reader.MoveToFirstAttribute())
@@ -178,15 +216,16 @@ namespace PocketLadio
                         }
                         else if (Reader.NodeType == XmlNodeType.EndElement)
                         {
-                            if (Reader.LocalName.Equals("FilterWords"))
+                            if (Reader.LocalName.Equals("StationList"))
+                            {
+                                StationList.SetStationList((Station[])AlStation.ToArray(typeof(Station)));
+                            }
+                            else if (Reader.LocalName.Equals("FilterWords"))
                             {
                                 FilterWords = (string[])AlFilterWords.ToArray(typeof(string));
                             }
                         }
                     }
-
-                    Reader.Close();
-                    Fs.Close();
                 }
                 catch (XmlException)
                 {
@@ -195,6 +234,11 @@ namespace PocketLadio
                 catch (IOException)
                 {
                     ;
+                }
+                finally
+                {
+                    Reader.Close();
+                    Fs.Close();
                 }
             }
         }
@@ -207,57 +251,79 @@ namespace PocketLadio
             FileStream Fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
             Encoding Encode = Encoding.GetEncoding("utf-8");
             XmlTextWriter Writer = new XmlTextWriter(Fs, Encode);
-            Writer.Formatting = Formatting.Indented;
-            Writer.WriteStartDocument(true);
 
-            Writer.WriteStartElement("Setting");
-
-            Writer.WriteStartElement("Header");
-
-            Writer.WriteStartElement("Name");
-            Writer.WriteAttributeString("name", Controller.ApplicationName);
-            Writer.WriteEndElement(); // End of Name.
-            Writer.WriteStartElement("Version");
-            Writer.WriteAttributeString("version", Controller.VersionNumber);
-            Writer.WriteEndElement(); // End of Version.
-
-            Writer.WriteStartElement("Date");
-            Writer.WriteAttributeString("date", DateTime.Now.ToString());
-            Writer.WriteEndElement(); // End of Date.
-
-            Writer.WriteEndElement(); // End of Header.
-
-            Writer.WriteStartElement("Content");
-
-            Writer.WriteStartElement("MediaPlayerPath");
-            Writer.WriteAttributeString("path", MediaPlayerPath);
-            Writer.WriteEndElement(); // End of MediaPlayerPath
-
-            Writer.WriteStartElement("BrowserPath");
-            Writer.WriteAttributeString("path", BrowserPath);
-            Writer.WriteEndElement(); // End of BrowserPath
-
-            Writer.WriteStartElement("HeadlineTimer");
-            Writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
-            Writer.WriteAttributeString("millsecond", HeadlineTimerMillSecond.ToString());
-            Writer.WriteEndElement(); // End of HeadlineTimer
-
-            Writer.WriteStartElement("FilterWords");
-            foreach (string FilterWord in FilterWords)
+            try
             {
-                Writer.WriteStartElement("Filter");
-                Writer.WriteAttributeString("word", FilterWord);
-                Writer.WriteEndElement(); // End of Filter
+                Writer.Formatting = Formatting.Indented;
+                Writer.WriteStartDocument(true);
+
+                Writer.WriteStartElement("Setting");
+
+                Writer.WriteStartElement("Header");
+
+                Writer.WriteStartElement("Name");
+                Writer.WriteAttributeString("name", Controller.ApplicationName);
+                Writer.WriteEndElement(); // End of Name.
+                Writer.WriteStartElement("Version");
+                Writer.WriteAttributeString("version", Controller.VersionNumber);
+                Writer.WriteEndElement(); // End of Version.
+
+                Writer.WriteStartElement("Date");
+                Writer.WriteAttributeString("date", DateTime.Now.ToString());
+                Writer.WriteEndElement(); // End of Date.
+
+                Writer.WriteEndElement(); // End of Header.
+
+                Writer.WriteStartElement("Content");
+
+                Writer.WriteStartElement("StationList");
+                foreach (Station Station in StationList.GetStationList())
+                {
+                    Writer.WriteStartElement("Station");
+                    Writer.WriteAttributeString("id", Station.GetHeadlineID());
+                    Writer.WriteAttributeString("name", Station.GetName());
+                    Writer.WriteAttributeString("kind", Station.GetStationKind().ToString());
+                    Writer.WriteEndElement(); // End of Station
+                }
+                Writer.WriteEndElement(); // End of StationList
+
+                Writer.WriteStartElement("MediaPlayerPath");
+                Writer.WriteAttributeString("path", MediaPlayerPath);
+                Writer.WriteEndElement(); // End of MediaPlayerPath
+
+                Writer.WriteStartElement("BrowserPath");
+                Writer.WriteAttributeString("path", BrowserPath);
+                Writer.WriteEndElement(); // End of BrowserPath
+
+                Writer.WriteStartElement("HeadlineTimer");
+                Writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
+                Writer.WriteAttributeString("millsecond", HeadlineTimerMillSecond.ToString());
+                Writer.WriteEndElement(); // End of HeadlineTimer
+
+                Writer.WriteStartElement("FilterWords");
+                foreach (string FilterWord in FilterWords)
+                {
+                    Writer.WriteStartElement("Filter");
+                    Writer.WriteAttributeString("word", FilterWord);
+                    Writer.WriteEndElement(); // End of Filter
+                }
+                Writer.WriteEndElement(); // End of FilterWords
+
+                Writer.WriteEndElement(); // End of Content.
+
+                Writer.WriteEndElement(); // End of Setting.
+
+                Writer.WriteEndDocument();
             }
-            Writer.WriteEndElement(); // End of FilterWords
-
-            Writer.WriteEndElement(); // End of Content.
-
-            Writer.WriteEndElement(); // End of Setting.
-
-            Writer.WriteEndDocument();
-            Writer.Close();
-            Fs.Close();
+            catch (IOException)
+            {
+                ;
+            }
+            finally
+            {
+                Writer.Close();
+                Fs.Close();
+            }
         }
     }
 }

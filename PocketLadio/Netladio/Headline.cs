@@ -4,29 +4,74 @@ using System.Net;
 using System.Text;
 using System.Collections;
 using System.Xml;
+using PocketLadio.StationInterface;
 
 namespace PocketLadio.Netladio
 {
     /// <summary>
     /// ねとらじのヘッドライン
     /// </summary>
-    public class Headline
+    public class Headline : PocketLadio.StationInterface.IHeadline
     {
-        // チャンネルのリスト
-        private static Chanel[] Chanels = new Chanel[0];
+        /// <summary>
+        /// ヘッドラインの種類
+        /// </summary>
+        private const string KindName = "ねとらじ";
 
         /// <summary>
-        /// シングルトンのためprivate
+        /// ヘッドラインのID（ヘッドラインを識別するためのキー）
         /// </summary>
-        private Headline()
+        private string ID;
+
+        /// <summary>
+        /// ヘッドラインの設定
+        /// </summary>
+        private UserSetting Setting;
+
+        /// <summary>
+        /// 番組のリスト
+        /// </summary>
+        private Chanel[] Chanels = new Chanel[0];
+
+        /// <summary>
+        /// ヘッドラインを取得した時間
+        /// </summary>
+        private DateTime LastCheckTime = DateTime.MinValue;
+
+        /// <summary>
+        /// ヘッドラインのコンストラクタ
+        /// </summary>
+        /// <param name="ID">ヘッドラインのID</param>
+        public Headline(string id)
         {
+            this.ID = id;
+            Setting = new UserSetting(this);
+            Setting.LoadSetting();
         }
 
         /// <summary>
-        /// 取得しているチャンネルのリストを返す
+        /// ヘッドラインのIDを返す
         /// </summary>
-        /// <returns>チャンネルのリスト</returns>
-        public static Chanel[] GetChanels()
+        /// <returns>ヘッドラインのID</returns>
+        public virtual string GetID()
+        {
+            return ID;
+        }
+
+        /// <summary>
+        /// ヘッドラインの種類の名前を返す
+        /// </summary>
+        /// <returns>ヘッドラインの種類の名前</returns>
+        public virtual string GetKindName()
+        {
+            return KindName;
+        }
+
+        /// <summary>
+        /// 取得している番組のリストを返す
+        /// </summary>
+        /// <returns>番組のリスト</returns>
+        public virtual IChanel[] GetChanels()
         {
             return Chanels;
         }
@@ -34,15 +79,18 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
-        public static void WebGetHeadline()
+        public virtual void WebGetHeadline()
         {
+            // 時刻をセットする
+            LastCheckTime = DateTime.Now;
+
             try
             {
-                if (UserSetting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Cvs)
+                if (Setting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Cvs)
                 {
                     WebGetHeadlineCvs();
                 }
-                else if (UserSetting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Xml)
+                else if (Setting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Xml)
                 {
                     WebGetHeadlineXml();
                 }
@@ -66,16 +114,35 @@ namespace PocketLadio.Netladio
         }
 
         /// <summary>
+        /// ヘッドラインをネットから取得した時刻を返す。
+        /// 未取得の場合はDateTime.MinValueを返す。
+        /// </summary>
+        /// <returns>ヘッドラインをネットから取得した時刻</returns>
+        public virtual DateTime GetLastCheckTime()
+        {
+            return LastCheckTime;
+        }
+
+        /// <summary>
+        /// ヘッドラインの設定を返す
+        /// </summary>
+        /// <returns>ヘッドラインの設定</returns>
+        public UserSetting GetUserSetting()
+        {
+            return Setting;
+        }
+
+        /// <summary>
         /// ヘッドラインをネットから取得する（CVS使用）
         /// </summary>
-        private static void WebGetHeadlineCvs()
+        private void WebGetHeadlineCvs()
         {
             // チャンネルのリスト
             ArrayList AlChanels = new ArrayList();
 
             try
             {
-                WebRequest Req = WebRequest.Create(UserSetting.HeadlineCsvUrl);
+                WebRequest Req = WebRequest.Create(Setting.HeadlineCsvUrl);
                 Req.Timeout = 20000;
                 WebResponse Result = Req.GetResponse();
                 Stream ReceiveStream = Result.GetResponseStream();
@@ -91,7 +158,7 @@ namespace PocketLadio.Netladio
                 {
                     if (ChanelsCvs[Count] != "")
                     {
-                        Chanel Chanel = new Chanel();
+                        Chanel Chanel = new Chanel(this);
                         string[] ChanelCsv = ChanelsCvs[Count].Split(',');
 
                         // Url取得
@@ -162,92 +229,167 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// ヘッドラインをネットから取得する（XML使用）
         /// </summary>
-        private static void WebGetHeadlineXml()
+        private void WebGetHeadlineXml()
         {
-            // チャンネルのリスト
+            // 番組のリスト
             ArrayList AlChanels = new ArrayList();
 
             try
             {
-                WebRequest req = WebRequest.Create(UserSetting.HeadlineCsvUrl);
-                req.Timeout = 20000;
-                WebResponse result = req.GetResponse();
-                Stream receiveStream = result.GetResponseStream();
-                Encoding encode = Encoding.GetEncoding("utf-8");
-                StreamReader sr = new StreamReader(receiveStream, encode);
-                receiveStream.Close();
+                XmlTextReader Reader = new XmlTextReader(Setting.HeadlineXmlUrl);
 
-                XmlTextReader xtr = new XmlTextReader(sr);
-
-                Chanel Chanel = new Chanel();
-                while (xtr.Read())
+                Chanel Chanel = new Chanel(this);
+                while (Reader.Read())
                 {
-                    if (xtr.NodeType == XmlNodeType.Element)
+                    if (Reader.NodeType == XmlNodeType.Element)
                     {
-                        if (xtr.LocalName.Equals("source"))
+                        if (Reader.LocalName.Equals("source"))
                         {
-                            Chanel = new Chanel();
+                            Chanel = new Chanel(this);
                         } // End of source
-                        if (xtr.LocalName.Equals("url"))
+                        if (Reader.LocalName.Equals("url"))
                         {
-                            Chanel.Url = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("url")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Url = Reader.Value;
+                                }
+                            }
                         } // End of url
-                        if (xtr.LocalName.Equals("gnl"))
+                        if (Reader.LocalName.Equals("gnl"))
                         {
-                            Chanel.Gnl = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("gnl")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Gnl = Reader.Value;
+                                }
+                            }
                         } // End of gnl
-                        if (xtr.LocalName.Equals("tit"))
+                        if (Reader.LocalName.Equals("tit"))
                         {
-                            Chanel.Tit = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("tit")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Tit = Reader.Value;
+                                }
+                            }
                         } // End of tit
-                        if (xtr.LocalName.Equals("mnt"))
+                        if (Reader.LocalName.Equals("mnt"))
                         {
-                            Chanel.Mnt = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("mnt")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Mnt = Reader.Value;
+                                }
+                            }
                         } // End of mnt
-                        if (xtr.LocalName.Equals("tim"))
+                        if (Reader.LocalName.Equals("tim"))
                         {
-                            Chanel.Tim = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("tim")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Tim = Reader.Value;
+                                }
+                            }
                         } // End of tim
-                        if (xtr.LocalName.Equals("tims"))
+                        if (Reader.LocalName.Equals("tims"))
                         {
-                            Chanel.Tims = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("tims")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Tims = Reader.Value;
+                                }
+                            }
                         } // End of tims
-                        if (xtr.LocalName.Equals("cln"))
+                        if (Reader.LocalName.Equals("cln"))
                         {
-                            Chanel.Cln = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("cln")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Cln = Reader.Value;
+                                }
+                            }
                         } // End of cln
-                        if (xtr.LocalName.Equals("clns"))
+                        if (Reader.LocalName.Equals("clns"))
                         {
-                            Chanel.Clns = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("clns")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Clns = Reader.Value;
+                                }
+                            }
                         } // End of clns
-                        if (xtr.LocalName.Equals("srv"))
+                        if (Reader.LocalName.Equals("srv"))
                         {
-                            Chanel.Srv = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("srv")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Srv = Reader.Value;
+                                }
+                            }
                         } // End of srv
-                        if (xtr.LocalName.Equals("prt"))
+                        if (Reader.LocalName.Equals("prt"))
                         {
-                            Chanel.Prt = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("prt")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Prt = Reader.Value;
+                                }
+                            }
                         } // End of prt
-                        if (xtr.LocalName.Equals("typ"))
+                        if (Reader.LocalName.Equals("typ"))
                         {
-                            Chanel.Typ = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("typ")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Typ = Reader.Value;
+                                }
+                            }
                         } // End of typ
-                        if (xtr.LocalName.Equals("bit"))
+                        if (Reader.LocalName.Equals("bit"))
                         {
-                            Chanel.Bit = xtr.Value;
+                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("bit")))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Bit = Reader.Value;
+                                }
+                            }
                         } // End of bit
                     }
-                    else if (xtr.NodeType == XmlNodeType.EndElement)
+                    else if (Reader.NodeType == XmlNodeType.EndElement)
                     {
-                        if (xtr.LocalName.Equals("source"))
+                        if (Reader.LocalName.Equals("source"))
                         {
                             AlChanels.Add(Chanel);
                         }
                     }
                 }
 
-                xtr.Close();
-                sr.Close();
+                Reader.Close();
 
                 Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
             }
@@ -267,6 +409,29 @@ namespace PocketLadio.Netladio
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// ヘッドラインの設定フォームを表示する
+        /// </summary>
+        /// <returns>ヘッドラインの設定フォーム</returns>
+        public virtual void ShowSettingForm()
+        {
+            SettingForm SettingForm = new SettingForm(Setting);
+            SettingForm.ShowDialog();
+            SettingForm.Dispose();
+        }
+
+        /// <summary>
+        /// 番組の詳細フォームを表示する
+        /// </summary>
+        /// <param name="Chanel">番組</param>
+        /// <returns>番組の詳細フォーム</returns>
+        public virtual void ShowPropertyForm(IChanel chanel)
+        {
+            ChanelPropertyForm ChanelPropertyForm = new ChanelPropertyForm((Chanel)chanel);
+            ChanelPropertyForm.ShowDialog();
+            ChanelPropertyForm.Dispose();
         }
     }
 }

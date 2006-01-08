@@ -21,7 +21,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        public const string VersionNumber = "0.3";
+        public const string VersionNumber = "0.4";
         /// <summary>
         /// 著作権情報
         /// </summary>
@@ -77,7 +77,6 @@ namespace PocketLadio
         public static void LoadSettings()
         {
             UserSetting.LoadSetting();
-            PocketLadio.Netladio.UserSetting.LoadSetting();
         }
 
         /// <summary>
