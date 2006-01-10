@@ -36,6 +36,11 @@ namespace PocketLadio
         private ComboBox StationListComboBox;
         private System.Windows.Forms.Timer HeadlineCheckTimer;
 
+        /// <summary>
+        /// 選択されていた放送局のID
+        /// </summary>
+        private string SelectedStationID = "";
+
         public MainForm()
         {
             //
@@ -459,6 +464,21 @@ namespace PocketLadio
                 StationListComboBox.Items.Add(Station.GetDisplayName());
             }
 
+            // 以前に選択されていた放送局を選択し直す
+            for (int Count = 0; Count < StationListComboBox.Items.Count; Count++)
+            {
+                if (StationList.GetStationList()[Count].GetHeadlineID() == SelectedStationID)
+                {
+                    StationListComboBox.SelectedIndex = Count;
+                    break;
+                }
+            }
+            // 放送局が選択されておらず、かつ放送局がある場合
+            if (StationListComboBox.SelectedIndex == -1 && StationListComboBox.Items.Count > 0)
+            {
+                // トップの放送局を選択
+                StationListComboBox.SelectedIndex = 0;
+            }
         }
 
         private void ExitMenuItem_Click(object sender, System.EventArgs e)
@@ -550,13 +570,13 @@ namespace PocketLadio
                 HeadlineCheckTimerStop();
             }
 
+            StationsSettingAndCheckBoxAdd();
+
             // 番組リストがある場合
             if (StationList.GetChanelsFilteredOfCurrentStation().Length > 0)
             {
                 UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
             }
-
-            StationsSettingAndCheckBoxAdd();
 
             FixWindowSize();
         }
@@ -651,15 +671,6 @@ namespace PocketLadio
             HeadlineCheckTimer.Interval = UserSetting.HeadlineTimerMillSecond;
 
             StationsSettingAndCheckBoxAdd();
-
-            /*
-            // 放送局が選択されておらず、かつ放送局がある場合
-            if (StationListComboBox.SelectedIndex == -1 && StationListComboBox.Items.Count > 0)
-            {
-                // トップの放送局を選択
-                StationListComboBox.SelectedIndex = 0;
-            }
-            */
         }
 
         private void StationListComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -674,6 +685,12 @@ namespace PocketLadio
                 InfomationLabel.Text = "Last " + StationList.GetLastCheckTimeOfCurrentStation().ToString() + " - " + StationList.GetChanelsOfCurrentStation().Length.ToString() + " CHs";
             }
             UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
+            
+            // 選択していた放送局を記憶する
+            if (StationListComboBox.SelectedIndex != -1)
+            {
+                SelectedStationID = StationList.GetHeadlineIDOfCurrentStation();
+            }
         }
     }
 }

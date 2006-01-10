@@ -63,6 +63,15 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// 放送局の持つヘッドラインのIDを返す
+        /// </summary>
+        /// <returns>放送局の持つヘッドラインのID</returns>
+        public static string GetHeadlineIDOfCurrentStation()
+        {
+            return CurrentStation.GetHeadlineID();
+        }
+
+        /// <summary>
         /// 取得している番組のリストを返す
         /// </summary>
         /// <returns>番組のリスト</returns>

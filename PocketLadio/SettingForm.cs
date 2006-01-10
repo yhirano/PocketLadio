@@ -270,12 +270,14 @@ namespace PocketLadio
                     Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.Netladio);
                     AlStationList.Add(Station);
                     StationListBox.Items.Add(Station.GetDisplayName());
+                    StationNameTextBox.Text = "";
                 }
                 else if (StationKindComboBox.Text.Trim().Equals("Podcast"))
                 {
                     Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.RssPodcast);
                     AlStationList.Add(Station);
                     StationListBox.Items.Add(Station.GetDisplayName());
+                    StationNameTextBox.Text = "";
                 }
             }
         }
