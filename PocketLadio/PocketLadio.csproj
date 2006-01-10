@@ -84,8 +84,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Station.cs" />
-    <Compile Include="RssPodcast\StationInterface\IChanel.cs" />
-    <Compile Include="RssPodcast\StationInterface\IHeadline.cs" />
+    <Compile Include="StationInterface\IChanel.cs" />
+    <Compile Include="StationInterface\IHeadline.cs" />
     <Compile Include="StationList.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="VersionInfoForm.cs">

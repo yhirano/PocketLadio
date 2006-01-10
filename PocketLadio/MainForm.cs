@@ -196,7 +196,6 @@ namespace PocketLadio
             // 
             this.StationListComboBox.Location = new System.Drawing.Point(3, 29);
             this.StationListComboBox.Size = new System.Drawing.Size(234, 22);
-            this.StationListComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             this.StationListComboBox.SelectedIndexChanged += new System.EventHandler(this.StationListComboBox_SelectedIndexChanged);
             // 
             // MainForm
