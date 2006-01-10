@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using PocketLadio.Util;
 
 namespace PocketLadio
 {
@@ -18,6 +19,10 @@ namespace PocketLadio
         private System.Windows.Forms.MenuItem DeleteMenuItem;
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.MainMenu MainMenu;
+        private ContextMenu AddWordContextMenu;
+        private MenuItem CutMenuItem;
+        private MenuItem CopyMenuItem;
+        private MenuItem PasteMenuItem;
         private System.Windows.Forms.MenuItem OkMenuItem;
 
         public FilterSettingForm()
@@ -51,9 +56,14 @@ namespace PocketLadio
             this.DeleteButton = new System.Windows.Forms.Button();
             this.MainMenu = new System.Windows.Forms.MainMenu();
             this.OkMenuItem = new System.Windows.Forms.MenuItem();
+            this.AddWordContextMenu = new System.Windows.Forms.ContextMenu();
+            this.CutMenuItem = new System.Windows.Forms.MenuItem();
+            this.CopyMenuItem = new System.Windows.Forms.MenuItem();
+            this.PasteMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // AddWordTextBox
             // 
+            this.AddWordTextBox.ContextMenu = this.AddWordContextMenu;
             this.AddWordTextBox.Location = new System.Drawing.Point(3, 3);
             this.AddWordTextBox.Size = new System.Drawing.Size(156, 21);
             // 
@@ -95,6 +105,27 @@ namespace PocketLadio
             // 
             this.OkMenuItem.Text = "&OK";
             this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
+            // 
+            // AddWordContextMenu
+            // 
+            this.AddWordContextMenu.MenuItems.Add(this.CutMenuItem);
+            this.AddWordContextMenu.MenuItems.Add(this.CopyMenuItem);
+            this.AddWordContextMenu.MenuItems.Add(this.PasteMenuItem);
+            // 
+            // CutMenuItem
+            // 
+            this.CutMenuItem.Text = "切り取り(&T)";
+            this.CutMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
+            // 
+            // CopyMenuItem
+            // 
+            this.CopyMenuItem.Text = "コピー(&C)";
+            this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
+            // 
+            // PasteMenuItem
+            // 
+            this.PasteMenuItem.Text = "貼り付け(&P)";
+            this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
             // 
             // FilterSettingForm
             // 
@@ -225,5 +256,19 @@ namespace PocketLadio
             FixWindowSize();
         }
 
+        private void CutMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Cut(AddWordTextBox);
+        }
+
+        private void CopyMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Copy(AddWordTextBox);
+        }
+
+        private void PasteMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Paste(AddWordTextBox);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using PocketLadio.Util;
 
 namespace PocketLadio.Netladio
 {
@@ -22,9 +23,17 @@ namespace PocketLadio.Netladio
         private System.Windows.Forms.RadioButton HeadlineGetTypeXmlRadioButton;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.MenuItem OkMenuItem;
-        private System.Windows.Forms.MainMenu mainMenu;
+        private System.Windows.Forms.MainMenu MainMenu;
         private Label label3;
         private System.Windows.Forms.TextBox HeadlineViewTypeTextBox;
+        private ContextMenu HeadlineViewTypeContextMenu;
+        private MenuItem CutHeadlineViewTypeMenuItem;
+        private MenuItem CopyHeadlineViewTypeMenuItem;
+        private MenuItem PasteHeadlineViewTypeMenuItem;
+        private ContextMenu HeadlineCvsUrlContextMenu;
+        private MenuItem CutHeadlineCvsUrlMenuItem;
+        private MenuItem CopyHeadlineCvsUrlMenuItem;
+        private MenuItem PasteHeadlineCvsUrlMenuItem;
 
         /// <summary>
         /// 設定
@@ -57,11 +66,15 @@ namespace PocketLadio.Netladio
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainMenu = new System.Windows.Forms.MainMenu();
+            this.MainMenu = new System.Windows.Forms.MainMenu();
             this.OkMenuItem = new System.Windows.Forms.MenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.NetladioTabPage = new System.Windows.Forms.TabPage();
             this.HeadlineViewTypeTextBox = new System.Windows.Forms.TextBox();
+            this.HeadlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
+            this.CutHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
+            this.CopyHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
+            this.PasteHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -69,12 +82,16 @@ namespace PocketLadio.Netladio
             this.HeadlineGetTypeCvsRadioButton = new System.Windows.Forms.RadioButton();
             this.HeadlineXmlUrlTextBox = new System.Windows.Forms.TextBox();
             this.HeadlineCsvUrlTextBox = new System.Windows.Forms.TextBox();
+            this.HeadlineCvsUrlContextMenu = new System.Windows.Forms.ContextMenu();
+            this.CutHeadlineCvsUrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.CopyHeadlineCvsUrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.PasteHeadlineCvsUrlMenuItem = new System.Windows.Forms.MenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             // 
-            // mainMenu
+            // MainMenu
             // 
-            this.mainMenu.MenuItems.Add(this.OkMenuItem);
+            this.MainMenu.MenuItems.Add(this.OkMenuItem);
             // 
             // OkMenuItem
             // 
@@ -103,8 +120,30 @@ namespace PocketLadio.Netladio
             // 
             // HeadlineViewTypeTextBox
             // 
+            this.HeadlineViewTypeTextBox.ContextMenu = this.HeadlineViewTypeContextMenu;
             this.HeadlineViewTypeTextBox.Location = new System.Drawing.Point(3, 162);
             this.HeadlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // HeadlineViewTypeContextMenu
+            // 
+            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.CutHeadlineViewTypeMenuItem);
+            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.CopyHeadlineViewTypeMenuItem);
+            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.PasteHeadlineViewTypeMenuItem);
+            // 
+            // CutHeadlineViewTypeMenuItem
+            // 
+            this.CutHeadlineViewTypeMenuItem.Text = "切り取り(&T)";
+            this.CutHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.CutHeadlineViewTypeMenuItem_Click);
+            // 
+            // CopyHeadlineViewTypeMenuItem
+            // 
+            this.CopyHeadlineViewTypeMenuItem.Text = "コピー(&C)";
+            this.CopyHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.CopyHeadlineViewTypeMenuItem_Click);
+            // 
+            // PasteHeadlineViewTypeMenuItem
+            // 
+            this.PasteHeadlineViewTypeMenuItem.Text = "貼り付け(&P)";
+            this.PasteHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.PasteHeadlineViewTypeMenuItem_Click);
             // 
             // label4
             // 
@@ -142,13 +181,36 @@ namespace PocketLadio.Netladio
             // 
             // HeadlineXmlUrlTextBox
             // 
+            this.HeadlineXmlUrlTextBox.Enabled = false;
             this.HeadlineXmlUrlTextBox.Location = new System.Drawing.Point(3, 64);
             this.HeadlineXmlUrlTextBox.Size = new System.Drawing.Size(234, 21);
             // 
             // HeadlineCsvUrlTextBox
             // 
+            this.HeadlineCsvUrlTextBox.ContextMenu = this.HeadlineCvsUrlContextMenu;
             this.HeadlineCsvUrlTextBox.Location = new System.Drawing.Point(3, 23);
             this.HeadlineCsvUrlTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // HeadlineCvsUrlContextMenu
+            // 
+            this.HeadlineCvsUrlContextMenu.MenuItems.Add(this.CutHeadlineCvsUrlMenuItem);
+            this.HeadlineCvsUrlContextMenu.MenuItems.Add(this.CopyHeadlineCvsUrlMenuItem);
+            this.HeadlineCvsUrlContextMenu.MenuItems.Add(this.PasteHeadlineCvsUrlMenuItem);
+            // 
+            // CutHeadlineCvsUrlMenuItem
+            // 
+            this.CutHeadlineCvsUrlMenuItem.Text = "切り取り(&T)";
+            this.CutHeadlineCvsUrlMenuItem.Click += new System.EventHandler(this.CutHeadlineCvsUrlMenuItem_Click);
+            // 
+            // CopyHeadlineCvsUrlMenuItem
+            // 
+            this.CopyHeadlineCvsUrlMenuItem.Text = "コピー(&C)";
+            this.CopyHeadlineCvsUrlMenuItem.Click += new System.EventHandler(this.CopyHeadlineCvsUrlMenuItem_Click);
+            // 
+            // PasteHeadlineCvsUrlMenuItem
+            // 
+            this.PasteHeadlineCvsUrlMenuItem.Text = "貼り付け(&P)";
+            this.PasteHeadlineCvsUrlMenuItem.Click += new System.EventHandler(this.PasteHeadlineCvsUrlMenuItem_Click);
             // 
             // label2
             // 
@@ -166,7 +228,7 @@ namespace PocketLadio.Netladio
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.tabControl1);
-            this.Menu = this.mainMenu;
+            this.Menu = this.MainMenu;
             this.Text = "設定";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
             this.Load += new System.EventHandler(this.SettingForm_Load);
@@ -212,6 +274,36 @@ namespace PocketLadio.Netladio
         private void OkMenuItem_Click(object sender, System.EventArgs e)
         {
             this.Close();
+        }
+
+        private void CutHeadlineViewTypeMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Cut(HeadlineViewTypeTextBox);
+        }
+
+        private void CopyHeadlineViewTypeMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Copy(HeadlineViewTypeTextBox);
+        }
+
+        private void PasteHeadlineViewTypeMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Paste(HeadlineViewTypeTextBox);
+        }
+
+        private void CutHeadlineCvsUrlMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Cut(HeadlineCsvUrlTextBox);
+        }
+
+        private void CopyHeadlineCvsUrlMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Copy(HeadlineCsvUrlTextBox);
+        }
+
+        private void PasteHeadlineCvsUrlMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Paste(HeadlineCsvUrlTextBox);
         }
     }
 }
