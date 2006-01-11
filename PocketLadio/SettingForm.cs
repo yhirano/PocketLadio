@@ -43,6 +43,7 @@ namespace PocketLadio
         private MenuItem CutBrowserPathMenuItem;
         private MenuItem CopyBrowserPathMenuItem;
         private MenuItem PasteBrowserPathMenuItem;
+        private MenuItem SettingMenuItem;
 
         /// <summary>
         /// 放送局のリスト
@@ -89,6 +90,10 @@ namespace PocketLadio
             this.PasteStationNameMenuItem = new System.Windows.Forms.MenuItem();
             this.PocketLadioTabPage = new System.Windows.Forms.TabPage();
             this.BrowserPathTextBox = new System.Windows.Forms.TextBox();
+            this.BrowserPathContextMenu = new System.Windows.Forms.ContextMenu();
+            this.CutBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.CopyBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.PasteBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
             this.label8 = new System.Windows.Forms.Label();
             this.MediaPlayerPathTextBox = new System.Windows.Forms.TextBox();
             this.MediaPlayeraPathContextMenu = new System.Windows.Forms.ContextMenu();
@@ -98,10 +103,7 @@ namespace PocketLadio
             this.label9 = new System.Windows.Forms.Label();
             this.HeadlineTimerSecondNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
-            this.BrowserPathContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.SettingMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // MainMenu
             // 
@@ -139,6 +141,7 @@ namespace PocketLadio
             // 
             // StationListBoxContextMenu
             // 
+            this.StationListBoxContextMenu.MenuItems.Add(this.SettingMenuItem);
             this.StationListBoxContextMenu.MenuItems.Add(this.DeleteMenuItem);
             // 
             // DeleteMenuItem
@@ -203,7 +206,7 @@ namespace PocketLadio
             this.PocketLadioTabPage.Controls.Add(this.HeadlineTimerSecondNumericUpDown);
             this.PocketLadioTabPage.Controls.Add(this.label5);
             this.PocketLadioTabPage.Location = new System.Drawing.Point(0, 0);
-            this.PocketLadioTabPage.Size = new System.Drawing.Size(240, 245);
+            this.PocketLadioTabPage.Size = new System.Drawing.Size(232, 242);
             this.PocketLadioTabPage.Text = "PocketLadio設定";
             // 
             // BrowserPathTextBox
@@ -211,6 +214,27 @@ namespace PocketLadio
             this.BrowserPathTextBox.ContextMenu = this.BrowserPathContextMenu;
             this.BrowserPathTextBox.Location = new System.Drawing.Point(3, 114);
             this.BrowserPathTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // BrowserPathContextMenu
+            // 
+            this.BrowserPathContextMenu.MenuItems.Add(this.CutBrowserPathMenuItem);
+            this.BrowserPathContextMenu.MenuItems.Add(this.CopyBrowserPathMenuItem);
+            this.BrowserPathContextMenu.MenuItems.Add(this.PasteBrowserPathMenuItem);
+            // 
+            // CutBrowserPathMenuItem
+            // 
+            this.CutBrowserPathMenuItem.Text = "切り取り(&T)";
+            this.CutBrowserPathMenuItem.Click += new System.EventHandler(this.CutBrowserPathMenuItem_Click);
+            // 
+            // CopyBrowserPathMenuItem
+            // 
+            this.CopyBrowserPathMenuItem.Text = "コピー(&C)";
+            this.CopyBrowserPathMenuItem.Click += new System.EventHandler(this.CopyBrowserPathMenuItem_Click);
+            // 
+            // PasteBrowserPathMenuItem
+            // 
+            this.PasteBrowserPathMenuItem.Text = "貼り付け(&P)";
+            this.PasteBrowserPathMenuItem.Click += new System.EventHandler(this.PasteBrowserPathMenuItem_Click);
             // 
             // label8
             // 
@@ -268,26 +292,10 @@ namespace PocketLadio
             this.label5.Size = new System.Drawing.Size(188, 20);
             this.label5.Text = "ヘッドラインの自動チェック間隔(秒)";
             // 
-            // BrowserPathContextMenu
+            // SettingMenuItem
             // 
-            this.BrowserPathContextMenu.MenuItems.Add(this.CutBrowserPathMenuItem);
-            this.BrowserPathContextMenu.MenuItems.Add(this.CopyBrowserPathMenuItem);
-            this.BrowserPathContextMenu.MenuItems.Add(this.PasteBrowserPathMenuItem);
-            // 
-            // CutBrowserPathMenuItem
-            // 
-            this.CutBrowserPathMenuItem.Text = "切り取り(&T)";
-            this.CutBrowserPathMenuItem.Click += new System.EventHandler(this.CutBrowserPathMenuItem_Click);
-            // 
-            // CopyBrowserPathMenuItem
-            // 
-            this.CopyBrowserPathMenuItem.Text = "コピー(&C)";
-            this.CopyBrowserPathMenuItem.Click += new System.EventHandler(this.CopyBrowserPathMenuItem_Click);
-            // 
-            // PasteBrowserPathMenuItem
-            // 
-            this.PasteBrowserPathMenuItem.Text = "貼り付け(&P)";
-            this.PasteBrowserPathMenuItem.Click += new System.EventHandler(this.PasteBrowserPathMenuItem_Click);
+            this.SettingMenuItem.Text = "設定(&S)";
+            this.SettingMenuItem.Click += new System.EventHandler(this.SettingMenuItem_Click);
             // 
             // SettingForm
             // 
@@ -387,6 +395,15 @@ namespace PocketLadio
             {
                 AlStationList.RemoveAt(StationListBox.SelectedIndex);
                 StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
+            }
+        }
+
+
+        private void SettingMenuItem_Click(object sender, EventArgs e)
+        {
+            if (StationListBox.SelectedIndex != -1)
+            {
+                ((Station)AlStationList[StationListBox.SelectedIndex]).GetHeadline().ShowSettingForm();
             }
         }
 
