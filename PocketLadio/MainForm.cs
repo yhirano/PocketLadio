@@ -55,6 +55,7 @@ namespace PocketLadio
         {
             base.Dispose(disposing);
         }
+
         #region Windows フォーム デザイナで生成されたコード
         /// <summary>
         /// デザイナ サポートに必要なメソッドです。このメソッドの内容を
@@ -503,6 +504,7 @@ namespace PocketLadio
         {
             GetButton.Enabled = false;
             StationListComboBox.Enabled = false;
+            FilterCheckBox.Enabled = false;
 
             try
             {
@@ -528,6 +530,7 @@ namespace PocketLadio
             {
                 GetButton.Enabled = true;
                 StationListComboBox.Enabled = true;
+                FilterCheckBox.Enabled = true;
             }
         }
 
@@ -606,6 +609,7 @@ namespace PocketLadio
         {
             GetButton.Enabled = false;
             StationListComboBox.Enabled = false;
+            FilterCheckBox.Enabled = false;
 
             try
             {
@@ -635,6 +639,7 @@ namespace PocketLadio
             {
                 GetButton.Enabled = true;
                 StationListComboBox.Enabled = true;
+                FilterCheckBox.Enabled = true;
             }
         }
 
