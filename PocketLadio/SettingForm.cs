@@ -376,6 +376,9 @@ namespace PocketLadio
                     AlStationList.Add(Station);
                     StationListBox.Items.Add(Station.GetDisplayName());
                     StationNameTextBox.Text = "";
+
+                    // İ’è‰æ–Ê‚ğŒÄ‚Ño‚·
+                    Station.GetHeadline().ShowSettingForm();
                 }
             }
         }
