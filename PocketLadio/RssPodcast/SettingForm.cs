@@ -65,17 +65,17 @@ namespace PocketLadio.RssPodcast
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.NetladioTabPage = new System.Windows.Forms.TabPage();
             this.HeadlineViewTypeTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.RssUrlTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.RssUrlContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutRssUrlMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyRssUrlMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteRssUrlMenuItem = new System.Windows.Forms.MenuItem();
             this.HeadlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
             this.CutHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.CopyHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.PasteHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.RssUrlTextBox = new System.Windows.Forms.TextBox();
+            this.RssUrlContextMenu = new System.Windows.Forms.ContextMenu();
+            this.CutRssUrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.CopyRssUrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.PasteRssUrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.label1 = new System.Windows.Forms.Label();
             // 
             // MainMenu
             // 
@@ -101,13 +101,34 @@ namespace PocketLadio.RssPodcast
             this.NetladioTabPage.Controls.Add(this.label1);
             this.NetladioTabPage.Location = new System.Drawing.Point(0, 0);
             this.NetladioTabPage.Size = new System.Drawing.Size(240, 245);
-            this.NetladioTabPage.Text = "ねとらじ設定";
+            this.NetladioTabPage.Text = "Podcast設定";
             // 
             // HeadlineViewTypeTextBox
             // 
             this.HeadlineViewTypeTextBox.ContextMenu = this.HeadlineViewTypeContextMenu;
             this.HeadlineViewTypeTextBox.Location = new System.Drawing.Point(3, 70);
             this.HeadlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // HeadlineViewTypeContextMenu
+            // 
+            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.CutHeadlineViewTypeMenuItem);
+            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.CopyHeadlineViewTypeMenuItem);
+            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.PasteHeadlineViewTypeMenuItem);
+            // 
+            // CutHeadlineViewTypeMenuItem
+            // 
+            this.CutHeadlineViewTypeMenuItem.Text = "切り取り(&T)";
+            this.CutHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.CutHeadlineViewTypeMenuItem_Click);
+            // 
+            // CopyHeadlineViewTypeMenuItem
+            // 
+            this.CopyHeadlineViewTypeMenuItem.Text = "コピー(&C)";
+            this.CopyHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.CopyHeadlineViewTypeMenuItem_Click);
+            // 
+            // PasteHeadlineViewTypeMenuItem
+            // 
+            this.PasteHeadlineViewTypeMenuItem.Text = "貼り付け(&P)";
+            this.PasteHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.PasteHeadlineViewTypeMenuItem_Click);
             // 
             // label2
             // 
@@ -120,12 +141,6 @@ namespace PocketLadio.RssPodcast
             this.RssUrlTextBox.ContextMenu = this.RssUrlContextMenu;
             this.RssUrlTextBox.Location = new System.Drawing.Point(3, 23);
             this.RssUrlTextBox.Size = new System.Drawing.Size(234, 21);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(3, 4);
-            this.label1.Size = new System.Drawing.Size(109, 16);
-            this.label1.Text = "PodcastのRSS URL";
             // 
             // RssUrlContextMenu
             // 
@@ -148,26 +163,11 @@ namespace PocketLadio.RssPodcast
             this.PasteRssUrlMenuItem.Text = "貼り付け(&P)";
             this.PasteRssUrlMenuItem.Click += new System.EventHandler(this.PasteRssUrlMenuItem_Click);
             // 
-            // HeadlineViewTypeContextMenu
+            // label1
             // 
-            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.CutHeadlineViewTypeMenuItem);
-            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.CopyHeadlineViewTypeMenuItem);
-            this.HeadlineViewTypeContextMenu.MenuItems.Add(this.PasteHeadlineViewTypeMenuItem);
-            // 
-            // CutHeadlineViewTypeMenuItem
-            // 
-            this.CutHeadlineViewTypeMenuItem.Text = "切り取り(&T)";
-            this.CutHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.CutHeadlineViewTypeMenuItem_Click);
-            // 
-            // CopyHeadlineViewTypeMenuItem
-            // 
-            this.CopyHeadlineViewTypeMenuItem.Text = "コピー(&C)";
-            this.CopyHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.CopyHeadlineViewTypeMenuItem_Click);
-            // 
-            // PasteHeadlineViewTypeMenuItem
-            // 
-            this.PasteHeadlineViewTypeMenuItem.Text = "貼り付け(&P)";
-            this.PasteHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.PasteHeadlineViewTypeMenuItem_Click);
+            this.label1.Location = new System.Drawing.Point(3, 4);
+            this.label1.Size = new System.Drawing.Size(109, 16);
+            this.label1.Text = "PodcastのRSS URL";
             // 
             // SettingForm
             // 
