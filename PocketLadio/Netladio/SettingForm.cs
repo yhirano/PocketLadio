@@ -12,20 +12,20 @@ namespace PocketLadio.Netladio
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage NetladioTabPage;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox HeadlineCsvUrlTextBox;
-        private System.Windows.Forms.TextBox HeadlineXmlUrlTextBox;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton HeadlineGetTypeCvsRadioButton;
-        private System.Windows.Forms.RadioButton HeadlineGetTypeXmlRadioButton;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.MenuItem OkMenuItem;
-        private System.Windows.Forms.MainMenu MainMenu;
+        private TabControl tabControl1;
+        private TabPage NetladioTabPage;
+        private Label label1;
+        private Label label2;
+        private TextBox HeadlineCsvUrlTextBox;
+        private TextBox HeadlineXmlUrlTextBox;
+        private Panel panel1;
+        private RadioButton HeadlineGetTypeCvsRadioButton;
+        private RadioButton HeadlineGetTypeXmlRadioButton;
+        private Label label4;
+        private MenuItem OkMenuItem;
+        private MainMenu MainMenu;
         private Label label3;
-        private System.Windows.Forms.TextBox HeadlineViewTypeTextBox;
+        private TextBox HeadlineViewTypeTextBox;
         private ContextMenu HeadlineViewTypeContextMenu;
         private MenuItem CutHeadlineViewTypeMenuItem;
         private MenuItem CopyHeadlineViewTypeMenuItem;

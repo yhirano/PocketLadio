@@ -12,18 +12,18 @@ namespace PocketLadio
     /// </summary>
     public class FilterSettingForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.TextBox AddWordTextBox;
-        private System.Windows.Forms.Button AddWordButton;
-        private System.Windows.Forms.ListBox FilterListBox;
-        private System.Windows.Forms.ContextMenu FilterListBoxContextMenu;
-        private System.Windows.Forms.MenuItem DeleteMenuItem;
-        private System.Windows.Forms.Button DeleteButton;
-        private System.Windows.Forms.MainMenu MainMenu;
+        private TextBox AddWordTextBox;
+        private Button AddWordButton;
+        private ListBox FilterListBox;
+        private ContextMenu FilterListBoxContextMenu;
+        private MenuItem DeleteMenuItem;
+        private Button DeleteButton;
+        private MainMenu MainMenu;
         private ContextMenu AddWordContextMenu;
         private MenuItem CutMenuItem;
         private MenuItem CopyMenuItem;
         private MenuItem PasteMenuItem;
-        private System.Windows.Forms.MenuItem OkMenuItem;
+        private MenuItem OkMenuItem;
 
         public FilterSettingForm()
         {

@@ -15,26 +15,26 @@ namespace PocketLadio
     /// </summary>
     public class MainForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.MenuItem MenuMenuItem;
-        private System.Windows.Forms.MenuItem HeadlineCheckTimerMenuItem;
-        private System.Windows.Forms.MenuItem FilterSettingMenuItem;
-        private System.Windows.Forms.MenuItem StationSettingMenuItem;
-        private System.Windows.Forms.MenuItem VersionInfoMenuItem;
-        private System.Windows.Forms.MenuItem SeparateMenuItem1;
-        private System.Windows.Forms.MenuItem ExitMenuItem;
-        private System.Windows.Forms.Button PlayButton;
-        private System.Windows.Forms.ListBox HeadlineListBox;
-        private System.Windows.Forms.Button GetButton;
-        private System.Windows.Forms.CheckBox FilterCheckBox;
-        private System.Windows.Forms.Label InfomationLabel;
-        private System.Windows.Forms.MainMenu MainMenu;
-        private System.Windows.Forms.ContextMenu HeadlineContextMenu;
-        private System.Windows.Forms.MenuItem PlayMenuItem;
-        private System.Windows.Forms.MenuItem BrowserMenuItem;
-        private System.Windows.Forms.MenuItem ChanelPropertyMenuItem;
-        private System.Windows.Forms.MenuItem PocketLadioSettingMenuItem;
+        private MenuItem MenuMenuItem;
+        private MenuItem HeadlineCheckTimerMenuItem;
+        private MenuItem FilterSettingMenuItem;
+        private MenuItem StationSettingMenuItem;
+        private MenuItem VersionInfoMenuItem;
+        private MenuItem SeparateMenuItem1;
+        private MenuItem ExitMenuItem;
+        private Button PlayButton;
+        private ListBox HeadlineListBox;
+        private Button GetButton;
+        private CheckBox FilterCheckBox;
+        private Label InfomationLabel;
+        private MainMenu MainMenu;
+        private ContextMenu HeadlineContextMenu;
+        private MenuItem PlayMenuItem;
+        private MenuItem BrowserMenuItem;
+        private MenuItem ChanelPropertyMenuItem;
+        private MenuItem PocketLadioSettingMenuItem;
         private ComboBox StationListComboBox;
-        private System.Windows.Forms.Timer HeadlineCheckTimer;
+        private Timer HeadlineCheckTimer;
 
         /// <summary>
         /// ‘I‘ð‚³‚ê‚Ä‚¢‚½•ú‘—‹Ç‚ÌID

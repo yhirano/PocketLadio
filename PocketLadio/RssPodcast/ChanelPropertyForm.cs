@@ -11,18 +11,18 @@ namespace PocketLadio.RssPodcast
     /// </summary>
     public class ChanelPropertyForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.Label TitleCaptionLabel;
-        private System.Windows.Forms.Label DescriptionCaptionLabel;
-        private System.Windows.Forms.Label LinkCaptionLabel;
-        private System.Windows.Forms.Label DateCaptionLabel;
-        private System.Windows.Forms.Label TitleLabel;
-        private System.Windows.Forms.Label DescriptionLabel;
-        private System.Windows.Forms.Label LinkLabel;
-        private System.Windows.Forms.Label DateLabel;
-        private System.Windows.Forms.Button AccessButton;
-        private System.Windows.Forms.MenuItem OkMenuItem;
-        private System.Windows.Forms.Button PlayButton;
-        private System.Windows.Forms.MainMenu MainMenu;
+        private Label TitleCaptionLabel;
+        private Label DescriptionCaptionLabel;
+        private Label LinkCaptionLabel;
+        private Label DateCaptionLabel;
+        private Label TitleLabel;
+        private Label DescriptionLabel;
+        private Label LinkLabel;
+        private Label DateLabel;
+        private Button AccessButton;
+        private MenuItem OkMenuItem;
+        private Button PlayButton;
+        private MainMenu MainMenu;
         private Label AuthorLabel;
         private Label AuthorCaptionLabel;
         private Label LengthLabel;

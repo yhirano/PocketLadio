@@ -11,22 +11,22 @@ namespace PocketLadio.Netladio
     /// </summary>
     public class ChanelPropertyForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.Label NamCaptionLabel;
-        private System.Windows.Forms.Label GnlCaptionLabel;
-        private System.Windows.Forms.Label UrlCaptionLabel;
-        private System.Windows.Forms.Label TimsCaptionLabel;
-        private System.Windows.Forms.Label ClnCaptionLabel;
-        private System.Windows.Forms.Label BitCaptionLabel;
-        private System.Windows.Forms.Label NamLabel;
-        private System.Windows.Forms.Label GnlLabel;
-        private System.Windows.Forms.Label UrlLabel;
-        private System.Windows.Forms.Label TimsLabel;
-        private System.Windows.Forms.Label ClnLabel;
-        private System.Windows.Forms.Label BitLabel;
-        private System.Windows.Forms.Button AccessButton;
-        private System.Windows.Forms.MenuItem OkMenuItem;
-        private System.Windows.Forms.Button PlayButton;
-        private System.Windows.Forms.MainMenu MainMenu;
+        private Label NamCaptionLabel;
+        private Label GnlCaptionLabel;
+        private Label UrlCaptionLabel;
+        private Label TimsCaptionLabel;
+        private Label ClnCaptionLabel;
+        private Label BitCaptionLabel;
+        private Label NamLabel;
+        private Label GnlLabel;
+        private Label UrlLabel;
+        private Label TimsLabel;
+        private Label ClnLabel;
+        private Label BitLabel;
+        private Button AccessButton;
+        private MenuItem OkMenuItem;
+        private Button PlayButton;
+        private MainMenu MainMenu;
 
         private Chanel Chanel;
 

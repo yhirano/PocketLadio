@@ -12,12 +12,12 @@ namespace PocketLadio.RssPodcast
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage NetladioTabPage;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox RssUrlTextBox;
-        private System.Windows.Forms.MenuItem OkMenuItem;
-        private System.Windows.Forms.MainMenu MainMenu;
+        private TabControl tabControl1;
+        private TabPage NetladioTabPage;
+        private Label label1;
+        private TextBox RssUrlTextBox;
+        private MenuItem OkMenuItem;
+        private MainMenu MainMenu;
         private TextBox HeadlineViewTypeTextBox;
         private Label label2;
         private ContextMenu RssUrlContextMenu;

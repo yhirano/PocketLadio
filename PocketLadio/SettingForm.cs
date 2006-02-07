@@ -13,15 +13,15 @@ namespace PocketLadio
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.MainMenu MainMenu;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.MenuItem OkMenuItem;
-        private System.Windows.Forms.TabControl SettingTabControl;
-        private System.Windows.Forms.TabPage PocketLadioTabPage;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox MediaPlayerPathTextBox;
-        private System.Windows.Forms.TextBox BrowserPathTextBox;
+        private MainMenu MainMenu;
+        private Label label5;
+        private MenuItem OkMenuItem;
+        private TabControl SettingTabControl;
+        private TabPage PocketLadioTabPage;
+        private Label label8;
+        private Label label9;
+        private TextBox MediaPlayerPathTextBox;
+        private TextBox BrowserPathTextBox;
         private TabPage StationListTabPage;
         private TextBox StationNameTextBox;
         private ListBox StationListBox;
@@ -30,7 +30,7 @@ namespace PocketLadio
         private ComboBox StationKindComboBox;
         private ContextMenu StationListBoxContextMenu;
         private MenuItem DeleteMenuItem;
-        private System.Windows.Forms.NumericUpDown HeadlineTimerSecondNumericUpDown;
+        private NumericUpDown HeadlineTimerSecondNumericUpDown;
         private ContextMenu StationNameContextMenu;
         private MenuItem CutStationNameMenuItem;
         private MenuItem CopyStationNameMenuItem;
