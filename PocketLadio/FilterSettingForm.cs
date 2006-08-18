@@ -23,6 +23,8 @@ namespace PocketLadio
         private MenuItem CutMenuItem;
         private MenuItem CopyMenuItem;
         private MenuItem PasteMenuItem;
+        private Label AddFilterLabel;
+        private Label FilterListLabel;
         private MenuItem OkMenuItem;
 
         public FilterSettingForm()
@@ -49,6 +51,10 @@ namespace PocketLadio
         private void InitializeComponent()
         {
             this.AddWordTextBox = new System.Windows.Forms.TextBox();
+            this.AddWordContextMenu = new System.Windows.Forms.ContextMenu();
+            this.CutMenuItem = new System.Windows.Forms.MenuItem();
+            this.CopyMenuItem = new System.Windows.Forms.MenuItem();
+            this.PasteMenuItem = new System.Windows.Forms.MenuItem();
             this.AddWordButton = new System.Windows.Forms.Button();
             this.FilterListBox = new System.Windows.Forms.ListBox();
             this.FilterListBoxContextMenu = new System.Windows.Forms.ContextMenu();
@@ -56,20 +62,39 @@ namespace PocketLadio
             this.DeleteButton = new System.Windows.Forms.Button();
             this.MainMenu = new System.Windows.Forms.MainMenu();
             this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.AddWordContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteMenuItem = new System.Windows.Forms.MenuItem();
+            this.AddFilterLabel = new System.Windows.Forms.Label();
+            this.FilterListLabel = new System.Windows.Forms.Label();
             // 
             // AddWordTextBox
             // 
             this.AddWordTextBox.ContextMenu = this.AddWordContextMenu;
-            this.AddWordTextBox.Location = new System.Drawing.Point(3, 3);
+            this.AddWordTextBox.Location = new System.Drawing.Point(3, 27);
             this.AddWordTextBox.Size = new System.Drawing.Size(156, 21);
+            // 
+            // AddWordContextMenu
+            // 
+            this.AddWordContextMenu.MenuItems.Add(this.CutMenuItem);
+            this.AddWordContextMenu.MenuItems.Add(this.CopyMenuItem);
+            this.AddWordContextMenu.MenuItems.Add(this.PasteMenuItem);
+            // 
+            // CutMenuItem
+            // 
+            this.CutMenuItem.Text = "切り取り(&T)";
+            this.CutMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
+            // 
+            // CopyMenuItem
+            // 
+            this.CopyMenuItem.Text = "コピー(&C)";
+            this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
+            // 
+            // PasteMenuItem
+            // 
+            this.PasteMenuItem.Text = "貼り付け(&P)";
+            this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
             // 
             // AddWordButton
             // 
-            this.AddWordButton.Location = new System.Drawing.Point(165, 3);
+            this.AddWordButton.Location = new System.Drawing.Point(165, 28);
             this.AddWordButton.Size = new System.Drawing.Size(72, 20);
             this.AddWordButton.Text = "追加(&A)";
             this.AddWordButton.Click += new System.EventHandler(this.AddWordButton_Click);
@@ -77,8 +102,8 @@ namespace PocketLadio
             // FilterListBox
             // 
             this.FilterListBox.ContextMenu = this.FilterListBoxContextMenu;
-            this.FilterListBox.Location = new System.Drawing.Point(3, 29);
-            this.FilterListBox.Size = new System.Drawing.Size(234, 212);
+            this.FilterListBox.Location = new System.Drawing.Point(3, 71);
+            this.FilterListBox.Size = new System.Drawing.Size(234, 170);
             // 
             // FilterListBoxContextMenu
             // 
@@ -106,30 +131,23 @@ namespace PocketLadio
             this.OkMenuItem.Text = "&OK";
             this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // AddWordContextMenu
+            // AddFilterLabel
             // 
-            this.AddWordContextMenu.MenuItems.Add(this.CutMenuItem);
-            this.AddWordContextMenu.MenuItems.Add(this.CopyMenuItem);
-            this.AddWordContextMenu.MenuItems.Add(this.PasteMenuItem);
+            this.AddFilterLabel.Location = new System.Drawing.Point(3, 4);
+            this.AddFilterLabel.Size = new System.Drawing.Size(100, 20);
+            this.AddFilterLabel.Text = "フィルターの追加";
             // 
-            // CutMenuItem
+            // FilterListLabel
             // 
-            this.CutMenuItem.Text = "切り取り(&T)";
-            this.CutMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
-            // 
-            // CopyMenuItem
-            // 
-            this.CopyMenuItem.Text = "コピー(&C)";
-            this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
-            // 
-            // PasteMenuItem
-            // 
-            this.PasteMenuItem.Text = "貼り付け(&P)";
-            this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
+            this.FilterListLabel.Location = new System.Drawing.Point(3, 51);
+            this.FilterListLabel.Size = new System.Drawing.Size(100, 20);
+            this.FilterListLabel.Text = "フィルターのリスト";
             // 
             // FilterSettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
+            this.Controls.Add(this.FilterListLabel);
+            this.Controls.Add(this.AddFilterLabel);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.FilterListBox);
             this.Controls.Add(this.AddWordButton);

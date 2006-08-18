@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 [assembly: AssemblyTitle("PocketLadio")]
-[assembly: AssemblyDescription("Simple ladio checker for Windows Mobile")]
+[assembly: AssemblyDescription("Simple net-ladio and podcast checker for Windows Mobile")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PocketLadio")]
@@ -11,4 +12,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Guid("ab5740c4-e08f-4f7c-b01a-8622ad5243da")]
-[assembly: AssemblyVersion("0.6.0.0")]
+[assembly: AssemblyVersion("0.7.0.0")]
+[assembly: NeutralResourcesLanguageAttribute("ja")]

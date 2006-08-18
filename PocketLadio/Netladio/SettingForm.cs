@@ -229,7 +229,7 @@ namespace PocketLadio.Netladio
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.tabControl1);
             this.Menu = this.MainMenu;
-            this.Text = "ê›íË";
+            this.Text = "ÇÀÇ∆ÇÁÇ∂ê›íË";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
             this.Load += new System.EventHandler(this.SettingForm_Load);
 
