@@ -2,11 +2,11 @@
 <Setting>
   <Header>
     <Name name="PocketLadio" />
-    <Version version="0.3" />
-    <Date date="2006/01/08 20:23:22" />
+    <Version version="0.9" />
+    <Date date="2006/08/19 12:24:42" />
   </Header>
   <Content>
-    <RssUrl url="http://www.podcastnavi.com/feed.php?channel_id=1150" />
+    <RssUrl url="http://www3.eccweblesson.com/podcast/verbs.xml" />
     <HeadlineViewType type="[[TITLE]]" />
   </Content>
 </Setting>

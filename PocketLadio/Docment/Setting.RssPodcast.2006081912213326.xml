@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Setting>
+  <Header>
+    <Name name="PocketLadio" />
+    <Version version="0.9" />
+    <Date date="2006/08/19 12:22:35" />
+  </Header>
+  <Content>
+    <RssUrl url="http://nikkei.hi-ho.ne.jp/podcast/kiku4.xml" />
+    <HeadlineViewType type="[[TITLE]]" />
+  </Content>
+</Setting>

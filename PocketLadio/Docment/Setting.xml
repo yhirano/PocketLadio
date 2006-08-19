@@ -2,14 +2,14 @@
 <Setting>
   <Header>
     <Name name="PocketLadio" />
-    <Version version="0.3" />
-    <Date date="2006/01/08 20:33:48" />
+    <Version version="0.9" />
+    <Date date="2006/08/19 12:24:59" />
   </Header>
   <Content>
     <StationList>
       <Station id="2006010817544890" name="ねとらじ" kind="Netladio" />
-      <Station id="2006010817552320" name="国際人マラソン (PODCAST navi)" kind="RssPodcast" />
-      <Station id="2006010817554590" name="デジオの宇宙" kind="RssPodcast" />
+      <Station id="2006081912213326" name="日本経済新聞＜総合版＞" kind="RssPodcast" />
+      <Station id="2006081912235821" name="ECC 英会話 Podcasting" kind="RssPodcast" />
     </StationList>
     <MediaPlayerPath path="\Program Files\TCPMP\player.exe" />
     <BrowserPath path="\Windows\iexplore.exe" />
