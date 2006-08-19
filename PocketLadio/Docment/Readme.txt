@@ -23,6 +23,12 @@ http://www.microsoft.com/japan/msdn/vstudio/device/netcf/
 ZIPファイルを解凍し、PocketLadio.exeを適当なフォルダに置いてください。
 
 
+【アップデート】
+ZIPファイルを解凍し、PocketLadio.exeを適当なフォルダに置いてください。
+同こんのSetting.*.xmlを上書きしてしまいますと、今までの設定が消えてしまいます
+ので注意してください。
+
+
 【アンインストール】
 PocketLadio.exeと、同じフォルダにあるSetting.xmlおよびSetting.*.xmlを削除して
 ください。
