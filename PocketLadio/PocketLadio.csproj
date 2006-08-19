@@ -137,8 +137,8 @@
   <ItemGroup>
     <Content Include="Docment\Readme.txt" />
     <Content Include="Docment\Setting.Netladio.2006010817544890.xml" />
-    <Content Include="Docment\Setting.RssPodcast.2006010817552320.xml" />
-    <Content Include="Docment\Setting.RssPodcast.2006010817554590.xml" />
+    <Content Include="Docment\Setting.RssPodcast.2006081912213326.xml" />
+    <Content Include="Docment\Setting.RssPodcast.2006081912235821.xml" />
     <Content Include="Docment\Setting.xml" />
   </ItemGroup>
   <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />

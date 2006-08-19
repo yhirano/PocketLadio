@@ -39,7 +39,7 @@ namespace PocketLadio
         {
             CurrentStation = Stations[param];
         }
-        
+
         /// <summary>
         /// 放送局のリストを返す
         /// </summary>
@@ -57,7 +57,7 @@ namespace PocketLadio
         public static void SetStationList(Station[] stations)
         {
             Stations = stations;
-            
+
             // 現在の放送局をクリアする
             CurrentStation = null;
         }
@@ -68,7 +68,30 @@ namespace PocketLadio
         /// <returns>放送局の持つヘッドラインのID</returns>
         public static string GetHeadlineIDOfCurrentStation()
         {
-            return CurrentStation.GetHeadlineID();
+            if (CurrentStation != null)
+            {
+                return CurrentStation.GetHeadlineID();
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// 放送局の名前を返す
+        /// </summary>
+        /// <returns>放送局の名前</returns>
+        public static string GetHeadlineNameOfCurrentStation()
+        {
+            if (CurrentStation != null)
+            {
+                return CurrentStation.GetName();
+            }
+            else
+            {
+                return "";
+            }
         }
 
         /// <summary>

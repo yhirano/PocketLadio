@@ -224,6 +224,14 @@ namespace PocketLadio.Netladio
             {
                 throw ex;
             }
+            catch (UriFormatException ex)
+            {
+                throw ex;
+            }
+            catch (NotSupportedException ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -406,6 +414,10 @@ namespace PocketLadio.Netladio
                 throw ex;
             }
             catch (XmlException ex)
+            {
+                throw ex;
+            }
+            catch (ArgumentException ex)
             {
                 throw ex;
             }

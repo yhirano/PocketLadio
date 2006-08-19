@@ -229,6 +229,10 @@ namespace PocketLadio.RssPodcast
             {
                 throw ex;
             }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
 
         }
 

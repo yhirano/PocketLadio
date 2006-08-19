@@ -343,6 +343,21 @@ namespace PocketLadio
                     HeadlineCheckTimerStop();
                     MessageBox.Show("XML形式のヘッドラインが正常に処理できませんでした", "XMLエラー");
                 }
+                catch (ArgumentException)
+                {
+                    HeadlineCheckTimerStop();
+                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                }
+                catch (UriFormatException)
+                {
+                    HeadlineCheckTimerStop();
+                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                }
+                catch (NotSupportedException)
+                {
+                    HeadlineCheckTimerStop();
+                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                }
                 finally
                 {
                     // GetボタンとFilterチェックボックスを選択可能に回復する
