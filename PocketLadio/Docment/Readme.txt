@@ -12,6 +12,7 @@ http://live.ladio.livedoor.com/
 【必要環境】
 Microsoft Windows Mobile 5.0 Pocket PC
 .NET Compact Framework 1.0 SP3
+TCPMP（推奨）
 
 .NET Compact Frameworkについては
 http://www.microsoft.com/japan/msdn/vstudio/device/netcf/
@@ -94,6 +95,10 @@ PocketLadioの設定を行うことができます。
 
 
 【バージョン履歴】
+Version 0.8
+・フィルター設定画面が崩れていたのを修正
+・UIの細かい修正
+
 Version 0.7
 ・UIの変更
 ・放送局の設定が無い場合に放送局の設定が選択できてしまっていたのを修正

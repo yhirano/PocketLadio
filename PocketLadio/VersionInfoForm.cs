@@ -87,6 +87,7 @@ namespace PocketLadio
             this.Menu = this.MainMenu;
             this.Text = "バージョン情報";
             this.Load += new System.EventHandler(this.VersionInfoForm_Load);
+            this.MaximizeBox = false;
 
         }
 

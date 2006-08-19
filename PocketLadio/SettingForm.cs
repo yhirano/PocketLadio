@@ -14,12 +14,12 @@ namespace PocketLadio
     public class SettingForm : System.Windows.Forms.Form
     {
         private MainMenu MainMenu;
-        private Label label5;
+        private Label HeadlineTimerSecondLabel;
         private MenuItem OkMenuItem;
         private TabControl SettingTabControl;
         private TabPage PocketLadioTabPage;
-        private Label label8;
-        private Label label9;
+        private Label BrowserPathLabel;
+        private Label MediaPlayerPathLabel;
         private TextBox MediaPlayerPathTextBox;
         private TextBox BrowserPathTextBox;
         private TabPage StationListTabPage;
@@ -79,6 +79,8 @@ namespace PocketLadio
             this.OkMenuItem = new System.Windows.Forms.MenuItem();
             this.SettingTabControl = new System.Windows.Forms.TabControl();
             this.StationListTabPage = new System.Windows.Forms.TabPage();
+            this.StationListLabel = new System.Windows.Forms.Label();
+            this.AddStationLabel = new System.Windows.Forms.Label();
             this.StationListBox = new System.Windows.Forms.ListBox();
             this.StationListBoxContextMenu = new System.Windows.Forms.ContextMenu();
             this.SettingMenuItem = new System.Windows.Forms.MenuItem();
@@ -97,17 +99,15 @@ namespace PocketLadio
             this.CutBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
             this.CopyBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
             this.PasteBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.label8 = new System.Windows.Forms.Label();
+            this.BrowserPathLabel = new System.Windows.Forms.Label();
             this.MediaPlayerPathTextBox = new System.Windows.Forms.TextBox();
             this.MediaPlayeraPathContextMenu = new System.Windows.Forms.ContextMenu();
             this.CutMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.CopyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.PasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.label9 = new System.Windows.Forms.Label();
+            this.MediaPlayerPathLabel = new System.Windows.Forms.Label();
             this.HeadlineTimerSecondNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.AddStationLabel = new System.Windows.Forms.Label();
-            this.StationListLabel = new System.Windows.Forms.Label();
+            this.HeadlineTimerSecondLabel = new System.Windows.Forms.Label();
             // 
             // MainMenu
             // 
@@ -138,6 +138,18 @@ namespace PocketLadio
             this.StationListTabPage.Location = new System.Drawing.Point(0, 0);
             this.StationListTabPage.Size = new System.Drawing.Size(240, 245);
             this.StationListTabPage.Text = "放送局のリスト";
+            // 
+            // StationListLabel
+            // 
+            this.StationListLabel.Location = new System.Drawing.Point(3, 77);
+            this.StationListLabel.Size = new System.Drawing.Size(84, 20);
+            this.StationListLabel.Text = "放送局一覧";
+            // 
+            // AddStationLabel
+            // 
+            this.AddStationLabel.Location = new System.Drawing.Point(3, 4);
+            this.AddStationLabel.Size = new System.Drawing.Size(84, 20);
+            this.AddStationLabel.Text = "放送局の追加";
             // 
             // StationListBox
             // 
@@ -178,7 +190,7 @@ namespace PocketLadio
             // 
             this.StationKindComboBox.Items.Add("ねとらじ");
             this.StationKindComboBox.Items.Add("Podcast");
-            this.StationKindComboBox.Location = new System.Drawing.Point(137, 26);
+            this.StationKindComboBox.Location = new System.Drawing.Point(137, 27);
             this.StationKindComboBox.Size = new System.Drawing.Size(100, 22);
             // 
             // StationNameTextBox
@@ -211,13 +223,13 @@ namespace PocketLadio
             // PocketLadioTabPage
             // 
             this.PocketLadioTabPage.Controls.Add(this.BrowserPathTextBox);
-            this.PocketLadioTabPage.Controls.Add(this.label8);
+            this.PocketLadioTabPage.Controls.Add(this.BrowserPathLabel);
             this.PocketLadioTabPage.Controls.Add(this.MediaPlayerPathTextBox);
-            this.PocketLadioTabPage.Controls.Add(this.label9);
+            this.PocketLadioTabPage.Controls.Add(this.MediaPlayerPathLabel);
             this.PocketLadioTabPage.Controls.Add(this.HeadlineTimerSecondNumericUpDown);
-            this.PocketLadioTabPage.Controls.Add(this.label5);
+            this.PocketLadioTabPage.Controls.Add(this.HeadlineTimerSecondLabel);
             this.PocketLadioTabPage.Location = new System.Drawing.Point(0, 0);
-            this.PocketLadioTabPage.Size = new System.Drawing.Size(240, 245);
+            this.PocketLadioTabPage.Size = new System.Drawing.Size(232, 242);
             this.PocketLadioTabPage.Text = "PocketLadio設定";
             // 
             // BrowserPathTextBox
@@ -247,11 +259,11 @@ namespace PocketLadio
             this.PasteBrowserPathMenuItem.Text = "貼り付け(&P)";
             this.PasteBrowserPathMenuItem.Click += new System.EventHandler(this.PasteBrowserPathMenuItem_Click);
             // 
-            // label8
+            // BrowserPathLabel
             // 
-            this.label8.Location = new System.Drawing.Point(3, 95);
-            this.label8.Size = new System.Drawing.Size(79, 16);
-            this.label8.Text = "ブラウザのパス";
+            this.BrowserPathLabel.Location = new System.Drawing.Point(3, 95);
+            this.BrowserPathLabel.Size = new System.Drawing.Size(79, 16);
+            this.BrowserPathLabel.Text = "ブラウザのパス";
             // 
             // MediaPlayerPathTextBox
             // 
@@ -280,11 +292,11 @@ namespace PocketLadio
             this.PasteMediaPlayeraPathMenuItem.Text = "貼り付け(&P)";
             this.PasteMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.PasteMediaPlayeraPathMenuItem_Click);
             // 
-            // label9
+            // MediaPlayerPathLabel
             // 
-            this.label9.Location = new System.Drawing.Point(3, 52);
-            this.label9.Size = new System.Drawing.Size(132, 16);
-            this.label9.Text = "メディアプレーヤーのパス";
+            this.MediaPlayerPathLabel.Location = new System.Drawing.Point(3, 52);
+            this.MediaPlayerPathLabel.Size = new System.Drawing.Size(132, 16);
+            this.MediaPlayerPathLabel.Text = "メディアプレーヤーのパス";
             // 
             // HeadlineTimerSecondNumericUpDown
             // 
@@ -297,23 +309,11 @@ namespace PocketLadio
             0,
             0});
             // 
-            // label5
+            // HeadlineTimerSecondLabel
             // 
-            this.label5.Location = new System.Drawing.Point(3, 4);
-            this.label5.Size = new System.Drawing.Size(188, 20);
-            this.label5.Text = "ヘッドラインの自動チェック間隔(秒)";
-            // 
-            // AddStationLabel
-            // 
-            this.AddStationLabel.Location = new System.Drawing.Point(3, 4);
-            this.AddStationLabel.Size = new System.Drawing.Size(84, 20);
-            this.AddStationLabel.Text = "放送局の追加";
-            // 
-            // StationListLabel
-            // 
-            this.StationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.StationListLabel.Size = new System.Drawing.Size(100, 20);
-            this.StationListLabel.Text = "放送局のリスト";
+            this.HeadlineTimerSecondLabel.Location = new System.Drawing.Point(3, 4);
+            this.HeadlineTimerSecondLabel.Size = new System.Drawing.Size(188, 20);
+            this.HeadlineTimerSecondLabel.Text = "ヘッドラインの自動チェック間隔(秒)";
             // 
             // SettingForm
             // 

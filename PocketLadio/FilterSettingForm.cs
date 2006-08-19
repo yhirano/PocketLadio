@@ -94,7 +94,7 @@ namespace PocketLadio
             // 
             // AddWordButton
             // 
-            this.AddWordButton.Location = new System.Drawing.Point(165, 28);
+            this.AddWordButton.Location = new System.Drawing.Point(165, 27);
             this.AddWordButton.Size = new System.Drawing.Size(72, 20);
             this.AddWordButton.Text = "追加(&A)";
             this.AddWordButton.Click += new System.EventHandler(this.AddWordButton_Click);
@@ -141,7 +141,7 @@ namespace PocketLadio
             // 
             this.FilterListLabel.Location = new System.Drawing.Point(3, 51);
             this.FilterListLabel.Size = new System.Drawing.Size(100, 20);
-            this.FilterListLabel.Text = "フィルターのリスト";
+            this.FilterListLabel.Text = "フィルター一覧";
             // 
             // FilterSettingForm
             // 
@@ -185,12 +185,18 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeVertical()
         {
-            this.AddWordButton.Location = new System.Drawing.Point(165, 3);
-            this.DeleteButton.Location = new System.Drawing.Point(165, 245);
-            this.AddWordTextBox.Location = new System.Drawing.Point(3, 3);
+            this.AddWordTextBox.Location = new System.Drawing.Point(3, 27);
             this.AddWordTextBox.Size = new System.Drawing.Size(156, 21);
-            this.FilterListBox.Location = new System.Drawing.Point(3, 29);
-            this.FilterListBox.Size = new System.Drawing.Size(234, 212);
+            this.AddWordButton.Location = new System.Drawing.Point(165, 27);
+            this.AddWordButton.Size = new System.Drawing.Size(72, 20);
+            this.FilterListBox.Location = new System.Drawing.Point(3, 71);
+            this.FilterListBox.Size = new System.Drawing.Size(234, 170);
+            this.DeleteButton.Location = new System.Drawing.Point(165, 245);
+            this.DeleteButton.Size = new System.Drawing.Size(72, 20);
+            this.AddFilterLabel.Location = new System.Drawing.Point(3, 4);
+            this.AddFilterLabel.Size = new System.Drawing.Size(100, 20);
+            this.FilterListLabel.Location = new System.Drawing.Point(3, 51);
+            this.FilterListLabel.Size = new System.Drawing.Size(100, 20);
         }
 
         /// <summary>
@@ -198,17 +204,26 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeHorizon()
         {
-            this.AddWordButton.Location = new System.Drawing.Point(245, 3);
-            this.DeleteButton.Location = new System.Drawing.Point(245, 165);
-            this.AddWordTextBox.Location = new System.Drawing.Point(3, 3);
+            this.AddWordTextBox.Location = new System.Drawing.Point(3, 27);
             this.AddWordTextBox.Size = new System.Drawing.Size(236, 21);
-            this.FilterListBox.Location = new System.Drawing.Point(3, 29);
-            this.FilterListBox.Size = new System.Drawing.Size(314, 128);
+            this.AddWordButton.Location = new System.Drawing.Point(245, 27);
+            this.AddWordButton.Size = new System.Drawing.Size(72, 20);
+            this.FilterListBox.Location = new System.Drawing.Point(3, 71);
+            this.FilterListBox.Size = new System.Drawing.Size(314, 86);
+            this.DeleteButton.Location = new System.Drawing.Point(245, 163);
+            this.DeleteButton.Size = new System.Drawing.Size(72, 20);
+            this.AddFilterLabel.Location = new System.Drawing.Point(3, 4);
+            this.AddFilterLabel.Size = new System.Drawing.Size(100, 20);
+            this.FilterListLabel.Location = new System.Drawing.Point(3, 51);
+            this.FilterListLabel.Size = new System.Drawing.Size(100, 20);
         }
 
         private void FilterSettingForm_Load(object sender, System.EventArgs e)
         {
+            // フォーム内の中身のサイズを適正に変更する
             FixWindowSize();
+
+            // フィルターリストにフィルタの内容を追加する
             foreach (string Word in UserSetting.FilterWords)
             {
                 FilterListBox.Items.Add(Word);

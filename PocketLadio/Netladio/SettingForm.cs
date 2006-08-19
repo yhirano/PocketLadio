@@ -14,17 +14,17 @@ namespace PocketLadio.Netladio
     {
         private TabControl tabControl1;
         private TabPage NetladioTabPage;
-        private Label label1;
-        private Label label2;
+        private Label HeadlineCvsUrlLabel;
+        private Label HeadlineXmlUrlLabel;
         private TextBox HeadlineCsvUrlTextBox;
         private TextBox HeadlineXmlUrlTextBox;
         private Panel panel1;
         private RadioButton HeadlineGetTypeCvsRadioButton;
         private RadioButton HeadlineGetTypeXmlRadioButton;
-        private Label label4;
+        private Label HeadlineViewTypeLabel;
         private MenuItem OkMenuItem;
         private MainMenu MainMenu;
-        private Label label3;
+        private Label HeadlineGetTypeLabel;
         private TextBox HeadlineViewTypeTextBox;
         private ContextMenu HeadlineViewTypeContextMenu;
         private MenuItem CutHeadlineViewTypeMenuItem;
@@ -75,9 +75,9 @@ namespace PocketLadio.Netladio
             this.CutHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.CopyHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.PasteHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
-            this.label4 = new System.Windows.Forms.Label();
+            this.HeadlineViewTypeLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.HeadlineGetTypeLabel = new System.Windows.Forms.Label();
             this.HeadlineGetTypeXmlRadioButton = new System.Windows.Forms.RadioButton();
             this.HeadlineGetTypeCvsRadioButton = new System.Windows.Forms.RadioButton();
             this.HeadlineXmlUrlTextBox = new System.Windows.Forms.TextBox();
@@ -86,8 +86,8 @@ namespace PocketLadio.Netladio
             this.CutHeadlineCvsUrlMenuItem = new System.Windows.Forms.MenuItem();
             this.CopyHeadlineCvsUrlMenuItem = new System.Windows.Forms.MenuItem();
             this.PasteHeadlineCvsUrlMenuItem = new System.Windows.Forms.MenuItem();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.HeadlineXmlUrlLabel = new System.Windows.Forms.Label();
+            this.HeadlineCvsUrlLabel = new System.Windows.Forms.Label();
             // 
             // MainMenu
             // 
@@ -108,12 +108,12 @@ namespace PocketLadio.Netladio
             // NetladioTabPage
             // 
             this.NetladioTabPage.Controls.Add(this.HeadlineViewTypeTextBox);
-            this.NetladioTabPage.Controls.Add(this.label4);
+            this.NetladioTabPage.Controls.Add(this.HeadlineViewTypeLabel);
             this.NetladioTabPage.Controls.Add(this.panel1);
             this.NetladioTabPage.Controls.Add(this.HeadlineXmlUrlTextBox);
             this.NetladioTabPage.Controls.Add(this.HeadlineCsvUrlTextBox);
-            this.NetladioTabPage.Controls.Add(this.label2);
-            this.NetladioTabPage.Controls.Add(this.label1);
+            this.NetladioTabPage.Controls.Add(this.HeadlineXmlUrlLabel);
+            this.NetladioTabPage.Controls.Add(this.HeadlineCvsUrlLabel);
             this.NetladioTabPage.Location = new System.Drawing.Point(0, 0);
             this.NetladioTabPage.Size = new System.Drawing.Size(240, 245);
             this.NetladioTabPage.Text = "ねとらじ設定";
@@ -145,25 +145,25 @@ namespace PocketLadio.Netladio
             this.PasteHeadlineViewTypeMenuItem.Text = "貼り付け(&P)";
             this.PasteHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.PasteHeadlineViewTypeMenuItem_Click);
             // 
-            // label4
+            // HeadlineViewTypeLabel
             // 
-            this.label4.Location = new System.Drawing.Point(3, 139);
-            this.label4.Size = new System.Drawing.Size(135, 20);
-            this.label4.Text = "ヘッドラインの表示方法";
+            this.HeadlineViewTypeLabel.Location = new System.Drawing.Point(3, 139);
+            this.HeadlineViewTypeLabel.Size = new System.Drawing.Size(135, 20);
+            this.HeadlineViewTypeLabel.Text = "ヘッドラインの表示方法";
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.HeadlineGetTypeLabel);
             this.panel1.Controls.Add(this.HeadlineGetTypeXmlRadioButton);
             this.panel1.Controls.Add(this.HeadlineGetTypeCvsRadioButton);
             this.panel1.Location = new System.Drawing.Point(0, 91);
             this.panel1.Size = new System.Drawing.Size(240, 45);
             // 
-            // label3
+            // HeadlineGetTypeLabel
             // 
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Size = new System.Drawing.Size(135, 20);
-            this.label3.Text = "ヘッドラインの取得方法";
+            this.HeadlineGetTypeLabel.Location = new System.Drawing.Point(3, 0);
+            this.HeadlineGetTypeLabel.Size = new System.Drawing.Size(135, 20);
+            this.HeadlineGetTypeLabel.Text = "ヘッドラインの取得方法";
             // 
             // HeadlineGetTypeXmlRadioButton
             // 
@@ -212,22 +212,23 @@ namespace PocketLadio.Netladio
             this.PasteHeadlineCvsUrlMenuItem.Text = "貼り付け(&P)";
             this.PasteHeadlineCvsUrlMenuItem.Click += new System.EventHandler(this.PasteHeadlineCvsUrlMenuItem_Click);
             // 
-            // label2
+            // HeadlineXmlUrlLabel
             // 
-            this.label2.Location = new System.Drawing.Point(3, 47);
-            this.label2.Size = new System.Drawing.Size(124, 16);
-            this.label2.Text = "ヘッドラインのURL XML";
+            this.HeadlineXmlUrlLabel.Location = new System.Drawing.Point(3, 47);
+            this.HeadlineXmlUrlLabel.Size = new System.Drawing.Size(124, 16);
+            this.HeadlineXmlUrlLabel.Text = "ヘッドラインのURL XML";
             // 
-            // label1
+            // HeadlineCvsUrlLabel
             // 
-            this.label1.Location = new System.Drawing.Point(3, 4);
-            this.label1.Size = new System.Drawing.Size(124, 16);
-            this.label1.Text = "ヘッドラインのURL CSV";
+            this.HeadlineCvsUrlLabel.Location = new System.Drawing.Point(3, 4);
+            this.HeadlineCvsUrlLabel.Size = new System.Drawing.Size(124, 16);
+            this.HeadlineCvsUrlLabel.Text = "ヘッドラインのURL CSV";
             // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.tabControl1);
+            this.MaximizeBox = false;
             this.Menu = this.MainMenu;
             this.Text = "ねとらじ設定";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
