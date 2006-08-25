@@ -46,5 +46,10 @@ namespace PocketLadio.StationInterface
         /// </summary>
         /// <param name="Chanel">番組</param>
         void ShowPropertyForm(IChanel chanel);
+
+        /// <summary>
+        /// 設定を保存していたファイルを削除する
+        /// </summary>
+        void DeleteUserSettingFile();
     }
 }

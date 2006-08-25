@@ -277,5 +277,13 @@ namespace PocketLadio.RssPodcast
         {
             return Setting;
         }
+
+        /// <summary>
+        /// 設定を保存していたファイルを削除する
+        /// </summary>
+        public virtual void DeleteUserSettingFile()
+        {
+            Setting.DeleteUserSettingFile();
+        }
     }
 }

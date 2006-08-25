@@ -405,6 +405,9 @@ namespace PocketLadio
         {
             if (StationListBox.SelectedIndex != -1)
             {
+                // 設定ファイルの削除
+                ((Station)AlStationList[StationListBox.SelectedIndex]).GetHeadline().DeleteUserSettingFile();
+
                 AlStationList.RemoveAt(StationListBox.SelectedIndex);
                 StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
             }
@@ -414,6 +417,9 @@ namespace PocketLadio
         {
             if (StationListBox.SelectedIndex != -1)
             {
+                // 設定ファイルの削除
+                ((Station)AlStationList[StationListBox.SelectedIndex]).GetHeadline().DeleteUserSettingFile();
+
                 AlStationList.RemoveAt(StationListBox.SelectedIndex);
                 StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
             }

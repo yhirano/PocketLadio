@@ -228,5 +228,16 @@ namespace PocketLadio.Netladio
                 Fs.Close();
             }
         }
+
+        /// <summary>
+        /// İ’è‚ğ•Û‘¶‚µ‚Ä‚¢‚½ƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
+        /// </summary>
+        public void DeleteUserSettingFile()
+        {
+            if (File.Exists(GetSettingPath()))
+            {
+                File.Delete(GetSettingPath());
+            }
+        }
     }
 }

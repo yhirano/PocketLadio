@@ -92,7 +92,6 @@
     <Compile Include="Util\ClipboardTextBox.cs" />
     <Compile Include="Util\MarshalEx.cs" />
     <Compile Include="Util\Process.cs" />
-    <Compile Include="Util\Sound.cs" />
     <Compile Include="VersionInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>

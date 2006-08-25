@@ -445,5 +445,13 @@ namespace PocketLadio.Netladio
             ChanelPropertyForm.ShowDialog();
             ChanelPropertyForm.Dispose();
         }
+
+        /// <summary>
+        /// İ’è‚ğ•Û‘¶‚µ‚Ä‚¢‚½ƒtƒ@ƒCƒ‹‚ğíœ‚·‚é
+        /// </summary>
+        public virtual void DeleteUserSettingFile()
+        {
+            Setting.DeleteUserSettingFile();
+        }
     }
 }

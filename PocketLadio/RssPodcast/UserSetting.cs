@@ -25,7 +25,7 @@ namespace PocketLadio.RssPodcast
         /// 親ヘッドライン
         /// </summary>
         private Headline ParentHeadline;
-        
+
         /// <summary>
         /// 設定のコンストラクタ
         /// </summary>
@@ -164,6 +164,17 @@ namespace PocketLadio.RssPodcast
             {
                 Writer.Close();
                 Fs.Close();
+            }
+        }
+
+        /// <summary>
+        /// 設定を保存していたファイルを削除する
+        /// </summary>
+        public void DeleteUserSettingFile()
+        {
+            if (File.Exists(GetSettingPath()))
+            {
+                File.Delete(GetSettingPath());
             }
         }
     }
