@@ -86,6 +86,8 @@ namespace PocketLadio.RssPodcast
                 XmlTextReader Reader = new XmlTextReader(Setting.RssUrl);
 
                 Chanel Chanel = new Chanel(this);
+                Enclosure Enclosure = new Enclosure();
+
                 while (Reader.Read())
                 {
                     if (Reader.NodeType == XmlNodeType.Element)
@@ -178,24 +180,29 @@ namespace PocketLadio.RssPodcast
                             } // End of guid
                             if (Reader.LocalName.Equals("enclosure"))
                             {
+                                Enclosure = new Enclosure();
+
                                 if (Reader.MoveToFirstAttribute())
                                 {
                                     do
                                     {
                                         if (Reader.Name.Equals("url"))
                                         {
-                                            Chanel.Url = Reader.Value;
+                                            Enclosure.Url = Reader.Value;
                                         }
                                         else if (Reader.Name.Equals("length"))
                                         {
-                                            Chanel.Length = Reader.Value;
+                                            Enclosure.Length = Reader.Value;
                                         }
                                         else if (Reader.Name.Equals("type"))
                                         {
-                                            Chanel.Type = Reader.Value;
+                                            Enclosure.Type = Reader.Value;
                                         }
                                     } while (Reader.MoveToNextAttribute());
                                 }
+
+                                // エンクロージャー要素追加
+                                Chanel.AddEnclosure(Enclosure);
                             } // End of enclosure
                         }
                     }
@@ -204,6 +211,7 @@ namespace PocketLadio.RssPodcast
                         if (Reader.LocalName.Equals("item"))
                         {
                             InItemFlag = false;
+                            Chanel.SolvedChannelPlayContentsFormEnclosures();
                             AlChanels.Add(Chanel);
                         }
                     }
