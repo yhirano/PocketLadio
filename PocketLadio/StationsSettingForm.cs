@@ -178,6 +178,7 @@ namespace PocketLadio
             this.Controls.Add(this.StationNameTextBox);
             this.Menu = this.MainMenu;
             this.Text = "放送局の追加と削除";
+            this.Resize += new System.EventHandler(this.StationsSettingForm_Resize);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.StationsSettingForm_Closing);
             this.Load += new System.EventHandler(this.StationsSettingForm_Load);
 
@@ -339,6 +340,11 @@ namespace PocketLadio
             // 設定の書き込み
             StationList.SetStationList((Station[])AlStationList.ToArray(typeof(Station)));
             UserSetting.SaveSetting();
+        }
+
+        private void StationsSettingForm_Resize(object sender, EventArgs e)
+        {
+            FixWindowSize();
         }
     }
 }
