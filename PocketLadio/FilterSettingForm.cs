@@ -154,7 +154,7 @@ namespace PocketLadio
             this.Controls.Add(this.AddWordTextBox);
             this.MaximizeBox = false;
             this.Menu = this.MainMenu;
-            this.Text = "フィルター設定";
+            this.Text = "フィルターの追加と削除";
             this.Resize += new System.EventHandler(this.FilterSettingForm_Resize);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.FilterSettingForm_Closing);
             this.Load += new System.EventHandler(this.FilterSettingForm_Load);
