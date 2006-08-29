@@ -111,35 +111,33 @@ namespace PocketLadio
         /// <returns>フィルタリングされた番組のリスト</returns>
         public static IChanel[] GetChanelsFilteredOfCurrentStation()
         {
-            if (CurrentStation != null)
-            {
-                // フィルタが存在する場合
-                if (FilterEnable == true && UserSetting.FilterWords.Length > 0)
-                {
-                    ArrayList AlChanels = new ArrayList();
-
-                    foreach (IChanel Chanel in CurrentStation.GetHeadline().GetChanels())
-                    {
-                        foreach (string Filter in UserSetting.FilterWords)
-                        {
-                            if (Chanel.GetFilterdWord().IndexOf(Filter) != -1)
-                            {
-                                AlChanels.Add(Chanel);
-                            }
-                        }
-                    }
-
-                    return (IChanel[])AlChanels.ToArray(typeof(IChanel));
-                }
-                // フィルタが存在しない場合
-                else
-                {
-                    return CurrentStation.GetHeadline().GetChanels();
-                }
-            }
-            else
+            if (CurrentStation == null)
             {
                 return new IChanel[0];
+            }
+
+            // フィルタが存在する場合
+            if (FilterEnable == true && UserSetting.FilterWords.Length > 0)
+            {
+                ArrayList AlChanels = new ArrayList();
+
+                foreach (IChanel Chanel in CurrentStation.GetHeadline().GetChanels())
+                {
+                    foreach (string Filter in UserSetting.FilterWords)
+                    {
+                        if (Chanel.GetFilterdWord().IndexOf(Filter) != -1 && !AlChanels.Contains(Chanel))
+                        {
+                            AlChanels.Add(Chanel);
+                        }
+                    }
+                }
+
+                return (IChanel[])AlChanels.ToArray(typeof(IChanel));
+            }
+            // フィルタが存在しない場合
+            else
+            {
+                return CurrentStation.GetHeadline().GetChanels();
             }
         }
 
