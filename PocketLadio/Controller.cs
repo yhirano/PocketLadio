@@ -20,7 +20,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        public const string VersionNumber = "0.12";
+        public const string VersionNumber = "0.13";
         /// <summary>
         /// 著作権情報
         /// </summary>
@@ -31,6 +31,7 @@ namespace PocketLadio
         /// ヘッドラインチェックタイマーの上限
         /// </summary>
         public const int HeadlineCheckTimerMaximumMillSec = 600000;
+
         /// <summary>
         ///ヘッドラインチェックタイマーの下限 
         /// </summary>

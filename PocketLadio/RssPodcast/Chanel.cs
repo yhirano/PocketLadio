@@ -65,26 +65,26 @@ namespace PocketLadio.RssPodcast
         /// 再生する番組のタイプ。前の方ほど優先度が高い。
         /// </summary>
         private static string[] MatchedEnclosureTypeList = new string[] { 
-            // Mpeg1
-            "video/mpeg", "video/mpg", "video/x-mpeg",
-            // Mpeg4
-            "video/mp4", "video/x-m4v",
-            // AVI
-            "video/avi", "video/msvideo", "video/x-msvideo", 
-            // ASF/WMV
-            "application/x-mplayer2",
-            // ASF
-            "video/x-ms-asf", "video/x-ms-wm", "video/x-ms-asf-plugin",
-            // WMV
-            "video/x-ms-wmv", "application/x-ms-wmv", 
-            // ビットストリーム
-            "application/octet-stream",
             // MP3
             "audio/mpeg", "audio/mp3", "audio/mpg",  "audio/x-mpeg", "audio/mpeg3", "audio/x-mpeg3",
             // Ogg
             "audio/ogg", "application/ogg", "application/x-ogg",
             // WMA
             "audio/x-ms-wma",
+            // Mpeg4
+            "video/mp4", "video/x-m4v",
+            // WMV
+            "video/x-ms-wmv", "application/x-ms-wmv", 
+            // ASF/WMV
+            "application/x-mplayer2",
+            // ASF
+            "video/x-ms-asf", "video/x-ms-wm", "video/x-ms-asf-plugin",
+            // Mpeg1
+            "video/mpeg", "video/mpg", "video/x-mpeg",
+            // AVI
+            "video/avi", "video/msvideo", "video/x-msvideo", 
+            // ビットストリーム
+            "application/octet-stream",
             // ASX
             "application/x-drm-v2",
             // WAV
@@ -179,7 +179,7 @@ namespace PocketLadio.RssPodcast
                 {
                     foreach (string MatchedEnclosureType in MatchedEnclosureTypeList)
                     {
-                        if (Enclosure.Type.IndexOf(MatchedEnclosureType) != -1)
+                        if (Enclosure.Type == MatchedEnclosureType)
                         {
                             // フラグを立てる
                             FindedMatchedEnclosure = true;
