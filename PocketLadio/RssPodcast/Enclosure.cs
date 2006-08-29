@@ -1,8 +1,4 @@
-﻿#region ディレクティブを使用する
-
-using System;
-
-#endregion
+﻿using System;
 
 namespace PocketLadio.RssPodcast
 {

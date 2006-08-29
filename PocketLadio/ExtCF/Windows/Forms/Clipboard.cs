@@ -7,8 +7,9 @@ using System.IO;
 //using OpenNETCF.Drawing;
 //using OpenNETCF.Win32;
 //using OpenNETCF.Runtime.InteropServices;
+using PocketLadio.ExtCF.Runtime.InteropServices;
 
-namespace PocketLadio.Util
+namespace PocketLadio.ExtCF.Windows.Forms
 {
     /// <summary>
     /// Provides methods to place data on and retrieve data from the system clipboard.

@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="ExtCF\Runtime\InteropServices\MarshalEx.cs" />
+    <Compile Include="ExtCF\Windows\Forms\Clipboard.cs" />
     <Compile Include="FilterSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,9 +94,7 @@
     <Compile Include="StationInterface\IHeadline.cs" />
     <Compile Include="StationList.cs" />
     <Compile Include="UserSetting.cs" />
-    <Compile Include="Util\Clipboard.cs" />
     <Compile Include="Util\ClipboardTextBox.cs" />
-    <Compile Include="Util\MarshalEx.cs" />
     <Compile Include="Util\Process.cs" />
     <Compile Include="VersionInfoForm.cs">
       <SubType>Form</SubType>

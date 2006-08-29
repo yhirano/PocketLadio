@@ -25,7 +25,7 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace PocketLadio.Util
+namespace PocketLadio.ExtCF.Runtime.InteropServices
 {
 	/// <summary>
 	/// Provides a collection of methods for allocating unmanaged memory, copying unmanaged memory blocks, and converting managed to unmanaged types, as well as other miscellaneous methods used when interacting with unmanaged code. 
