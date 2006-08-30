@@ -11,67 +11,184 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// DSPツールで指定されるURL
         /// </summary>
-        public string Url = "";
+        private string url = "";
+
+        /// <summary>
+        /// DSPツールで指定されるURL
+        /// </summary>
+        public string Url
+        {
+            get { return url; }
+            set { url = value; }
+        }
 
         /// <summary>
         /// DSPツールで指定されるジャンル欄
         /// </summary>
-        public string Gnl = "";
+        private string gnl = "";
+
+        /// <summary>
+        /// DSPツールで指定されるジャンル欄
+        /// </summary>
+        public string Gnl
+        {
+            get { return gnl; }
+            set { gnl = value; }
+        }
 
         /// <summary>
         /// DSPツールで指定されるタイトル欄
         /// </summary>
-        public string Nam = "";
+        private string nam = "";
+
+        /// <summary>
+        /// DSPツールで指定されるタイトル欄
+        /// </summary>
+        public string Nam
+        {
+            get { return nam; }
+            set { nam = value; }
+        }
 
         /// <summary>
         /// DSPツールが送信する現在の曲名情報
         /// </summary>
-        public string Tit = "";
+        private string tit = "";
+
+        /// <summary>
+        /// DSPツールが送信する現在の曲名情報
+        /// </summary>
+        public string Tit
+        {
+            get { return tit; }
+            set { tit = value; }
+        }
 
         /// <summary>
         /// マウントポイント
         /// </summary>
-        public string Mnt = "";
+        private string mnt = "";
+
+        /// <summary>
+        /// マウントポイント
+        /// </summary>
+        public string Mnt
+        {
+            get { return mnt; }
+            set { mnt = value; }
+        }
 
         /// <summary>
         /// Unix epochでの放送開始時間
         /// </summary>
-        public string Tim = "";
+        private string tim = "";
+
+        /// <summary>
+        /// Unix epochでの放送開始時間
+        /// </summary>
+        public string Tim
+        {
+            get { return tim; }
+            set { tim = value; }
+        }
 
         /// <summary>
         /// yy/mm/dd hh:mm:ss　表記での放送開始時間
         /// </summary>
-        public string Tims = "";
+        private string tims = "";
+
+        /// <summary>
+        /// yy/mm/dd hh:mm:ss　表記での放送開始時間
+        /// </summary>
+        public string Tims
+        {
+            get { return tims; }
+            set { tims = value; }
+        }
 
         /// <summary>
         /// 現リスナ数
         /// </summary>
-        public string Cln = "";
+        private string cln = "";
+
+        /// <summary>
+        /// 現リスナ数
+        /// </summary>
+        public string Cln
+        {
+            get { return cln; }
+            set { cln = value; }
+        }
 
         /// <summary>
         /// 延べリスナ数
         /// </summary>
-        public string Clns = "";
+        private string clns = "";
+
+        /// <summary>
+        /// 延べリスナ数
+        /// </summary>
+        public string Clns
+        {
+            get { return clns; }
+            set { clns = value; }
+        }
 
         /// <summary>
         /// 配信サーバホスト名
         /// </summary>
-        public string Srv = "";
+        private string srv = "";
+
+        /// <summary>
+        /// 配信サーバホスト名
+        /// </summary>
+        public string Srv
+        {
+            get { return srv; }
+            set { srv = value; }
+        }
 
         /// <summary>
         /// 配信サーバポート番号
         /// </summary>
-        public string Prt = "";
+        private string prt = "";
+
+        /// <summary>
+        /// 配信サーバポート番号
+        /// </summary>
+        public string Prt
+        {
+            get { return prt; }
+            set { prt = value; }
+        }
 
         /// <summary>
         /// 配信サーバの種類
         /// </summary>
-        public string Typ = "";
+        private string typ = "";
+
+        /// <summary>
+        /// 配信サーバの種類
+        /// </summary>
+        public string Typ
+        {
+            get { return typ; }
+            set { typ = value; }
+        }
 
         /// <summary>
         /// ビットレート
         /// </summary>
-        public string Bit = "";
+        private string bit = "";
+
+        /// <summary>
+        /// ビットレート
+        /// </summary>
+        public string Bit
+        {
+            get { return bit; }
+            set { bit = value; }
+        }
 
         /// <summary>
         /// 親ヘッドライン
@@ -93,7 +210,7 @@ namespace PocketLadio.Netladio
         /// <returns>番組の放送URL</returns>
         public virtual string GetPlayUrl()
         {
-            return "http://" + Srv + ":" + Prt + Mnt + ".m3u";
+            return "http://" + srv + ":" + prt + mnt + ".m3u";
         }
 
         /// <summary>
@@ -102,7 +219,7 @@ namespace PocketLadio.Netladio
         /// <returns>番組のウェブサイトURL</returns>
         public virtual string GetWebSiteUrl()
         {
-            return Url;
+            return url;
         }
 
         /// <summary>
@@ -114,13 +231,13 @@ namespace PocketLadio.Netladio
             string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType.Clone();
             if (!View.Equals(""))
             {
-                View = View.Replace("[[NAME]]", Nam);
-                View = View.Replace("[[GENRE]]", Gnl);
-                View = View.Replace("[[CLN]]", Cln);
-                View = View.Replace("[[CLNS]]", Clns);
-                View = View.Replace("[[TITLE]]", Tit);
-                View = View.Replace("[[TIMES]]", Tims);
-                View = View.Replace("[[BIT]]", Bit);
+                View = View.Replace("[[NAME]]", nam);
+                View = View.Replace("[[GENRE]]", gnl);
+                View = View.Replace("[[CLN]]", cln);
+                View = View.Replace("[[CLNS]]", clns);
+                View = View.Replace("[[TITLE]]", tit);
+                View = View.Replace("[[TIMES]]", tims);
+                View = View.Replace("[[BIT]]", bit);
             }
 
             return View;
@@ -134,7 +251,7 @@ namespace PocketLadio.Netladio
         public virtual string GetFilterdWord()
         {
             //return Nam + " " + Gnl + " " + Nam + " " + Tit;
-            return Nam + " " + Gnl;
+            return nam + " " + gnl;
         }
     }
 }

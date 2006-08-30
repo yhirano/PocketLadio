@@ -12,12 +12,30 @@ namespace PocketLadio
         /// <summary>
         /// フィルターの有効無効
         /// </summary>
-        public static bool FilterEnable = false;
+        private static bool filterEnable = false;
+
+        /// <summary>
+        /// フィルターの有効無効
+        /// </summary>
+        public static bool FilterEnable
+        {
+            get { return StationList.filterEnable; }
+            set { StationList.filterEnable = value; }
+        }
 
         /// <summary>
         /// 放送局のリスト
         /// </summary>
-        private static Station[] Stations = new Station[0];
+        private static Station[] stations = new Station[0];
+
+        /// <summary>
+        /// 放送局のリスト
+        /// </summary>
+        public static Station[] Stations
+        {
+            get { return StationList.stations; }
+            set { StationList.stations = value; }
+        }
 
         /// <summary>
         /// 現在の放送局

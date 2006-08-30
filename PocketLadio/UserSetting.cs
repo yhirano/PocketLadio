@@ -14,32 +14,105 @@ namespace PocketLadio
         /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
         /// </summary>
-        public static string MediaPlayerPath = "\\Program Files\\TCPMP\\player.exe";
+        private static string mediaPlayerPath = "\\Program Files\\TCPMP\\player.exe";
+
+        /// <summary>
+        /// 音声再生用のメディアプレーヤーのファイルパス
+        /// </summary>
+        public static string MediaPlayerPath
+        {
+            get { return UserSetting.mediaPlayerPath; }
+            set { UserSetting.mediaPlayerPath = value; }
+        }
 
         /// <summary>
         /// Webブラウザのファイルパス
         /// </summary>
-        public static string BrowserPath = "\\Windows\\iexplore.exe";
+        private static string browserPath = "\\Windows\\iexplore.exe";
+
+        /// <summary>
+        /// Webブラウザのファイルパス
+        /// </summary>
+        public static string BrowserPath
+        {
+            get { return UserSetting.browserPath; }
+            set { UserSetting.browserPath = value; }
+        }
 
         /// <summary>
         /// タイマーでチェックするか
         /// </summary>
-        public static bool HeadlineTimerCheck = false;
+        private static bool headlineTimerCheck = false;
+
+        /// <summary>
+        /// タイマーでチェックするか
+        /// </summary>
+        public static bool HeadlineTimerCheck
+        {
+            get { return UserSetting.headlineTimerCheck; }
+            set { UserSetting.headlineTimerCheck = value; }
+        }
 
         /// <summary>
         /// タイマーのチェック時間
         /// </summary>
-        public static int HeadlineTimerMillSecond = 60000;
+        private static int headlineTimerMillSecond = 60000;
+
+        /// <summary>
+        /// タイマーのチェック時間
+        /// </summary>
+        public static int HeadlineTimerMillSecond
+        {
+            get { return UserSetting.headlineTimerMillSecond; }
+            set
+            {
+                // 規定よりも短い場合
+                if (value < Controller.HeadlineCheckTimerMinimumMillSec)
+                {
+                    UserSetting.headlineTimerMillSecond = Controller.HeadlineCheckTimerMinimumMillSec;
+                }
+                else
+                {
+                    UserSetting.headlineTimerMillSecond = value;
+                }
+                // 規定よりも長い場合
+                if (value > Controller.HeadlineCheckTimerMaximumMillSec)
+                {
+                    UserSetting.headlineTimerMillSecond = Controller.HeadlineCheckTimerMaximumMillSec;
+                }
+                else
+                {
+                    UserSetting.headlineTimerMillSecond = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 検索フィルター
         /// </summary>
-        public static string[] FilterWords = new string[0];
+        private static string[] filterWords = new string[0];
+
+        /// <summary>
+        /// 検索フィルター
+        /// </summary>
+        public static string[] FilterWords
+        {
+            get { return UserSetting.filterWords; }
+            set { UserSetting.filterWords = value; }
+        }
 
         /// <summary>
         /// アプリケーションの設定ファイル
         /// </summary>
-        private const string SettingPath = "Setting.xml";
+        private const string settingPath = "Setting.xml";
+
+        /// <summary>
+        /// アプリケーションの設定ファイル
+        /// </summary>
+        public static string SettingPath
+        {
+            get { return settingPath; }
+        }
 
         /// <summary>
         /// シングルトンのためプライベート

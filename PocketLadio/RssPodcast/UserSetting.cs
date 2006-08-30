@@ -14,12 +14,30 @@ namespace PocketLadio.RssPodcast
         /// <summary>
         /// PodcastのRSSのURL CSV
         /// </summary>
-        public string RssUrl = "";
+        private string rssUrl = "";
+
+        /// <summary>
+        /// PodcastのRSSのURL CSV
+        /// </summary>
+        public string RssUrl
+        {
+            get { return rssUrl; }
+            set { rssUrl = value; }
+        }
 
         /// <summary>
         /// ねとらじヘッドラインの表示方法
         /// </summary>
-        public string HeadlineViewType = "[[TITLE]] - [[DESCRIPTION]]";
+        private string headlineViewType = "[[TITLE]] - [[DESCRIPTION]]";
+
+        /// <summary>
+        /// ねとらじヘッドラインの表示方法
+        /// </summary>
+        public string HeadlineViewType
+        {
+            get { return headlineViewType; }
+            set { headlineViewType = value; }
+        }
 
         /// <summary>
         /// 親ヘッドライン

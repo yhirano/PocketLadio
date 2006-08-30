@@ -28,6 +28,9 @@ namespace PocketLadio.Netladio
         private Button PlayButton;
         private MainMenu MainMenu;
 
+        /// <summary>
+        /// ƒ`ƒƒƒ“ƒlƒ‹
+        /// </summary>
         private Chanel Chanel;
 
         public ChanelPropertyForm(Chanel chanel)

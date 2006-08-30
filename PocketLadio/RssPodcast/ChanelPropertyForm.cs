@@ -30,6 +30,9 @@ namespace PocketLadio.RssPodcast
         private Label TypeLabel;
         private Label TypeCaptionLabel;
 
+        /// <summary>
+        /// ƒ`ƒƒƒ“ƒlƒ‹
+        /// </summary>
         private Chanel Chanel;
 
         public ChanelPropertyForm(Chanel chanel)

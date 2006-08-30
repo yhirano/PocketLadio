@@ -9,47 +9,128 @@ namespace PocketLadio.RssPodcast
         /// <summary>
         /// 番組のタイトル
         /// </summary>
-        public string Title = "";
+        private string title = "";
+
+        /// <summary>
+        /// 番組のタイトル
+        /// </summary>
+        public string Title
+        {
+            get { return title; }
+            set { title = value; }
+        }
 
         /// <summary>
         /// 番組のサイト
         /// </summary>
-        public string Link = "";
+        private string link = "";
+
+        /// <summary>
+        /// 番組のサイト
+        /// </summary>
+        public string Link
+        {
+            get { return link; }
+            set { link = value; }
+        }
 
         /// <summary>
         /// 番組の詳細
         /// </summary>
-        public string Description = "";
+        private string description = "";
+
+        /// <summary>
+        /// 番組の詳細
+        /// </summary>
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
 
         /// <summary>
         /// 番組の配信日時
         /// </summary>
-        public string Date = "";
+        private string date = "";
+
+        /// <summary>
+        /// 番組の配信日時
+        /// </summary>
+        public string Date
+        {
+            get { return date; }
+            set { date = value; }
+        }
 
         /// <summary>
         /// 番組のカテゴリ
         /// </summary>
-        public string Category = "";
+        private string category = "";
+
+        /// <summary>
+        /// 番組のカテゴリ
+        /// </summary>
+        public string Category
+        {
+            get { return category; }
+            set { category = value; }
+        }
 
         /// <summary>
         /// 番組の著者
         /// </summary>
-        public string Author = "";
+        private string author = "";
+
+        /// <summary>
+        /// 番組の著者
+        /// </summary>
+        public string Author
+        {
+            get { return author; }
+            set { author = value; }
+        }
 
         /// <summary>
         /// 再生URL
         /// </summary>
-        public string Url = "";
+        private string url = "";
+
+        /// <summary>
+        /// 再生URL
+        /// </summary>
+        public string Url
+        {
+            get { return url; }
+            set { url = value; }
+        }
 
         /// <summary>
         /// 番組の長さ
         /// </summary>
-        public string Length = "";
+        private string length = "";
+
+        /// <summary>
+        /// 番組の長さ
+        /// </summary>
+        public string Length
+        {
+            get { return length; }
+            set { length = value; }
+        }
 
         /// <summary>
         /// 番組のタイプ
         /// </summary>
-        public string Type = "";
+        private string type = "";
+
+        /// <summary>
+        /// 番組のタイプ
+        /// </summary>
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
 
         /// <summary>
         /// エンクロージャー要素リスト
@@ -141,10 +222,12 @@ namespace PocketLadio.RssPodcast
         /// <summary>
         /// エンクロージャー要素を追加する
         /// </summary>
-        /// <param name="Enclosure">追加するエンクロージャー要素</param>
-        public void AddEnclosure(Enclosure Enclosure)
+        /// <param name="url">エンクロージャーのURL</param>
+        /// <param name="length">エンクロージャーのLENGTH</param>
+        /// <param name="type">エンクロージャーのTYPE</param>
+        public void AddEnclosure(string url, string length, string type)
         {
-            AlEnclosure.Add(Enclosure);
+            AlEnclosure.Add(new Enclosure(url, length, type));
         }
 
         /// <summary>
@@ -206,4 +289,63 @@ namespace PocketLadio.RssPodcast
             }
         }
     }
+
+    /// <summary>
+    /// エンクロージャー要素クラス
+    /// </summary>
+    class Enclosure
+    {
+        /// <summary>
+        /// 再生URL
+        /// </summary>
+        private string url = "";
+
+        /// <summary>
+        /// 再生URL
+        /// </summary>
+        public string Url
+        {
+            get { return url; }
+            set { url = value; }
+        }
+
+        /// <summary>
+        /// 番組の長さ
+        /// </summary>
+        private string length = "";
+
+        /// <summary>
+        /// 番組の長さ
+        /// </summary>
+        public string Length
+        {
+            get { return length; }
+            set { length = value; }
+        }
+
+        /// <summary>
+        /// 番組のタイプ
+        /// </summary>
+        private string type = "";
+
+        /// <summary>
+        /// 番組のタイプ
+        /// </summary>
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
+        /// <summary>
+        /// エンクロージャー要素のコンストラクタ
+        /// </summary>
+        public Enclosure(string url, string length, string type)
+        {
+            this.url = url;
+            this.length = length;
+            this.type = type;
+        }
+    }
+
 }

@@ -16,26 +16,69 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーション名
         /// </summary>
-        public const string ApplicationName = "PocketLadio";
+        private const string applicationName = "PocketLadio";
+
+        /// <summary>
+        /// アプリケーション名
+        /// </summary>
+        public static string ApplicationName
+        {
+            get { return applicationName; }
+        }
+
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        public const string VersionNumber = "0.13";
+        private const string versionNumber = "0.13";
+
+        /// <summary>
+        /// アプリケーションのバージョン
+        /// </summary>
+        public static string VersionNumber
+        {
+            get { return versionNumber; }
+        }
+
         /// <summary>
         /// 著作権情報
         /// </summary>
-        public const string Copyright = "Copyright (C) 2005-2006 Uraroji";
+        private const string copyright = "Copyright (C) 2005-2006 Uraroji";
+
+        /// <summary>
+        /// 著作権情報
+        /// </summary>
+        public static string Copyright
+        {
+            get { return copyright; }
+        }
+
         #endregion
 
         /// <summary>
         /// ヘッドラインチェックタイマーの上限
         /// </summary>
-        public const int HeadlineCheckTimerMaximumMillSec = 600000;
+        private const int headlineCheckTimerMaximumMillSec = 600000;
+
+        /// <summary>
+        /// ヘッドラインチェックタイマーの上限
+        /// </summary>
+        public static int HeadlineCheckTimerMaximumMillSec
+        {
+            get { return headlineCheckTimerMaximumMillSec; }
+        }
 
         /// <summary>
         ///ヘッドラインチェックタイマーの下限 
         /// </summary>
-        public const int HeadlineCheckTimerMinimumMillSec = 20000;
+        private const int headlineCheckTimerMinimumMillSec = 20000;
+
+        /// <summary>
+        ///ヘッドラインチェックタイマーの下限 
+        /// </summary>
+        public static int HeadlineCheckTimerMinimumMillSec
+        {
+            get { return headlineCheckTimerMinimumMillSec; }
+        }
 
         /// <summary>
         /// シングルトンのためプライベート

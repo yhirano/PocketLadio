@@ -86,7 +86,6 @@ namespace PocketLadio.RssPodcast
                 XmlTextReader Reader = new XmlTextReader(Setting.RssUrl);
 
                 Chanel Chanel = new Chanel(this);
-                Enclosure Enclosure = new Enclosure();
 
                 while (Reader.Read())
                 {
@@ -180,7 +179,9 @@ namespace PocketLadio.RssPodcast
                             } // End of guid
                             if (Reader.LocalName.Equals("enclosure"))
                             {
-                                Enclosure = new Enclosure();
+                                string enclosureUrl = "";
+                                string enclosureLength = "";
+                                string enclosureType = "";
 
                                 if (Reader.MoveToFirstAttribute())
                                 {
@@ -188,21 +189,21 @@ namespace PocketLadio.RssPodcast
                                     {
                                         if (Reader.Name.Equals("url"))
                                         {
-                                            Enclosure.Url = Reader.Value;
+                                            enclosureUrl = Reader.Value;
                                         }
                                         else if (Reader.Name.Equals("length"))
                                         {
-                                            Enclosure.Length = Reader.Value;
+                                            enclosureLength = Reader.Value;
                                         }
                                         else if (Reader.Name.Equals("type"))
                                         {
-                                            Enclosure.Type = Reader.Value;
+                                            enclosureType = Reader.Value;
                                         }
                                     } while (Reader.MoveToNextAttribute());
                                 }
 
                                 // エンクロージャー要素追加
-                                Chanel.AddEnclosure(Enclosure);
+                                Chanel.AddEnclosure(enclosureUrl, enclosureLength, enclosureType);
                             } // End of enclosure
                         }
                     }

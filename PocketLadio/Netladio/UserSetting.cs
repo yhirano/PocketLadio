@@ -14,17 +14,44 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// ねとらじのヘッドラインのURL CSV
         /// </summary>
-        public string HeadlineCsvUrl = "http://yp.ladio.livedoor.jp/stats/list.csv";
+        private string headlineCsvUrl = "http://yp.ladio.livedoor.jp/stats/list.csv";
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL CSV
+        /// </summary>
+        public string HeadlineCsvUrl
+        {
+            get { return headlineCsvUrl; }
+            set { headlineCsvUrl = value; }
+        }
 
         /// <summary>
         /// ねとらじのヘッドラインのURL XML
         /// </summary>
-        public string HeadlineXmlUrl = "http://yp.ladio.livedoor.jp/stats/list.xml";
+        private string headlineXmlUrl = "http://yp.ladio.livedoor.jp/stats/list.xml";
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL XML
+        /// </summary>
+        public string HeadlineXmlUrl
+        {
+            get { return headlineXmlUrl; }
+            set { headlineXmlUrl = value; }
+        }
 
         /// <summary>
         /// ヘッドラインの取得方法
         /// </summary>
-        public HeadlineGetTypeEnum HeadlineGetType = HeadlineGetTypeEnum.Cvs;
+        private HeadlineGetTypeEnum headlineGetType = HeadlineGetTypeEnum.Cvs;
+
+        /// <summary>
+        /// ヘッドラインの取得方法
+        /// </summary>
+        public HeadlineGetTypeEnum HeadlineGetType
+        {
+            get { return headlineGetType; }
+            set { headlineGetType = value; }
+        }
 
         /// <summary>
         /// ねとらじヘッドラインの取得方法の列挙
@@ -37,7 +64,16 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// ねとらじヘッドラインの表示方法
         /// </summary>
-        public string HeadlineViewType = "[[NAME]] - [[GENRE]] ([[CLN]]/[[CLNS]])";
+        private string headlineViewType = "[[NAME]] - [[GENRE]] ([[CLN]]/[[CLNS]])";
+
+        /// <summary>
+        /// ねとらじヘッドラインの表示方法
+        /// </summary>
+        public string HeadlineViewType
+        {
+            get { return headlineViewType; }
+            set { headlineViewType = value; }
+        }
 
         /// <summary>
         /// 親ヘッドライン
