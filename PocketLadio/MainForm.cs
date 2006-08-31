@@ -384,6 +384,7 @@ namespace PocketLadio
                 }
                 finally
                 {
+                    /** UI後処理 **/
                     // GetボタンとFilterチェックボックスを選択可能に回復する
                     GetButton.Enabled = true;
                     FilterCheckBox.Enabled = true;
@@ -638,6 +639,11 @@ namespace PocketLadio
 
         private void FilterCheckBox_CheckStateChanged(object sender, System.EventArgs e)
         {
+            /** UI前処理 **/
+            // Filterチェックボックスをいったん選択不可にする
+            FilterCheckBox.Enabled = false;
+
+            /** フィルタリング処理 **/
             if (FilterCheckBox.Checked == true)
             {
                 StationList.FilterEnable = true;
@@ -647,6 +653,10 @@ namespace PocketLadio
                 StationList.FilterEnable = false;
             }
             UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
+
+            /** UI後処理 **/
+            // Filterチェックボックスを選択可能に回復する
+            FilterCheckBox.Enabled = true;
         }
 
         private void ChanelPropertyMenuItem_Click(object sender, System.EventArgs e)
