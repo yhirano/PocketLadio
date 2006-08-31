@@ -51,7 +51,6 @@ namespace PocketLadio
                     System.Text.Encoding.GetEncoding("shift-jis"));
                 // 内容を読み込む
                 string MimeString = Sr.ReadToEnd();
-                // ストリームのクローズ
                 Sr.Close();
 
                 string[] MimePriorityRawArray = MimeString.Split('\n');

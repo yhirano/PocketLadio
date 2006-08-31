@@ -219,7 +219,7 @@ namespace PocketLadio.Netladio
         /// <returns>番組のウェブサイトURL</returns>
         public virtual string GetWebSiteUrl()
         {
-            return url;
+            return Url;
         }
 
         /// <summary>

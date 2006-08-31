@@ -143,7 +143,7 @@ namespace PocketLadio.Netladio
             try
             {
                 WebRequest Req = WebRequest.Create(Setting.HeadlineCsvUrl);
-                Req.Timeout = 20000;
+                Req.Timeout = Controller.WebRequestTimeoutMillSec;
                 WebResponse Result = Req.GetResponse();
                 Stream ReceiveStream = Result.GetResponseStream();
                 Encoding Encode = Encoding.GetEncoding("shift-jis");
@@ -244,7 +244,11 @@ namespace PocketLadio.Netladio
 
             try
             {
-                XmlTextReader Reader = new XmlTextReader(Setting.HeadlineXmlUrl);
+                WebRequest Req = WebRequest.Create(Setting.HeadlineXmlUrl);
+                Req.Timeout = Controller.WebRequestTimeoutMillSec;
+                WebResponse Result = Req.GetResponse();
+                Stream ReceiveStream = Result.GetResponseStream();
+                XmlTextReader Reader = new XmlTextReader(ReceiveStream);
 
                 Chanel Chanel = new Chanel(this);
                 while (Reader.Read())
@@ -397,6 +401,7 @@ namespace PocketLadio.Netladio
                     }
                 }
 
+                ReceiveStream.Close();
                 Reader.Close();
 
                 Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));

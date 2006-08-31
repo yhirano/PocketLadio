@@ -81,6 +81,20 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// Web接続時のタイムアウト時間
+        /// </summary>
+        private const int webRequestTimeoutMillSec = 20000;
+
+        /// <summary>
+        /// Web接続時のタイムアウト時間
+        /// </summary>
+        public static int WebRequestTimeoutMillSec
+        {
+            get { return webRequestTimeoutMillSec; }
+        } 
+
+
+        /// <summary>
         /// シングルトンのためプライベート
         /// </summary>
         private Controller()

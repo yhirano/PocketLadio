@@ -81,11 +81,16 @@ namespace PocketLadio.RssPodcast
             ArrayList AlChanels = new ArrayList();
             try
             {
+                // チャンネル
+                Chanel Chanel = new Chanel(this);
                 // itemタグの中にいるか
                 bool InItemFlag = false;
-                XmlTextReader Reader = new XmlTextReader(Setting.RssUrl);
 
-                Chanel Chanel = new Chanel(this);
+                WebRequest Req = WebRequest.Create(Setting.RssUrl);
+                Req.Timeout = Controller.WebRequestTimeoutMillSec;
+                WebResponse Result = Req.GetResponse();
+                Stream ReceiveStream = Result.GetResponseStream();
+                XmlTextReader Reader = new XmlTextReader(ReceiveStream);
 
                 while (Reader.Read())
                 {
@@ -217,6 +222,7 @@ namespace PocketLadio.RssPodcast
                     }
                 }
 
+                ReceiveStream.Close();
                 Reader.Close();
 
                 Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
