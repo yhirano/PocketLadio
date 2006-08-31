@@ -250,7 +250,6 @@ namespace PocketLadio.Netladio
         /// <returns>フィルタリング対象のワード</returns>
         public virtual string GetFilterdWord()
         {
-            //return Nam + " " + Gnl + " " + Nam + " " + Tit;
             return nam + " " + gnl;
         }
     }

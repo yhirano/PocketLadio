@@ -575,7 +575,7 @@ namespace PocketLadio
                 }
 
                 // ˆÈ‘O‚É‘I‘ð‚³‚ê‚Ä‚¢‚½•ú‘—‹Ç‚ð‘I‘ð‚µ’¼‚·
-                for (int Count = 0; Count < StationListComboBox.Items.Count; Count++)
+                for (int Count = 0; Count < StationListComboBox.Items.Count; ++Count)
                 {
                     if (StationList.GetStationList()[Count].GetHeadlineID() == SelectedStationID)
                     {

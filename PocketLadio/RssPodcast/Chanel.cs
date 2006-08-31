@@ -143,36 +143,6 @@ namespace PocketLadio.RssPodcast
         private Headline ParentHeadline;
 
         /// <summary>
-        /// 再生する番組のタイプ。前の方ほど優先度が高い。
-        /// </summary>
-        private static string[] MatchedEnclosureTypeList = new string[] { 
-            // MP3
-            "audio/mpeg", "audio/mp3", "audio/mpg",  "audio/x-mpeg", "audio/mpeg3", "audio/x-mpeg3",
-            // Ogg
-            "audio/ogg", "application/ogg", "application/x-ogg",
-            // WMA
-            "audio/x-ms-wma",
-            // Mpeg4
-            "video/mp4", "video/x-m4v",
-            // WMV
-            "video/x-ms-wmv", "application/x-ms-wmv", 
-            // ASF/WMV
-            "application/x-mplayer2",
-            // ASF
-            "video/x-ms-asf", "video/x-ms-wm", "video/x-ms-asf-plugin",
-            // Mpeg1
-            "video/mpeg", "video/mpg", "video/x-mpeg",
-            // AVI
-            "video/avi", "video/msvideo", "video/x-msvideo", 
-            // ビットストリーム
-            "application/octet-stream",
-            // ASX
-            "application/x-drm-v2",
-            // WAV
-            "audio/wav", "audio/x-wav"
-        };
-
-        /// <summary>
         /// チャンネルのコンストラクタ
         /// </summary>
         /// <param name="ParentHeadline">親ヘッドライン</param>
@@ -181,11 +151,19 @@ namespace PocketLadio.RssPodcast
             this.ParentHeadline = parentHeadline;
         }
 
+        /// <summary>
+        /// 番組の再生URLを返す
+        /// </summary>
+        /// <returns>番組の再生URL</returns>
         public virtual string GetPlayUrl()
         {
             return Url;
         }
 
+        /// <summary>
+        /// 番組のサイトを返す
+        /// </summary>
+        /// <returns>番組のサイト</returns>
         public virtual string GetWebSiteUrl()
         {
             return Link;
@@ -220,132 +198,30 @@ namespace PocketLadio.RssPodcast
         }
 
         /// <summary>
-        /// エンクロージャー要素を追加する
+        /// エンクロージャー要素をセットする。
+        /// エンクロージャー要素の追加が複数回あった場合には、MIME Typeの優先度設定に従い、優先度の高いエンクロージャー要素の内容をセットする。
         /// </summary>
         /// <param name="url">エンクロージャーのURL</param>
         /// <param name="length">エンクロージャーのLENGTH</param>
         /// <param name="type">エンクロージャーのTYPE</param>
-        public void AddEnclosure(string url, string length, string type)
+        public void SetEnclosure(string url, string length, string type)
         {
-            AlEnclosure.Add(new Enclosure(url, length, type));
-        }
-
-        /// <summary>
-        /// エンクロージャー要素のリストから再生すべき番組の情報を解決し、本クラスの属性とする。
-        /// エンクロージャー要素が複数あった場合、優先的にビデオ・オーディオのエンクロージャー要素を再生する番組として採用する。
-        /// 解決後は、本クラスのUrl/Length/Typeが更新される。
-        /// </summary>
-        public void SolvedChannelPlayContentsFormEnclosures()
-        {
-            // エンクロージャー要素が1つしかない場合は、そのエンクロージャー要素を採用する
-            if (AlEnclosure.Count == 1)
-            {
-                Url = ((Enclosure)AlEnclosure[0]).Url;
-                Length = ((Enclosure)AlEnclosure[0]).Length;
-                Type = ((Enclosure)AlEnclosure[0]).Type;
+            // Urlがまだセットされていない場合はとりあえずUrl、Length、Typeを設定して終了
+            if (Url == "") {
+                this.Url = url;
+                this.Length = length;
+                this.Type = type;
 
                 return;
             }
-            // エンクロージャー要素が存在しない場合は終了
-            else if (AlEnclosure.Count == 0)
-            {
-                return;
-            }
-            // エンクロージャー要素が複数存在する場合
-            else
-            {
-                // 適合するエンクロージャー要素が見つかったかのフラグ
-                bool FindedMatchedEnclosure = false;
 
-                // エンクロージャー要素の番組タイプから、採用するものを検索する
-                foreach (Enclosure Enclosure in AlEnclosure)
-                {
-                    foreach (string MatchedEnclosureType in MatchedEnclosureTypeList)
-                    {
-                        if (Enclosure.Type == MatchedEnclosureType)
-                        {
-                            // フラグを立てる
-                            FindedMatchedEnclosure = true;
-                            Url = Enclosure.Url;
-                            Length = Enclosure.Length;
-                            Type = Enclosure.Type;
-
-                            break;
-                        }
-                    }
-                    if (FindedMatchedEnclosure == true)
-                    {
-                        break;
-                    }
-                }
-
-                // 適合するエンクロージャー要素が見つからない場合は、1番目の要素をとりあえず採用する
-                if (FindedMatchedEnclosure == false)
-                {
-                    Url = ((Enclosure)AlEnclosure[0]).Url;
-                    Length = ((Enclosure)AlEnclosure[0]).Length;
-                    Type = ((Enclosure)AlEnclosure[0]).Type;
-                }
+            // 現在セットされているエンクロージャー要素より、新たに指定されたエンクロージャー要素の方が優先度の高い場合は、
+            // 新しい方のエンクロージャー要素をセットする。￥
+            if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type) < RssPodcastMimePriority.GetRssPodcastMimePriority(type)) {
+                this.Url = url;
+                this.Length = length;
+                this.Type = type;
             }
         }
     }
-
-    /// <summary>
-    /// エンクロージャー要素クラス
-    /// </summary>
-    class Enclosure
-    {
-        /// <summary>
-        /// 再生URL
-        /// </summary>
-        private string url = "";
-
-        /// <summary>
-        /// 再生URL
-        /// </summary>
-        public string Url
-        {
-            get { return url; }
-            set { url = value; }
-        }
-
-        /// <summary>
-        /// 番組の長さ
-        /// </summary>
-        private string length = "";
-
-        /// <summary>
-        /// 番組の長さ
-        /// </summary>
-        public string Length
-        {
-            get { return length; }
-            set { length = value; }
-        }
-
-        /// <summary>
-        /// 番組のタイプ
-        /// </summary>
-        private string type = "";
-
-        /// <summary>
-        /// 番組のタイプ
-        /// </summary>
-        public string Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
-        /// <summary>
-        /// エンクロージャー要素のコンストラクタ
-        /// </summary>
-        public Enclosure(string url, string length, string type)
-        {
-            this.url = url;
-            this.length = length;
-            this.type = type;
-        }
-    }
-
 }

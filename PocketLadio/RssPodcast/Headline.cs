@@ -203,7 +203,7 @@ namespace PocketLadio.RssPodcast
                                 }
 
                                 // エンクロージャー要素追加
-                                Chanel.AddEnclosure(enclosureUrl, enclosureLength, enclosureType);
+                                Chanel.SetEnclosure(enclosureUrl, enclosureLength, enclosureType);
                             } // End of enclosure
                         }
                     }
@@ -212,7 +212,6 @@ namespace PocketLadio.RssPodcast
                         if (Reader.LocalName.Equals("item"))
                         {
                             InItemFlag = false;
-                            Chanel.SolvedChannelPlayContentsFormEnclosures();
                             AlChanels.Add(Chanel);
                         }
                     }

@@ -66,23 +66,20 @@ namespace PocketLadio
             get { return UserSetting.headlineTimerMillSecond; }
             set
             {
+                // ‹K’è‚Éû‚Ü‚éê‡
+                if (Controller.HeadlineCheckTimerMinimumMillSec <= value && value <= Controller.HeadlineCheckTimerMaximumMillSec)
+                {
+                    UserSetting.headlineTimerMillSecond = value;
+                }
                 // ‹K’è‚æ‚è‚à’Z‚¢ê‡
-                if (value < Controller.HeadlineCheckTimerMinimumMillSec)
+                else if (value < Controller.HeadlineCheckTimerMinimumMillSec)
                 {
                     UserSetting.headlineTimerMillSecond = Controller.HeadlineCheckTimerMinimumMillSec;
                 }
-                else
-                {
-                    UserSetting.headlineTimerMillSecond = value;
-                }
                 // ‹K’è‚æ‚è‚à’·‚¢ê‡
-                if (value > Controller.HeadlineCheckTimerMaximumMillSec)
+                else if (value > Controller.HeadlineCheckTimerMaximumMillSec)
                 {
                     UserSetting.headlineTimerMillSecond = Controller.HeadlineCheckTimerMaximumMillSec;
-                }
-                else
-                {
-                    UserSetting.headlineTimerMillSecond = value;
                 }
             }
         }
@@ -109,7 +106,7 @@ namespace PocketLadio
         /// <summary>
         /// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìİ’èƒtƒ@ƒCƒ‹
         /// </summary>
-        public static string SettingPath
+        private static string SettingPath
         {
             get { return settingPath; }
         }
@@ -235,25 +232,7 @@ namespace PocketLadio
                                         {
                                             try
                                             {
-                                                int _HeadlineMillSecond = Convert.ToInt32(Reader.Value);
-                                                // ‹K’è‚æ‚è‚à’Z‚¢ê‡
-                                                if (_HeadlineMillSecond < Controller.HeadlineCheckTimerMinimumMillSec)
-                                                {
-                                                    HeadlineTimerMillSecond = Controller.HeadlineCheckTimerMinimumMillSec;
-                                                }
-                                                else
-                                                {
-                                                    HeadlineTimerMillSecond = _HeadlineMillSecond;
-                                                }
-                                                // ‹K’è‚æ‚è‚à’·‚¢ê‡
-                                                if (_HeadlineMillSecond > Controller.HeadlineCheckTimerMaximumMillSec)
-                                                {
-                                                    HeadlineTimerMillSecond = Controller.HeadlineCheckTimerMaximumMillSec;
-                                                }
-                                                else
-                                                {
-                                                    HeadlineTimerMillSecond = _HeadlineMillSecond;
-                                                }
+                                                HeadlineTimerMillSecond = Convert.ToInt32(Reader.Value);
                                             }
                                             catch (ArgumentException)
                                             {

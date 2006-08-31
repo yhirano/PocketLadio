@@ -93,6 +93,7 @@ namespace PocketLadio
         public static void LoadSettings()
         {
             UserSetting.LoadSetting();
+            RssPodcastMimePriority.LoadSetting();
         }
 
         /// <summary>

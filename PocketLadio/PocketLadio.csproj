@@ -67,6 +67,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Netladio\UserSetting.cs" />
+    <Compile Include="RssPodcastMimePriority.cs" />
     <Compile Include="RssPodcast\Chanel.cs" />
     <Compile Include="RssPodcast\ChanelPropertyForm.cs">
       <SubType>Form</SubType>
@@ -146,6 +147,7 @@
     <Content Include="Docment\Setting.RssPodcast.2006081912213326.xml" />
     <Content Include="Docment\Setting.RssPodcast.2006081912235821.xml" />
     <Content Include="Docment\Setting.xml" />
+    <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
   </ItemGroup>
   <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />
   <Import Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

@@ -86,14 +86,7 @@ namespace PocketLadio
         /// <returns>放送局の持つヘッドラインのID</returns>
         public static string GetHeadlineIDOfCurrentStation()
         {
-            if (CurrentStation != null)
-            {
-                return CurrentStation.GetHeadlineID();
-            }
-            else
-            {
-                return "";
-            }
+            return (CurrentStation != null ? CurrentStation.GetHeadlineID() : "");
         }
 
         /// <summary>
@@ -102,14 +95,7 @@ namespace PocketLadio
         /// <returns>放送局の名前</returns>
         public static string GetHeadlineNameOfCurrentStation()
         {
-            if (CurrentStation != null)
-            {
-                return CurrentStation.GetName();
-            }
-            else
-            {
-                return "";
-            }
+            return (CurrentStation != null ? CurrentStation.GetName() : "");
         }
 
         /// <summary>
@@ -143,9 +129,10 @@ namespace PocketLadio
                 {
                     foreach (string Filter in UserSetting.FilterWords)
                     {
-                        if (Chanel.GetFilterdWord().IndexOf(Filter) != -1 && !AlChanels.Contains(Chanel))
+                        if (Chanel.GetFilterdWord().IndexOf(Filter) != -1)
                         {
                             AlChanels.Add(Chanel);
+                            break;
                         }
                     }
                 }
@@ -166,14 +153,7 @@ namespace PocketLadio
         /// <returns>ヘッドラインのネットから最終取得時刻</returns>
         public static DateTime GetLastCheckTimeOfCurrentStation()
         {
-            if (CurrentStation != null)
-            {
-                return CurrentStation.GetHeadline().GetLastCheckTime();
-            }
-            else
-            {
-                return DateTime.MinValue;
-            }
+            return (CurrentStation != null ? CurrentStation.GetHeadline().GetLastCheckTime() : DateTime.MinValue);
         }
 
         /// <summary>
