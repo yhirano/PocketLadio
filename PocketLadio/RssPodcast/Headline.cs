@@ -88,6 +88,21 @@ namespace PocketLadio.RssPodcast
 
                 WebRequest Req = WebRequest.Create(Setting.RssUrl);
                 Req.Timeout = Controller.WebRequestTimeoutMillSec;
+
+                // HTTPプロトコルでネットにアクセスする場合
+                if (Req.GetType() == typeof(System.Net.HttpWebRequest))
+                {
+                    // UserAgentを付加
+                    ((HttpWebRequest)Req).UserAgent = Controller.UserAgent;
+
+                    // プロキシの設定が存在した場合、プロキシを設定
+                    if (!(PocketLadio.UserSetting.ProxyServer == "" || PocketLadio.UserSetting.ProxyPort == ""))
+                    {
+                        ((HttpWebRequest)Req).Proxy =
+                            new WebProxy(PocketLadio.UserSetting.ProxyServer, int.Parse(PocketLadio.UserSetting.ProxyPort));
+                    }
+                }
+
                 WebResponse Result = Req.GetResponse();
                 Stream ReceiveStream = Result.GetResponseStream();
                 XmlTextReader Reader = new XmlTextReader(ReceiveStream);

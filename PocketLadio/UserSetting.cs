@@ -85,6 +85,80 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// プロキシのサーバ名
+        /// </summary>
+        private static string proxyServer = "";
+
+        /// <summary>
+        /// プロキシのサーバ名
+        /// </summary>
+        public static string ProxyServer
+        {
+            get { return proxyServer; }
+            set { proxyServer = value; }
+        }
+
+        /// <summary>
+        /// プロキシのポート番号
+        /// </summary>
+        private static string proxyPort = "";
+
+        /// <summary>
+        /// プロキシのポート番号
+        /// </summary>
+        public static string ProxyPort
+        {
+            get
+            {
+                try
+                {
+                    if (0x00 <= int.Parse(proxyPort) && int.Parse(proxyPort) <= 0xFFFF)
+                    {
+                        return proxyPort;
+                    }
+                    else {
+                        return "";
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    return "";
+                }
+                catch (FormatException)
+                {
+                    return "";
+                }
+                catch (OverflowException)
+                {
+                    return "";
+                }
+            }
+            set
+            {
+                try
+                {
+                    if (0x00 <= int.Parse(value) && int.Parse(value) <= 0xFFFF)
+                    {
+                        proxyPort = value;
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    ;
+                }
+                catch (FormatException)
+                {
+                    ;
+                }
+                catch (OverflowException)
+                {
+                    ;
+                }
+            }
+
+        }
+
+        /// <summary>
         /// 検索フィルター
         /// </summary>
         private static string[] filterWords = new string[0];
@@ -210,6 +284,24 @@ namespace PocketLadio
                                     } while (Reader.MoveToNextAttribute());
                                 }
                             } // End of BrowserPath
+
+                            if (Reader.LocalName.Equals("Proxy"))
+                            {
+                                if (Reader.MoveToFirstAttribute())
+                                {
+                                    do
+                                    {
+                                        if (Reader.Name.Equals("server"))
+                                        {
+                                            ProxyServer = Reader.Value;
+                                        }
+                                        else if (Reader.Name.Equals("port"))
+                                        {
+                                            ProxyPort = Reader.Value;
+                                        }
+                                    } while (Reader.MoveToNextAttribute());
+                                }
+                            } // End of Proxy
 
                             if (Reader.LocalName.Equals("HeadlineTimer"))
                             {
@@ -346,6 +438,11 @@ namespace PocketLadio
                 Writer.WriteStartElement("BrowserPath");
                 Writer.WriteAttributeString("path", BrowserPath);
                 Writer.WriteEndElement(); // End of BrowserPath
+
+                Writer.WriteStartElement("Proxy");
+                Writer.WriteAttributeString("server", ProxyServer);
+                Writer.WriteAttributeString("port", ProxyPort);
+                Writer.WriteEndElement(); // End of Porxy
 
                 Writer.WriteStartElement("HeadlineTimer");
                 Writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());

@@ -91,8 +91,20 @@ namespace PocketLadio
         public static int WebRequestTimeoutMillSec
         {
             get { return webRequestTimeoutMillSec; }
-        } 
+        }
 
+        /// <summary>
+        /// ネットアクセス時のUserAgent設定
+        /// </summary>
+        private const string userAgent = applicationName + "/" + versionNumber;
+
+        /// <summary>
+        /// ネットアクセス時のUserAgent設定
+        /// </summary>
+        public static string UserAgent
+        {
+            get { return userAgent; }
+        } 
 
         /// <summary>
         /// シングルトンのためプライベート
