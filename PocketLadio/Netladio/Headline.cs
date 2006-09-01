@@ -151,15 +151,15 @@ namespace PocketLadio.Netladio
                 string HttpString = Sr.ReadToEnd();
                 ReceiveStream.Close();
                 Sr.Close();
-                string[] ChanelsCvsRawArray = HttpString.Split('\n');
+                string[] ChanelsCvs = HttpString.Split('\n');
 
                 // 1çsñ⁄ÇÕÉwÉbÉ_Ç»ÇÃÇ≈ñ≥éã
-                foreach (string ChanelsCvsRaw in ChanelsCvsRawArray)
+                for (int Count = 1; Count < ChanelsCvs.Length; ++Count)
                 {
-                    if (ChanelsCvsRaw != "")
+                    if (ChanelsCvs[Count] != "")
                     {
                         Chanel Chanel = new Chanel(this);
-                        string[] ChanelCsv = ChanelsCvsRaw.Split(',');
+                        string[] ChanelCsv = ChanelsCvs[Count].Split(',');
 
                         // UrléÊìæ
                         Chanel.Url = ChanelCsv[0];
