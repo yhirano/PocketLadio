@@ -85,6 +85,20 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// プロキシを使用するか
+        /// </summary>
+        private static bool proxyUse = false;
+
+        /// <summary>
+        /// プロキシを使用するか
+        /// </summary>
+        public static bool ProxyUse
+        {
+            get { return UserSetting.proxyUse; }
+            set { UserSetting.proxyUse = value; }
+        }
+
+        /// <summary>
         /// プロキシのサーバ名
         /// </summary>
         private static string proxyServer = "";
@@ -291,7 +305,18 @@ namespace PocketLadio
                                 {
                                     do
                                     {
-                                        if (Reader.Name.Equals("server"))
+                                        if (Reader.Name.Equals("use"))
+                                        {
+                                            if (Reader.Value.Equals(bool.TrueString))
+                                            {
+                                                ProxyUse = true;
+                                            }
+                                            else if (Reader.Value.Equals(bool.FalseString))
+                                            {
+                                                ProxyUse = false;
+                                            }
+                                        }
+                                        else if (Reader.Name.Equals("server"))
                                         {
                                             ProxyServer = Reader.Value;
                                         }
@@ -440,6 +465,7 @@ namespace PocketLadio
                 Writer.WriteEndElement(); // End of BrowserPath
 
                 Writer.WriteStartElement("Proxy");
+                Writer.WriteAttributeString("use", ProxyUse.ToString());
                 Writer.WriteAttributeString("server", ProxyServer);
                 Writer.WriteAttributeString("port", ProxyPort);
                 Writer.WriteEndElement(); // End of Porxy

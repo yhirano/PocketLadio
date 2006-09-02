@@ -96,7 +96,7 @@ namespace PocketLadio.RssPodcast
                     ((HttpWebRequest)Req).UserAgent = Controller.UserAgent;
 
                     // プロキシの設定が存在した場合、プロキシを設定
-                    if (!(PocketLadio.UserSetting.ProxyServer == "" || PocketLadio.UserSetting.ProxyPort == ""))
+                    if (PocketLadio.UserSetting.ProxyUse == true && !(PocketLadio.UserSetting.ProxyServer == "" || PocketLadio.UserSetting.ProxyPort == ""))
                     {
                         ((HttpWebRequest)Req).Proxy =
                             new WebProxy(PocketLadio.UserSetting.ProxyServer, int.Parse(PocketLadio.UserSetting.ProxyPort));

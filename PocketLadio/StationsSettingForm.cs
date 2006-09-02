@@ -332,7 +332,36 @@ namespace PocketLadio
 
         private void OkMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // 放送局を追加し忘れていると思われる場合
+            if (StationNameTextBox.Text.Trim() != "" && StationKindComboBox.Text.Trim() != "")
+            {
+                // 追加するかを聞く
+                DialogResult Result = MessageBox.Show(StationNameTextBox.Text.Trim() + "を追加しますか？", StationNameTextBox.Text.Trim() + "を追加し忘れていませんか", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                if (Result == DialogResult.Yes) {
+                    if (StationKindComboBox.Text.Trim().Equals("ねとらじ"))
+                    {
+                        Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.Netladio);
+                        AlStationList.Add(Station);
+                    }
+                    else if (StationKindComboBox.Text.Trim().Equals("Podcast"))
+                    {
+                        Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.RssPodcast);
+                        AlStationList.Add(Station);
+
+                        // 設定画面を呼び出す
+                        Station.GetHeadline().ShowSettingForm();
+                    }
+
+                    this.Close();
+                }
+                else if (Result == DialogResult.No)
+                {
+                    this.Close();
+                }
+            }
+            else {
+                this.Close();
+            }
         }
 
         private void StationsSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
