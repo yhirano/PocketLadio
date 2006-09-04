@@ -5,7 +5,7 @@ namespace PocketLadio.Netladio
     /// <summary>
     /// �˂Ƃ炶�̔ԑg
     /// </summary>
-    public class Chanel : PocketLadio.StationInterface.IChanel
+    public class Chanel : PocketLadio.Interface.IChanel
     {
 
         /// <summary>

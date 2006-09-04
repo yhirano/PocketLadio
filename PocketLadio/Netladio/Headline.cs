@@ -4,14 +4,14 @@ using System.Net;
 using System.Text;
 using System.Collections;
 using System.Xml;
-using PocketLadio.StationInterface;
+using PocketLadio.Interface;
 
 namespace PocketLadio.Netladio
 {
     /// <summary>
     /// ねとらじのヘッドライン
     /// </summary>
-    public class Headline : PocketLadio.StationInterface.IHeadline
+    public class Headline : PocketLadio.Interface.IHeadline
     {
         /// <summary>
         /// ヘッドラインの種類

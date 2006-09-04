@@ -6,7 +6,7 @@ using System.Data;
 using System.Net;
 using System.IO;
 using System.Xml;
-using PocketLadio.StationInterface;
+using PocketLadio.Interface;
 
 namespace PocketLadio
 {

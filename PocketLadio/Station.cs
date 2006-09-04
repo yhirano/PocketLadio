@@ -1,5 +1,5 @@
 ﻿using System;
-using PocketLadio.StationInterface;
+using PocketLadio.Interface;
 
 namespace PocketLadio
 {

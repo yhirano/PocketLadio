@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using PocketLadio.StationInterface;
+using PocketLadio.Interface;
 
 namespace PocketLadio.RssPodcast
 {
-    public class Chanel : PocketLadio.StationInterface.IChanel
+    public class Chanel : PocketLadio.Interface.IChanel
     {
         /// <summary>
         /// 番組のタイトル

@@ -55,6 +55,8 @@
     <Compile Include="FilterSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Interface\IChanel.cs" />
+    <Compile Include="Interface\IHeadline.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,8 +92,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Station.cs" />
-    <Compile Include="StationInterface\IChanel.cs" />
-    <Compile Include="StationInterface\IHeadline.cs" />
     <Compile Include="StationList.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="Util\ClipboardTextBox.cs" />
@@ -148,9 +148,6 @@
     <Content Include="Docment\Setting.RssPodcast.2006081912235821.xml" />
     <Content Include="Docment\Setting.xml" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Station\" />
   </ItemGroup>
   <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />
   <Import Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
