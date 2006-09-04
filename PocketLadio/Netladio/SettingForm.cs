@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Collections;
+using System.IO;
 using System.ComponentModel;
 using System.Windows.Forms;
 using PocketLadio.Util;
@@ -269,7 +270,15 @@ namespace PocketLadio.Netladio
                 Setting.HeadlineGetType = UserSetting.HeadlineGetTypeEnum.Xml;
             }
             Setting.HeadlineViewType = HeadlineViewTypeTextBox.Text.Trim();
-            Setting.SaveSetting();
+
+            try
+            {
+                Setting.SaveSetting();
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+            }
         }
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using System.Data;
+using System.IO;
 using PocketLadio.Util;
 
 namespace PocketLadio
@@ -336,7 +337,7 @@ namespace PocketLadio
             if (StationNameTextBox.Text.Trim() != "" && StationKindComboBox.Text.Trim() != "")
             {
                 // 追加するかを聞く
-                DialogResult Result = MessageBox.Show(StationNameTextBox.Text.Trim() + "を追加しますか？", StationNameTextBox.Text.Trim() + "を追加し忘れていませんか", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                DialogResult Result = MessageBox.Show(StationNameTextBox.Text.Trim() + "を追加しますか？", StationNameTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (Result == DialogResult.Yes) {
                     if (StationKindComboBox.Text.Trim().Equals("ねとらじ"))
                     {
@@ -372,7 +373,7 @@ namespace PocketLadio
                 StationList.SetStationList((Station[])AlStationList.ToArray(typeof(Station)));
                 UserSetting.SaveSetting();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 MessageBox.Show("設定ファイルが書き込めませんでした","設定ファイル書き込みエラー");
             }

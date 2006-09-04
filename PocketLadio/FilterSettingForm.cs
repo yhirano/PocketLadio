@@ -244,7 +244,7 @@ namespace PocketLadio
             {
                 UserSetting.SaveSetting();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }
@@ -277,7 +277,25 @@ namespace PocketLadio
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)
         {
-            this.Close();
+            // フィルターを追加し忘れていると思われる場合
+            if (AddWordTextBox.Text.Trim() != "")
+            {
+                // 追加するかを聞く
+                DialogResult Result = MessageBox.Show(AddWordTextBox.Text.Trim() + "を追加しますか？", AddWordTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                if (Result == DialogResult.Yes)
+                {
+                    FilterListBox.Items.Add(AddWordTextBox.Text.Trim());
+                    this.Close();
+                }
+                else if (Result == DialogResult.No)
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void FilterListBoxContextMenu_Popup(object sender, System.EventArgs e)

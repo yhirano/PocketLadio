@@ -747,7 +747,7 @@ namespace PocketLadio
                 // 設定ファイルの書き込み
                 UserSetting.SaveSetting();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }

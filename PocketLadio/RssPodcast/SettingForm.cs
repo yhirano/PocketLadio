@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Forms;
 using PocketLadio.Util;
 
@@ -199,7 +200,7 @@ namespace PocketLadio.RssPodcast
             {
                 Setting.SaveSetting();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }
