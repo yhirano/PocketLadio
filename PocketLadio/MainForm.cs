@@ -608,6 +608,45 @@ namespace PocketLadio
             }
         }
 
+        /// <summary>
+        /// 設定の読み込み
+        /// </summary>
+        private void LoadSettings()
+        {
+            try
+            {
+                Controller.LoadSettings();
+                if (UserSetting.HeadlineTimerCheck == true)
+                {
+                    HeadlineCheckTimerStart();
+                }
+                else
+                {
+                    HeadlineCheckTimerStop();
+                }
+
+                StationsSettingAndCheckBoxAdd();
+
+                // 番組リストがある場合
+                if (StationList.GetChanelsFilteredOfCurrentStation().Length > 0)
+                {
+                    UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
+                }
+            }
+            catch (XmlException)
+            {
+                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの解析エラー");
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
+            }
+        }
+
         private void ExitMenuItem_Click(object sender, System.EventArgs e)
         {
             Application.Exit();
@@ -669,23 +708,7 @@ namespace PocketLadio
 
         private void MainForm_Load(object sender, System.EventArgs e)
         {
-            Controller.LoadSettings();
-            if (UserSetting.HeadlineTimerCheck == true)
-            {
-                HeadlineCheckTimerStart();
-            }
-            else
-            {
-                HeadlineCheckTimerStop();
-            }
-
-            StationsSettingAndCheckBoxAdd();
-
-            // 番組リストがある場合
-            if (StationList.GetChanelsFilteredOfCurrentStation().Length > 0)
-            {
-                UpdateRadioList(StationList.GetChanelsFilteredOfCurrentStation());
-            }
+            LoadSettings();
 
             FixWindowSize();
         }
@@ -719,7 +742,15 @@ namespace PocketLadio
 
         private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            UserSetting.SaveSetting();
+            try
+            {
+                // 設定ファイルの書き込み
+                UserSetting.SaveSetting();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+            }
         }
 
         private void PocketLadioSettingMenuItem_Click(object sender, System.EventArgs e)

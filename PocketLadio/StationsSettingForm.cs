@@ -366,9 +366,17 @@ namespace PocketLadio
 
         private void StationsSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // 設定の書き込み
-            StationList.SetStationList((Station[])AlStationList.ToArray(typeof(Station)));
-            UserSetting.SaveSetting();
+            try
+            {
+                // 設定の書き込み
+                StationList.SetStationList((Station[])AlStationList.ToArray(typeof(Station)));
+                UserSetting.SaveSetting();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした","設定ファイル書き込みエラー");
+            }
+
         }
 
         private void StationsSettingForm_Resize(object sender, EventArgs e)

@@ -333,6 +333,7 @@ namespace PocketLadio
             UserSetting.ProxyUse = ProxyUseCheckBox.Checked;
             UserSetting.ProxyServer = ProxyServerTextBox.Text.Trim();
             UserSetting.ProxyPort = ProxyPortTextBox.Text.Trim();
+            
             try
             {
                 UserSetting.HeadlineTimerMillSecond = Convert.ToInt32(HeadlineTimerSecondNumericUpDown.Text) * 1000;
@@ -349,7 +350,15 @@ namespace PocketLadio
             {
                 ;
             }
-            UserSetting.SaveSetting();
+
+            try
+            {
+                UserSetting.SaveSetting();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+            }
         }
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)

@@ -193,7 +193,7 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// 親ヘッドライン
         /// </summary>
-        private Headline ParentHeadline;
+        private readonly Headline ParentHeadline;
 
         /// <summary>
         /// チャンネルのコンストラクタ

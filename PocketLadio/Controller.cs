@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Collections;
 using PocketLadio.Util;
+using System.Xml;
 
 namespace PocketLadio
 {
@@ -104,7 +105,7 @@ namespace PocketLadio
         public static string UserAgent
         {
             get { return userAgent; }
-        } 
+        }
 
         /// <summary>
         /// シングルトンのためプライベート
@@ -118,8 +119,23 @@ namespace PocketLadio
         /// </summary>
         public static void LoadSettings()
         {
-            UserSetting.LoadSetting();
-            RssPodcastMimePriority.LoadSetting();
+            try
+            {
+                UserSetting.LoadSetting();
+                RssPodcastMimePriority.LoadSetting();
+            }
+            catch (XmlException ex)
+            {
+                throw ex;
+            }
+            catch (IOException ex)
+            {
+                throw ex;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>

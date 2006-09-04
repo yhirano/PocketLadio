@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Text;
 
 namespace PocketLadio
 {
@@ -19,7 +20,7 @@ namespace PocketLadio
         /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
         /// </summary>
-        private const string rssPodcastMimePriorityFileName = "RssPodcastMimePriority.txt";
+        private const string rssPodcastMimePriorityFileName = "PocketLadio.Resource.RssPodcastMimePriority.txt";
 
         /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
@@ -41,14 +42,16 @@ namespace PocketLadio
         /// </summary>
         public static void LoadSetting()
         {
+            StreamReader Sr =null;
+
             try
             {
                 // 現在のコードを実行しているAssemblyを取得
                 System.Reflection.Assembly ThisAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 // 指定されたマニフェストリソースを読み込む
-                StreamReader Sr =
-                    new System.IO.StreamReader(ThisAssembly.GetManifestResourceStream(RssPodcastMimePriorityFileName),
-                    System.Text.Encoding.GetEncoding("shift-jis"));
+                Sr =
+                    new StreamReader(ThisAssembly.GetManifestResourceStream(RssPodcastMimePriorityFileName),
+                    Encoding.GetEncoding("shift-jis"));
                 // 内容を読み込む
                 string MimeString = Sr.ReadToEnd();
                 Sr.Close();
@@ -64,9 +67,9 @@ namespace PocketLadio
                     }
                 }
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
-                ;
+                throw ex;
             }
         }
 

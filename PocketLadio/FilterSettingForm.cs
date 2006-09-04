@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.IO;
 using PocketLadio.Util;
 
 namespace PocketLadio
@@ -239,7 +240,14 @@ namespace PocketLadio
                 AlfilterWord.Add(((string)FilterEnum.Current).Trim());
             }
             UserSetting.FilterWords = (string[])AlfilterWord.ToArray(typeof(string));
-            UserSetting.SaveSetting();
+            try
+            {
+                UserSetting.SaveSetting();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+            }
         }
 
         private void AddWordButton_Click(object sender, System.EventArgs e)

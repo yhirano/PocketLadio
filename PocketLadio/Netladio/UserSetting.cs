@@ -78,7 +78,7 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// 親ヘッドライン
         /// </summary>
-        private Headline ParentHeadline;
+        private readonly Headline ParentHeadline;
 
         /// <summary>
         /// 設定のコンストラクタ
@@ -106,14 +106,16 @@ namespace PocketLadio.Netladio
         {
             if (File.Exists(GetSettingPath()))
             {
-                FileStream Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
-                Encoding Encode = Encoding.GetEncoding("utf-8");
-                XmlTextReader Reader = new XmlTextReader(Fs);
-
-                ArrayList AlFilterWords = new ArrayList();
+                FileStream Fs = null;
+                XmlTextReader Reader = null;
 
                 try
                 {
+                    Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
+                    Reader = new XmlTextReader(Fs);
+
+                    ArrayList AlFilterWords = new ArrayList();
+
                     while (Reader.Read())
                     {
                         if (Reader.NodeType == XmlNodeType.Element)
@@ -184,13 +186,13 @@ namespace PocketLadio.Netladio
                         }
                     }
                 }
-                catch (XmlException)
+                catch (XmlException ex)
                 {
-                    ;
+                    throw ex;
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
-                    ;
+                    throw ex;
                 }
                 finally
                 {
@@ -205,11 +207,14 @@ namespace PocketLadio.Netladio
         /// </summary>
         public void SaveSetting()
         {
-            FileStream Fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
-            Encoding Encode = Encoding.GetEncoding("utf-8");
-            XmlTextWriter Writer = new XmlTextWriter(Fs, Encode);
+            FileStream Fs = null;
+            XmlTextWriter Writer = null;
+
             try
             {
+                Fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
+                Writer = new XmlTextWriter(Fs, Encoding.GetEncoding("utf-8"));
+
                 Writer.Formatting = Formatting.Indented;
                 Writer.WriteStartDocument(true);
 
@@ -254,9 +259,9 @@ namespace PocketLadio.Netladio
 
                 Writer.WriteEndDocument();
             }
-            catch (IOException)
+            catch (IOException ex)
             {
-                ;
+                throw ex;
             }
             finally
             {

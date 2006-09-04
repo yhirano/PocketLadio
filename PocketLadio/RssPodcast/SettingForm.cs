@@ -194,7 +194,15 @@ namespace PocketLadio.RssPodcast
             // 設定の書き込み
             Setting.RssUrl = RssUrlTextBox.Text.Trim();
             Setting.HeadlineViewType = HeadlineViewTypeTextBox.Text.Trim();
-            Setting.SaveSetting();
+
+            try
+            {
+                Setting.SaveSetting();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+            }
         }
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)

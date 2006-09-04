@@ -21,7 +21,7 @@ namespace PocketLadio.Netladio
         /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
         /// </summary>
-        private string ID;
+        private readonly string ID;
 
         /// <summary>
         /// ヘッドラインの設定
@@ -46,7 +46,19 @@ namespace PocketLadio.Netladio
         {
             this.ID = id;
             Setting = new UserSetting(this);
-            Setting.LoadSetting();
+
+            try
+            {
+                Setting.LoadSetting();
+            }
+            catch (XmlException ex)
+            {
+                throw ex;
+            }
+            catch (IOException ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
