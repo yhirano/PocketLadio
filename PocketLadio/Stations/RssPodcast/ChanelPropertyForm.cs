@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace PocketLadio.RssPodcast
+namespace PocketLadio.Stations.RssPodcast
 {
     /// <summary>
     /// チャンネルの詳細情報表示フォーム

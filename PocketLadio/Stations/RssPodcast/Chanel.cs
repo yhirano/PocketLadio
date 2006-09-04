@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using PocketLadio.Interface;
+using PocketLadio.Stations.Interface;
 
-namespace PocketLadio.RssPodcast
+namespace PocketLadio.Stations.RssPodcast
 {
-    public class Chanel : PocketLadio.Interface.IChanel
+    public class Chanel : PocketLadio.Stations.Interface.IChanel
     {
         /// <summary>
         /// 番組のタイトル
@@ -216,7 +216,7 @@ namespace PocketLadio.RssPodcast
             }
 
             // 現在セットされているエンクロージャー要素より、新たに指定されたエンクロージャー要素の方が優先度の高い場合は、
-            // 新しい方のエンクロージャー要素をセットする。￥
+            // 新しい方のエンクロージャー要素をセットする。
             if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type) < RssPodcastMimePriority.GetRssPodcastMimePriority(type)) {
                 this.Url = url;
                 this.Length = length;

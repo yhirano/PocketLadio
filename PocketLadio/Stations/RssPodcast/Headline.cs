@@ -4,11 +4,12 @@ using System.Net;
 using System.Text;
 using System.Collections;
 using System.Xml;
-using PocketLadio.Interface;
+using PocketLadio.Stations.Interface;
+using PocketLadio.Stations.Util;
 
-namespace PocketLadio.RssPodcast
+namespace PocketLadio.Stations.RssPodcast
 {
-    public class Headline : PocketLadio.Interface.IHeadline
+    public class Headline : PocketLadio.Stations.Interface.IHeadline
     {
         /// <summary>
         /// ヘッドラインの種類
@@ -89,35 +90,21 @@ namespace PocketLadio.RssPodcast
             // 時刻をセットする
             LastCheckTime = DateTime.Now;
 
-            // 番組のリスト
-            ArrayList AlChanels = new ArrayList();
+            Stream St = null;
+            XmlTextReader Reader = null;
+
             try
             {
+                // 番組のリスト
+                ArrayList AlChanels = new ArrayList();
+
                 // チャンネル
                 Chanel Chanel = new Chanel(this);
                 // itemタグの中にいるか
                 bool InItemFlag = false;
 
-                WebRequest Req = WebRequest.Create(Setting.RssUrl);
-                Req.Timeout = Controller.WebRequestTimeoutMillSec;
-
-                // HTTPプロトコルでネットにアクセスする場合
-                if (Req.GetType() == typeof(System.Net.HttpWebRequest))
-                {
-                    // UserAgentを付加
-                    ((HttpWebRequest)Req).UserAgent = Controller.UserAgent;
-
-                    // プロキシの設定が存在した場合、プロキシを設定
-                    if (PocketLadio.UserSetting.ProxyUse == true && !(PocketLadio.UserSetting.ProxyServer == "" || PocketLadio.UserSetting.ProxyPort == ""))
-                    {
-                        ((HttpWebRequest)Req).Proxy =
-                            new WebProxy(PocketLadio.UserSetting.ProxyServer, int.Parse(PocketLadio.UserSetting.ProxyPort));
-                    }
-                }
-
-                WebResponse Result = Req.GetResponse();
-                Stream ReceiveStream = Result.GetResponseStream();
-                XmlTextReader Reader = new XmlTextReader(ReceiveStream);
+                St = HeadlineUtil.GetHttpStream(Setting.RssUrl);
+                Reader = new XmlTextReader(St);
 
                 while (Reader.Read())
                 {
@@ -249,9 +236,6 @@ namespace PocketLadio.RssPodcast
                     }
                 }
 
-                ReceiveStream.Close();
-                Reader.Close();
-
                 Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
             }
             catch (WebException ex)
@@ -266,6 +250,10 @@ namespace PocketLadio.RssPodcast
             {
                 throw ex;
             }
+            catch (UriFormatException ex)
+            {
+                throw ex;
+            }
             catch (XmlException ex)
             {
                 throw ex;
@@ -274,7 +262,11 @@ namespace PocketLadio.RssPodcast
             {
                 throw ex;
             }
-
+            finally
+            {
+                St.Close();
+                Reader.Close();
+            }
         }
 
         /// <summary>

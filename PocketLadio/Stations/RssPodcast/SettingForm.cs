@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using PocketLadio.Util;
 
-namespace PocketLadio.RssPodcast
+namespace PocketLadio.Stations.RssPodcast
 {
     /// <summary>
     /// Podcast‚Ìİ’èƒtƒH[ƒ€

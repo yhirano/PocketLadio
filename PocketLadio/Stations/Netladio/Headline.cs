@@ -4,14 +4,15 @@ using System.Net;
 using System.Text;
 using System.Collections;
 using System.Xml;
-using PocketLadio.Interface;
+using PocketLadio.Stations.Interface;
+using PocketLadio.Stations.Util;
 
-namespace PocketLadio.Netladio
+namespace PocketLadio.Stations.Netladio
 {
     /// <summary>
     /// ねとらじのヘッドライン
     /// </summary>
-    public class Headline : PocketLadio.Interface.IHeadline
+    public class Headline : PocketLadio.Stations.Interface.IHeadline
     {
         /// <summary>
         /// ヘッドラインの種類
@@ -149,35 +150,17 @@ namespace PocketLadio.Netladio
         /// </summary>
         private void WebGetHeadlineCvs()
         {
-            // チャンネルのリスト
-            ArrayList AlChanels = new ArrayList();
+            Stream St = null;
+            StreamReader Sr = null;
 
             try
             {
-                WebRequest Req = WebRequest.Create(Setting.HeadlineCsvUrl);
-                Req.Timeout = Controller.WebRequestTimeoutMillSec;
+                // チャンネルのリスト
+                ArrayList AlChanels = new ArrayList();
 
-                // HTTPプロトコルでネットにアクセスする場合
-                if (Req.GetType() == typeof(System.Net.HttpWebRequest))
-                {
-                    // UserAgentを付加
-                    ((HttpWebRequest)Req).UserAgent = Controller.UserAgent;
-
-                    // プロキシの設定が存在した場合、プロキシを設定
-                    if (PocketLadio.UserSetting.ProxyUse == true && PocketLadio.UserSetting.ProxyUse == true && !(PocketLadio.UserSetting.ProxyServer == "" || PocketLadio.UserSetting.ProxyPort == ""))
-                    {
-                        ((HttpWebRequest)Req).Proxy =
-                            new WebProxy(PocketLadio.UserSetting.ProxyServer, int.Parse(PocketLadio.UserSetting.ProxyPort));
-                    }
-                }
-
-                WebResponse Result = Req.GetResponse();
-                Stream ReceiveStream = Result.GetResponseStream();
-                Encoding Encode = Encoding.GetEncoding("shift-jis");
-                StreamReader Sr = new StreamReader(ReceiveStream, Encode);
+                St = HeadlineUtil.GetHttpStream(Setting.HeadlineCsvUrl);
+                Sr = new StreamReader(St, Encoding.GetEncoding("shift-jis"));
                 string HttpString = Sr.ReadToEnd();
-                ReceiveStream.Close();
-                Sr.Close();
                 string[] ChanelsCvs = HttpString.Split('\n');
 
                 // 1行目はヘッダなので無視
@@ -259,6 +242,11 @@ namespace PocketLadio.Netladio
             {
                 throw ex;
             }
+            finally
+            {
+                St.Close();
+                Sr.Close();
+            }
         }
 
         /// <summary>
@@ -266,31 +254,16 @@ namespace PocketLadio.Netladio
         /// </summary>
         private void WebGetHeadlineXml()
         {
-            // 番組のリスト
-            ArrayList AlChanels = new ArrayList();
+            Stream Sr = null;
+            XmlTextReader Reader = null;
 
             try
             {
-                WebRequest Req = WebRequest.Create(Setting.HeadlineXmlUrl);
-                Req.Timeout = Controller.WebRequestTimeoutMillSec;
+                // 番組のリスト
+                ArrayList AlChanels = new ArrayList();
 
-                // HTTPプロトコルでネットにアクセスする場合
-                if (Req.GetType() == typeof(System.Net.HttpWebRequest))
-                {
-                    // UserAgentを付加
-                    ((HttpWebRequest)Req).UserAgent = Controller.UserAgent;
-
-                    // プロキシの設定が存在した場合、プロキシを設定
-                    if (PocketLadio.UserSetting.ProxyUse == true && !(PocketLadio.UserSetting.ProxyServer == "" || PocketLadio.UserSetting.ProxyPort == ""))
-                    {
-                        ((HttpWebRequest)Req).Proxy =
-                            new WebProxy(PocketLadio.UserSetting.ProxyServer, int.Parse(PocketLadio.UserSetting.ProxyPort));
-                    }
-                }
-
-                WebResponse Result = Req.GetResponse();
-                Stream ReceiveStream = Result.GetResponseStream();
-                XmlTextReader Reader = new XmlTextReader(ReceiveStream);
+                Sr = HeadlineUtil.GetHttpStream(Setting.HeadlineXmlUrl);
+                Reader = new XmlTextReader(Sr);
 
                 Chanel Chanel = new Chanel(this);
                 while (Reader.Read())
@@ -443,9 +416,6 @@ namespace PocketLadio.Netladio
                     }
                 }
 
-                ReceiveStream.Close();
-                Reader.Close();
-
                 Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
             }
             catch (WebException ex)
@@ -460,6 +430,10 @@ namespace PocketLadio.Netladio
             {
                 throw ex;
             }
+            catch (UriFormatException ex)
+            {
+                throw ex;
+            }
             catch (XmlException ex)
             {
                 throw ex;
@@ -467,6 +441,11 @@ namespace PocketLadio.Netladio
             catch (ArgumentException ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                Sr.Close();
+                Reader.Close();
             }
         }
 

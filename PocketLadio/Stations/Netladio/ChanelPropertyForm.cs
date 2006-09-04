@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace PocketLadio.Netladio
+namespace PocketLadio.Stations.Netladio
 {
     /// <summary>
     /// チャンネルの詳細情報表示フォーム

@@ -1,11 +1,11 @@
 using System;
 
-namespace PocketLadio.Netladio
+namespace PocketLadio.Stations.Netladio
 {
     /// <summary>
     /// �˂Ƃ炶�̔ԑg
     /// </summary>
-    public class Chanel : PocketLadio.Interface.IChanel
+    public class Chanel : PocketLadio.Stations.Interface.IChanel
     {
 
         /// <summary>

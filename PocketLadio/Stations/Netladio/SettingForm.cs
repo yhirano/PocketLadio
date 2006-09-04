@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using PocketLadio.Util;
 
-namespace PocketLadio.Netladio
+namespace PocketLadio.Stations.Netladio
 {
     /// <summary>
     /// ‚Ë‚Æ‚ç‚¶‚Ìİ’èƒtƒH[ƒ€

@@ -4,31 +4,67 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 
-namespace PocketLadio.RssPodcast
+namespace PocketLadio.Stations.Netladio
 {
     /// <summary>
-    /// Podcastの設定を保持するクラス
+    /// ねとらじの設定を保持するクラス
     /// </summary>
     public class UserSetting
     {
         /// <summary>
-        /// PodcastのRSSのURL CSV
+        /// ねとらじのヘッドラインのURL CSV
         /// </summary>
-        private string rssUrl = "";
+        private string headlineCsvUrl = "http://yp.ladio.livedoor.jp/stats/list.csv";
 
         /// <summary>
-        /// PodcastのRSSのURL CSV
+        /// ねとらじのヘッドラインのURL CSV
         /// </summary>
-        public string RssUrl
+        public string HeadlineCsvUrl
         {
-            get { return rssUrl; }
-            set { rssUrl = value; }
+            get { return headlineCsvUrl; }
+            set { headlineCsvUrl = value; }
         }
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL XML
+        /// </summary>
+        private string headlineXmlUrl = "http://yp.ladio.livedoor.jp/stats/list.xml";
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL XML
+        /// </summary>
+        public string HeadlineXmlUrl
+        {
+            get { return headlineXmlUrl; }
+            set { headlineXmlUrl = value; }
+        }
+
+        /// <summary>
+        /// ヘッドラインの取得方法
+        /// </summary>
+        private HeadlineGetTypeEnum headlineGetType = HeadlineGetTypeEnum.Cvs;
+
+        /// <summary>
+        /// ヘッドラインの取得方法
+        /// </summary>
+        public HeadlineGetTypeEnum HeadlineGetType
+        {
+            get { return headlineGetType; }
+            set { headlineGetType = value; }
+        }
+
+        /// <summary>
+        /// ねとらじヘッドラインの取得方法の列挙
+        /// </summary>
+        public enum HeadlineGetTypeEnum
+        {
+            Cvs, Xml
+        };
 
         /// <summary>
         /// ねとらじヘッドラインの表示方法
         /// </summary>
-        private string headlineViewType = "[[TITLE]] - [[DESCRIPTION]]";
+        private string headlineViewType = "[[NAME]] - [[GENRE]] ([[CLN]]/[[CLNS]])";
 
         /// <summary>
         /// ねとらじヘッドラインの表示方法
@@ -54,13 +90,13 @@ namespace PocketLadio.RssPodcast
         }
 
         /// <summary>
-        /// Podcastの設定ファイルの保存場所を返す
+        /// ねとらじの設定ファイルの保存場所を返す
         /// </summary>
         /// <returns>設定ファイルの保存場所</returns>
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return Controller.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetID() + ".xml";
+            return Controller.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetID() + ".xml";
         }
 
         /// <summary>
@@ -84,7 +120,7 @@ namespace PocketLadio.RssPodcast
                     {
                         if (Reader.NodeType == XmlNodeType.Element)
                         {
-                            if (Reader.LocalName.Equals("RssUrl"))
+                            if (Reader.LocalName.Equals("HeadlineCsvUrl"))
                             {
                                 if (Reader.MoveToFirstAttribute())
                                 {
@@ -92,11 +128,47 @@ namespace PocketLadio.RssPodcast
                                     {
                                         if (Reader.Name.Equals("url"))
                                         {
-                                            RssUrl = Reader.Value;
+                                            HeadlineCsvUrl = Reader.Value;
                                         }
                                     } while (Reader.MoveToNextAttribute());
                                 }
-                            } // End of RssUrl
+                            } // End of HeadlineCsvUrl
+
+                            if (Reader.LocalName.Equals("HeadlineXmlUrl"))
+                            {
+                                if (Reader.MoveToFirstAttribute())
+                                {
+                                    do
+                                    {
+                                        if (Reader.Name.Equals("url"))
+                                        {
+                                            HeadlineXmlUrl = Reader.Value;
+                                        }
+                                    } while (Reader.MoveToNextAttribute());
+                                }
+                            } // End of HeadlineXmlUrl
+
+                            if (Reader.LocalName.Equals("HeadlineGetType"))
+                            {
+                                if (Reader.MoveToFirstAttribute())
+                                {
+                                    do
+                                    {
+                                        if (Reader.Name.Equals("type"))
+                                        {
+                                            if (Reader.Value.Equals(HeadlineGetTypeEnum.Cvs.ToString()))
+                                            {
+                                                HeadlineGetType = HeadlineGetTypeEnum.Cvs;
+                                            }
+                                            else if (Reader.Value.Equals(HeadlineGetTypeEnum.Xml.ToString()))
+                                            {
+                                                HeadlineGetType = HeadlineGetTypeEnum.Xml;
+                                            }
+                                        }
+                                    } while (Reader.MoveToNextAttribute());
+                                }
+                            } // End of HeadlineGetType
+
 
                             if (Reader.LocalName.Equals("HeadlineViewType"))
                             {
@@ -165,9 +237,17 @@ namespace PocketLadio.RssPodcast
 
                 Writer.WriteStartElement("Content");
 
-                Writer.WriteStartElement("RssUrl");
-                Writer.WriteAttributeString("url", RssUrl);
-                Writer.WriteEndElement(); // End of RssUrl
+                Writer.WriteStartElement("HeadlineCsvUrl");
+                Writer.WriteAttributeString("url", HeadlineCsvUrl);
+                Writer.WriteEndElement(); // End of HeadlineCsvUrl
+
+                Writer.WriteStartElement("HeadlineXmlUrl");
+                Writer.WriteAttributeString("url", HeadlineXmlUrl);
+                Writer.WriteEndElement(); // End of HeadlineXmlUrl
+
+                Writer.WriteStartElement("HeadlineGetType");
+                Writer.WriteAttributeString("type", HeadlineGetType.ToString());
+                Writer.WriteEndElement(); // End of HeadlineGetType
 
                 Writer.WriteStartElement("HeadlineViewType");
                 Writer.WriteAttributeString("type", HeadlineViewType);

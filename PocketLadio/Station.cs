@@ -1,5 +1,5 @@
 ﻿using System;
-using PocketLadio.Interface;
+using PocketLadio.Stations.Interface;
 
 namespace PocketLadio
 {
@@ -50,11 +50,11 @@ namespace PocketLadio
 
             if (StationKind.Equals(StationKindEnum.Netladio))
             {
-                Headline = new PocketLadio.Netladio.Headline(HeadlineID);
+                Headline = new PocketLadio.Stations.Netladio.Headline(HeadlineID);
             }
             else if (StationKind.Equals(StationKindEnum.RssPodcast))
             {
-                Headline = new PocketLadio.RssPodcast.Headline(HeadlineID);
+                Headline = new PocketLadio.Stations.RssPodcast.Headline(HeadlineID);
             }
         }
 

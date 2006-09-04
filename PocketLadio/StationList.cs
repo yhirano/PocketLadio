@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using PocketLadio.Interface;
+using PocketLadio.Stations.Interface;
 
 namespace PocketLadio
 {
