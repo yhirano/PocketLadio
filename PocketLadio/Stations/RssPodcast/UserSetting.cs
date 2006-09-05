@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
+using PocketLadio.Util;
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -60,7 +61,7 @@ namespace PocketLadio.Stations.RssPodcast
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return Controller.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetID() + ".xml";
+            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetID() + ".xml";
         }
 
         /// <summary>
@@ -151,10 +152,10 @@ namespace PocketLadio.Stations.RssPodcast
                 Writer.WriteStartElement("Header");
 
                 Writer.WriteStartElement("Name");
-                Writer.WriteAttributeString("name", Controller.ApplicationName);
+                Writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
                 Writer.WriteEndElement(); // End of Name.
                 Writer.WriteStartElement("Version");
-                Writer.WriteAttributeString("version", Controller.VersionNumber);
+                Writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
                 Writer.WriteEndElement(); // End of Version.
 
                 Writer.WriteStartElement("Date");

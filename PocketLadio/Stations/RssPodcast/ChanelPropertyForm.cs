@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using PocketLadio.Util;
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -318,14 +319,14 @@ namespace PocketLadio.Stations.RssPodcast
 
         private void PlayButton_Click(object sender, System.EventArgs e)
         {
-            Controller.PlayStreaming(Chanel.GetPlayUrl());
+            PocketLadioUtil.PlayStreaming(Chanel.GetPlayUrl());
         }
 
         private void AccessButton_Click(object sender, System.EventArgs e)
         {
             if (LinkLabel.Text.Trim() != "")
             {
-                Controller.AccessWebSite(Chanel.GetWebSiteUrl());
+                PocketLadioUtil.AccessWebSite(Chanel.GetWebSiteUrl());
             }
         }
 

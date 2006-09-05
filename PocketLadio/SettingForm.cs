@@ -314,8 +314,8 @@ namespace PocketLadio
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
             // ヘッドラインチェックタイマーの上限と下限
-            HeadlineTimerSecondNumericUpDown.Minimum = Controller.HeadlineCheckTimerMinimumMillSec / 1000;
-            HeadlineTimerSecondNumericUpDown.Maximum = Controller.HeadlineCheckTimerMaximumMillSec / 1000;
+            HeadlineTimerSecondNumericUpDown.Minimum = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec / 1000;
+            HeadlineTimerSecondNumericUpDown.Maximum = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec / 1000;
 
             // 設定の読み込み
             MediaPlayerPathTextBox.Text = UserSetting.MediaPlayerPath;

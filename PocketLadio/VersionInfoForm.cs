@@ -95,9 +95,9 @@ namespace PocketLadio
 
         private void VersionInfoForm_Load(object sender, EventArgs e)
         {
-            ApplicationNameLabel.Text = Controller.ApplicationName;
-            VersionNumberlabel.Text = "Version " + Controller.VersionNumber;
-            CopyrightLabel.Text = Controller.Copyright;
+            ApplicationNameLabel.Text = PocketLadioInfo.ApplicationName;
+            VersionNumberlabel.Text = "Version " + PocketLadioInfo.VersionNumber;
+            CopyrightLabel.Text = PocketLadioInfo.Copyright;
         }
 
         private void OkMenuItem_Click(object sender, EventArgs e)

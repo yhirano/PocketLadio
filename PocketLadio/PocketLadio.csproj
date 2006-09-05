@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller.cs" />
     <Compile Include="ExtCF\Runtime\InteropServices\MarshalEx.cs" />
     <Compile Include="ExtCF\Windows\Forms\Clipboard.cs" />
     <Compile Include="FilterSettingForm.cs">
@@ -58,6 +57,7 @@
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PocketLadioInfo.cs" />
     <Compile Include="RssPodcastMimePriority.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -96,6 +96,7 @@
     <Compile Include="Stations\Util\HeadlineUtil.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="Util\ClipboardTextBox.cs" />
+    <Compile Include="Util\PocketLadioUtil.cs" />
     <Compile Include="Util\Process.cs" />
     <Compile Include="VersionInfoForm.cs">
       <SubType>Form</SubType>

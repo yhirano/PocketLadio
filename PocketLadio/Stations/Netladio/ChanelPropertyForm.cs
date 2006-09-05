@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using PocketLadio.Util;
 
 namespace PocketLadio.Stations.Netladio
 {
@@ -286,14 +287,14 @@ namespace PocketLadio.Stations.Netladio
 
         private void PlayButton_Click(object sender, System.EventArgs e)
         {
-            Controller.PlayStreaming(Chanel.GetPlayUrl());
+            PocketLadioUtil.PlayStreaming(Chanel.GetPlayUrl());
         }
 
         private void AccessButton_Click(object sender, System.EventArgs e)
         {
             if (UrlLabel.Text.Trim() != "")
             {
-                Controller.AccessWebSite(Chanel.GetWebSiteUrl());
+                PocketLadioUtil.AccessWebSite(Chanel.GetWebSiteUrl());
             }
         }
 

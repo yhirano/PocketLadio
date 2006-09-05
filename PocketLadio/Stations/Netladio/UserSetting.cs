@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
+using PocketLadio.Util;
 
 namespace PocketLadio.Stations.Netladio
 {
@@ -96,7 +97,7 @@ namespace PocketLadio.Stations.Netladio
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return Controller.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetID() + ".xml";
+            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetID() + ".xml";
         }
 
         /// <summary>
@@ -223,10 +224,10 @@ namespace PocketLadio.Stations.Netladio
                 Writer.WriteStartElement("Header");
 
                 Writer.WriteStartElement("Name");
-                Writer.WriteAttributeString("name", Controller.ApplicationName);
+                Writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
                 Writer.WriteEndElement(); // End of Name.
                 Writer.WriteStartElement("Version");
-                Writer.WriteAttributeString("version", Controller.VersionNumber);
+                Writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
                 Writer.WriteEndElement(); // End of Version.
 
                 Writer.WriteStartElement("Date");

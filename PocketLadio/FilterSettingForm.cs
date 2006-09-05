@@ -71,6 +71,7 @@ namespace PocketLadio
             this.AddWordTextBox.ContextMenu = this.AddWordContextMenu;
             this.AddWordTextBox.Location = new System.Drawing.Point(3, 27);
             this.AddWordTextBox.Size = new System.Drawing.Size(156, 21);
+            this.AddWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
             // 
             // AddWordContextMenu
             // 
@@ -233,6 +234,19 @@ namespace PocketLadio
 
         private void FilterSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // フィルターを追加し忘れていると思われる場合
+            if (AddWordTextBox.Text.Trim() != "")
+            {
+                // 追加するかを聞く
+                DialogResult Result = MessageBox.Show(AddWordTextBox.Text.Trim() + "を追加しますか？", AddWordTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                if (Result == DialogResult.Yes)
+                {
+                    FilterListBox.Items.Add(AddWordTextBox.Text.Trim());
+                    AddWordTextBox.Text = "";
+                }
+            }
+
+            // 設定をファイルに書き込み
             ArrayList AlfilterWord = new ArrayList();
             IEnumerator FilterEnum = FilterListBox.Items.GetEnumerator();
             while (FilterEnum.MoveNext())
@@ -277,25 +291,7 @@ namespace PocketLadio
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)
         {
-            // フィルターを追加し忘れていると思われる場合
-            if (AddWordTextBox.Text.Trim() != "")
-            {
-                // 追加するかを聞く
-                DialogResult Result = MessageBox.Show(AddWordTextBox.Text.Trim() + "を追加しますか？", AddWordTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (Result == DialogResult.Yes)
-                {
-                    FilterListBox.Items.Add(AddWordTextBox.Text.Trim());
-                    this.Close();
-                }
-                else if (Result == DialogResult.No)
-                {
-                    this.Close();
-                }
-            }
-            else
-            {
-                this.Close();
-            }
+            this.Close();
         }
 
         private void FilterListBoxContextMenu_Popup(object sender, System.EventArgs e)
@@ -328,6 +324,15 @@ namespace PocketLadio
         private void PasteMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Paste(AddWordTextBox);
+        }
+
+        private void AddWordTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 入力ボタンを押したとき
+            if ((e.KeyCode == System.Windows.Forms.Keys.Enter))
+            {
+                AddWordButton_Click(sender, e);
+            }
         }
     }
 }

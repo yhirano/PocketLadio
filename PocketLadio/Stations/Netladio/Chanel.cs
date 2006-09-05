@@ -228,7 +228,7 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>番組の表示方法に従った番組の情報</returns>
         public virtual string GetChanelView()
         {
-            string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType.Clone();
+            string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType;
             if (!View.Equals(""))
             {
                 View = View.Replace("[[NAME]]", nam);

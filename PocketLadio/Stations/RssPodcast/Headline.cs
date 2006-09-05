@@ -264,8 +264,14 @@ namespace PocketLadio.Stations.RssPodcast
             }
             finally
             {
-                St.Close();
-                Reader.Close();
+                if (St != null)
+                {
+                    St.Close();
+                }
+                if (Reader != null)
+                {
+                    Reader.Close();
+                }
             }
         }
 

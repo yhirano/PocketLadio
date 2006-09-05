@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
+using PocketLadio.Util;
 
 namespace PocketLadio
 {
@@ -67,19 +68,19 @@ namespace PocketLadio
             set
             {
                 // 規定に収まる場合
-                if (Controller.HeadlineCheckTimerMinimumMillSec <= value && value <= Controller.HeadlineCheckTimerMaximumMillSec)
+                if (PocketLadioInfo.HeadlineCheckTimerMinimumMillSec <= value && value <= PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
                     UserSetting.headlineTimerMillSecond = value;
                 }
                 // 規定よりも短い場合
-                else if (value < Controller.HeadlineCheckTimerMinimumMillSec)
+                else if (value < PocketLadioInfo.HeadlineCheckTimerMinimumMillSec)
                 {
-                    UserSetting.headlineTimerMillSecond = Controller.HeadlineCheckTimerMinimumMillSec;
+                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec;
                 }
                 // 規定よりも長い場合
-                else if (value > Controller.HeadlineCheckTimerMaximumMillSec)
+                else if (value > PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
-                    UserSetting.headlineTimerMillSecond = Controller.HeadlineCheckTimerMaximumMillSec;
+                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
                 }
             }
         }
@@ -213,7 +214,7 @@ namespace PocketLadio
         public static string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return Controller.GetExecutablePath() + "\\" + SettingPath;
+            return PocketLadioUtil.GetExecutablePath() + "\\" + SettingPath;
         }
 
         /// <summary>
@@ -435,10 +436,10 @@ namespace PocketLadio
                 Writer.WriteStartElement("Header");
 
                 Writer.WriteStartElement("Name");
-                Writer.WriteAttributeString("name", Controller.ApplicationName);
+                Writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
                 Writer.WriteEndElement(); // End of Name.
                 Writer.WriteStartElement("Version");
-                Writer.WriteAttributeString("version", Controller.VersionNumber);
+                Writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
                 Writer.WriteEndElement(); // End of Version.
 
                 Writer.WriteStartElement("Date");

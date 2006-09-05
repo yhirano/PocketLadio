@@ -145,6 +145,7 @@ namespace PocketLadio
             this.StationNameTextBox.ContextMenu = this.StationNameContextMenu;
             this.StationNameTextBox.Location = new System.Drawing.Point(3, 27);
             this.StationNameTextBox.Size = new System.Drawing.Size(128, 21);
+            this.StationNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StationNameTextBox_KeyDown);
             // 
             // StationNameContextMenu
             // 
@@ -186,6 +187,7 @@ namespace PocketLadio
         }
 
         #endregion
+
         /// <summary>
         /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する
         /// </summary>
@@ -333,12 +335,18 @@ namespace PocketLadio
 
         private void OkMenuItem_Click(object sender, EventArgs e)
         {
+            this.Close();
+        }
+
+        private void StationsSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             // 放送局を追加し忘れていると思われる場合
             if (StationNameTextBox.Text.Trim() != "" && StationKindComboBox.Text.Trim() != "")
             {
                 // 追加するかを聞く
                 DialogResult Result = MessageBox.Show(StationNameTextBox.Text.Trim() + "を追加しますか？", StationNameTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (Result == DialogResult.Yes) {
+                if (Result == DialogResult.Yes)
+                {
                     if (StationKindComboBox.Text.Trim().Equals("ねとらじ"))
                     {
                         Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.Netladio);
@@ -352,30 +360,18 @@ namespace PocketLadio
                         // 設定画面を呼び出す
                         Station.GetHeadline().ShowSettingForm();
                     }
-
-                    this.Close();
-                }
-                else if (Result == DialogResult.No)
-                {
-                    this.Close();
                 }
             }
-            else {
-                this.Close();
-            }
-        }
 
-        private void StationsSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
+            // 設定の書き込み
+            StationList.SetStationList((Station[])AlStationList.ToArray(typeof(Station)));
             try
             {
-                // 設定の書き込み
-                StationList.SetStationList((Station[])AlStationList.ToArray(typeof(Station)));
                 UserSetting.SaveSetting();
             }
             catch (IOException)
             {
-                MessageBox.Show("設定ファイルが書き込めませんでした","設定ファイル書き込みエラー");
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }
 
         }
@@ -383,6 +379,15 @@ namespace PocketLadio
         private void StationsSettingForm_Resize(object sender, EventArgs e)
         {
             FixWindowSize();
+        }
+
+        private void StationNameTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 入力ボタンを押したとき
+            if ((e.KeyCode == System.Windows.Forms.Keys.Enter))
+            {
+                AddButton_Click(sender, e);
+            }
         }
     }
 }

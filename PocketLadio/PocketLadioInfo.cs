@@ -9,11 +9,12 @@ using System.Xml;
 namespace PocketLadio
 {
     /// <summary>
-    /// ユーティリティメソッドとPocketLadioの固有情報を記述しているクラス
+    /// PocketLadioの固有情報を記述しているクラス
     /// </summary>
-    public class Controller
+    public class PocketLadioInfo
     {
         #region アプリケーション固有の情報
+
         /// <summary>
         /// アプリケーション名
         /// </summary>
@@ -54,6 +55,8 @@ namespace PocketLadio
         }
 
         #endregion
+
+        #region アプリケーションの設定
 
         /// <summary>
         /// ヘッドラインチェックタイマーの上限
@@ -107,62 +110,13 @@ namespace PocketLadio
             get { return userAgent; }
         }
 
+        #endregion
+
         /// <summary>
         /// シングルトンのためプライベート
         /// </summary>
-        private Controller()
+        private PocketLadioInfo()
         {
-        }
-
-        /// <summary>
-        /// 設定の読み込み
-        /// </summary>
-        public static void LoadSettings()
-        {
-            try
-            {
-                UserSetting.LoadSetting();
-                RssPodcastMimePriority.LoadSetting();
-            }
-            catch (XmlException ex)
-            {
-                throw ex;
-            }
-            catch (IOException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentNullException ex)
-            {
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// ストリーミングを再生する
-        /// </summary>
-        /// <param name="url">ストリーミングのURL</param>
-        public static void PlayStreaming(string url)
-        {
-            Process.CreateProcess(UserSetting.MediaPlayerPath, url);
-        }
-
-        /// <summary>
-        /// Webサイトにアクセスする
-        /// </summary>
-        /// <param name="url">WebサイトのURL</param>
-        public static void AccessWebSite(string url)
-        {
-            Process.CreateProcess(UserSetting.BrowserPath, url);
-        }
-
-        /// <summary>
-        /// アプリケーションの実行ディレクトリのパスを返す
-        /// </summary>
-        /// <returns>アプリケーションの実行ディレクトリのパス</returns>
-        public static string GetExecutablePath()
-        {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetModules()[0].FullyQualifiedName);
         }
     }
 }

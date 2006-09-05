@@ -244,8 +244,14 @@ namespace PocketLadio.Stations.Netladio
             }
             finally
             {
-                St.Close();
-                Sr.Close();
+                if (St != null)
+                {
+                    St.Close();
+                }
+                if (Sr != null)
+                {
+                    Sr.Close();
+                }
             }
         }
 
@@ -444,8 +450,14 @@ namespace PocketLadio.Stations.Netladio
             }
             finally
             {
-                Sr.Close();
-                Reader.Close();
+                if (Sr != null)
+                {
+                    Sr.Close();
+                }
+                if (Reader != null)
+                {
+                    Reader.Close();
+                }
             }
         }
 

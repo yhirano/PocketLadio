@@ -54,7 +54,6 @@ namespace PocketLadio
                     Encoding.GetEncoding("shift-jis"));
                 // 内容を読み込む
                 string MimeString = Sr.ReadToEnd();
-                Sr.Close();
 
                 string[] MimePriorityRawArray = MimeString.Split('\n');
 
@@ -70,6 +69,12 @@ namespace PocketLadio
             catch (ArgumentNullException ex)
             {
                 throw ex;
+            }
+            finally {
+                if (Sr != null)
+                {
+                    Sr.Close();
+                }
             }
         }
 

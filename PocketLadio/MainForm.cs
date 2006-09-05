@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using System.Xml;
 using PocketLadio.Stations.Interface;
+using PocketLadio.Util;
 
 namespace PocketLadio
 {
@@ -173,7 +174,7 @@ namespace PocketLadio
             this.HeadlineListBox.ContextMenu = this.HeadlineContextMenu;
             this.HeadlineListBox.Location = new System.Drawing.Point(3, 60);
             this.HeadlineListBox.Size = new System.Drawing.Size(234, 184);
-            this.HeadlineListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.HeadlineListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             // 
             // HeadlineContextMenu
             // 
@@ -243,7 +244,7 @@ namespace PocketLadio
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             this.Load += new System.EventHandler(this.MainForm_Load);
 
         }
@@ -284,7 +285,7 @@ namespace PocketLadio
         {
             if (HeadlineListBox.SelectedIndex != -1)
             {
-                Controller.PlayStreaming(StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetPlayUrl());
+                PocketLadioUtil.PlayStreaming(StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetPlayUrl());
             }
         }
 
@@ -297,7 +298,7 @@ namespace PocketLadio
             {
                 if (StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebSiteUrl() != "")
                 {
-                    Controller.AccessWebSite(StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebSiteUrl());
+                    PocketLadioUtil.AccessWebSite(StationList.GetChanelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebSiteUrl());
                 }
             }
         }
@@ -615,7 +616,11 @@ namespace PocketLadio
         {
             try
             {
-                Controller.LoadSettings();
+                // 設定を読み込む
+                UserSetting.LoadSetting();
+                RssPodcastMimePriority.LoadSetting();
+
+                // ヘッドラインが有効な場合、ヘッドラインを動作させる
                 if (UserSetting.HeadlineTimerCheck == true)
                 {
                     HeadlineCheckTimerStart();
@@ -765,14 +770,13 @@ namespace PocketLadio
             FixWindowSize();
         }
 
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        private void HeadlineListBox_KeyDown(object sender, KeyEventArgs e)
         {
             // 入力ボタンを押したとき
             if ((e.KeyCode == System.Windows.Forms.Keys.Enter))
             {
                 PlayStreaming();
             }
-
         }
 
         private void MainForm_Activated(object sender, EventArgs e)
