@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
@@ -52,13 +53,13 @@ namespace PocketLadio.Stations.Netladio
             {
                 Setting.LoadSetting();
             }
-            catch (XmlException ex)
+            catch (XmlException)
             {
-                throw ex;
+                throw;
             }
-            catch (IOException ex)
+            catch (IOException)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -108,21 +109,37 @@ namespace PocketLadio.Stations.Netladio
                     WebGetHeadlineXml();
                 }
             }
-            catch (WebException ex)
+            catch (WebException)
             {
-                throw ex;
+                throw;
             }
-            catch (OutOfMemoryException ex)
+            catch (OutOfMemoryException)
             {
-                throw ex;
+                throw;
             }
-            catch (IOException ex)
+            catch (IOException)
             {
-                throw ex;
+                throw;
             }
-            catch (XmlException ex)
+            catch (UriFormatException)
             {
-                throw ex;
+                throw;
+            }
+            catch (NotSupportedException)
+            {
+                throw;
+            }
+            catch (SocketException)
+            {
+                throw;
+            }
+            catch (XmlException)
+            {
+                throw;
+            }
+            catch (ArgumentException)
+            {
+                throw;
             }
         }
 
@@ -222,25 +239,29 @@ namespace PocketLadio.Stations.Netladio
 
                 Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
             }
-            catch (WebException ex)
+            catch (WebException)
             {
-                throw ex;
+                throw;
             }
-            catch (OutOfMemoryException ex)
+            catch (OutOfMemoryException)
             {
-                throw ex;
+                throw;
             }
-            catch (IOException ex)
+            catch (IOException)
             {
-                throw ex;
+                throw;
             }
-            catch (UriFormatException ex)
+            catch (UriFormatException)
             {
-                throw ex;
+                throw;
             }
-            catch (NotSupportedException ex)
+            catch (NotSupportedException)
             {
-                throw ex;
+                throw;
+            }
+            catch (SocketException)
+            {
+                throw;
             }
             finally
             {
@@ -424,29 +445,33 @@ namespace PocketLadio.Stations.Netladio
 
                 Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
             }
-            catch (WebException ex)
+            catch (WebException)
             {
-                throw ex;
+                throw;
             }
-            catch (OutOfMemoryException ex)
+            catch (OutOfMemoryException)
             {
-                throw ex;
+                throw;
             }
-            catch (IOException ex)
+            catch (IOException)
             {
-                throw ex;
+                throw;
             }
-            catch (UriFormatException ex)
+            catch (UriFormatException)
             {
-                throw ex;
+                throw;
             }
-            catch (XmlException ex)
+            catch (SocketException)
             {
-                throw ex;
+                throw;
             }
-            catch (ArgumentException ex)
+            catch (XmlException)
             {
-                throw ex;
+                throw;
+            }
+            catch (ArgumentException)
+            {
+                throw;
             }
             finally
             {

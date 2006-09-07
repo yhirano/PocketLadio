@@ -399,13 +399,13 @@ namespace PocketLadio
                         }
                     }
                 }
-                catch (XmlException ex)
+                catch (XmlException)
                 {
-                    throw ex;
+                    throw;
                 }
-                catch (IOException ex)
+                catch (IOException)
                 {
-                    throw ex;
+                    throw;
                 }
                 finally
                 {
@@ -495,9 +495,9 @@ namespace PocketLadio
 
                 Writer.WriteEndDocument();
             }
-            catch (IOException ex)
+            catch (IOException)
             {
-                throw ex;
+                throw;
             }
             finally
             {

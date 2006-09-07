@@ -66,9 +66,9 @@ namespace PocketLadio
                     }
                 }
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException)
             {
-                throw ex;
+                throw;
             }
             finally {
                 if (Sr != null)

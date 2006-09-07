@@ -4,6 +4,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Data;
 using System.Net;
+using System.Net.Sockets;
 using System.IO;
 using System.Xml;
 using PocketLadio.Stations.Interface;
@@ -363,22 +364,27 @@ namespace PocketLadio
                     HeadlineCheckTimerStop();
                     MessageBox.Show("記録デバイスが何らかのエラーです", "デバイスエラー");
                 }
+                catch (UriFormatException)
+                {
+                    HeadlineCheckTimerStop();
+                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                }
+                catch (SocketException)
+                {
+                    HeadlineCheckTimerStop();
+                    MessageBox.Show("番組表を取得できませんでした", "ネットワークエラー");
+                }
+                catch (NotSupportedException)
+                {
+                    HeadlineCheckTimerStop();
+                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                }
                 catch (XmlException)
                 {
                     HeadlineCheckTimerStop();
                     MessageBox.Show("XML形式のヘッドラインが正常に処理できませんでした", "XMLエラー");
                 }
                 catch (ArgumentException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
-                }
-                catch (UriFormatException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
-                }
-                catch (NotSupportedException)
                 {
                     HeadlineCheckTimerStop();
                     MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
