@@ -17,7 +17,7 @@
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <FormFactorID>
     </FormFactorID>
-    <ApplicationIcon>PocketLadioIcon64-2.ico</ApplicationIcon>
+    <ApplicationIcon>PocketLadioIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -134,6 +134,7 @@
     <Content Include="Docment\Setting.RssPodcast.2006081912213326.xml" />
     <Content Include="Docment\Setting.RssPodcast.2006081912235821.xml" />
     <Content Include="Docment\Setting.xml" />
+    <Content Include="PocketLadioIcon.ico" />
     <Content Include="PocketLadioIcon64-2.ico" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
     <EmbeddedResource Include="Stations\Netladio\ChanelPropertyForm.resx">
