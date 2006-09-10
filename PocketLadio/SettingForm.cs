@@ -89,6 +89,7 @@ namespace PocketLadio
             this.HeadlineTimerSecondLabel = new System.Windows.Forms.Label();
             this.SettingTabControl = new System.Windows.Forms.TabControl();
             this.NetworkTabPage = new System.Windows.Forms.TabPage();
+            this.ProxyUseCheckBox = new System.Windows.Forms.CheckBox();
             this.ProxyPortTextBox = new System.Windows.Forms.TextBox();
             this.ProxyPortContextMenu = new System.Windows.Forms.ContextMenu();
             this.CutProxyPortMenuItem = new System.Windows.Forms.MenuItem();
@@ -101,7 +102,6 @@ namespace PocketLadio
             this.PasteProxyServerMenuItem = new System.Windows.Forms.MenuItem();
             this.ProxyPortLabel = new System.Windows.Forms.Label();
             this.ProxyServerLabel = new System.Windows.Forms.Label();
-            this.ProxyUseCheckBox = new System.Windows.Forms.CheckBox();
             // 
             // MainMenu
             // 
@@ -226,10 +226,16 @@ namespace PocketLadio
             this.NetworkTabPage.Size = new System.Drawing.Size(240, 245);
             this.NetworkTabPage.Text = "ネットワーク設定";
             // 
+            // ProxyUseCheckBox
+            // 
+            this.ProxyUseCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.ProxyUseCheckBox.Size = new System.Drawing.Size(135, 20);
+            this.ProxyUseCheckBox.Text = "プロキシを使用する";
+            // 
             // ProxyPortTextBox
             // 
             this.ProxyPortTextBox.ContextMenu = this.ProxyPortContextMenu;
-            this.ProxyPortTextBox.Location = new System.Drawing.Point(7, 88);
+            this.ProxyPortTextBox.Location = new System.Drawing.Point(3, 88);
             this.ProxyPortTextBox.Size = new System.Drawing.Size(74, 21);
             // 
             // ProxyPortContextMenu
@@ -256,7 +262,7 @@ namespace PocketLadio
             // ProxyServerTextBox
             // 
             this.ProxyServerTextBox.ContextMenu = this.ProxyServerContextMenu;
-            this.ProxyServerTextBox.Location = new System.Drawing.Point(7, 45);
+            this.ProxyServerTextBox.Location = new System.Drawing.Point(3, 45);
             this.ProxyServerTextBox.Size = new System.Drawing.Size(234, 21);
             // 
             // ProxyServerContextMenu
@@ -282,21 +288,15 @@ namespace PocketLadio
             // 
             // ProxyPortLabel
             // 
-            this.ProxyPortLabel.Location = new System.Drawing.Point(7, 69);
+            this.ProxyPortLabel.Location = new System.Drawing.Point(3, 69);
             this.ProxyPortLabel.Size = new System.Drawing.Size(192, 16);
             this.ProxyPortLabel.Text = "プロキシのポート番号 （例： 8080）";
             // 
             // ProxyServerLabel
             // 
-            this.ProxyServerLabel.Location = new System.Drawing.Point(7, 26);
+            this.ProxyServerLabel.Location = new System.Drawing.Point(3, 26);
             this.ProxyServerLabel.Size = new System.Drawing.Size(230, 16);
             this.ProxyServerLabel.Text = "プロキシサーバ （例：proxy.example.com）";
-            // 
-            // ProxyUseCheckBox
-            // 
-            this.ProxyUseCheckBox.Location = new System.Drawing.Point(3, 3);
-            this.ProxyUseCheckBox.Size = new System.Drawing.Size(135, 20);
-            this.ProxyUseCheckBox.Text = "プロキシを使用する";
             // 
             // SettingForm
             // 

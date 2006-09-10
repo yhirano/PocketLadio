@@ -135,7 +135,6 @@
     <Content Include="Docment\Setting.RssPodcast.2006081912235821.xml" />
     <Content Include="Docment\Setting.xml" />
     <Content Include="PocketLadioIcon.ico" />
-    <Content Include="PocketLadioIcon64-2.ico" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
     <EmbeddedResource Include="Stations\Netladio\ChanelPropertyForm.resx">
       <DependentUpon>ChanelPropertyForm.cs</DependentUpon>
