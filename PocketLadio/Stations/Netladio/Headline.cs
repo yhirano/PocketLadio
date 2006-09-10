@@ -303,7 +303,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of source
                         if (Reader.LocalName.Equals("url"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("url")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("url"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -314,7 +314,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of url
                         if (Reader.LocalName.Equals("gnl"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("gnl")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("gnl"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -323,9 +323,20 @@ namespace PocketLadio.Stations.Netladio
                                 }
                             }
                         } // End of gnl
+                        if (Reader.LocalName.Equals("nam"))
+                        {
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("nam"))
+                            {
+                                Reader.Read();
+                                if (Reader.NodeType == XmlNodeType.Text)
+                                {
+                                    Chanel.Nam = Reader.Value;
+                                }
+                            }
+                        } // End of nam
                         if (Reader.LocalName.Equals("tit"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("tit")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("tit"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -336,7 +347,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of tit
                         if (Reader.LocalName.Equals("mnt"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("mnt")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("mnt"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -347,7 +358,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of mnt
                         if (Reader.LocalName.Equals("tim"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("tim")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("tim"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -358,7 +369,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of tim
                         if (Reader.LocalName.Equals("tims"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("tims")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("tims"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -369,7 +380,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of tims
                         if (Reader.LocalName.Equals("cln"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("cln")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("cln"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -380,7 +391,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of cln
                         if (Reader.LocalName.Equals("clns"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("clns")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("clns"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -391,7 +402,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of clns
                         if (Reader.LocalName.Equals("srv"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("srv")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("srv"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -402,7 +413,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of srv
                         if (Reader.LocalName.Equals("prt"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("prt")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("prt"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -413,7 +424,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of prt
                         if (Reader.LocalName.Equals("typ"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("typ")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("typ"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)
@@ -424,7 +435,7 @@ namespace PocketLadio.Stations.Netladio
                         } // End of typ
                         if (Reader.LocalName.Equals("bit"))
                         {
-                            while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("bit")))
+                            while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("bit"))
                             {
                                 Reader.Read();
                                 if (Reader.NodeType == XmlNodeType.Text)

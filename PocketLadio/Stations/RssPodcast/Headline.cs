@@ -122,7 +122,7 @@ namespace PocketLadio.Stations.RssPodcast
                         {
                             if (Reader.LocalName.Equals("title"))
                             {
-                                while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("title")))
+                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("title"))
                                 {
                                     Reader.Read();
                                     if (Reader.NodeType == XmlNodeType.Text)
@@ -133,7 +133,7 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of title
                             if (Reader.LocalName.Equals("description"))
                             {
-                                while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("description")))
+                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("description"))
                                 {
                                     Reader.Read();
                                     if (Reader.NodeType == XmlNodeType.Text)
@@ -144,7 +144,7 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of description
                             if (Reader.LocalName.Equals("link"))
                             {
-                                while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("link")))
+                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("link"))
                                 {
                                     Reader.Read();
                                     if (Reader.NodeType == XmlNodeType.Text)
@@ -155,7 +155,7 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of link
                             if (Reader.LocalName.Equals("pubDate"))
                             {
-                                while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("pubDate")))
+                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("pubDate"))
                                 {
                                     Reader.Read();
                                     if (Reader.NodeType == XmlNodeType.Text)
@@ -166,7 +166,7 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of pubDate
                             if (Reader.LocalName.Equals("category"))
                             {
-                                while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("category")))
+                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("category"))
                                 {
                                     Reader.Read();
                                     if (Reader.NodeType == XmlNodeType.Text)
@@ -177,7 +177,7 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of category
                             if (Reader.LocalName.Equals("author"))
                             {
-                                while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("author")))
+                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("author"))
                                 {
                                     Reader.Read();
                                     if (Reader.NodeType == XmlNodeType.Text)
@@ -188,7 +188,7 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of author
                             if (Reader.LocalName.Equals("guid"))
                             {
-                                while (!(Reader.NodeType == XmlNodeType.EndElement && Reader.LocalName.Equals("guid")))
+                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("guid"))
                                 {
                                     Reader.Read();
                                     if (Reader.NodeType == XmlNodeType.Text)
