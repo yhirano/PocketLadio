@@ -27,12 +27,12 @@ namespace PocketLadio.Stations.RssPodcast
         }
 
         /// <summary>
-        /// ねとらじヘッドラインの表示方法
+        /// PodcastのRSSの表示方法
         /// </summary>
         private string headlineViewType = "[[TITLE]] - [[DESCRIPTION]]";
 
         /// <summary>
-        /// ねとらじヘッドラインの表示方法
+        /// PodcastのRSSの表示方法
         /// </summary>
         public string HeadlineViewType
         {
@@ -69,65 +69,55 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public void LoadSetting()
         {
-            if (File.Exists(GetSettingPath()))
+            // ファイルがない場合は読み込まず終了
+            if (File.Exists(GetSettingPath()) == false)
             {
-                FileStream Fs = null;
-                XmlTextReader Reader = null;
+                return;
+            }
 
-                try
+            FileStream Fs = null;
+            XmlTextReader Reader = null;
+
+            try
+            {
+                Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
+                Reader = new XmlTextReader(Fs);
+
+                ArrayList AlFilterWords = new ArrayList();
+
+                while (Reader.Read())
                 {
-                    Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
-                    Reader = new XmlTextReader(Fs);
-
-                    ArrayList AlFilterWords = new ArrayList();
-
-                    while (Reader.Read())
+                    if (Reader.NodeType == XmlNodeType.Element)
                     {
-                        if (Reader.NodeType == XmlNodeType.Element)
+                        if (Reader.LocalName == "RssUrl")
                         {
-                            if (Reader.LocalName.Equals("RssUrl"))
+                            if (Reader.MoveToFirstAttribute())
                             {
-                                if (Reader.MoveToFirstAttribute())
-                                {
-                                    do
-                                    {
-                                        if (Reader.Name.Equals("url"))
-                                        {
-                                            RssUrl = Reader.Value;
-                                        }
-                                    } while (Reader.MoveToNextAttribute());
-                                }
-                            } // End of RssUrl
-
-                            if (Reader.LocalName.Equals("HeadlineViewType"))
+                                RssUrl = Reader.GetAttribute("url");
+                            }
+                        } // End of RssUrl
+                        else if (Reader.LocalName == "HeadlineViewType")
+                        {
+                            if (Reader.MoveToFirstAttribute())
                             {
-                                if (Reader.MoveToFirstAttribute())
-                                {
-                                    do
-                                    {
-                                        if (Reader.Name.Equals("type"))
-                                        {
-                                            HeadlineViewType = Reader.Value;
-                                        }
-                                    } while (Reader.MoveToNextAttribute());
-                                }
-                            } // End of HeadlineViewType
-                        }
+                                HeadlineViewType = Reader.GetAttribute("type");
+                            }
+                        } // End of HeadlineViewType
                     }
                 }
-                catch (XmlException)
-                {
-                    throw;
-                }
-                catch (IOException)
-                {
-                    throw;
-                }
-                finally
-                {
-                    Reader.Close();
-                    Fs.Close();
-                }
+            }
+            catch (XmlException)
+            {
+                throw;
+            }
+            catch (IOException)
+            {
+                throw;
+            }
+            finally
+            {
+                Reader.Close();
+                Fs.Close();
             }
         }
 

@@ -105,102 +105,79 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public void LoadSetting()
         {
-            if (File.Exists(GetSettingPath()))
+            // ファイルがない場合は読み込まず終了
+            if (File.Exists(GetSettingPath()) == false)
             {
-                FileStream Fs = null;
-                XmlTextReader Reader = null;
+                return;
+            }
 
-                try
+            FileStream Fs = null;
+            XmlTextReader Reader = null;
+
+            try
+            {
+                Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
+                Reader = new XmlTextReader(Fs);
+
+                ArrayList AlFilterWords = new ArrayList();
+
+                while (Reader.Read())
                 {
-                    Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
-                    Reader = new XmlTextReader(Fs);
-
-                    ArrayList AlFilterWords = new ArrayList();
-
-                    while (Reader.Read())
+                    if (Reader.NodeType == XmlNodeType.Element)
                     {
-                        if (Reader.NodeType == XmlNodeType.Element)
+                        if (Reader.LocalName == "HeadlineCsvUrl")
                         {
-                            if (Reader.LocalName.Equals("HeadlineCsvUrl"))
+                            if (Reader.MoveToFirstAttribute())
                             {
-                                if (Reader.MoveToFirstAttribute())
-                                {
-                                    do
-                                    {
-                                        if (Reader.Name.Equals("url"))
-                                        {
-                                            HeadlineCsvUrl = Reader.Value;
-                                        }
-                                    } while (Reader.MoveToNextAttribute());
-                                }
-                            } // End of HeadlineCsvUrl
-
-                            if (Reader.LocalName.Equals("HeadlineXmlUrl"))
+                                HeadlineCsvUrl = Reader.GetAttribute("url");
+                            }
+                        } // End of HeadlineCsvUrl
+                        else if (Reader.LocalName == "HeadlineXmlUrl")
+                        {
+                            if (Reader.MoveToFirstAttribute())
                             {
-                                if (Reader.MoveToFirstAttribute())
-                                {
-                                    do
-                                    {
-                                        if (Reader.Name.Equals("url"))
-                                        {
-                                            HeadlineXmlUrl = Reader.Value;
-                                        }
-                                    } while (Reader.MoveToNextAttribute());
-                                }
-                            } // End of HeadlineXmlUrl
-
-                            if (Reader.LocalName.Equals("HeadlineGetType"))
+                                HeadlineXmlUrl = Reader.GetAttribute("url");
+                            }
+                        } // End of HeadlineXmlUrl
+                        else if (Reader.LocalName == "HeadlineGetType")
+                        {
+                            if (Reader.MoveToFirstAttribute())
                             {
-                                if (Reader.MoveToFirstAttribute())
+                                string type = Reader.GetAttribute("type");
+                                if (type == HeadlineGetTypeEnum.Cvs.ToString())
                                 {
-                                    do
-                                    {
-                                        if (Reader.Name.Equals("type"))
-                                        {
-                                            if (Reader.Value.Equals(HeadlineGetTypeEnum.Cvs.ToString()))
-                                            {
-                                                HeadlineGetType = HeadlineGetTypeEnum.Cvs;
-                                            }
-                                            else if (Reader.Value.Equals(HeadlineGetTypeEnum.Xml.ToString()))
-                                            {
-                                                HeadlineGetType = HeadlineGetTypeEnum.Xml;
-                                            }
-                                        }
-                                    } while (Reader.MoveToNextAttribute());
+                                    HeadlineGetType = HeadlineGetTypeEnum.Cvs;
                                 }
-                            } // End of HeadlineGetType
-
-
-                            if (Reader.LocalName.Equals("HeadlineViewType"))
+                                else if (type == HeadlineGetTypeEnum.Xml.ToString())
+                                {
+                                    HeadlineGetType = HeadlineGetTypeEnum.Xml;
+                                }
+                            }
+                        } // End of HeadlineGetType
+                        else if (Reader.LocalName == "HeadlineViewType")
+                        {
+                            if (Reader.MoveToFirstAttribute())
                             {
-                                if (Reader.MoveToFirstAttribute())
-                                {
-                                    do
-                                    {
-                                        if (Reader.Name.Equals("type"))
-                                        {
-                                            HeadlineViewType = Reader.Value;
-                                        }
-                                    } while (Reader.MoveToNextAttribute());
-                                }
-                            } // End of HeadlineViewType
-                        }
+                                HeadlineViewType = Reader.GetAttribute("type");
+                            }
+                        } // End of HeadlineViewType
                     }
                 }
-                catch (XmlException)
-                {
-                    throw;
-                }
-                catch (IOException)
-                {
-                    throw;
-                }
-                finally
-                {
-                    Reader.Close();
-                    Fs.Close();
-                }
             }
+            catch (XmlException)
+            {
+                throw;
+            }
+            catch (IOException)
+            {
+                throw;
+            }
+            finally
+            {
+                Reader.Close();
+                Fs.Close();
+            }
+
         }
 
         /// <summary>

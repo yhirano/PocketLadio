@@ -120,84 +120,35 @@ namespace PocketLadio.Stations.RssPodcast
                         // itemタグの中にいる場合
                         if (InItemFlag == true)
                         {
-                            if (Reader.LocalName.Equals("title"))
+                            if (Reader.LocalName == "title")
                             {
-                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("title"))
-                                {
-                                    Reader.Read();
-                                    if (Reader.NodeType == XmlNodeType.Text)
-                                    {
-                                        Chanel.Title = Reader.Value;
-                                    }
-                                }
+                                Chanel.Title = Reader.ReadString();
                             } // End of title
-                            if (Reader.LocalName.Equals("description"))
+                            else if (Reader.LocalName == "description")
                             {
-                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("description"))
-                                {
-                                    Reader.Read();
-                                    if (Reader.NodeType == XmlNodeType.Text)
-                                    {
-                                        Chanel.Description = Reader.Value;
-                                    }
-                                }
+                                Chanel.Description = Reader.ReadString();
                             } // End of description
-                            if (Reader.LocalName.Equals("link"))
+                            else if (Reader.LocalName == "link")
                             {
-                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("link"))
-                                {
-                                    Reader.Read();
-                                    if (Reader.NodeType == XmlNodeType.Text)
-                                    {
-                                        Chanel.Link = Reader.Value;
-                                    }
-                                }
+                                Chanel.Link = Reader.ReadString();
                             } // End of link
-                            if (Reader.LocalName.Equals("pubDate"))
+                            else if (Reader.LocalName == "pubDate")
                             {
-                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("pubDate"))
-                                {
-                                    Reader.Read();
-                                    if (Reader.NodeType == XmlNodeType.Text)
-                                    {
-                                        Chanel.Date = Reader.Value;
-                                    }
-                                }
+                                        Chanel.Date = Reader.ReadString();
                             } // End of pubDate
-                            if (Reader.LocalName.Equals("category"))
+                            else if (Reader.LocalName == "category")
                             {
-                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("category"))
-                                {
-                                    Reader.Read();
-                                    if (Reader.NodeType == XmlNodeType.Text)
-                                    {
-                                        Chanel.Category = Reader.Value;
-                                    }
-                                }
+                                        Chanel.Category = Reader.ReadString();
                             } // End of category
-                            if (Reader.LocalName.Equals("author"))
+                            else if (Reader.LocalName == "author")
                             {
-                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("author"))
-                                {
-                                    Reader.Read();
-                                    if (Reader.NodeType == XmlNodeType.Text)
-                                    {
-                                        Chanel.Author = Reader.Value;
-                                    }
-                                }
+                                Chanel.Author = Reader.ReadString();
                             } // End of author
-                            if (Reader.LocalName.Equals("guid"))
+                            else if (Reader.LocalName == "guid")
                             {
-                                while (Reader.NodeType != XmlNodeType.EndElement && Reader.LocalName.Equals("guid"))
-                                {
-                                    Reader.Read();
-                                    if (Reader.NodeType == XmlNodeType.Text)
-                                    {
-                                        Chanel.Link = Reader.Value;
-                                    }
-                                }
+                                Chanel.Link = Reader.ReadString();
                             } // End of guid
-                            if (Reader.LocalName.Equals("enclosure"))
+                            else if (Reader.LocalName == "enclosure")
                             {
                                 string enclosureUrl = "";
                                 string enclosureLength = "";
@@ -205,21 +156,9 @@ namespace PocketLadio.Stations.RssPodcast
 
                                 if (Reader.MoveToFirstAttribute())
                                 {
-                                    do
-                                    {
-                                        if (Reader.Name.Equals("url"))
-                                        {
-                                            enclosureUrl = Reader.Value;
-                                        }
-                                        else if (Reader.Name.Equals("length"))
-                                        {
-                                            enclosureLength = Reader.Value;
-                                        }
-                                        else if (Reader.Name.Equals("type"))
-                                        {
-                                            enclosureType = Reader.Value;
-                                        }
-                                    } while (Reader.MoveToNextAttribute());
+                                    enclosureUrl = Reader.GetAttribute("url");
+                                    enclosureLength = Reader.GetAttribute("length");
+                                    enclosureType = Reader.GetAttribute("type");
                                 }
 
                                 // エンクロージャー要素追加
@@ -229,7 +168,7 @@ namespace PocketLadio.Stations.RssPodcast
                     }
                     else if (Reader.NodeType == XmlNodeType.EndElement)
                     {
-                        if (Reader.LocalName.Equals("item"))
+                        if (Reader.LocalName == "item")
                         {
                             InItemFlag = false;
                             AlChanels.Add(Chanel);
