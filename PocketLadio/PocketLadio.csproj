@@ -74,8 +74,8 @@
     </Compile>
     <Compile Include="Station.cs" />
     <Compile Include="StationList.cs" />
-    <Compile Include="Stations\Interface\IChannel.cs" />
-    <Compile Include="Stations\Interface\IHeadline.cs" />
+    <Compile Include="Stations\IChannel.cs" />
+    <Compile Include="Stations\IHeadline.cs" />
     <Compile Include="Stations\Netladio\Channel.cs" />
     <Compile Include="Stations\Netladio\ChannelPropertyForm.cs">
       <SubType>Form</SubType>
@@ -94,11 +94,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Stations\RssPodcast\UserSetting.cs" />
-    <Compile Include="Stations\Util\HeadlineUtil.cs" />
+    <Compile Include="Stations\Utility\HeadlineUtility.cs" />
     <Compile Include="UserSetting.cs" />
-    <Compile Include="Util\ClipboardTextBox.cs" />
-    <Compile Include="Util\PocketLadioUtil.cs" />
-    <Compile Include="Util\Process.cs" />
+    <Compile Include="Utility\ClipboardTextBox.cs" />
+    <Compile Include="Utility\PocketLadioUtility.cs" />
+    <Compile Include="Utility\Process.cs" />
     <Compile Include="VersionInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>

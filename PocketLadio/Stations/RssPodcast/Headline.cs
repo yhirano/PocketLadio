@@ -5,12 +5,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
-using PocketLadio.Stations.Interface;
-using PocketLadio.Stations.Util;
+using PocketLadio.Stations;
+using PocketLadio.Stations.Utility;
 
 namespace PocketLadio.Stations.RssPodcast
 {
-    public class Headline : PocketLadio.Stations.Interface.IHeadline
+    public class Headline : PocketLadio.Stations.IHeadline
     {
         /// <summary>
         /// ヘッドラインの種類
@@ -36,6 +36,14 @@ namespace PocketLadio.Stations.RssPodcast
         /// ヘッドラインを取得した時間
         /// </summary>
         private DateTime lastCheckTime = DateTime.MinValue;
+
+        /// <summary>
+        /// 番組の表示方法設定
+        /// </summary>
+        public string HeadlineViewType
+        {
+            get { return setting.HeadlineViewType; }
+        }
 
         public Headline(string id)
         {
@@ -104,7 +112,7 @@ namespace PocketLadio.Stations.RssPodcast
                 // itemタグの中にいるか
                 bool inItemFlag = false;
 
-                st = HeadlineUtil.GetHttpStream(setting.RssUrl);
+                st = HeadlineUtility.GetHttpStream(setting.RssUrl);
                 reader = new XmlTextReader(st);
 
                 while (reader.Read())
@@ -130,15 +138,22 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of description
                             else if (reader.LocalName == "link")
                             {
-                                channel.Link = reader.ReadString();
+                                try
+                                {
+                                    channel.Link = new Uri(reader.ReadString());
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
                             } // End of link
                             else if (reader.LocalName == "pubDate")
                             {
-                                        channel.Date = reader.ReadString();
+                                channel.Date = reader.ReadString();
                             } // End of pubDate
                             else if (reader.LocalName == "category")
                             {
-                                        channel.Category = reader.ReadString();
+                                channel.Category = reader.ReadString();
                             } // End of category
                             else if (reader.LocalName == "author")
                             {
@@ -146,23 +161,37 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of author
                             else if (reader.LocalName == "guid")
                             {
-                                channel.Link = reader.ReadString();
+                                try
+                                {
+                                    channel.Link = new Uri(reader.ReadString());
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
                             } // End of guid
                             else if (reader.LocalName == "enclosure")
                             {
-                                string enclosureUrl = "";
+                                Uri enclosureUrl = null;
                                 string enclosureLength = "";
                                 string enclosureType = "";
 
-                                if (reader.MoveToFirstAttribute())
+                                try
                                 {
-                                    enclosureUrl = reader.GetAttribute("url");
-                                    enclosureLength = reader.GetAttribute("length");
-                                    enclosureType = reader.GetAttribute("type");
-                                }
+                                    if (reader.MoveToFirstAttribute())
+                                    {
+                                        enclosureUrl = new Uri(reader.GetAttribute("url"));
+                                        enclosureLength = reader.GetAttribute("length");
+                                        enclosureType = reader.GetAttribute("type");
+                                    }
 
-                                // エンクロージャー要素追加
-                                channel.SetEnclosure(enclosureUrl, enclosureLength, enclosureType);
+                                    // エンクロージャー要素追加
+                                    channel.SetEnclosure(enclosureUrl, enclosureLength, enclosureType);
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
                             } // End of enclosure
                         }
                     }
@@ -250,15 +279,6 @@ namespace PocketLadio.Stations.RssPodcast
             ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm((Channel)channel);
             channelPropertyForm.ShowDialog();
             channelPropertyForm.Dispose();
-        }
-
-        /// <summary>
-        /// ヘッドラインの設定を返す
-        /// </summary>
-        /// <returns>ヘッドラインの設定</returns>
-        public UserSetting GetUserSetting()
-        {
-            return setting;
         }
 
         /// <summary>

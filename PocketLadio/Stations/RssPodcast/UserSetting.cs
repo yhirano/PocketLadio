@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -15,12 +15,12 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// PodcastのRSSのURL CSV
         /// </summary>
-        private string rssUrl = "";
+        private Uri rssUrl;
 
         /// <summary>
         /// PodcastのRSSのURL CSV
         /// </summary>
-        public string RssUrl
+        public Uri RssUrl
         {
             get { return rssUrl; }
             set { rssUrl = value; }
@@ -61,7 +61,7 @@ namespace PocketLadio.Stations.RssPodcast
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetId() + ".xml";
+            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetId() + ".xml";
         }
 
         /// <summary>
@@ -83,8 +83,6 @@ namespace PocketLadio.Stations.RssPodcast
                 fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
                 reader = new XmlTextReader(fs);
 
-                ArrayList alFilterWords = new ArrayList();
-
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element)
@@ -93,7 +91,14 @@ namespace PocketLadio.Stations.RssPodcast
                         {
                             if (reader.MoveToFirstAttribute())
                             {
-                                RssUrl = reader.GetAttribute("url");
+                                try
+                                {
+                                    RssUrl = new Uri(reader.GetAttribute("url"));
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
                             }
                         } // End of RssUrl
                         else if (reader.LocalName == "HeadlineViewType")
@@ -157,7 +162,7 @@ namespace PocketLadio.Stations.RssPodcast
                 writer.WriteStartElement("Content");
 
                 writer.WriteStartElement("RssUrl");
-                writer.WriteAttributeString("url", RssUrl);
+                writer.WriteAttributeString("url", ((RssUrl != null) ? RssUrl.ToString() : ""));
                 writer.WriteEndElement(); // End of RssUrl
 
                 writer.WriteStartElement("HeadlineViewType");

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using PocketLadio.Stations.Interface;
+using PocketLadio.Stations;
 
 namespace PocketLadio.Stations.RssPodcast
 {
-    public class Channel : PocketLadio.Stations.Interface.IChannel
+    public class Channel : PocketLadio.Stations.IChannel
     {
         /// <summary>
         /// 番組のタイトル
@@ -23,12 +23,12 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組のサイト
         /// </summary>
-        private string link = "";
+        private Uri link;
 
         /// <summary>
         /// 番組のサイト
         /// </summary>
-        public string Link
+        public Uri Link
         {
             get { return link; }
             set { link = value; }
@@ -93,12 +93,12 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 再生URL
         /// </summary>
-        private string url = "";
+        private Uri url;
 
         /// <summary>
         /// 再生URL
         /// </summary>
-        public string Url
+        public Uri Url
         {
             get { return url; }
             set { url = value; }
@@ -150,7 +150,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// 番組の再生URLを返す
         /// </summary>
         /// <returns>番組の再生URL</returns>
-        public virtual string GetPlayUrl()
+        public virtual Uri GetPlayUrl()
         {
             return Url;
         }
@@ -159,7 +159,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// 番組のサイトを返す
         /// </summary>
         /// <returns>番組のサイト</returns>
-        public virtual string GetWebsiteUrl()
+        public virtual Uri GetWebsiteUrl()
         {
             return Link;
         }
@@ -170,16 +170,16 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>番組の表示方法に従った番組の情報</returns>
         public virtual string GetChannelView()
         {
-            string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType;
-            if (View.Length != 0)
+            string view = ParentHeadline.HeadlineViewType;
+            if (view.Length != 0)
             {
-                View = View.Replace("[[TITLE]]", Title);
-                View = View.Replace("[[DESCRIPTION]]", Description);
-                View = View.Replace("[[CATEGORY]]", Category);
-                View = View.Replace("[[AUTHOR]]", Author);
+                view = view.Replace("[[TITLE]]", Title);
+                view = view.Replace("[[DESCRIPTION]]", Description);
+                view = view.Replace("[[CATEGORY]]", Category);
+                view = view.Replace("[[AUTHOR]]", Author);
             }
 
-            return View;
+            return view;
         }
 
         /// <summary>
@@ -196,13 +196,13 @@ namespace PocketLadio.Stations.RssPodcast
         /// エンクロージャー要素をセットする。
         /// エンクロージャー要素の追加が複数回あった場合には、MIME Typeの優先度設定に従い、優先度の高いエンクロージャー要素の内容をセットする。
         /// </summary>
-        /// <param name="url">エンクロージャーのURL</param>
+        /// <param name="podcastUrl">エンクロージャーのURL</param>
         /// <param name="length">エンクロージャーのLENGTH</param>
         /// <param name="type">エンクロージャーのTYPE</param>
-        public void SetEnclosure(string podcastUrl, string length, string type)
+        public void SetEnclosure(Uri podcastUrl, string length, string type)
         {
             // Urlがまだセットされていない場合はとりあえずUrl、Length、Typeを設定して終了
-            if (Url.Length == 0) {
+            if (Url == null) {
                 this.Url = podcastUrl;
                 this.Length = length;
                 this.Type = type;

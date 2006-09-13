@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PocketLadio.Stations.Interface
+namespace PocketLadio.Stations
 {
     /// <summary>
     /// ヘッドラインインターフェース

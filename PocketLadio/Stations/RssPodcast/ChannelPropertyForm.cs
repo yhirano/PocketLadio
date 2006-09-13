@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -311,7 +311,7 @@ namespace PocketLadio.Stations.RssPodcast
             FixWindowSize();
             TitleLabel.Text = Channel.Title.Trim();
             DescriptionLabel.Text = Channel.Description.Trim();
-            LinkLabel.Text = Channel.Link.Trim();
+            LinkLabel.Text = ((Channel.Link != null) ? Channel.Link.ToString().Trim() : "");
             AuthorLabel.Text = Channel.Author.Trim();
             DateLabel.Text = Channel.Date.Trim();
             LengthLabel.Text = Channel.Length.Trim();
@@ -322,7 +322,7 @@ namespace PocketLadio.Stations.RssPodcast
         {
             try
             {
-                PocketLadioUtil.PlayStreaming(Channel.GetPlayUrl());
+                PocketLadioUtility.PlayStreaming(Channel.GetPlayUrl());
             }
             catch (FileNotFoundException)
             {
@@ -336,7 +336,7 @@ namespace PocketLadio.Stations.RssPodcast
             {
                 if (LinkLabel.Text.Trim().Length != 0)
                 {
-                    PocketLadioUtil.AccessWebsite(Channel.GetWebsiteUrl());
+                    PocketLadioUtility.AccessWebsite(Channel.GetWebsiteUrl());
                 }
             }
             catch (FileNotFoundException)

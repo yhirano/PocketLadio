@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -33,12 +33,12 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 設定
         /// </summary>
-        private UserSetting Setting;
+        private UserSetting setting;
 
 
         public SettingForm(UserSetting setting)
         {
-            this.Setting = setting;
+            this.setting = setting;
 
             //
             // Windows フォーム デザイナ サポートに必要です。
@@ -186,19 +186,26 @@ namespace PocketLadio.Stations.RssPodcast
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
             // 設定の読み込み
-            RssUrlTextBox.Text = Setting.RssUrl;
-            HeadlineViewTypeTextBox.Text = Setting.HeadlineViewType;
+            RssUrlTextBox.Text = ((setting.RssUrl != null) ? setting.RssUrl.ToString() : "");
+            HeadlineViewTypeTextBox.Text = setting.HeadlineViewType;
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 設定の書き込み
-            Setting.RssUrl = RssUrlTextBox.Text.Trim();
-            Setting.HeadlineViewType = HeadlineViewTypeTextBox.Text.Trim();
+            try
+            {
+                setting.RssUrl = new Uri(RssUrlTextBox.Text.Trim());
+            }
+            catch (UriFormatException)
+            {
+                ;
+            }
+            setting.HeadlineViewType = HeadlineViewTypeTextBox.Text.Trim();
 
             try
             {
-                Setting.SaveSetting();
+                setting.SaveSetting();
             }
             catch (IOException)
             {

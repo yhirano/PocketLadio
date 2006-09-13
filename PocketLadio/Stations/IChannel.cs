@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PocketLadio.Stations.Interface
+namespace PocketLadio.Stations
 {
     /// <summary>
     /// 番組インターフェース
@@ -11,13 +11,13 @@ namespace PocketLadio.Stations.Interface
         /// 番組の放送URLを返す
         /// </summary>
         /// <returns>番組の放送URL</returns>
-        string GetPlayUrl();
+        Uri GetPlayUrl();
 
         /// <summary>
         /// 番組のウェブサイトURLを返す
         /// </summary>
         /// <returns>番組のウェブサイトURL</returns>
-        string GetWebsiteUrl();
+        Uri GetWebsiteUrl();
 
         /// <summary>
         /// 番組の表示方法に従って番組の情報を返す

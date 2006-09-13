@@ -5,15 +5,15 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
-using PocketLadio.Stations.Interface;
-using PocketLadio.Stations.Util;
+using PocketLadio.Stations;
+using PocketLadio.Stations.Utility;
 
 namespace PocketLadio.Stations.Netladio
 {
     /// <summary>
     /// ねとらじのヘッドライン
     /// </summary>
-    public class Headline : PocketLadio.Stations.Interface.IHeadline
+    public class Headline : PocketLadio.Stations.IHeadline
     {
         /// <summary>
         /// ヘッドラインの種類
@@ -39,6 +39,14 @@ namespace PocketLadio.Stations.Netladio
         /// ヘッドラインを取得した時間
         /// </summary>
         private DateTime lastCheckTime = DateTime.MinValue;
+
+        /// <summary>
+        /// 番組の表示方法設定
+        /// </summary>
+        public string HeadlineViewType
+        {
+            get { return setting.HeadlineViewType; }
+        }
 
         /// <summary>
         /// ヘッドラインのコンストラクタ
@@ -154,15 +162,6 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
-        /// ヘッドラインの設定を返す
-        /// </summary>
-        /// <returns>ヘッドラインの設定</returns>
-        public UserSetting GetUserSetting()
-        {
-            return setting;
-        }
-
-        /// <summary>
         /// ヘッドラインをネットから取得する（CVS使用）
         /// </summary>
         private void WebGetHeadlineCvs()
@@ -175,7 +174,7 @@ namespace PocketLadio.Stations.Netladio
                 // チャンネルのリスト
                 ArrayList alChannels = new ArrayList();
 
-                st = HeadlineUtil.GetHttpStream(setting.HeadlineCsvUrl);
+                st = HeadlineUtility.GetHttpStream(setting.HeadlineCsvUrl);
                 sr = new StreamReader(st, Encoding.GetEncoding("shift-jis"));
                 string httpString = sr.ReadToEnd();
                 string[] channelsCvs = httpString.Split('\n');
@@ -189,7 +188,14 @@ namespace PocketLadio.Stations.Netladio
                         string[] channelCsv = channelsCvs[Count].Split(',');
 
                         // Url取得
-                        channel.Url = channelCsv[0];
+                        try
+                        {
+                            channel.Url = new Uri(channelCsv[0]);
+                        }
+                        catch (UriFormatException)
+                        {
+                            ;
+                        }
 
                         // Gnl取得
                         channel.Gnl = channelCsv[1];
@@ -289,7 +295,7 @@ namespace PocketLadio.Stations.Netladio
                 // 番組のリスト
                 ArrayList alChannels = new ArrayList();
 
-                st = HeadlineUtil.GetHttpStream(setting.HeadlineXmlUrl);
+                st = HeadlineUtility.GetHttpStream(setting.HeadlineXmlUrl);
                 reader = new XmlTextReader(st);
 
                 // チャンネル
@@ -312,7 +318,14 @@ namespace PocketLadio.Stations.Netladio
                         {
                             if (reader.LocalName == "url")
                             {
-                                channel.Url = reader.ReadString();
+                                try
+                                {
+                                    channel.Url = new Uri(reader.ReadString());
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
                             } // End of url
                             else if (reader.LocalName == "gnl")
                             {

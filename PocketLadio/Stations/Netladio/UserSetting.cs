@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio.Stations.Netladio
 {
@@ -15,12 +15,12 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ねとらじのヘッドラインのURL CSV
         /// </summary>
-        private string headlineCsvUrl = "http://yp.ladio.livedoor.jp/stats/list.csv";
+        private Uri headlineCsvUrl = new Uri("http://yp.ladio.livedoor.jp/stats/list.csv");
 
         /// <summary>
         /// ねとらじのヘッドラインのURL CSV
         /// </summary>
-        public string HeadlineCsvUrl
+        public Uri HeadlineCsvUrl
         {
             get { return headlineCsvUrl; }
             set { headlineCsvUrl = value; }
@@ -29,12 +29,12 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ねとらじのヘッドラインのURL XML
         /// </summary>
-        private string headlineXmlUrl = "http://yp.ladio.livedoor.jp/stats/list.xml";
+        private Uri headlineXmlUrl = new Uri("http://yp.ladio.livedoor.jp/stats/list.xml");
 
         /// <summary>
         /// ねとらじのヘッドラインのURL XML
         /// </summary>
-        public string HeadlineXmlUrl
+        public Uri HeadlineXmlUrl
         {
             get { return headlineXmlUrl; }
             set { headlineXmlUrl = value; }
@@ -97,7 +97,7 @@ namespace PocketLadio.Stations.Netladio
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetId() + ".xml";
+            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetId() + ".xml";
         }
 
         /// <summary>
@@ -119,8 +119,6 @@ namespace PocketLadio.Stations.Netladio
                 fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
                 reader = new XmlTextReader(fs);
 
-                ArrayList alFilterWords = new ArrayList();
-
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element)
@@ -129,14 +127,28 @@ namespace PocketLadio.Stations.Netladio
                         {
                             if (reader.MoveToFirstAttribute())
                             {
-                                HeadlineCsvUrl = reader.GetAttribute("url");
+                                try
+                                {
+                                    HeadlineCsvUrl = new Uri(reader.GetAttribute("url"));
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
                             }
                         } // End of HeadlineCsvUrl
                         else if (reader.LocalName == "HeadlineXmlUrl")
                         {
                             if (reader.MoveToFirstAttribute())
                             {
-                                HeadlineXmlUrl = reader.GetAttribute("url");
+                                try
+                                {
+                                    HeadlineXmlUrl = new Uri(reader.GetAttribute("url"));
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
                             }
                         } // End of HeadlineXmlUrl
                         else if (reader.LocalName == "HeadlineGetType")
@@ -216,11 +228,11 @@ namespace PocketLadio.Stations.Netladio
                 writer.WriteStartElement("Content");
 
                 writer.WriteStartElement("HeadlineCsvUrl");
-                writer.WriteAttributeString("url", HeadlineCsvUrl);
+                writer.WriteAttributeString("url", ((HeadlineCsvUrl != null) ? HeadlineCsvUrl.ToString() : ""));
                 writer.WriteEndElement(); // End of HeadlineCsvUrl
 
                 writer.WriteStartElement("HeadlineXmlUrl");
-                writer.WriteAttributeString("url", HeadlineXmlUrl);
+                writer.WriteAttributeString("url", ((HeadlineXmlUrl != null) ? HeadlineXmlUrl.ToString() : ""));
                 writer.WriteEndElement(); // End of HeadlineXmlUrl
 
                 writer.WriteStartElement("HeadlineGetType");

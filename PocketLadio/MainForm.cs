@@ -7,8 +7,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Xml;
-using PocketLadio.Stations.Interface;
-using PocketLadio.Util;
+using PocketLadio.Stations;
+using PocketLadio.Utility;
 
 namespace PocketLadio
 {
@@ -288,7 +288,7 @@ namespace PocketLadio
             {
                 if (HeadlineListBox.SelectedIndex != -1)
                 {
-                    PocketLadioUtil.PlayStreaming(StationList.GetChannelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetPlayUrl());
+                    PocketLadioUtility.PlayStreaming(StationList.GetChannelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetPlayUrl());
                 }
             }
             catch (FileNotFoundException)
@@ -306,9 +306,9 @@ namespace PocketLadio
             {
                 if (HeadlineListBox.SelectedIndex != -1)
                 {
-                    if (StationList.GetChannelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebsiteUrl().Length != 0)
+                    if (StationList.GetChannelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebsiteUrl() != null)
                     {
-                        PocketLadioUtil.AccessWebsite(StationList.GetChannelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebsiteUrl());
+                        PocketLadioUtility.AccessWebsite(StationList.GetChannelsFilteredOfCurrentStation()[HeadlineListBox.SelectedIndex].GetWebsiteUrl());
                     }
                 }
             }
@@ -349,14 +349,14 @@ namespace PocketLadio
                     StationList.WebGetHeadlineOfCurrentStation();
 
                     // 番組が取得できなかった場合
-                    if (StationList.GetLastCheckTimeOfCurrentStation().Equals(DateTime.MinValue))
+                    if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
                     {
                         InfomationLabel.Text = "No Check - 0 CHs";
                     }
                     // 番組が取得できた場合
                     else
                     {
-                        InfomationLabel.Text = "Last " + StationList.GetLastCheckTimeOfCurrentStation().ToString()
+                        InfomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString()
                             + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
                     }
 
@@ -381,7 +381,7 @@ namespace PocketLadio
                 catch (UriFormatException)
                 {
                     HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                    MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
                 }
                 catch (SocketException)
                 {
@@ -391,7 +391,7 @@ namespace PocketLadio
                 catch (NotSupportedException)
                 {
                     HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                    MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
                 }
                 catch (XmlException)
                 {
@@ -401,7 +401,7 @@ namespace PocketLadio
                 catch (ArgumentException)
                 {
                     HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.GetHeadlineNameOfCurrentStation() + "のURLが不正です", "URLエラー");
+                    MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
                 }
                 finally
                 {
@@ -445,7 +445,7 @@ namespace PocketLadio
         /// タイマーのインターバルが変更されたときの処理
         /// </summary>
         /// <param name="interval">タイマーのインターバル</param>
-        public void HeadlineTimerIntarvalChange(int interval)
+        public void HeadlineTimerIntervalChange(int interval)
         {
             if (UserSetting.HeadlineTimerCheck == true)
             {
@@ -573,7 +573,7 @@ namespace PocketLadio
                     {
                         StationMenuItem EachStationSettingMenuItem = new StationMenuItem();
                         this.StationSettingMenuItem.MenuItems.Add(EachStationSettingMenuItem);
-                        EachStationSettingMenuItem.Text = station.GetDisplayName() + " 設定";
+                        EachStationSettingMenuItem.Text = station.DisplayName + " 設定";
                         EachStationSettingMenuItem.SetStation(station);
                         EachStationSettingMenuItem.Click += new System.EventHandler(this.EachStationSettingMenuItem_Click);
                     }
@@ -590,7 +590,7 @@ namespace PocketLadio
                     // 各放送局の切り替えボックスの追加
                     foreach (Station station in StationList.GetStationList())
                     {
-                        this.StationListComboBox.Items.Add(station.GetDisplayName());
+                        this.StationListComboBox.Items.Add(station.DisplayName);
                     }
                     // 切り替えボックスが追加し終わったので、各放送局の切り替えボックスを選択可能にする
                     this.StationListComboBox.Enabled = true;
@@ -599,7 +599,7 @@ namespace PocketLadio
                 // 以前に選択されていた放送局を選択し直す
                 for (int Count = 0; Count < StationListComboBox.Items.Count; ++Count)
                 {
-                    if (StationList.GetStationList()[Count].GetHeadlineId() == SelectedStationID)
+                    if (StationList.GetStationList()[Count].HeadlineId == SelectedStationID)
                     {
                         this.StationListComboBox.SelectedIndex = Count;
                         break;
@@ -680,14 +680,14 @@ namespace PocketLadio
         private void VersionInfoMenuItem_Click(object sender, System.EventArgs e)
         {
             VersionInfoForm versionInfoForm = new VersionInfoForm();
-            DialogResult result = versionInfoForm.ShowDialog();
+            versionInfoForm.ShowDialog();
             versionInfoForm.Dispose();
         }
 
         private void FilterSettingMenuItem_Click(object sender, System.EventArgs e)
         {
             FilterSettingForm filterSettingForm = new FilterSettingForm();
-            DialogResult result = filterSettingForm.ShowDialog();
+            filterSettingForm.ShowDialog();
             filterSettingForm.Dispose();
         }
 
@@ -781,7 +781,7 @@ namespace PocketLadio
         private void PocketLadioSettingMenuItem_Click(object sender, System.EventArgs e)
         {
             SettingForm settingForm = new SettingForm();
-            DialogResult result = settingForm.ShowDialog();
+            settingForm.ShowDialog();
             settingForm.Dispose();
         }
 
@@ -809,27 +809,27 @@ namespace PocketLadio
         private void StationListComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             StationList.ChangeCurrentStationAt(StationListComboBox.SelectedIndex);
-            if (StationList.GetLastCheckTimeOfCurrentStation().Equals(DateTime.MinValue))
+            if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
             {
                 InfomationLabel.Text = "No Check - 0 CHs";
             }
             else
             {
-                InfomationLabel.Text = "Last " + StationList.GetLastCheckTimeOfCurrentStation().ToString() + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
+                InfomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString() + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
             }
             UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
 
             // 選択していた放送局を記憶する
             if (StationListComboBox.SelectedIndex != -1)
             {
-                SelectedStationID = StationList.GetHeadlineIdOfCurrentStation();
+                SelectedStationID = StationList.HeadlineIdOfCurrentStation;
             }
         }
 
         private void StationsSettingMenuItem_Click(object sender, EventArgs e)
         {
             StationsSettingForm stationSettingForm = new StationsSettingForm();
-            DialogResult result = stationSettingForm.ShowDialog();
+            stationSettingForm.ShowDialog();
             stationSettingForm.Dispose();
         }
     }

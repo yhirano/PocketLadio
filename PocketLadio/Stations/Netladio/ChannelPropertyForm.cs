@@ -4,7 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio.Stations.Netladio
 {
@@ -273,7 +273,7 @@ namespace PocketLadio.Stations.Netladio
             FixWindowSize();
             NamLabel.Text = Channel.Nam.Trim();
             GnlLabel.Text = Channel.Gnl.Trim();
-            UrlLabel.Text = Channel.Url.Trim();
+            UrlLabel.Text = ((Channel.Url != null) ? Channel.Url.ToString().Trim() : "");
             TimsLabel.Text = Channel.Tims.Trim();
             ClnLabel.Text = Channel.Cln.Trim() + " / " + Channel.Clns.Trim();
             if (Channel.Bit.Length != 0)
@@ -290,7 +290,7 @@ namespace PocketLadio.Stations.Netladio
         {
             try
             {
-                PocketLadioUtil.PlayStreaming(Channel.GetPlayUrl());
+                PocketLadioUtility.PlayStreaming(Channel.GetPlayUrl());
             }
             catch (FileNotFoundException)
             {
@@ -304,7 +304,7 @@ namespace PocketLadio.Stations.Netladio
             {
                 if (UrlLabel.Text.Trim().Length != 0)
                 {
-                    PocketLadioUtil.AccessWebsite(Channel.GetWebsiteUrl());
+                    PocketLadioUtility.AccessWebsite(Channel.GetWebsiteUrl());
                 }
             }
             catch (FileNotFoundException)

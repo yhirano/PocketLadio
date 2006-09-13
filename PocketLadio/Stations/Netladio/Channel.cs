@@ -5,18 +5,18 @@ namespace PocketLadio.Stations.Netladio
     /// <summary>
     /// ねとらじの番組
     /// </summary>
-    public class Channel : PocketLadio.Stations.Interface.IChannel
+    public class Channel : PocketLadio.Stations.IChannel
     {
 
         /// <summary>
         /// DSPツールで指定されるURL
         /// </summary>
-        private string url = "";
+        private Uri url;
 
         /// <summary>
         /// DSPツールで指定されるURL
         /// </summary>
-        public string Url
+        public Uri Url
         {
             get { return url; }
             set { url = value; }
@@ -208,16 +208,16 @@ namespace PocketLadio.Stations.Netladio
         /// 番組の放送URLを返す
         /// </summary>
         /// <returns>番組の放送URL</returns>
-        public virtual string GetPlayUrl()
+        public virtual Uri GetPlayUrl()
         {
-            return "http://" + srv + ":" + prt + mnt + ".m3u";
+            return new Uri("http://" + srv + ":" + prt + mnt + ".m3u");
         }
 
         /// <summary>
         /// 番組のウェブサイトURLを返す
         /// </summary>
         /// <returns>番組のウェブサイトURL</returns>
-        public virtual string GetWebsiteUrl()
+        public virtual Uri GetWebsiteUrl()
         {
             return Url;
         }
@@ -228,19 +228,19 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>番組の表示方法に従った番組の情報</returns>
         public virtual string GetChannelView()
         {
-            string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType;
-            if (View.Length != 0)
+            string view = ParentHeadline.HeadlineViewType;
+            if (view.Length != 0)
             {
-                View = View.Replace("[[NAME]]", nam);
-                View = View.Replace("[[GENRE]]", gnl);
-                View = View.Replace("[[CLN]]", cln);
-                View = View.Replace("[[CLNS]]", clns);
-                View = View.Replace("[[TITLE]]", tit);
-                View = View.Replace("[[TIMES]]", tims);
-                View = View.Replace("[[BIT]]", bit);
+                view = view.Replace("[[NAME]]", nam);
+                view = view.Replace("[[GENRE]]", gnl);
+                view = view.Replace("[[CLN]]", cln);
+                view = view.Replace("[[CLNS]]", clns);
+                view = view.Replace("[[TITLE]]", tit);
+                view = view.Replace("[[TIMES]]", tims);
+                view = view.Replace("[[BIT]]", bit);
             }
 
-            return View;
+            return view;
         }
 
         /// <summary>

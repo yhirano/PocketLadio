@@ -4,7 +4,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio
 {
@@ -252,28 +252,25 @@ namespace PocketLadio
         /// <summary>
         /// 放送局を作成する。
         /// </summary>
-        /// <param name="ID">ヘッドラインのID</param>
-        /// <param name="name">放送局の名前</param>
         /// <param name="stationKind">放送局の種類</param>
-        /// <returns></returns>
-        private void CreateStation(string headlineID, string name, string stationKind)
+        private void CreateStation(string stationKind)
         {
             if (stationKind == "ねとらじ")
             {
                 Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
                 AlStationList.Add(Station);
-                StationListBox.Items.Add(Station.GetDisplayName());
+                StationListBox.Items.Add(Station.DisplayName);
                 StationNameTextBox.Text = "";
             }
             else if (stationKind == "Podcast")
             {
                 Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
                 AlStationList.Add(Station);
-                StationListBox.Items.Add(Station.GetDisplayName());
+                StationListBox.Items.Add(Station.DisplayName);
                 StationNameTextBox.Text = "";
 
                 // 設定画面を呼び出す
-                Station.GetHeadline().ShowSettingForm();
+                Station.Headline.ShowSettingForm();
             }
         }
 
@@ -286,7 +283,7 @@ namespace PocketLadio
             foreach (Station station in StationList.GetStationList())
             {
                 AlStationList.Add(station);
-                StationListBox.Items.Add(station.GetDisplayName());
+                StationListBox.Items.Add(station.DisplayName);
             }
         }
 
@@ -295,7 +292,7 @@ namespace PocketLadio
             if (StationListBox.SelectedIndex != -1)
             {
                 // 設定ファイルの削除
-                ((Station)AlStationList[StationListBox.SelectedIndex]).GetHeadline().DeleteUserSettingFile();
+                ((Station)AlStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
 
                 AlStationList.RemoveAt(StationListBox.SelectedIndex);
                 StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
@@ -306,7 +303,7 @@ namespace PocketLadio
         {
             if (StationNameTextBox.Text.Trim().Length != 0 && StationKindComboBox.Text.Trim().Length != 0)
             {
-                CreateStation(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), StationKindComboBox.Text.Trim());
+                CreateStation(StationKindComboBox.Text.Trim());
             }
         }
 
@@ -314,7 +311,7 @@ namespace PocketLadio
         {
             if (StationListBox.SelectedIndex != -1)
             {
-                ((Station)AlStationList[StationListBox.SelectedIndex]).GetHeadline().ShowSettingForm();
+                ((Station)AlStationList[StationListBox.SelectedIndex]).Headline.ShowSettingForm();
             }
         }
 
@@ -323,7 +320,7 @@ namespace PocketLadio
             if (StationListBox.SelectedIndex != -1)
             {
                 // 設定ファイルの削除
-                ((Station)AlStationList[StationListBox.SelectedIndex]).GetHeadline().DeleteUserSettingFile();
+                ((Station)AlStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
 
                 AlStationList.RemoveAt(StationListBox.SelectedIndex);
                 StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
@@ -359,7 +356,7 @@ namespace PocketLadio
                 DialogResult Result = MessageBox.Show(StationNameTextBox.Text.Trim() + "を追加しますか？", StationNameTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (Result == DialogResult.Yes)
                 {
-                    CreateStation(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), StationKindComboBox.Text.Trim());
+                    CreateStation(StationKindComboBox.Text.Trim());
                 }
             }
 

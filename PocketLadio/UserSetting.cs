@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio
 {
@@ -43,7 +43,7 @@ namespace PocketLadio
         /// <summary>
         /// タイマーでチェックするか
         /// </summary>
-        private static bool headlineTimerCheck = false;
+        private static bool headlineTimerCheck;
 
         /// <summary>
         /// タイマーでチェックするか
@@ -88,7 +88,7 @@ namespace PocketLadio
         /// <summary>
         /// プロキシを使用するか
         /// </summary>
-        private static bool proxyUse = false;
+        private static bool proxyUse;
 
         /// <summary>
         /// プロキシを使用するか
@@ -184,11 +184,14 @@ namespace PocketLadio
         private const string settingPath = "Setting.xml";
 
         /// <summary>
-        /// アプリケーションの設定ファイル
+        /// アプリケーションの設定ファイルの保存場所
         /// </summary>
         private static string SettingPath
         {
-            get { return settingPath; }
+            get {
+                // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
+                return PocketLadioUtility.GetExecutablePath() + "\\" + settingPath;
+            }
         }
 
         /// <summary>
@@ -196,16 +199,6 @@ namespace PocketLadio
         /// </summary>
         private UserSetting()
         {
-        }
-
-        /// <summary>
-        /// アプリケーションの設定ファイルの保存場所を返す
-        /// </summary>
-        /// <returns>アプリケーションの設定ファイルの保存場所</returns>
-        public static string GetSettingPath()
-        {
-            // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtil.GetExecutablePath() + "\\" + SettingPath;
         }
 
         /// <summary>
@@ -231,14 +224,14 @@ namespace PocketLadio
         /// </summary>
         public static void LoadSetting()
         {
-            if (File.Exists(GetSettingPath()))
+            if (File.Exists(SettingPath))
             {
                 FileStream fs = null;
                 XmlTextReader reader = null;
 
                 try
                 {
-                    fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
+                    fs = new FileStream(SettingPath, FileMode.Open, FileAccess.Read);
                     reader = new XmlTextReader(fs);
 
                     ArrayList alFilterWords = new ArrayList();
@@ -434,7 +427,7 @@ namespace PocketLadio
 
             try
             {
-                fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
+                fs = new FileStream(SettingPath, FileMode.Create, FileAccess.Write);
                 writer = new XmlTextWriter(fs, Encoding.GetEncoding("utf-8"));
 
                 writer.Formatting = Formatting.Indented;
@@ -463,9 +456,9 @@ namespace PocketLadio
                 foreach (Station station in StationList.GetStationList())
                 {
                     writer.WriteStartElement("Station");
-                    writer.WriteAttributeString("id", station.GetHeadlineId());
-                    writer.WriteAttributeString("name", station.GetName());
-                    writer.WriteAttributeString("kind", station.GetStationKind().ToString());
+                    writer.WriteAttributeString("id", station.HeadlineId);
+                    writer.WriteAttributeString("name", station.Name);
+                    writer.WriteAttributeString("kind", station.Kind.ToString());
                     writer.WriteEndElement(); // End of Station
                 }
                 writer.WriteEndElement(); // End of StationList

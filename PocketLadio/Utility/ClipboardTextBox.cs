@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using PocketLadio.ExtCF.Windows.Forms;
 
-namespace PocketLadio.Util
+namespace PocketLadio.Utility
 {
     /// <summary>
     /// テキストボックスへのクリップボードの処理ユーティリティ

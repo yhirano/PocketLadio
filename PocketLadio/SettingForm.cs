@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio
 {

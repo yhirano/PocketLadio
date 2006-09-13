@@ -4,17 +4,17 @@ using System.Net.Sockets;
 using System.Text;
 using System.IO;
 
-namespace PocketLadio.Stations.Util
+namespace PocketLadio.Stations.Utility
 {
     /// <summary>
     /// Headline用の共通ユーティリティ
     /// </summary>
-    public sealed class HeadlineUtil
+    public sealed class HeadlineUtility
     {
         /// <summary>
         /// シングルトンのためプライベート
         /// </summary>
-        private HeadlineUtil()
+        private HeadlineUtility()
         {
         }
 
@@ -24,7 +24,7 @@ namespace PocketLadio.Stations.Util
         /// </summary>
         /// <param name="url">URL</param>
         /// <returns>HTTPレスポンスのストリーム</returns>
-        public static Stream GetHttpStream(string url) {
+        public static Stream GetHttpStream(Uri url) {
             Stream st = null;
             try
             {

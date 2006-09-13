@@ -3,21 +3,21 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Collections;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 using System.Xml;
 
 
-namespace PocketLadio.Util
+namespace PocketLadio.Utility
 {
     /// <summary>
     /// PocketLadioのユーティリティ
     /// </summary>
-    public sealed class PocketLadioUtil
+    public sealed class PocketLadioUtility
     {
         /// <summary>
         /// シングルトンのためプライベート
         /// </summary>
-        private PocketLadioUtil()
+        private PocketLadioUtility()
         {
         }
 
@@ -26,15 +26,19 @@ namespace PocketLadio.Util
         /// 再生用プログラムが見つからない場合はFileNotFoundExceptionを投げる。
         /// </summary>
         /// <param name="url">ストリーミングのURL</param>
-        public static void PlayStreaming(string streamingUrl)
+        public static void PlayStreaming(Uri streamingUrl)
         {
             // 再生用メディアプレイヤーが見つからない場合には例外を投げる
             if (File.Exists(UserSetting.MediaPlayerPath) == false)
             {
                 throw new FileNotFoundException("Not found media player.");
             }
+            if (streamingUrl == null)
+            {
+                return;
+            }
 
-            Process.CreateProcess(UserSetting.MediaPlayerPath, streamingUrl);
+            Process.CreateProcess(UserSetting.MediaPlayerPath, streamingUrl.ToString());
         }
 
         /// <summary>
@@ -42,15 +46,19 @@ namespace PocketLadio.Util
         /// ブラウザが見つからない場合はFileNotFoundExceptionを投げる。
         /// </summary>
         /// <param name="url">WebサイトのURL</param>
-        public static void AccessWebsite(string websiteUrl)
+        public static void AccessWebsite(Uri websiteUrl)
         {
             // ブラウザが見つからない場合には例外を投げる
             if (File.Exists(UserSetting.BrowserPath) == false)
             {
                 throw new FileNotFoundException("Not found web browser.");
             }
+            if (websiteUrl == null)
+            {
+                return;
+            }
 
-            Process.CreateProcess(UserSetting.BrowserPath, websiteUrl);
+            Process.CreateProcess(UserSetting.BrowserPath, websiteUrl.ToString());
         }
 
         /// <summary>

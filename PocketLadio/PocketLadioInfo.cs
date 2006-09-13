@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Collections;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 using System.Xml;
 
 namespace PocketLadio

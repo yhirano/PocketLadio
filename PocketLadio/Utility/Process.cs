@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace PocketLadio.Util
+namespace PocketLadio.Utility
 {
     /// <summary>
     /// プロセスに関するユーティリティ

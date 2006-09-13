@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using PocketLadio.Stations.Interface;
+using PocketLadio.Stations;
 
 namespace PocketLadio
 {
@@ -12,7 +12,7 @@ namespace PocketLadio
         /// <summary>
         /// フィルターの有効無効
         /// </summary>
-        private static bool filterEnable = false;
+        private static bool filterEnable;
 
         /// <summary>
         /// フィルターの有効無効
@@ -29,18 +29,34 @@ namespace PocketLadio
         private static Station[] stations = new Station[0];
 
         /// <summary>
-        /// 放送局のリスト
-        /// </summary>
-        public static Station[] Stations
-        {
-            get { return StationList.stations; }
-            set { StationList.stations = value; }
-        }
-
-        /// <summary>
         /// 現在の放送局
         /// </summary>
         private static Station currentStation;
+
+        /// <summary>
+        /// 放送局の持つヘッドラインのIDを返す
+        /// </summary>
+        public static string HeadlineIdOfCurrentStation
+        {
+            get { return (currentStation != null ? currentStation.HeadlineId : ""); }
+        }
+
+        /// <summary>
+        /// 放送局の名前を返す
+        /// </summary>
+        public static string HeadlineNameOfCurrentStation
+        {
+            get { return (currentStation != null ? currentStation.Name : ""); }
+        }
+
+        /// <summary>
+        /// 取得しているヘッドラインのネットから最終取得時刻を返す。
+        /// 値を返せない場合はDateTime.MinValueを返す。
+        /// </summary>
+        public static DateTime LastCheckTimeOfCurrentStation
+        {
+            get { return (currentStation != null ? currentStation.Headline.GetLastCheckTime() : DateTime.MinValue); }
+        }
 
         /// <summary>
         /// シングルトンのためprivate
@@ -55,7 +71,7 @@ namespace PocketLadio
         /// <param name="number">何番目の放送局か（0から始まる）</param>
         public static void ChangeCurrentStationAt(int number)
         {
-            currentStation = Stations[number];
+            currentStation = stations[number];
         }
 
         /// <summary>
@@ -64,7 +80,7 @@ namespace PocketLadio
         /// <returns>放送局のリスト</returns>
         public static Station[] GetStationList()
         {
-            return Stations;
+            return stations;
         }
 
         /// <summary>
@@ -74,28 +90,10 @@ namespace PocketLadio
         /// <returns></returns>
         public static void SetStationList(Station[] stations)
         {
-            Stations = stations;
+            StationList.stations = stations;
 
             // 現在の放送局をクリアする
             currentStation = null;
-        }
-
-        /// <summary>
-        /// 放送局の持つヘッドラインのIDを返す
-        /// </summary>
-        /// <returns>放送局の持つヘッドラインのID</returns>
-        public static string GetHeadlineIdOfCurrentStation()
-        {
-            return (currentStation != null ? currentStation.GetHeadlineId() : "");
-        }
-
-        /// <summary>
-        /// 放送局の名前を返す
-        /// </summary>
-        /// <returns>放送局の名前</returns>
-        public static string GetHeadlineNameOfCurrentStation()
-        {
-            return (currentStation != null ? currentStation.GetName() : "");
         }
 
         /// <summary>
@@ -104,7 +102,7 @@ namespace PocketLadio
         /// <returns>番組のリスト</returns>
         public static IChannel[] GetChannelsOfCurrentStation()
         {
-            return currentStation.GetHeadline().GetChannels();
+            return currentStation.Headline.GetChannels();
         }
 
         /// <summary>
@@ -125,7 +123,7 @@ namespace PocketLadio
             {
                 ArrayList alChannels = new ArrayList();
 
-                foreach (IChannel channel in currentStation.GetHeadline().GetChannels())
+                foreach (IChannel channel in currentStation.Headline.GetChannels())
                 {
                     foreach (string filter in UserSetting.GetFilterWords())
                     {
@@ -142,18 +140,8 @@ namespace PocketLadio
             // フィルタが存在しない場合
             else
             {
-                return currentStation.GetHeadline().GetChannels();
+                return currentStation.Headline.GetChannels();
             }
-        }
-
-        /// <summary>
-        /// 取得しているヘッドラインのネットから最終取得時刻を返す。
-        /// 値を返せない場合はDateTime.MinValueを返す。
-        /// </summary>
-        /// <returns>ヘッドラインのネットから最終取得時刻</returns>
-        public static DateTime GetLastCheckTimeOfCurrentStation()
-        {
-            return (currentStation != null ? currentStation.GetHeadline().GetLastCheckTime() : DateTime.MinValue);
         }
 
         /// <summary>
@@ -163,7 +151,7 @@ namespace PocketLadio
         {
             if (currentStation != null)
             {
-                currentStation.GetHeadline().WebGetHeadline();
+                currentStation.Headline.WebGetHeadline();
             }
         }
 
@@ -174,7 +162,7 @@ namespace PocketLadio
         {
             if (station != null)
             {
-                station.GetHeadline().ShowSettingForm();
+                station.Headline.ShowSettingForm();
             }
         }
 
@@ -186,7 +174,7 @@ namespace PocketLadio
         {
             if (currentStation != null)
             {
-                currentStation.GetHeadline().ShowPropertyForm(channel);
+                currentStation.Headline.ShowPropertyForm(channel);
             }
         }
     }

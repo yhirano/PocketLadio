@@ -4,7 +4,7 @@ using System.Collections;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Forms;
-using PocketLadio.Util;
+using PocketLadio.Utility;
 
 namespace PocketLadio.Stations.Netladio
 {
@@ -39,12 +39,12 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 設定
         /// </summary>
-        private UserSetting Setting;
+        private UserSetting setting;
 
 
         public SettingForm(UserSetting setting)
         {
-            this.Setting = setting;
+            this.setting = setting;
 
             //
             // Windows フォーム デザイナ サポートに必要です。
@@ -241,39 +241,53 @@ namespace PocketLadio.Stations.Netladio
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
             // 設定の読み込み
-            HeadlineCsvUrlTextBox.Text = Setting.HeadlineCsvUrl;
-            HeadlineXmlUrlTextBox.Text = Setting.HeadlineXmlUrl;
-            if (Setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
+            HeadlineCsvUrlTextBox.Text = ((setting.HeadlineCsvUrl != null) ? setting.HeadlineCsvUrl.ToString() : "");
+            HeadlineXmlUrlTextBox.Text = ((setting.HeadlineXmlUrl != null) ? setting.HeadlineXmlUrl.ToString() : "");
+            if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
             {
                 HeadlineGetTypeCvsRadioButton.Checked = true;
                 HeadlineGetTypeXmlRadioButton.Checked = false;
             }
-            else if (Setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
+            else if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
             {
                 HeadlineGetTypeCvsRadioButton.Checked = false;
                 HeadlineGetTypeXmlRadioButton.Checked = true;
             }
-            HeadlineViewTypeTextBox.Text = Setting.HeadlineViewType;
+            HeadlineViewTypeTextBox.Text = setting.HeadlineViewType;
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 設定の書き込み
-            Setting.HeadlineCsvUrl = HeadlineCsvUrlTextBox.Text.Trim();
-            Setting.HeadlineXmlUrl = HeadlineXmlUrlTextBox.Text.Trim();
+            try
+            {
+                setting.HeadlineCsvUrl = new Uri(HeadlineCsvUrlTextBox.Text.Trim());
+            }
+            catch (UriFormatException)
+            {
+                ;
+            }
+            try
+            {
+                setting.HeadlineXmlUrl = new Uri(HeadlineXmlUrlTextBox.Text.Trim());
+            }
+            catch (UriFormatException)
+            {
+                ;
+            }
             if (HeadlineGetTypeCvsRadioButton.Checked)
             {
-                Setting.HeadlineGetWay = UserSetting.HeadlineGetType.Cvs;
+                setting.HeadlineGetWay = UserSetting.HeadlineGetType.Cvs;
             }
             else if (HeadlineGetTypeXmlRadioButton.Checked)
             {
-                Setting.HeadlineGetWay = UserSetting.HeadlineGetType.Xml;
+                setting.HeadlineGetWay = UserSetting.HeadlineGetType.Xml;
             }
-            Setting.HeadlineViewType = HeadlineViewTypeTextBox.Text.Trim();
+            setting.HeadlineViewType = HeadlineViewTypeTextBox.Text.Trim();
 
             try
             {
-                Setting.SaveSetting();
+                setting.SaveSetting();
             }
             catch (IOException)
             {
