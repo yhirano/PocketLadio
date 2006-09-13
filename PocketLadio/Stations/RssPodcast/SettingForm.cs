@@ -36,9 +36,9 @@ namespace PocketLadio.Stations.RssPodcast
         private UserSetting Setting;
 
 
-        public SettingForm(UserSetting Setting)
+        public SettingForm(UserSetting setting)
         {
-            this.Setting = Setting;
+            this.Setting = setting;
 
             //
             // Windows フォーム デザイナ サポートに必要です。

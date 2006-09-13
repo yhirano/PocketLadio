@@ -4,7 +4,7 @@ using PocketLadio.Stations.Interface;
 
 namespace PocketLadio.Stations.RssPodcast
 {
-    public class Chanel : PocketLadio.Stations.Interface.IChanel
+    public class Channel : PocketLadio.Stations.Interface.IChannel
     {
         /// <summary>
         /// 番組のタイトル
@@ -133,11 +133,6 @@ namespace PocketLadio.Stations.RssPodcast
         }
 
         /// <summary>
-        /// エンクロージャー要素リスト
-        /// </summary>
-        private ArrayList AlEnclosure = new ArrayList();
-
-        /// <summary>
         /// 親ヘッドライン
         /// </summary>
         private readonly Headline ParentHeadline;
@@ -146,7 +141,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// チャンネルのコンストラクタ
         /// </summary>
         /// <param name="ParentHeadline">親ヘッドライン</param>
-        public Chanel(Headline parentHeadline)
+        public Channel(Headline parentHeadline)
         {
             this.ParentHeadline = parentHeadline;
         }
@@ -164,7 +159,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// 番組のサイトを返す
         /// </summary>
         /// <returns>番組のサイト</returns>
-        public virtual string GetWebSiteUrl()
+        public virtual string GetWebsiteUrl()
         {
             return Link;
         }
@@ -173,10 +168,10 @@ namespace PocketLadio.Stations.RssPodcast
         /// 番組の表示方法に従って番組の情報を返す
         /// </summary>
         /// <returns>番組の表示方法に従った番組の情報</returns>
-        public virtual string GetChanelView()
+        public virtual string GetChannelView()
         {
             string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType;
-            if (!View.Equals(""))
+            if (View.Length != 0)
             {
                 View = View.Replace("[[TITLE]]", Title);
                 View = View.Replace("[[DESCRIPTION]]", Description);
@@ -192,7 +187,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// 返されたワードに従い、フィルタリングを行う。
         /// </summary>
         /// <returns>フィルタリング対象のワード</returns>
-        public virtual string GetFilterdWord()
+        public virtual string GetFilteredWord()
         {
             return Title + " " + Description + " " + Author;
         }
@@ -204,11 +199,11 @@ namespace PocketLadio.Stations.RssPodcast
         /// <param name="url">エンクロージャーのURL</param>
         /// <param name="length">エンクロージャーのLENGTH</param>
         /// <param name="type">エンクロージャーのTYPE</param>
-        public void SetEnclosure(string url, string length, string type)
+        public void SetEnclosure(string podcastUrl, string length, string type)
         {
             // Urlがまだセットされていない場合はとりあえずUrl、Length、Typeを設定して終了
-            if (Url == "") {
-                this.Url = url;
+            if (Url.Length == 0) {
+                this.Url = podcastUrl;
                 this.Length = length;
                 this.Type = type;
 
@@ -218,7 +213,7 @@ namespace PocketLadio.Stations.RssPodcast
             // 現在セットされているエンクロージャー要素より、新たに指定されたエンクロージャー要素の方が優先度の高い場合は、
             // 新しい方のエンクロージャー要素をセットする。
             if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type) < RssPodcastMimePriority.GetRssPodcastMimePriority(type)) {
-                this.Url = url;
+                this.Url = podcastUrl;
                 this.Length = length;
                 this.Type = type;
             }

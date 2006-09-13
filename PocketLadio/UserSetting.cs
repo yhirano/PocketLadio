@@ -10,7 +10,7 @@ namespace PocketLadio
     /// <summary>
     /// PocketLadioの設定を保持するクラス
     /// </summary>
-    public class UserSetting
+    public sealed class UserSetting
     {
         /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
@@ -179,15 +179,6 @@ namespace PocketLadio
         private static string[] filterWords = new string[0];
 
         /// <summary>
-        /// 検索フィルター
-        /// </summary>
-        public static string[] FilterWords
-        {
-            get { return UserSetting.filterWords; }
-            set { UserSetting.filterWords = value; }
-        }
-
-        /// <summary>
         /// アプリケーションの設定ファイル
         /// </summary>
         private const string settingPath = "Setting.xml";
@@ -218,141 +209,159 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// 検索フィルターを返す
+        /// </summary>
+        /// <returns>検索フィルター</returns>
+        public static string[] GetFilterWords()
+        {
+            return UserSetting.filterWords;
+        }
+
+        /// <summary>
+        /// 検索フィルターをセットする
+        /// </summary>
+        /// <param name="filterWord">検索フィルター</param>
+        public static void SetFilterWords(string[] filterWord)
+        {
+            UserSetting.filterWords = filterWord;
+        }
+
+        /// <summary>
         /// 設定をファイルから読み込む
         /// </summary>
         public static void LoadSetting()
         {
             if (File.Exists(GetSettingPath()))
             {
-                FileStream Fs = null;
-                XmlTextReader Reader = null;
+                FileStream fs = null;
+                XmlTextReader reader = null;
 
                 try
                 {
-                    Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
-                    Reader = new XmlTextReader(Fs);
+                    fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
+                    reader = new XmlTextReader(fs);
 
-                    ArrayList AlFilterWords = new ArrayList();
-                    ArrayList AlStation = new ArrayList();
+                    ArrayList alFilterWords = new ArrayList();
+                    ArrayList alStation = new ArrayList();
 
-                    while (Reader.Read())
+                    while (reader.Read())
                     {
-                        if (Reader.NodeType == XmlNodeType.Element)
+                        if (reader.NodeType == XmlNodeType.Element)
                         {
-                            if (Reader.LocalName.Equals("Station"))
+                            if (reader.LocalName.Equals("Station"))
                             {
-                                string ID = "";
-                                string Name = "";
-                                Station.StationKindEnum StationKind = Station.StationKindEnum.Netladio;
+                                string id = "";
+                                string name = "";
+                                Station.StationKind stationKind = Station.StationKind.Netladio;
 
-                                if (Reader.MoveToFirstAttribute())
+                                if (reader.MoveToFirstAttribute())
                                 {
                                     do
                                     {
-                                        if (Reader.Name.Equals("id"))
+                                        if (reader.Name.Equals("id"))
                                         {
-                                            ID = Reader.Value;
+                                            id = reader.Value;
                                         }
-                                        else if (Reader.Name.Equals("name"))
+                                        else if (reader.Name.Equals("name"))
                                         {
-                                            Name = Reader.Value;
+                                            name = reader.Value;
                                         }
-                                        else if (Reader.Name.Equals("kind"))
+                                        else if (reader.Name.Equals("kind"))
                                         {
-                                            if (Reader.Value.Equals(Station.StationKindEnum.Netladio.ToString()))
+                                            if (reader.Value.Equals(Station.StationKind.Netladio.ToString()))
                                             {
-                                                StationKind = Station.StationKindEnum.Netladio;
+                                                stationKind = Station.StationKind.Netladio;
                                             }
-                                            else if (Reader.Value.Equals(Station.StationKindEnum.RssPodcast.ToString()))
+                                            else if (reader.Value.Equals(Station.StationKind.RssPodcast.ToString()))
                                             {
-                                                StationKind = Station.StationKindEnum.RssPodcast;
+                                                stationKind = Station.StationKind.RssPodcast;
                                             }
                                         }
-                                    } while (Reader.MoveToNextAttribute());
+                                    } while (reader.MoveToNextAttribute());
                                 }
 
-                                AlStation.Add(new Station(ID, Name, StationKind));
+                                alStation.Add(new Station(id, name, stationKind));
                             } // End of Station
 
-                            if (Reader.LocalName.Equals("MediaPlayerPath"))
+                            if (reader.LocalName.Equals("MediaPlayerPath"))
                             {
-                                if (Reader.MoveToFirstAttribute())
+                                if (reader.MoveToFirstAttribute())
                                 {
                                     do
                                     {
-                                        if (Reader.Name.Equals("path"))
+                                        if (reader.Name.Equals("path"))
                                         {
-                                            MediaPlayerPath = Reader.Value;
+                                            MediaPlayerPath = reader.Value;
                                         }
-                                    } while (Reader.MoveToNextAttribute());
+                                    } while (reader.MoveToNextAttribute());
                                 }
                             } // End of MediaPlayerPath
 
-                            if (Reader.LocalName.Equals("BrowserPath"))
+                            if (reader.LocalName.Equals("BrowserPath"))
                             {
-                                if (Reader.MoveToFirstAttribute())
+                                if (reader.MoveToFirstAttribute())
                                 {
                                     do
                                     {
-                                        if (Reader.Name.Equals("path"))
+                                        if (reader.Name.Equals("path"))
                                         {
-                                            BrowserPath = Reader.Value;
+                                            BrowserPath = reader.Value;
                                         }
-                                    } while (Reader.MoveToNextAttribute());
+                                    } while (reader.MoveToNextAttribute());
                                 }
                             } // End of BrowserPath
 
-                            if (Reader.LocalName.Equals("Proxy"))
+                            if (reader.LocalName.Equals("Proxy"))
                             {
-                                if (Reader.MoveToFirstAttribute())
+                                if (reader.MoveToFirstAttribute())
                                 {
                                     do
                                     {
-                                        if (Reader.Name.Equals("use"))
+                                        if (reader.Name.Equals("use"))
                                         {
-                                            if (Reader.Value.Equals(bool.TrueString))
+                                            if (reader.Value.Equals(bool.TrueString))
                                             {
                                                 ProxyUse = true;
                                             }
-                                            else if (Reader.Value.Equals(bool.FalseString))
+                                            else if (reader.Value.Equals(bool.FalseString))
                                             {
                                                 ProxyUse = false;
                                             }
                                         }
-                                        else if (Reader.Name.Equals("server"))
+                                        else if (reader.Name.Equals("server"))
                                         {
-                                            ProxyServer = Reader.Value;
+                                            ProxyServer = reader.Value;
                                         }
-                                        else if (Reader.Name.Equals("port"))
+                                        else if (reader.Name.Equals("port"))
                                         {
-                                            ProxyPort = Reader.Value;
+                                            ProxyPort = reader.Value;
                                         }
-                                    } while (Reader.MoveToNextAttribute());
+                                    } while (reader.MoveToNextAttribute());
                                 }
                             } // End of Proxy
 
-                            if (Reader.LocalName.Equals("HeadlineTimer"))
+                            if (reader.LocalName.Equals("HeadlineTimer"))
                             {
-                                if (Reader.MoveToFirstAttribute())
+                                if (reader.MoveToFirstAttribute())
                                 {
                                     do
                                     {
-                                        if (Reader.Name.Equals("check"))
+                                        if (reader.Name.Equals("check"))
                                         {
-                                            if (Reader.Value.Equals(bool.TrueString))
+                                            if (reader.Value.Equals(bool.TrueString))
                                             {
                                                 HeadlineTimerCheck = true;
                                             }
-                                            else if (Reader.Value.Equals(bool.FalseString))
+                                            else if (reader.Value.Equals(bool.FalseString))
                                             {
                                                 HeadlineTimerCheck = false;
                                             }
                                         }
-                                        else if (Reader.Name.Equals("millsecond"))
+                                        else if (reader.Name.Equals("millsecond"))
                                         {
                                             try
                                             {
-                                                HeadlineTimerMillSecond = Convert.ToInt32(Reader.Value);
+                                                HeadlineTimerMillSecond = Convert.ToInt32(reader.Value);
                                             }
                                             catch (ArgumentException)
                                             {
@@ -367,34 +376,34 @@ namespace PocketLadio
                                                 ;
                                             }
                                         }
-                                    } while (Reader.MoveToNextAttribute());
+                                    } while (reader.MoveToNextAttribute());
                                 }
                             } // End of HeadlineTimer
 
-                            if (Reader.LocalName.Equals("Filter"))
+                            if (reader.LocalName.Equals("Filter"))
                             {
-                                if (Reader.MoveToFirstAttribute())
+                                if (reader.MoveToFirstAttribute())
                                 {
                                     do
                                     {
-                                        if (Reader.Name.Equals("word"))
+                                        if (reader.Name.Equals("word"))
                                         {
-                                            AlFilterWords.Add(Reader.Value);
+                                            alFilterWords.Add(reader.Value);
                                         }
-                                    } while (Reader.MoveToNextAttribute());
+                                    } while (reader.MoveToNextAttribute());
                                 }
                             } // End of Filter
 
                         }
-                        else if (Reader.NodeType == XmlNodeType.EndElement)
+                        else if (reader.NodeType == XmlNodeType.EndElement)
                         {
-                            if (Reader.LocalName.Equals("StationList"))
+                            if (reader.LocalName.Equals("StationList"))
                             {
-                                StationList.SetStationList((Station[])AlStation.ToArray(typeof(Station)));
+                                StationList.SetStationList((Station[])alStation.ToArray(typeof(Station)));
                             }
-                            else if (Reader.LocalName.Equals("FilterWords"))
+                            else if (reader.LocalName.Equals("FilterWords"))
                             {
-                                FilterWords = (string[])AlFilterWords.ToArray(typeof(string));
+                                SetFilterWords((string[])alFilterWords.ToArray(typeof(string)));
                             }
                         }
                     }
@@ -409,8 +418,8 @@ namespace PocketLadio
                 }
                 finally
                 {
-                    Reader.Close();
-                    Fs.Close();
+                    reader.Close();
+                    fs.Close();
                 }
             }
         }
@@ -420,80 +429,80 @@ namespace PocketLadio
         /// </summary>
         public static void SaveSetting()
         {
-            FileStream Fs = null;
-            XmlTextWriter Writer = null;
+            FileStream fs = null;
+            XmlTextWriter writer = null;
 
             try
             {
-                Fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
-                Writer = new XmlTextWriter(Fs, Encoding.GetEncoding("utf-8"));
+                fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
+                writer = new XmlTextWriter(fs, Encoding.GetEncoding("utf-8"));
 
-                Writer.Formatting = Formatting.Indented;
-                Writer.WriteStartDocument(true);
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartDocument(true);
 
-                Writer.WriteStartElement("Setting");
+                writer.WriteStartElement("Setting");
 
-                Writer.WriteStartElement("Header");
+                writer.WriteStartElement("Header");
 
-                Writer.WriteStartElement("Name");
-                Writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
-                Writer.WriteEndElement(); // End of Name.
-                Writer.WriteStartElement("Version");
-                Writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
-                Writer.WriteEndElement(); // End of Version.
+                writer.WriteStartElement("Name");
+                writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
+                writer.WriteEndElement(); // End of Name.
+                writer.WriteStartElement("Version");
+                writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
+                writer.WriteEndElement(); // End of Version.
 
-                Writer.WriteStartElement("Date");
-                Writer.WriteAttributeString("date", DateTime.Now.ToString());
-                Writer.WriteEndElement(); // End of Date.
+                writer.WriteStartElement("Date");
+                writer.WriteAttributeString("date", DateTime.Now.ToString());
+                writer.WriteEndElement(); // End of Date.
 
-                Writer.WriteEndElement(); // End of Header.
+                writer.WriteEndElement(); // End of Header.
 
-                Writer.WriteStartElement("Content");
+                writer.WriteStartElement("Content");
 
-                Writer.WriteStartElement("StationList");
-                foreach (Station Station in StationList.GetStationList())
+                writer.WriteStartElement("StationList");
+                foreach (Station station in StationList.GetStationList())
                 {
-                    Writer.WriteStartElement("Station");
-                    Writer.WriteAttributeString("id", Station.GetHeadlineID());
-                    Writer.WriteAttributeString("name", Station.GetName());
-                    Writer.WriteAttributeString("kind", Station.GetStationKind().ToString());
-                    Writer.WriteEndElement(); // End of Station
+                    writer.WriteStartElement("Station");
+                    writer.WriteAttributeString("id", station.GetHeadlineId());
+                    writer.WriteAttributeString("name", station.GetName());
+                    writer.WriteAttributeString("kind", station.GetStationKind().ToString());
+                    writer.WriteEndElement(); // End of Station
                 }
-                Writer.WriteEndElement(); // End of StationList
+                writer.WriteEndElement(); // End of StationList
 
-                Writer.WriteStartElement("MediaPlayerPath");
-                Writer.WriteAttributeString("path", MediaPlayerPath);
-                Writer.WriteEndElement(); // End of MediaPlayerPath
+                writer.WriteStartElement("MediaPlayerPath");
+                writer.WriteAttributeString("path", MediaPlayerPath);
+                writer.WriteEndElement(); // End of MediaPlayerPath
 
-                Writer.WriteStartElement("BrowserPath");
-                Writer.WriteAttributeString("path", BrowserPath);
-                Writer.WriteEndElement(); // End of BrowserPath
+                writer.WriteStartElement("BrowserPath");
+                writer.WriteAttributeString("path", BrowserPath);
+                writer.WriteEndElement(); // End of BrowserPath
 
-                Writer.WriteStartElement("Proxy");
-                Writer.WriteAttributeString("use", ProxyUse.ToString());
-                Writer.WriteAttributeString("server", ProxyServer);
-                Writer.WriteAttributeString("port", ProxyPort);
-                Writer.WriteEndElement(); // End of Porxy
+                writer.WriteStartElement("Proxy");
+                writer.WriteAttributeString("use", ProxyUse.ToString());
+                writer.WriteAttributeString("server", ProxyServer);
+                writer.WriteAttributeString("port", ProxyPort);
+                writer.WriteEndElement(); // End of Porxy
 
-                Writer.WriteStartElement("HeadlineTimer");
-                Writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
-                Writer.WriteAttributeString("millsecond", HeadlineTimerMillSecond.ToString());
-                Writer.WriteEndElement(); // End of HeadlineTimer
+                writer.WriteStartElement("HeadlineTimer");
+                writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
+                writer.WriteAttributeString("millsecond", HeadlineTimerMillSecond.ToString());
+                writer.WriteEndElement(); // End of HeadlineTimer
 
-                Writer.WriteStartElement("FilterWords");
-                foreach (string FilterWord in FilterWords)
+                writer.WriteStartElement("FilterWords");
+                foreach (string filterWord in GetFilterWords())
                 {
-                    Writer.WriteStartElement("Filter");
-                    Writer.WriteAttributeString("word", FilterWord);
-                    Writer.WriteEndElement(); // End of Filter
+                    writer.WriteStartElement("Filter");
+                    writer.WriteAttributeString("word", filterWord);
+                    writer.WriteEndElement(); // End of Filter
                 }
-                Writer.WriteEndElement(); // End of FilterWords
+                writer.WriteEndElement(); // End of FilterWords
 
-                Writer.WriteEndElement(); // End of Content.
+                writer.WriteEndElement(); // End of Content.
 
-                Writer.WriteEndElement(); // End of Setting.
+                writer.WriteEndElement(); // End of Setting.
 
-                Writer.WriteEndDocument();
+                writer.WriteEndDocument();
             }
             catch (IOException)
             {
@@ -501,8 +510,8 @@ namespace PocketLadio
             }
             finally
             {
-                Writer.Close();
-                Fs.Close();
+                writer.Close();
+                fs.Close();
             }
         }
     }

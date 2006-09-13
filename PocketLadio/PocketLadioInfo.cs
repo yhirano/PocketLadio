@@ -11,7 +11,7 @@ namespace PocketLadio
     /// <summary>
     /// PocketLadioの固有情報を記述しているクラス
     /// </summary>
-    public class PocketLadioInfo
+    public sealed class PocketLadioInfo
     {
         #region アプリケーション固有の情報
 

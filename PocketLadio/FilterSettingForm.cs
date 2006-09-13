@@ -226,20 +226,20 @@ namespace PocketLadio
             FixWindowSize();
 
             // フィルターリストにフィルタの内容を追加する
-            foreach (string Word in UserSetting.FilterWords)
+            foreach (string word in UserSetting.GetFilterWords())
             {
-                FilterListBox.Items.Add(Word);
+                FilterListBox.Items.Add(word);
             }
         }
 
         private void FilterSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // フィルターを追加し忘れていると思われる場合
-            if (AddWordTextBox.Text.Trim() != "")
+            if (AddWordTextBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
-                DialogResult Result = MessageBox.Show(AddWordTextBox.Text.Trim() + "を追加しますか？", AddWordTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (Result == DialogResult.Yes)
+                DialogResult result = MessageBox.Show(AddWordTextBox.Text.Trim() + "を追加しますか？", AddWordTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                if (result == DialogResult.Yes)
                 {
                     FilterListBox.Items.Add(AddWordTextBox.Text.Trim());
                     AddWordTextBox.Text = "";
@@ -247,13 +247,13 @@ namespace PocketLadio
             }
 
             // 設定をファイルに書き込み
-            ArrayList AlfilterWord = new ArrayList();
-            IEnumerator FilterEnum = FilterListBox.Items.GetEnumerator();
-            while (FilterEnum.MoveNext())
+            ArrayList alFilterWord = new ArrayList();
+            IEnumerator filterEnumerator = FilterListBox.Items.GetEnumerator();
+            while (filterEnumerator.MoveNext())
             {
-                AlfilterWord.Add(((string)FilterEnum.Current).Trim());
+                alFilterWord.Add(((string)filterEnumerator.Current).Trim());
             }
-            UserSetting.FilterWords = (string[])AlfilterWord.ToArray(typeof(string));
+            UserSetting.SetFilterWords((string[])alFilterWord.ToArray(typeof(string)));
             try
             {
                 UserSetting.SaveSetting();
@@ -266,7 +266,7 @@ namespace PocketLadio
 
         private void AddWordButton_Click(object sender, System.EventArgs e)
         {
-            if (!AddWordTextBox.Text.Trim().Equals(""))
+            if (AddWordTextBox.Text.Trim().Length != 0)
             {
                 FilterListBox.Items.Add(AddWordTextBox.Text.Trim());
                 AddWordTextBox.Text = "";

@@ -15,36 +15,36 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// ヘッドラインの種類
         /// </summary>
-        private const string KindName = "Podcast";
+        private const string KIND_NAME = "Podcast";
 
         /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
         /// </summary>
-        private readonly string ID;
+        private readonly string id;
 
         /// <summary>
         /// ヘッドラインの設定
         /// </summary>
-        private UserSetting Setting;
+        private UserSetting setting;
 
         /// <summary>
         /// チャンネルのリスト
         /// </summary>
-        private Chanel[] Chanels = new Chanel[0];
+        private Channel[] channels = new Channel[0];
 
         /// <summary>
         /// ヘッドラインを取得した時間
         /// </summary>
-        private DateTime LastCheckTime = DateTime.MinValue;
+        private DateTime lastCheckTime = DateTime.MinValue;
 
         public Headline(string id)
         {
-            this.ID = id;
-            Setting = new UserSetting(this);
+            this.id = id;
+            setting = new UserSetting(this);
 
             try
             {
-                Setting.LoadSetting();
+                setting.LoadSetting();
             }
             catch (XmlException)
             {
@@ -60,9 +60,9 @@ namespace PocketLadio.Stations.RssPodcast
         /// ヘッドラインのIDを返す
         /// </summary>
         /// <returns>ヘッドラインのID</returns>
-        public virtual string GetID()
+        public virtual string GetId()
         {
-            return ID;
+            return id;
         }
 
         /// <summary>
@@ -71,16 +71,16 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>ヘッドラインの種類の名前</returns>
         public virtual string GetKindName()
         {
-            return KindName;
+            return KIND_NAME;
         }
 
         /// <summary>
         /// 取得している番組のリストを返す
         /// </summary>
         /// <returns>番組のリスト</returns>
-        public virtual IChanel[] GetChanels()
+        public virtual IChannel[] GetChannels()
         {
-            return Chanels;
+            return channels;
         }
 
         /// <summary>
@@ -89,94 +89,94 @@ namespace PocketLadio.Stations.RssPodcast
         public virtual void WebGetHeadline()
         {
             // 時刻をセットする
-            LastCheckTime = DateTime.Now;
+            lastCheckTime = DateTime.Now;
 
-            Stream St = null;
-            XmlTextReader Reader = null;
+            Stream st = null;
+            XmlTextReader reader = null;
 
             try
             {
                 // 番組のリスト
-                ArrayList AlChanels = new ArrayList();
+                ArrayList alChannels = new ArrayList();
 
                 // チャンネル
-                Chanel Chanel = new Chanel(this);
+                Channel channel = new Channel(this);
                 // itemタグの中にいるか
-                bool InItemFlag = false;
+                bool inItemFlag = false;
 
-                St = HeadlineUtil.GetHttpStream(Setting.RssUrl);
-                Reader = new XmlTextReader(St);
+                st = HeadlineUtil.GetHttpStream(setting.RssUrl);
+                reader = new XmlTextReader(st);
 
-                while (Reader.Read())
+                while (reader.Read())
                 {
-                    if (Reader.NodeType == XmlNodeType.Element)
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (Reader.LocalName.Equals("item"))
+                        if (reader.LocalName.Equals("item"))
                         {
-                            InItemFlag = true;
-                            Chanel = new Chanel(this);
+                            inItemFlag = true;
+                            channel = new Channel(this);
                         } // End of item
 
                         // itemタグの中にいる場合
-                        if (InItemFlag == true)
+                        if (inItemFlag == true)
                         {
-                            if (Reader.LocalName == "title")
+                            if (reader.LocalName == "title")
                             {
-                                Chanel.Title = Reader.ReadString();
+                                channel.Title = reader.ReadString();
                             } // End of title
-                            else if (Reader.LocalName == "description")
+                            else if (reader.LocalName == "description")
                             {
-                                Chanel.Description = Reader.ReadString();
+                                channel.Description = reader.ReadString();
                             } // End of description
-                            else if (Reader.LocalName == "link")
+                            else if (reader.LocalName == "link")
                             {
-                                Chanel.Link = Reader.ReadString();
+                                channel.Link = reader.ReadString();
                             } // End of link
-                            else if (Reader.LocalName == "pubDate")
+                            else if (reader.LocalName == "pubDate")
                             {
-                                        Chanel.Date = Reader.ReadString();
+                                        channel.Date = reader.ReadString();
                             } // End of pubDate
-                            else if (Reader.LocalName == "category")
+                            else if (reader.LocalName == "category")
                             {
-                                        Chanel.Category = Reader.ReadString();
+                                        channel.Category = reader.ReadString();
                             } // End of category
-                            else if (Reader.LocalName == "author")
+                            else if (reader.LocalName == "author")
                             {
-                                Chanel.Author = Reader.ReadString();
+                                channel.Author = reader.ReadString();
                             } // End of author
-                            else if (Reader.LocalName == "guid")
+                            else if (reader.LocalName == "guid")
                             {
-                                Chanel.Link = Reader.ReadString();
+                                channel.Link = reader.ReadString();
                             } // End of guid
-                            else if (Reader.LocalName == "enclosure")
+                            else if (reader.LocalName == "enclosure")
                             {
                                 string enclosureUrl = "";
                                 string enclosureLength = "";
                                 string enclosureType = "";
 
-                                if (Reader.MoveToFirstAttribute())
+                                if (reader.MoveToFirstAttribute())
                                 {
-                                    enclosureUrl = Reader.GetAttribute("url");
-                                    enclosureLength = Reader.GetAttribute("length");
-                                    enclosureType = Reader.GetAttribute("type");
+                                    enclosureUrl = reader.GetAttribute("url");
+                                    enclosureLength = reader.GetAttribute("length");
+                                    enclosureType = reader.GetAttribute("type");
                                 }
 
                                 // エンクロージャー要素追加
-                                Chanel.SetEnclosure(enclosureUrl, enclosureLength, enclosureType);
+                                channel.SetEnclosure(enclosureUrl, enclosureLength, enclosureType);
                             } // End of enclosure
                         }
                     }
-                    else if (Reader.NodeType == XmlNodeType.EndElement)
+                    else if (reader.NodeType == XmlNodeType.EndElement)
                     {
-                        if (Reader.LocalName == "item")
+                        if (reader.LocalName == "item")
                         {
-                            InItemFlag = false;
-                            AlChanels.Add(Chanel);
+                            inItemFlag = false;
+                            alChannels.Add(channel);
                         }
                     }
                 }
 
-                Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
+                channels = (Channel[])alChannels.ToArray(typeof(Channel));
             }
             catch (WebException)
             {
@@ -208,13 +208,13 @@ namespace PocketLadio.Stations.RssPodcast
             }
             finally
             {
-                if (St != null)
+                if (st != null)
                 {
-                    St.Close();
+                    st.Close();
                 }
-                if (Reader != null)
+                if (reader != null)
                 {
-                    Reader.Close();
+                    reader.Close();
                 }
             }
         }
@@ -226,7 +226,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>ヘッドラインをネットから取得した時刻</returns>
         public virtual DateTime GetLastCheckTime()
         {
-            return LastCheckTime;
+            return lastCheckTime;
         }
 
         /// <summary>
@@ -235,21 +235,21 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>ヘッドラインの設定フォーム</returns>
         public virtual void ShowSettingForm()
         {
-            SettingForm SettingForm = new SettingForm(Setting);
-            SettingForm.ShowDialog();
-            SettingForm.Dispose();
+            SettingForm settingForm = new SettingForm(setting);
+            settingForm.ShowDialog();
+            settingForm.Dispose();
         }
 
         /// <summary>
         /// 番組の詳細フォームを表示する
         /// </summary>
-        /// <param name="Chanel">番組</param>
+        /// <param name="channel">番組</param>
         /// <returns>番組の詳細フォーム</returns>
-        public virtual void ShowPropertyForm(IChanel chanel)
+        public virtual void ShowPropertyForm(IChannel channel)
         {
-            ChanelPropertyForm ChanelPropertyForm = new ChanelPropertyForm((Chanel)chanel);
-            ChanelPropertyForm.ShowDialog();
-            ChanelPropertyForm.Dispose();
+            ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm((Channel)channel);
+            channelPropertyForm.ShowDialog();
+            channelPropertyForm.Dispose();
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>ヘッドラインの設定</returns>
         public UserSetting GetUserSetting()
         {
-            return Setting;
+            return setting;
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public virtual void DeleteUserSettingFile()
         {
-            Setting.DeleteUserSettingFile();
+            setting.DeleteUserSettingFile();
         }
     }
 }

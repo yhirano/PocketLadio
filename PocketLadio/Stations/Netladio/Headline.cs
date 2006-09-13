@@ -18,27 +18,27 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ヘッドラインの種類
         /// </summary>
-        private const string KindName = "ねとらじ";
+        private const string KIND_NAME = "ねとらじ";
 
         /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
         /// </summary>
-        private readonly string ID;
+        private readonly string id;
 
         /// <summary>
         /// ヘッドラインの設定
         /// </summary>
-        private UserSetting Setting;
+        private UserSetting setting;
 
         /// <summary>
         /// 番組のリスト
         /// </summary>
-        private Chanel[] Chanels = new Chanel[0];
+        private Channel[] channels = new Channel[0];
 
         /// <summary>
         /// ヘッドラインを取得した時間
         /// </summary>
-        private DateTime LastCheckTime = DateTime.MinValue;
+        private DateTime lastCheckTime = DateTime.MinValue;
 
         /// <summary>
         /// ヘッドラインのコンストラクタ
@@ -46,12 +46,12 @@ namespace PocketLadio.Stations.Netladio
         /// <param name="ID">ヘッドラインのID</param>
         public Headline(string id)
         {
-            this.ID = id;
-            Setting = new UserSetting(this);
+            this.id = id;
+            setting = new UserSetting(this);
 
             try
             {
-                Setting.LoadSetting();
+                setting.LoadSetting();
             }
             catch (XmlException)
             {
@@ -67,9 +67,9 @@ namespace PocketLadio.Stations.Netladio
         /// ヘッドラインのIDを返す
         /// </summary>
         /// <returns>ヘッドラインのID</returns>
-        public virtual string GetID()
+        public virtual string GetId()
         {
-            return ID;
+            return id;
         }
 
         /// <summary>
@@ -78,16 +78,16 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>ヘッドラインの種類の名前</returns>
         public virtual string GetKindName()
         {
-            return KindName;
+            return KIND_NAME;
         }
 
         /// <summary>
         /// 取得している番組のリストを返す
         /// </summary>
         /// <returns>番組のリスト</returns>
-        public virtual IChanel[] GetChanels()
+        public virtual IChannel[] GetChannels()
         {
-            return Chanels;
+            return channels;
         }
 
         /// <summary>
@@ -96,15 +96,15 @@ namespace PocketLadio.Stations.Netladio
         public virtual void WebGetHeadline()
         {
             // 時刻をセットする
-            LastCheckTime = DateTime.Now;
+            lastCheckTime = DateTime.Now;
 
             try
             {
-                if (Setting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Cvs)
+                if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
                 {
                     WebGetHeadlineCvs();
                 }
-                else if (Setting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Xml)
+                else if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
                 {
                     WebGetHeadlineXml();
                 }
@@ -150,7 +150,7 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>ヘッドラインをネットから取得した時刻</returns>
         public virtual DateTime GetLastCheckTime()
         {
-            return LastCheckTime;
+            return lastCheckTime;
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>ヘッドラインの設定</returns>
         public UserSetting GetUserSetting()
         {
-            return Setting;
+            return setting;
         }
 
         /// <summary>
@@ -167,77 +167,77 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         private void WebGetHeadlineCvs()
         {
-            Stream St = null;
-            StreamReader Sr = null;
+            Stream st = null;
+            StreamReader sr = null;
 
             try
             {
                 // チャンネルのリスト
-                ArrayList AlChanels = new ArrayList();
+                ArrayList alChannels = new ArrayList();
 
-                St = HeadlineUtil.GetHttpStream(Setting.HeadlineCsvUrl);
-                Sr = new StreamReader(St, Encoding.GetEncoding("shift-jis"));
-                string HttpString = Sr.ReadToEnd();
-                string[] ChanelsCvs = HttpString.Split('\n');
+                st = HeadlineUtil.GetHttpStream(setting.HeadlineCsvUrl);
+                sr = new StreamReader(st, Encoding.GetEncoding("shift-jis"));
+                string httpString = sr.ReadToEnd();
+                string[] channelsCvs = httpString.Split('\n');
 
                 // 1行目はヘッダなので無視
-                for (int Count = 1; Count < ChanelsCvs.Length; ++Count)
+                for (int Count = 1; Count < channelsCvs.Length; ++Count)
                 {
-                    if (ChanelsCvs[Count] != "")
+                    if (channelsCvs[Count].Length != 0)
                     {
-                        Chanel Chanel = new Chanel(this);
-                        string[] ChanelCsv = ChanelsCvs[Count].Split(',');
+                        Channel channel = new Channel(this);
+                        string[] channelCsv = channelsCvs[Count].Split(',');
 
                         // Url取得
-                        Chanel.Url = ChanelCsv[0];
+                        channel.Url = channelCsv[0];
 
                         // Gnl取得
-                        Chanel.Gnl = ChanelCsv[1];
+                        channel.Gnl = channelCsv[1];
 
                         // Nam取得
-                        Chanel.Nam = ChanelCsv[2];
+                        channel.Nam = channelCsv[2];
 
                         // Tit取得
-                        Chanel.Tit = ChanelCsv[3];
+                        channel.Tit = channelCsv[3];
 
                         // Mnt取得
-                        Chanel.Mnt = ChanelCsv[4];
+                        channel.Mnt = channelCsv[4];
 
                         // Tim取得
-                        Chanel.Tim = ChanelCsv[5];
+                        channel.Tim = channelCsv[5];
 
                         // Tims取得
-                        Chanel.Tims = ChanelCsv[6];
+                        channel.Tims = channelCsv[6];
 
                         // Cln取得
-                        Chanel.Cln = ChanelCsv[7];
+                        channel.Cln = channelCsv[7];
 
                         // Clns取得
-                        Chanel.Clns = ChanelCsv[8];
+                        channel.Clns = channelCsv[8];
 
                         // Srv取得
-                        Chanel.Srv = ChanelCsv[9];
+                        channel.Srv = channelCsv[9];
 
                         // Prt取得
-                        Chanel.Prt = ChanelCsv[10];
+                        channel.Prt = channelCsv[10];
 
-                        if (ChanelCsv.Length >= 12)
+                        if (channelCsv.Length >= 12)
                         {
                             // Typ取得
-                            Chanel.Typ = ChanelCsv[11];
+                            channel.Typ = channelCsv[11];
                         }
 
-                        if (ChanelCsv.Length >= 13)
+                        if (channelCsv.Length >= 13)
                         {
                             // Bit取得
-                            Chanel.Bit = ChanelCsv[12];
+                            channel.Bit = channelCsv[12];
                         }
 
-                        AlChanels.Add(Chanel);
+                        alChannels.Add(channel);
                     }
                 }
 
-                Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
+                channels = (Channel[])alChannels.ToArray(typeof(Channel));
             }
             catch (WebException)
             {
@@ -265,13 +265,13 @@ namespace PocketLadio.Stations.Netladio
             }
             finally
             {
-                if (St != null)
+                if (st != null)
                 {
-                    St.Close();
+                    st.Close();
                 }
-                if (Sr != null)
+                if (sr != null)
                 {
-                    Sr.Close();
+                    sr.Close();
                 }
             }
         }
@@ -281,100 +281,100 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         private void WebGetHeadlineXml()
         {
-            Stream St = null;
-            XmlTextReader Reader = null;
+            Stream st = null;
+            XmlTextReader reader = null;
 
             try
             {
                 // 番組のリスト
-                ArrayList AlChanels = new ArrayList();
+                ArrayList alChannels = new ArrayList();
 
-                St = HeadlineUtil.GetHttpStream(Setting.HeadlineXmlUrl);
-                Reader = new XmlTextReader(St);
+                st = HeadlineUtil.GetHttpStream(setting.HeadlineXmlUrl);
+                reader = new XmlTextReader(st);
 
                 // チャンネル
-                Chanel Chanel = new Chanel(this);
+                Channel channel = new Channel(this);
                 // sourceタグの中にいるか
-                bool InSourceFlag = false;
+                bool inSourceFlag = false;
 
-                while (Reader.Read())
+                while (reader.Read())
                 {
-                    if (Reader.NodeType == XmlNodeType.Element)
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (Reader.LocalName.Equals("source"))
+                        if (reader.LocalName.Equals("source"))
                         {
-                            InSourceFlag = true;
-                            Chanel = new Chanel(this);
+                            inSourceFlag = true;
+                            channel = new Channel(this);
                         } // End of source
 
                         // sourceタグの中にいる場合
-                        if (InSourceFlag == true)
+                        if (inSourceFlag == true)
                         {
-                            if (Reader.LocalName == "url")
+                            if (reader.LocalName == "url")
                             {
-                                Chanel.Url = Reader.ReadString();
+                                channel.Url = reader.ReadString();
                             } // End of url
-                            else if (Reader.LocalName == "gnl")
+                            else if (reader.LocalName == "gnl")
                             {
-                                Chanel.Gnl = Reader.ReadString();
+                                channel.Gnl = reader.ReadString();
                             } // End of gnl
-                            else if (Reader.LocalName == "nam")
+                            else if (reader.LocalName == "nam")
                             {
-                                Chanel.Nam = Reader.ReadString();
+                                channel.Nam = reader.ReadString();
                             } // End of nam
-                            else if (Reader.LocalName == "tit")
+                            else if (reader.LocalName == "tit")
                             {
-                                Chanel.Tit = Reader.ReadString();
+                                channel.Tit = reader.ReadString();
                             } // End of tit
-                            else if (Reader.LocalName == "mnt")
+                            else if (reader.LocalName == "mnt")
                             {
-                                Chanel.Mnt = Reader.ReadString();
+                                channel.Mnt = reader.ReadString();
                             } // End of mnt
-                            else if (Reader.LocalName == "tim")
+                            else if (reader.LocalName == "tim")
                             {
-                                Chanel.Tim = Reader.ReadString();
+                                channel.Tim = reader.ReadString();
                             } // End of tim
-                            else if (Reader.LocalName == "tims")
+                            else if (reader.LocalName == "tims")
                             {
-                                Chanel.Tims = Reader.ReadString();
+                                channel.Tims = reader.ReadString();
                             } // End of tims
-                            else if (Reader.LocalName == "cln")
+                            else if (reader.LocalName == "cln")
                             {
-                                Chanel.Cln = Reader.ReadString();
+                                channel.Cln = reader.ReadString();
                             } // End of cln
-                            else if (Reader.LocalName == "clns")
+                            else if (reader.LocalName == "clns")
                             {
-                                Chanel.Clns = Reader.ReadString();
+                                channel.Clns = reader.ReadString();
                             } // End of clns
-                            else if (Reader.LocalName == "srv")
+                            else if (reader.LocalName == "srv")
                             {
-                                Chanel.Srv = Reader.ReadString();
+                                channel.Srv = reader.ReadString();
                             } // End of srv
-                            else if (Reader.LocalName == "prt")
+                            else if (reader.LocalName == "prt")
                             {
-                                Chanel.Prt = Reader.ReadString();
+                                channel.Prt = reader.ReadString();
                             } // End of prt
-                            else if (Reader.LocalName == "typ")
+                            else if (reader.LocalName == "typ")
                             {
-                                Chanel.Typ = Reader.ReadString();
+                                channel.Typ = reader.ReadString();
                             } // End of typ
-                            else if (Reader.LocalName == "bit")
+                            else if (reader.LocalName == "bit")
                             {
-                                Chanel.Bit = Reader.ReadString();
+                                channel.Bit = reader.ReadString();
                             } // End of bit
                         }
                     }
-                    else if (Reader.NodeType == XmlNodeType.EndElement)
+                    else if (reader.NodeType == XmlNodeType.EndElement)
                     {
-                        if (Reader.LocalName == "source")
+                        if (reader.LocalName == "source")
                         {
-                            InSourceFlag = false;
-                            AlChanels.Add(Chanel);
+                            inSourceFlag = false;
+                            alChannels.Add(channel);
                         }
                     }
                 }
 
-                Chanels = (Chanel[])AlChanels.ToArray(typeof(Chanel));
+                channels = (Channel[])alChannels.ToArray(typeof(Channel));
             }
             catch (WebException)
             {
@@ -406,13 +406,13 @@ namespace PocketLadio.Stations.Netladio
             }
             finally
             {
-                if (St != null)
+                if (st != null)
                 {
-                    St.Close();
+                    st.Close();
                 }
-                if (Reader != null)
+                if (reader != null)
                 {
-                    Reader.Close();
+                    reader.Close();
                 }
             }
         }
@@ -423,21 +423,21 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>ヘッドラインの設定フォーム</returns>
         public virtual void ShowSettingForm()
         {
-            SettingForm SettingForm = new SettingForm(Setting);
-            SettingForm.ShowDialog();
-            SettingForm.Dispose();
+            SettingForm settingForm = new SettingForm(setting);
+            settingForm.ShowDialog();
+            settingForm.Dispose();
         }
 
         /// <summary>
         /// 番組の詳細フォームを表示する
         /// </summary>
-        /// <param name="Chanel">番組</param>
+        /// <param name="channel">番組</param>
         /// <returns>番組の詳細フォーム</returns>
-        public virtual void ShowPropertyForm(IChanel chanel)
+        public virtual void ShowPropertyForm(IChannel channel)
         {
-            ChanelPropertyForm ChanelPropertyForm = new ChanelPropertyForm((Chanel)chanel);
-            ChanelPropertyForm.ShowDialog();
-            ChanelPropertyForm.Dispose();
+            ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm((Channel)channel);
+            channelPropertyForm.ShowDialog();
+            channelPropertyForm.Dispose();
         }
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public virtual void DeleteUserSettingFile()
         {
-            Setting.DeleteUserSettingFile();
+            setting.DeleteUserSettingFile();
         }
     }
 }

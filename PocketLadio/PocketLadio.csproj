@@ -59,13 +59,13 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PocketLadioInfo.cs" />
-    <Compile Include="RssPodcastMimePriority.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RssPodcastMimePriority.cs" />
     <Compile Include="StationsSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,10 +74,10 @@
     </Compile>
     <Compile Include="Station.cs" />
     <Compile Include="StationList.cs" />
-    <Compile Include="Stations\Interface\IChanel.cs" />
+    <Compile Include="Stations\Interface\IChannel.cs" />
     <Compile Include="Stations\Interface\IHeadline.cs" />
-    <Compile Include="Stations\Netladio\Chanel.cs" />
-    <Compile Include="Stations\Netladio\ChanelPropertyForm.cs">
+    <Compile Include="Stations\Netladio\Channel.cs" />
+    <Compile Include="Stations\Netladio\ChannelPropertyForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Stations\Netladio\Headline.cs" />
@@ -85,8 +85,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Stations\Netladio\UserSetting.cs" />
-    <Compile Include="Stations\RssPodcast\Chanel.cs" />
-    <Compile Include="Stations\RssPodcast\ChanelPropertyForm.cs">
+    <Compile Include="Stations\RssPodcast\Channel.cs" />
+    <Compile Include="Stations\RssPodcast\ChannelPropertyForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Stations\RssPodcast\Headline.cs" />
@@ -136,16 +136,16 @@
     <Content Include="Docment\Setting.xml" />
     <Content Include="PocketLadioIcon.ico" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
-    <EmbeddedResource Include="Stations\Netladio\ChanelPropertyForm.resx">
-      <DependentUpon>ChanelPropertyForm.cs</DependentUpon>
+    <EmbeddedResource Include="Stations\Netladio\ChannelPropertyForm.resx">
+      <DependentUpon>ChannelPropertyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Stations\Netladio\SettingForm.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stations\RssPodcast\ChanelPropertyForm.resx">
-      <DependentUpon>ChanelPropertyForm.cs</DependentUpon>
+    <EmbeddedResource Include="Stations\RssPodcast\ChannelPropertyForm.resx">
+      <DependentUpon>ChannelPropertyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Stations\RssPodcast\SettingForm.resx">

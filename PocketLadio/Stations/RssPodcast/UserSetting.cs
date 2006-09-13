@@ -61,7 +61,7 @@ namespace PocketLadio.Stations.RssPodcast
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetID() + ".xml";
+            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetId() + ".xml";
         }
 
         /// <summary>
@@ -75,32 +75,32 @@ namespace PocketLadio.Stations.RssPodcast
                 return;
             }
 
-            FileStream Fs = null;
-            XmlTextReader Reader = null;
+            FileStream fs = null;
+            XmlTextReader reader = null;
 
             try
             {
-                Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
-                Reader = new XmlTextReader(Fs);
+                fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
+                reader = new XmlTextReader(fs);
 
-                ArrayList AlFilterWords = new ArrayList();
+                ArrayList alFilterWords = new ArrayList();
 
-                while (Reader.Read())
+                while (reader.Read())
                 {
-                    if (Reader.NodeType == XmlNodeType.Element)
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (Reader.LocalName == "RssUrl")
+                        if (reader.LocalName == "RssUrl")
                         {
-                            if (Reader.MoveToFirstAttribute())
+                            if (reader.MoveToFirstAttribute())
                             {
-                                RssUrl = Reader.GetAttribute("url");
+                                RssUrl = reader.GetAttribute("url");
                             }
                         } // End of RssUrl
-                        else if (Reader.LocalName == "HeadlineViewType")
+                        else if (reader.LocalName == "HeadlineViewType")
                         {
-                            if (Reader.MoveToFirstAttribute())
+                            if (reader.MoveToFirstAttribute())
                             {
-                                HeadlineViewType = Reader.GetAttribute("type");
+                                HeadlineViewType = reader.GetAttribute("type");
                             }
                         } // End of HeadlineViewType
                     }
@@ -116,8 +116,8 @@ namespace PocketLadio.Stations.RssPodcast
             }
             finally
             {
-                Reader.Close();
-                Fs.Close();
+                reader.Close();
+                fs.Close();
             }
         }
 
@@ -126,49 +126,49 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public void SaveSetting()
         {
-            FileStream Fs = null;
-            XmlTextWriter Writer = null;
+            FileStream fs = null;
+            XmlTextWriter writer = null;
 
             try
             {
-                Fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
-                Writer = new XmlTextWriter(Fs, Encoding.GetEncoding("utf-8"));
+                fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
+                writer = new XmlTextWriter(fs, Encoding.GetEncoding("utf-8"));
 
-                Writer.Formatting = Formatting.Indented;
-                Writer.WriteStartDocument(true);
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartDocument(true);
 
-                Writer.WriteStartElement("Setting");
+                writer.WriteStartElement("Setting");
 
-                Writer.WriteStartElement("Header");
+                writer.WriteStartElement("Header");
 
-                Writer.WriteStartElement("Name");
-                Writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
-                Writer.WriteEndElement(); // End of Name.
-                Writer.WriteStartElement("Version");
-                Writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
-                Writer.WriteEndElement(); // End of Version.
+                writer.WriteStartElement("Name");
+                writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
+                writer.WriteEndElement(); // End of Name.
+                writer.WriteStartElement("Version");
+                writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
+                writer.WriteEndElement(); // End of Version.
 
-                Writer.WriteStartElement("Date");
-                Writer.WriteAttributeString("date", DateTime.Now.ToString());
-                Writer.WriteEndElement(); // End of Date.
+                writer.WriteStartElement("Date");
+                writer.WriteAttributeString("date", DateTime.Now.ToString());
+                writer.WriteEndElement(); // End of Date.
 
-                Writer.WriteEndElement(); // End of Header.
+                writer.WriteEndElement(); // End of Header.
 
-                Writer.WriteStartElement("Content");
+                writer.WriteStartElement("Content");
 
-                Writer.WriteStartElement("RssUrl");
-                Writer.WriteAttributeString("url", RssUrl);
-                Writer.WriteEndElement(); // End of RssUrl
+                writer.WriteStartElement("RssUrl");
+                writer.WriteAttributeString("url", RssUrl);
+                writer.WriteEndElement(); // End of RssUrl
 
-                Writer.WriteStartElement("HeadlineViewType");
-                Writer.WriteAttributeString("type", HeadlineViewType);
-                Writer.WriteEndElement(); // End of HeadlineViewType
+                writer.WriteStartElement("HeadlineViewType");
+                writer.WriteAttributeString("type", HeadlineViewType);
+                writer.WriteEndElement(); // End of HeadlineViewType
 
-                Writer.WriteEndElement(); // End of Content.
+                writer.WriteEndElement(); // End of Content.
 
-                Writer.WriteEndElement(); // End of Setting.
+                writer.WriteEndElement(); // End of Setting.
 
-                Writer.WriteEndDocument();
+                writer.WriteEndDocument();
             }
             catch (IOException)
             {
@@ -176,8 +176,8 @@ namespace PocketLadio.Stations.RssPodcast
             }
             finally
             {
-                Writer.Close();
-                Fs.Close();
+                writer.Close();
+                fs.Close();
             }
         }
 

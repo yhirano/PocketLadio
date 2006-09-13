@@ -7,7 +7,7 @@ namespace PocketLadio
     /// <summary>
     /// 放送局のリスト
     /// </summary>
-    public class StationList
+    public sealed class StationList
     {
         /// <summary>
         /// フィルターの有効無効
@@ -40,7 +40,7 @@ namespace PocketLadio
         /// <summary>
         /// 現在の放送局
         /// </summary>
-        private static Station CurrentStation;
+        private static Station currentStation;
 
         /// <summary>
         /// シングルトンのためprivate
@@ -52,10 +52,10 @@ namespace PocketLadio
         /// <summary>
         /// 現在の放送局を変更する
         /// </summary>
-        /// <param name="param">何番目の放送局か（0から始まる）</param>
-        public static void ChangeCurrentStationAt(int param)
+        /// <param name="number">何番目の放送局か（0から始まる）</param>
+        public static void ChangeCurrentStationAt(int number)
         {
-            CurrentStation = Stations[param];
+            currentStation = Stations[number];
         }
 
         /// <summary>
@@ -77,16 +77,16 @@ namespace PocketLadio
             Stations = stations;
 
             // 現在の放送局をクリアする
-            CurrentStation = null;
+            currentStation = null;
         }
 
         /// <summary>
         /// 放送局の持つヘッドラインのIDを返す
         /// </summary>
         /// <returns>放送局の持つヘッドラインのID</returns>
-        public static string GetHeadlineIDOfCurrentStation()
+        public static string GetHeadlineIdOfCurrentStation()
         {
-            return (CurrentStation != null ? CurrentStation.GetHeadlineID() : "");
+            return (currentStation != null ? currentStation.GetHeadlineId() : "");
         }
 
         /// <summary>
@@ -95,16 +95,16 @@ namespace PocketLadio
         /// <returns>放送局の名前</returns>
         public static string GetHeadlineNameOfCurrentStation()
         {
-            return (CurrentStation != null ? CurrentStation.GetName() : "");
+            return (currentStation != null ? currentStation.GetName() : "");
         }
 
         /// <summary>
         /// 取得している番組のリストを返す
         /// </summary>
         /// <returns>番組のリスト</returns>
-        public static IChanel[] GetChanelsOfCurrentStation()
+        public static IChannel[] GetChannelsOfCurrentStation()
         {
-            return CurrentStation.GetHeadline().GetChanels();
+            return currentStation.GetHeadline().GetChannels();
         }
 
         /// <summary>
@@ -113,36 +113,36 @@ namespace PocketLadio
         /// フィルタリングは指定されたフィルタのor条件となる。
         /// </summary>
         /// <returns>フィルタリングされた番組のリスト</returns>
-        public static IChanel[] GetChanelsFilteredOfCurrentStation()
+        public static IChannel[] GetChannelsFilteredOfCurrentStation()
         {
-            if (CurrentStation == null)
+            if (currentStation == null)
             {
-                return new IChanel[0];
+                return new IChannel[0];
             }
 
             // フィルタが存在する場合
-            if (FilterEnable == true && UserSetting.FilterWords.Length > 0)
+            if (FilterEnable == true && UserSetting.GetFilterWords().Length > 0)
             {
-                ArrayList AlChanels = new ArrayList();
+                ArrayList alChannels = new ArrayList();
 
-                foreach (IChanel Chanel in CurrentStation.GetHeadline().GetChanels())
+                foreach (IChannel channel in currentStation.GetHeadline().GetChannels())
                 {
-                    foreach (string Filter in UserSetting.FilterWords)
+                    foreach (string filter in UserSetting.GetFilterWords())
                     {
-                        if (Chanel.GetFilterdWord().IndexOf(Filter) != -1)
+                        if (channel.GetFilteredWord().IndexOf(filter) != -1)
                         {
-                            AlChanels.Add(Chanel);
+                            alChannels.Add(channel);
                             break;
                         }
                     }
                 }
 
-                return (IChanel[])AlChanels.ToArray(typeof(IChanel));
+                return (IChannel[])alChannels.ToArray(typeof(IChannel));
             }
             // フィルタが存在しない場合
             else
             {
-                return CurrentStation.GetHeadline().GetChanels();
+                return currentStation.GetHeadline().GetChannels();
             }
         }
 
@@ -153,7 +153,7 @@ namespace PocketLadio
         /// <returns>ヘッドラインのネットから最終取得時刻</returns>
         public static DateTime GetLastCheckTimeOfCurrentStation()
         {
-            return (CurrentStation != null ? CurrentStation.GetHeadline().GetLastCheckTime() : DateTime.MinValue);
+            return (currentStation != null ? currentStation.GetHeadline().GetLastCheckTime() : DateTime.MinValue);
         }
 
         /// <summary>
@@ -161,9 +161,9 @@ namespace PocketLadio
         /// </summary>
         public static void WebGetHeadlineOfCurrentStation()
         {
-            if (CurrentStation != null)
+            if (currentStation != null)
             {
-                CurrentStation.GetHeadline().WebGetHeadline();
+                currentStation.GetHeadline().WebGetHeadline();
             }
         }
 
@@ -172,18 +172,21 @@ namespace PocketLadio
         /// </summary>
         public static void ShowSettingForm(Station station)
         {
-            station.GetHeadline().ShowSettingForm();
+            if (station != null)
+            {
+                station.GetHeadline().ShowSettingForm();
+            }
         }
 
         /// <summary>
         /// 番組の詳細フォームを表示する
         /// </summary>
-        /// <param name="Chanel">番組</param>
-        public static void ShowPropertyFormOfCurrentStation(IChanel Chanel)
+        /// <param name="channel">番組</param>
+        public static void ShowPropertyFormOfCurrentStation(IChannel channel)
         {
-            if (CurrentStation != null)
+            if (currentStation != null)
             {
-                CurrentStation.GetHeadline().ShowPropertyForm(Chanel);
+                currentStation.GetHeadline().ShowPropertyForm(channel);
             }
         }
     }

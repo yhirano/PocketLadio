@@ -249,16 +249,44 @@ namespace PocketLadio
             this.StationNameTextBox.Size = new System.Drawing.Size(208, 21);
         }
 
+        /// <summary>
+        /// 放送局を作成する。
+        /// </summary>
+        /// <param name="ID">ヘッドラインのID</param>
+        /// <param name="name">放送局の名前</param>
+        /// <param name="stationKind">放送局の種類</param>
+        /// <returns></returns>
+        private void CreateStation(string headlineID, string name, string stationKind)
+        {
+            if (stationKind == "ねとらじ")
+            {
+                Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
+                AlStationList.Add(Station);
+                StationListBox.Items.Add(Station.GetDisplayName());
+                StationNameTextBox.Text = "";
+            }
+            else if (stationKind == "Podcast")
+            {
+                Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
+                AlStationList.Add(Station);
+                StationListBox.Items.Add(Station.GetDisplayName());
+                StationNameTextBox.Text = "";
+
+                // 設定画面を呼び出す
+                Station.GetHeadline().ShowSettingForm();
+            }
+        }
+
         private void StationsSettingForm_Load(object sender, EventArgs e)
         {
             // フォーム内の中身のサイズを適正に変更する
             FixWindowSize();
 
             // 放送局情報の読み込み
-            foreach (Station Station in StationList.GetStationList())
+            foreach (Station station in StationList.GetStationList())
             {
-                AlStationList.Add(Station);
-                StationListBox.Items.Add(Station.GetDisplayName());
+                AlStationList.Add(station);
+                StationListBox.Items.Add(station.GetDisplayName());
             }
         }
 
@@ -276,25 +304,9 @@ namespace PocketLadio
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            if (StationNameTextBox.Text.Trim() != "" && StationKindComboBox.Text.Trim() != "")
+            if (StationNameTextBox.Text.Trim().Length != 0 && StationKindComboBox.Text.Trim().Length != 0)
             {
-                if (StationKindComboBox.Text.Trim().Equals("ねとらじ"))
-                {
-                    Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.Netladio);
-                    AlStationList.Add(Station);
-                    StationListBox.Items.Add(Station.GetDisplayName());
-                    StationNameTextBox.Text = "";
-                }
-                else if (StationKindComboBox.Text.Trim().Equals("Podcast"))
-                {
-                    Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.RssPodcast);
-                    AlStationList.Add(Station);
-                    StationListBox.Items.Add(Station.GetDisplayName());
-                    StationNameTextBox.Text = "";
-
-                    // 設定画面を呼び出す
-                    Station.GetHeadline().ShowSettingForm();
-                }
+                CreateStation(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), StationKindComboBox.Text.Trim());
             }
         }
 
@@ -341,25 +353,13 @@ namespace PocketLadio
         private void StationsSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 放送局を追加し忘れていると思われる場合
-            if (StationNameTextBox.Text.Trim() != "" && StationKindComboBox.Text.Trim() != "")
+            if (StationNameTextBox.Text.Trim().Length != 0 && StationKindComboBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
                 DialogResult Result = MessageBox.Show(StationNameTextBox.Text.Trim() + "を追加しますか？", StationNameTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (Result == DialogResult.Yes)
                 {
-                    if (StationKindComboBox.Text.Trim().Equals("ねとらじ"))
-                    {
-                        Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.Netladio);
-                        AlStationList.Add(Station);
-                    }
-                    else if (StationKindComboBox.Text.Trim().Equals("Podcast"))
-                    {
-                        Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKindEnum.RssPodcast);
-                        AlStationList.Add(Station);
-
-                        // 設定画面を呼び出す
-                        Station.GetHeadline().ShowSettingForm();
-                    }
+                    CreateStation(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), StationKindComboBox.Text.Trim());
                 }
             }
 

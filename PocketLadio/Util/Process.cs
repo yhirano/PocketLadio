@@ -7,7 +7,7 @@ namespace PocketLadio.Util
     /// <summary>
     /// プロセスに関するユーティリティ
     /// </summary>
-    public class Process
+    public sealed class Process
     {
         private Process()
         {

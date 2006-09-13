@@ -42,9 +42,9 @@ namespace PocketLadio.Stations.Netladio
         private UserSetting Setting;
 
 
-        public SettingForm(UserSetting Setting)
+        public SettingForm(UserSetting setting)
         {
-            this.Setting = Setting;
+            this.Setting = setting;
 
             //
             // Windows フォーム デザイナ サポートに必要です。
@@ -243,12 +243,12 @@ namespace PocketLadio.Stations.Netladio
             // 設定の読み込み
             HeadlineCsvUrlTextBox.Text = Setting.HeadlineCsvUrl;
             HeadlineXmlUrlTextBox.Text = Setting.HeadlineXmlUrl;
-            if (Setting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Cvs)
+            if (Setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
             {
                 HeadlineGetTypeCvsRadioButton.Checked = true;
                 HeadlineGetTypeXmlRadioButton.Checked = false;
             }
-            else if (Setting.HeadlineGetType == UserSetting.HeadlineGetTypeEnum.Xml)
+            else if (Setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
             {
                 HeadlineGetTypeCvsRadioButton.Checked = false;
                 HeadlineGetTypeXmlRadioButton.Checked = true;
@@ -263,11 +263,11 @@ namespace PocketLadio.Stations.Netladio
             Setting.HeadlineXmlUrl = HeadlineXmlUrlTextBox.Text.Trim();
             if (HeadlineGetTypeCvsRadioButton.Checked)
             {
-                Setting.HeadlineGetType = UserSetting.HeadlineGetTypeEnum.Cvs;
+                Setting.HeadlineGetWay = UserSetting.HeadlineGetType.Cvs;
             }
             else if (HeadlineGetTypeXmlRadioButton.Checked)
             {
-                Setting.HeadlineGetType = UserSetting.HeadlineGetTypeEnum.Xml;
+                Setting.HeadlineGetWay = UserSetting.HeadlineGetType.Xml;
             }
             Setting.HeadlineViewType = HeadlineViewTypeTextBox.Text.Trim();
 

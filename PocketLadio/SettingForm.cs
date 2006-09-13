@@ -367,7 +367,7 @@ namespace PocketLadio
             try
             {
                 // プロキシサーバ設定・プロキシポート設定のどちらかに何かが入力されている場合かつ、プロキシポートの設定が不正な場合
-                if ((ProxyServerTextBox.Text.Trim() != "" || ProxyPortTextBox.Text.Trim() != "")
+                if ((ProxyServerTextBox.Text.Trim().Length != 0 || ProxyPortTextBox.Text.Trim().Length != 0)
                     && (int.Parse(ProxyPortTextBox.Text) < 0x00 || int.Parse(ProxyPortTextBox.Text) > 0xFFFF))
                 {
                     MessageBox.Show("プロキシのポート番号は0～65535で設定してください");

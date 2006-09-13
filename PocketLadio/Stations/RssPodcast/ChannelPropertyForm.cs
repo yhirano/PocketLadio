@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.IO;
 using PocketLadio.Util;
 
 namespace PocketLadio.Stations.RssPodcast
@@ -10,7 +11,7 @@ namespace PocketLadio.Stations.RssPodcast
     /// <summary>
     /// チャンネルの詳細情報表示フォーム
     /// </summary>
-    public class ChanelPropertyForm : System.Windows.Forms.Form
+    public class ChannelPropertyForm : System.Windows.Forms.Form
     {
         private Label TitleCaptionLabel;
         private Label DescriptionCaptionLabel;
@@ -34,16 +35,16 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// チャンネル
         /// </summary>
-        private Chanel Chanel;
+        private Channel Channel;
 
-        public ChanelPropertyForm(Chanel chanel)
+        public ChannelPropertyForm(Channel channel)
         {
             //
             // Windows フォーム デザイナ サポートに必要です。
             //
             InitializeComponent();
 
-            this.Chanel = chanel;
+            this.Channel = channel;
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace PocketLadio.Stations.RssPodcast
             this.TypeCaptionLabel.Size = new System.Drawing.Size(34, 16);
             this.TypeCaptionLabel.Text = "タイプ";
             // 
-            // ChanelPropertyForm
+            // ChannelPropertyForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.LengthLabel);
@@ -202,8 +203,8 @@ namespace PocketLadio.Stations.RssPodcast
             this.MaximizeBox = false;
             this.Menu = this.MainMenu;
             this.Text = "番組の詳細";
-            this.Resize += new System.EventHandler(this.ChanelPropertyForm_Resize);
-            this.Load += new System.EventHandler(this.ChanelPropertyForm_Load);
+            this.Resize += new System.EventHandler(this.ChannelPropertyForm_Resize);
+            this.Load += new System.EventHandler(this.ChannelPropertyForm_Load);
 
         }
         #endregion
@@ -305,28 +306,42 @@ namespace PocketLadio.Stations.RssPodcast
             this.TypeCaptionLabel.Size = new System.Drawing.Size(34, 16);
         }
 
-        private void ChanelPropertyForm_Load(object sender, System.EventArgs e)
+        private void ChannelPropertyForm_Load(object sender, System.EventArgs e)
         {
             FixWindowSize();
-            TitleLabel.Text = Chanel.Title.Trim();
-            DescriptionLabel.Text = Chanel.Description.Trim();
-            LinkLabel.Text = Chanel.Link.Trim();
-            AuthorLabel.Text = Chanel.Author.Trim();
-            DateLabel.Text = Chanel.Date.Trim();
-            LengthLabel.Text = Chanel.Length.Trim();
-            TypeLabel.Text = Chanel.Type.Trim();
+            TitleLabel.Text = Channel.Title.Trim();
+            DescriptionLabel.Text = Channel.Description.Trim();
+            LinkLabel.Text = Channel.Link.Trim();
+            AuthorLabel.Text = Channel.Author.Trim();
+            DateLabel.Text = Channel.Date.Trim();
+            LengthLabel.Text = Channel.Length.Trim();
+            TypeLabel.Text = Channel.Type.Trim();
         }
 
         private void PlayButton_Click(object sender, System.EventArgs e)
         {
-            PocketLadioUtil.PlayStreaming(Chanel.GetPlayUrl());
+            try
+            {
+                PocketLadioUtil.PlayStreaming(Channel.GetPlayUrl());
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("メディアプレイヤーが見つかりません", "警告");
+            }
         }
 
         private void AccessButton_Click(object sender, System.EventArgs e)
         {
-            if (LinkLabel.Text.Trim() != "")
+            try
             {
-                PocketLadioUtil.AccessWebSite(Chanel.GetWebSiteUrl());
+                if (LinkLabel.Text.Trim().Length != 0)
+                {
+                    PocketLadioUtil.AccessWebsite(Channel.GetWebsiteUrl());
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("ブラウザが見つかりません", "警告");
             }
         }
 
@@ -335,7 +350,7 @@ namespace PocketLadio.Stations.RssPodcast
             this.Close();
         }
 
-        private void ChanelPropertyForm_Resize(object sender, EventArgs e)
+        private void ChannelPropertyForm_Resize(object sender, EventArgs e)
         {
             FixWindowSize();
         }

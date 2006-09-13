@@ -11,7 +11,7 @@ namespace PocketLadio
         /// <summary>
         /// ヘッドラインのID
         /// </summary>
-        private string HeadlineID;
+        private string HeadlineId;
 
         /// <summary>
         /// 放送局の名前
@@ -26,12 +26,12 @@ namespace PocketLadio
         /// <summary>
         /// 放送局の種類
         /// </summary>
-        private StationKindEnum StationKind;
+        private StationKind Kind;
 
         /// <summary>
         /// 放送局の種類列挙
         /// </summary>
-        public enum StationKindEnum
+        public enum StationKind
         {
             Netladio, RssPodcast
         };
@@ -42,19 +42,19 @@ namespace PocketLadio
         /// <param name="ID">ヘッドラインのID</param>
         /// <param name="name">放送局の名前</param>
         /// <param name="StationKind">放送局の種類</param>
-        public Station(string headlineID, string name, StationKindEnum stationKind)
+        public Station(string headlineID, string name, StationKind stationKind)
         {
-            this.HeadlineID = headlineID;
+            this.HeadlineId = headlineID;
             this.Name = name;
-            this.StationKind = stationKind;
+            this.Kind = stationKind;
 
-            if (StationKind.Equals(StationKindEnum.Netladio))
+            if (Kind.Equals(StationKind.Netladio))
             {
-                Headline = new PocketLadio.Stations.Netladio.Headline(HeadlineID);
+                Headline = new PocketLadio.Stations.Netladio.Headline(HeadlineId);
             }
-            else if (StationKind.Equals(StationKindEnum.RssPodcast))
+            else if (Kind.Equals(StationKind.RssPodcast))
             {
-                Headline = new PocketLadio.Stations.RssPodcast.Headline(HeadlineID);
+                Headline = new PocketLadio.Stations.RssPodcast.Headline(HeadlineId);
             }
         }
 
@@ -62,9 +62,9 @@ namespace PocketLadio
         /// ヘッドラインのIDを返す
         /// </summary>
         /// <returns>ヘッドラインのID</returns>
-        public string GetHeadlineID()
+        public string GetHeadlineId()
         {
-            return HeadlineID;
+            return HeadlineId;
         }
 
         /// <summary>
@@ -80,9 +80,9 @@ namespace PocketLadio
         /// 放送局の種類を返す
         /// </summary>
         /// <returns>放送局の種類</returns>
-        public StationKindEnum GetStationKind()
+        public StationKind GetStationKind()
         {
-            return StationKind;
+            return Kind;
         }
 
         /// <summary>
@@ -101,7 +101,5 @@ namespace PocketLadio
         public string GetDisplayName() {
             return Name + " - " + Headline.GetKindName();
         }
-
-
     }
 }

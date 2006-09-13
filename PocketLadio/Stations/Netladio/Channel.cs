@@ -5,7 +5,7 @@ namespace PocketLadio.Stations.Netladio
     /// <summary>
     /// ねとらじの番組
     /// </summary>
-    public class Chanel : PocketLadio.Stations.Interface.IChanel
+    public class Channel : PocketLadio.Stations.Interface.IChannel
     {
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace PocketLadio.Stations.Netladio
         /// チャンネルのコンストラクタ
         /// </summary>
         /// <param name="ParentHeadline">親ヘッドライン</param>
-        public Chanel(Headline parentHeadline)
+        public Channel(Headline parentHeadline)
         {
             this.ParentHeadline = parentHeadline;
         }
@@ -217,7 +217,7 @@ namespace PocketLadio.Stations.Netladio
         /// 番組のウェブサイトURLを返す
         /// </summary>
         /// <returns>番組のウェブサイトURL</returns>
-        public virtual string GetWebSiteUrl()
+        public virtual string GetWebsiteUrl()
         {
             return Url;
         }
@@ -226,10 +226,10 @@ namespace PocketLadio.Stations.Netladio
         /// 番組の表示方法に従って番組の情報を返す
         /// </summary>
         /// <returns>番組の表示方法に従った番組の情報</returns>
-        public virtual string GetChanelView()
+        public virtual string GetChannelView()
         {
             string View = (string)ParentHeadline.GetUserSetting().HeadlineViewType;
-            if (!View.Equals(""))
+            if (View.Length != 0)
             {
                 View = View.Replace("[[NAME]]", nam);
                 View = View.Replace("[[GENRE]]", gnl);
@@ -248,7 +248,7 @@ namespace PocketLadio.Stations.Netladio
         /// 返されたワードに従い、フィルタリングを行う。
         /// </summary>
         /// <returns>フィルタリング対象のワード</returns>
-        public virtual string GetFilterdWord()
+        public virtual string GetFilteredWord()
         {
             return nam + " " + gnl;
         }

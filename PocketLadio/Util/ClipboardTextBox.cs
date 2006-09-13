@@ -7,36 +7,36 @@ namespace PocketLadio.Util
     /// <summary>
     /// テキストボックスへのクリップボードの処理ユーティリティ
     /// </summary>
-    public class ClipboardTextBox
+    public sealed class ClipboardTextBox
     {
         private ClipboardTextBox()
         {
         }
 
-        public static void Cut(TextBox textBox)
+        public static void Cut(TextBox txtBox)
         {
-            if (textBox.SelectionLength > 0)
+            if (txtBox != null && txtBox.SelectionLength > 0)
             {
-                Clipboard.SetText(textBox.SelectedText);
-                textBox.SelectedText = "";
+                Clipboard.SetText(txtBox.SelectedText);
+                txtBox.SelectedText = "";
             }
         }
 
-        public static void Copy(TextBox textBox)
+        public static void Copy(TextBox txtBox)
         {
-            if (textBox.SelectionLength > 0)
+            if (txtBox != null && txtBox.SelectionLength > 0)
             {
-                Clipboard.SetText(textBox.SelectedText);
+                Clipboard.SetText(txtBox.SelectedText);
             }
         }
 
-        public static void Paste(TextBox textBox) {
-            string ClipboardText = Clipboard.GetText();
-            if (ClipboardText != null)
+        public static void Paste(TextBox txtBox) {
+            string clipboardText = Clipboard.GetText();
+            if (txtBox != null && clipboardText != null)
             {
-                string Before = textBox.Text.Substring(0, textBox.SelectionStart);
-                string After = textBox.Text.Substring(textBox.SelectionStart + textBox.SelectionLength, textBox.TextLength - (textBox.SelectionStart + textBox.SelectionLength));
-                textBox.Text = Before + ClipboardText + After;
+                string Before = txtBox.Text.Substring(0, txtBox.SelectionStart);
+                string After = txtBox.Text.Substring(txtBox.SelectionStart + txtBox.SelectionLength, txtBox.TextLength - (txtBox.SelectionStart + txtBox.SelectionLength));
+                txtBox.Text = Before + clipboardText + After;
             }
         }
     }

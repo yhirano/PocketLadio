@@ -43,21 +43,21 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ヘッドラインの取得方法
         /// </summary>
-        private HeadlineGetTypeEnum headlineGetType = HeadlineGetTypeEnum.Cvs;
+        private HeadlineGetType headlineGetWay = HeadlineGetType.Cvs;
 
         /// <summary>
         /// ヘッドラインの取得方法
         /// </summary>
-        public HeadlineGetTypeEnum HeadlineGetType
+        public HeadlineGetType HeadlineGetWay
         {
-            get { return headlineGetType; }
-            set { headlineGetType = value; }
+            get { return headlineGetWay; }
+            set { headlineGetWay = value; }
         }
 
         /// <summary>
         /// ねとらじヘッドラインの取得方法の列挙
         /// </summary>
-        public enum HeadlineGetTypeEnum
+        public enum HeadlineGetType
         {
             Cvs, Xml
         };
@@ -97,7 +97,7 @@ namespace PocketLadio.Stations.Netladio
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetID() + ".xml";
+            return PocketLadioUtil.GetExecutablePath() + "\\" + "Setting.Netladio." + ParentHeadline.GetId() + ".xml";
         }
 
         /// <summary>
@@ -111,54 +111,54 @@ namespace PocketLadio.Stations.Netladio
                 return;
             }
 
-            FileStream Fs = null;
-            XmlTextReader Reader = null;
+            FileStream fs = null;
+            XmlTextReader reader = null;
 
             try
             {
-                Fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
-                Reader = new XmlTextReader(Fs);
+                fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
+                reader = new XmlTextReader(fs);
 
-                ArrayList AlFilterWords = new ArrayList();
+                ArrayList alFilterWords = new ArrayList();
 
-                while (Reader.Read())
+                while (reader.Read())
                 {
-                    if (Reader.NodeType == XmlNodeType.Element)
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (Reader.LocalName == "HeadlineCsvUrl")
+                        if (reader.LocalName == "HeadlineCsvUrl")
                         {
-                            if (Reader.MoveToFirstAttribute())
+                            if (reader.MoveToFirstAttribute())
                             {
-                                HeadlineCsvUrl = Reader.GetAttribute("url");
+                                HeadlineCsvUrl = reader.GetAttribute("url");
                             }
                         } // End of HeadlineCsvUrl
-                        else if (Reader.LocalName == "HeadlineXmlUrl")
+                        else if (reader.LocalName == "HeadlineXmlUrl")
                         {
-                            if (Reader.MoveToFirstAttribute())
+                            if (reader.MoveToFirstAttribute())
                             {
-                                HeadlineXmlUrl = Reader.GetAttribute("url");
+                                HeadlineXmlUrl = reader.GetAttribute("url");
                             }
                         } // End of HeadlineXmlUrl
-                        else if (Reader.LocalName == "HeadlineGetType")
+                        else if (reader.LocalName == "HeadlineGetType")
                         {
-                            if (Reader.MoveToFirstAttribute())
+                            if (reader.MoveToFirstAttribute())
                             {
-                                string type = Reader.GetAttribute("type");
-                                if (type == HeadlineGetTypeEnum.Cvs.ToString())
+                                string type = reader.GetAttribute("type");
+                                if (type == HeadlineGetType.Cvs.ToString())
                                 {
-                                    HeadlineGetType = HeadlineGetTypeEnum.Cvs;
+                                    HeadlineGetWay = HeadlineGetType.Cvs;
                                 }
-                                else if (type == HeadlineGetTypeEnum.Xml.ToString())
+                                else if (type == HeadlineGetType.Xml.ToString())
                                 {
-                                    HeadlineGetType = HeadlineGetTypeEnum.Xml;
+                                    HeadlineGetWay = HeadlineGetType.Xml;
                                 }
                             }
                         } // End of HeadlineGetType
-                        else if (Reader.LocalName == "HeadlineViewType")
+                        else if (reader.LocalName == "HeadlineViewType")
                         {
-                            if (Reader.MoveToFirstAttribute())
+                            if (reader.MoveToFirstAttribute())
                             {
-                                HeadlineViewType = Reader.GetAttribute("type");
+                                HeadlineViewType = reader.GetAttribute("type");
                             }
                         } // End of HeadlineViewType
                     }
@@ -174,8 +174,8 @@ namespace PocketLadio.Stations.Netladio
             }
             finally
             {
-                Reader.Close();
-                Fs.Close();
+                reader.Close();
+                fs.Close();
             }
 
         }
@@ -185,57 +185,57 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public void SaveSetting()
         {
-            FileStream Fs = null;
-            XmlTextWriter Writer = null;
+            FileStream fs = null;
+            XmlTextWriter writer = null;
 
             try
             {
-                Fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
-                Writer = new XmlTextWriter(Fs, Encoding.GetEncoding("utf-8"));
+                fs = new FileStream(GetSettingPath(), FileMode.Create, FileAccess.Write);
+                writer = new XmlTextWriter(fs, Encoding.GetEncoding("utf-8"));
 
-                Writer.Formatting = Formatting.Indented;
-                Writer.WriteStartDocument(true);
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartDocument(true);
 
-                Writer.WriteStartElement("Setting");
+                writer.WriteStartElement("Setting");
 
-                Writer.WriteStartElement("Header");
+                writer.WriteStartElement("Header");
 
-                Writer.WriteStartElement("Name");
-                Writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
-                Writer.WriteEndElement(); // End of Name.
-                Writer.WriteStartElement("Version");
-                Writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
-                Writer.WriteEndElement(); // End of Version.
+                writer.WriteStartElement("Name");
+                writer.WriteAttributeString("name", PocketLadioInfo.ApplicationName);
+                writer.WriteEndElement(); // End of Name.
+                writer.WriteStartElement("Version");
+                writer.WriteAttributeString("version", PocketLadioInfo.VersionNumber);
+                writer.WriteEndElement(); // End of Version.
 
-                Writer.WriteStartElement("Date");
-                Writer.WriteAttributeString("date", DateTime.Now.ToString());
-                Writer.WriteEndElement(); // End of Date.
+                writer.WriteStartElement("Date");
+                writer.WriteAttributeString("date", DateTime.Now.ToString());
+                writer.WriteEndElement(); // End of Date.
 
-                Writer.WriteEndElement(); // End of Header.
+                writer.WriteEndElement(); // End of Header.
 
-                Writer.WriteStartElement("Content");
+                writer.WriteStartElement("Content");
 
-                Writer.WriteStartElement("HeadlineCsvUrl");
-                Writer.WriteAttributeString("url", HeadlineCsvUrl);
-                Writer.WriteEndElement(); // End of HeadlineCsvUrl
+                writer.WriteStartElement("HeadlineCsvUrl");
+                writer.WriteAttributeString("url", HeadlineCsvUrl);
+                writer.WriteEndElement(); // End of HeadlineCsvUrl
 
-                Writer.WriteStartElement("HeadlineXmlUrl");
-                Writer.WriteAttributeString("url", HeadlineXmlUrl);
-                Writer.WriteEndElement(); // End of HeadlineXmlUrl
+                writer.WriteStartElement("HeadlineXmlUrl");
+                writer.WriteAttributeString("url", HeadlineXmlUrl);
+                writer.WriteEndElement(); // End of HeadlineXmlUrl
 
-                Writer.WriteStartElement("HeadlineGetType");
-                Writer.WriteAttributeString("type", HeadlineGetType.ToString());
-                Writer.WriteEndElement(); // End of HeadlineGetType
+                writer.WriteStartElement("HeadlineGetType");
+                writer.WriteAttributeString("type", HeadlineGetWay.ToString());
+                writer.WriteEndElement(); // End of HeadlineGetType
 
-                Writer.WriteStartElement("HeadlineViewType");
-                Writer.WriteAttributeString("type", HeadlineViewType);
-                Writer.WriteEndElement(); // End of HeadlineViewType
+                writer.WriteStartElement("HeadlineViewType");
+                writer.WriteAttributeString("type", HeadlineViewType);
+                writer.WriteEndElement(); // End of HeadlineViewType
 
-                Writer.WriteEndElement(); // End of Content.
+                writer.WriteEndElement(); // End of Content.
 
-                Writer.WriteEndElement(); // End of Setting.
+                writer.WriteEndElement(); // End of Setting.
 
-                Writer.WriteEndDocument();
+                writer.WriteEndDocument();
             }
             catch (IOException)
             {
@@ -243,8 +243,8 @@ namespace PocketLadio.Stations.Netladio
             }
             finally
             {
-                Writer.Close();
-                Fs.Close();
+                writer.Close();
+                fs.Close();
             }
         }
 

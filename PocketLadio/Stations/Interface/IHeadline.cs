@@ -11,7 +11,7 @@ namespace PocketLadio.Stations.Interface
         /// ヘッドラインのIDを返す
         /// </summary>
         /// <returns>ヘッドラインのID</returns>
-        string GetID();
+        string GetId();
 
         /// <summary>
         /// ヘッドラインの種類の名前を返す
@@ -23,7 +23,7 @@ namespace PocketLadio.Stations.Interface
         /// 取得している番組のリストを返す
         /// </summary>
         /// <returns>番組のリスト</returns>
-        IChanel[] GetChanels();
+        IChannel[] GetChannels();
 
         /// <summary>
         /// ヘッドラインをネットから取得する
@@ -44,8 +44,8 @@ namespace PocketLadio.Stations.Interface
         /// <summary>
         /// 番組の詳細フォームを表示する
         /// </summary>
-        /// <param name="Chanel">番組</param>
-        void ShowPropertyForm(IChanel chanel);
+        /// <param name="channel">番組</param>
+        void ShowPropertyForm(IChannel channel);
 
         /// <summary>
         /// 設定を保存していたファイルを削除する

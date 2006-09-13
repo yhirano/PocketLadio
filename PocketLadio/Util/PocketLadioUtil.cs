@@ -12,7 +12,7 @@ namespace PocketLadio.Util
     /// <summary>
     /// PocketLadioのユーティリティ
     /// </summary>
-    public class PocketLadioUtil
+    public sealed class PocketLadioUtil
     {
         /// <summary>
         /// シングルトンのためプライベート
@@ -22,21 +22,35 @@ namespace PocketLadio.Util
         }
 
         /// <summary>
-        /// ストリーミングを再生する
+        /// ストリーミングを再生する。
+        /// 再生用プログラムが見つからない場合はFileNotFoundExceptionを投げる。
         /// </summary>
         /// <param name="url">ストリーミングのURL</param>
-        public static void PlayStreaming(string url)
+        public static void PlayStreaming(string streamingUrl)
         {
-            Process.CreateProcess(UserSetting.MediaPlayerPath, url);
+            // 再生用メディアプレイヤーが見つからない場合には例外を投げる
+            if (File.Exists(UserSetting.MediaPlayerPath) == false)
+            {
+                throw new FileNotFoundException("Not found media player.");
+            }
+
+            Process.CreateProcess(UserSetting.MediaPlayerPath, streamingUrl);
         }
 
         /// <summary>
-        /// Webサイトにアクセスする
+        /// Webサイトにアクセスする。
+        /// ブラウザが見つからない場合はFileNotFoundExceptionを投げる。
         /// </summary>
         /// <param name="url">WebサイトのURL</param>
-        public static void AccessWebSite(string url)
+        public static void AccessWebsite(string websiteUrl)
         {
-            Process.CreateProcess(UserSetting.BrowserPath, url);
+            // ブラウザが見つからない場合には例外を投げる
+            if (File.Exists(UserSetting.BrowserPath) == false)
+            {
+                throw new FileNotFoundException("Not found web browser.");
+            }
+
+            Process.CreateProcess(UserSetting.BrowserPath, websiteUrl);
         }
 
         /// <summary>

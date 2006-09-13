@@ -8,14 +8,14 @@ namespace PocketLadio
     /// <summary>
     /// PodcastのMIMEタイプの優先度を格納するクラス
     /// </summary>
-    public class RssPodcastMimePriority
+    public sealed class RssPodcastMimePriority
     {
 
         /// <summary>
         /// PodcastのMIMEタイプの優先度テーブル。数値が高い方が優先度が高い。
         /// Key => string MIME, value => int Priority
         /// </summary>
-        private static Hashtable rssPodcastMimePriorityTable = new Hashtable();
+        private static Hashtable rssPodcastMimePriorityTable = new Hashtable(CaseInsensitiveHashCodeProvider.DefaultInvariant, CaseInsensitiveComparer.DefaultInvariant);
 
         /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
@@ -42,27 +42,27 @@ namespace PocketLadio
         /// </summary>
         public static void LoadSetting()
         {
-            StreamReader Sr =null;
+            StreamReader sr =null;
 
             try
             {
                 // 現在のコードを実行しているAssemblyを取得
-                System.Reflection.Assembly ThisAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.Reflection.Assembly thisAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 // 指定されたマニフェストリソースを読み込む
-                Sr =
-                    new StreamReader(ThisAssembly.GetManifestResourceStream(RssPodcastMimePriorityFileName),
+                sr =
+                    new StreamReader(thisAssembly.GetManifestResourceStream(RssPodcastMimePriorityFileName),
                     Encoding.GetEncoding("shift-jis"));
                 // 内容を読み込む
-                string MimeString = Sr.ReadToEnd();
+                string mimeString = sr.ReadToEnd();
 
-                string[] MimePriorityRawArray = MimeString.Split('\n');
+                string[] mimePriorityRawArray = mimeString.Split('\n');
 
-                foreach (string MimePriorityRaw in MimePriorityRawArray)
+                foreach (string mimePriorityRaw in mimePriorityRawArray)
                 {
-                    if (MimePriorityRaw != "")
+                    if (mimePriorityRaw.Length != 0)
                     {
-                        string[] MimePriority = MimePriorityRaw.Split(',');
-                        rssPodcastMimePriorityTable.Add(MimePriority[0].ToLower(), int.Parse(MimePriority[1]));
+                        string[] MimePriority = mimePriorityRaw.Split(',');
+                        rssPodcastMimePriorityTable.Add(MimePriority[0], int.Parse(MimePriority[1]));
                     }
                 }
             }
@@ -71,9 +71,9 @@ namespace PocketLadio
                 throw;
             }
             finally {
-                if (Sr != null)
+                if (sr != null)
                 {
-                    Sr.Close();
+                    sr.Close();
                 }
             }
         }
@@ -86,9 +86,12 @@ namespace PocketLadio
         /// <returns></returns>
         public static int GetRssPodcastMimePriority(string mime)
         {
-            string mimeLower = mime.ToLower();
+            if (mime == null)
+            {
+                return 0;
+            }
 
-            return (rssPodcastMimePriorityTable.ContainsKey(mimeLower) == false ? 0 : (int)rssPodcastMimePriorityTable[mimeLower]);
+            return ((rssPodcastMimePriorityTable.ContainsKey(mime)) == false ? 0 : (int)rssPodcastMimePriorityTable[mime]);
         }
     }
 }

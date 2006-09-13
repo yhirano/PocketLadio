@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.IO;
 using PocketLadio.Util;
 
 namespace PocketLadio.Stations.Netladio
@@ -10,7 +11,7 @@ namespace PocketLadio.Stations.Netladio
     /// <summary>
     /// チャンネルの詳細情報表示フォーム
     /// </summary>
-    public class ChanelPropertyForm : System.Windows.Forms.Form
+    public class ChannelPropertyForm : System.Windows.Forms.Form
     {
         private Label NamCaptionLabel;
         private Label GnlCaptionLabel;
@@ -32,16 +33,16 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// チャンネル
         /// </summary>
-        private Chanel Chanel;
+        private Channel Channel;
 
-        public ChanelPropertyForm(Chanel chanel)
+        public ChannelPropertyForm(Channel channel)
         {
             //
             // Windows フォーム デザイナ サポートに必要です。
             //
             InitializeComponent();
 
-            this.Chanel = chanel;
+            this.Channel = channel;
         }
 
         /// <summary>
@@ -165,7 +166,7 @@ namespace PocketLadio.Stations.Netladio
             this.PlayButton.Text = "&Play";
             this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
-            // ChanelPropertyForm
+            // ChannelPropertyForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.PlayButton);
@@ -185,8 +186,8 @@ namespace PocketLadio.Stations.Netladio
             this.MaximizeBox = false;
             this.Menu = this.MainMenu;
             this.Text = "番組の詳細";
-            this.Resize += new System.EventHandler(this.ChanelPropertyForm_Resize);
-            this.Load += new System.EventHandler(this.ChanelPropertyForm_Load);
+            this.Resize += new System.EventHandler(this.ChannelPropertyForm_Resize);
+            this.Load += new System.EventHandler(this.ChannelPropertyForm_Load);
 
         }
         #endregion
@@ -267,17 +268,17 @@ namespace PocketLadio.Stations.Netladio
             this.PlayButton.Location = new System.Drawing.Point(245, 70);
         }
 
-        private void ChanelPropertyForm_Load(object sender, System.EventArgs e)
+        private void ChannelPropertyForm_Load(object sender, System.EventArgs e)
         {
             FixWindowSize();
-            NamLabel.Text = Chanel.Nam.Trim();
-            GnlLabel.Text = Chanel.Gnl.Trim();
-            UrlLabel.Text = Chanel.Url.Trim();
-            TimsLabel.Text = Chanel.Tims.Trim();
-            ClnLabel.Text = Chanel.Cln.Trim() + " / " + Chanel.Clns.Trim();
-            if (!Chanel.Bit.Equals(""))
+            NamLabel.Text = Channel.Nam.Trim();
+            GnlLabel.Text = Channel.Gnl.Trim();
+            UrlLabel.Text = Channel.Url.Trim();
+            TimsLabel.Text = Channel.Tims.Trim();
+            ClnLabel.Text = Channel.Cln.Trim() + " / " + Channel.Clns.Trim();
+            if (Channel.Bit.Length != 0)
             {
-                BitLabel.Text = Chanel.Bit.Trim() + " Kbps";
+                BitLabel.Text = Channel.Bit.Trim() + " Kbps";
             }
             else
             {
@@ -287,14 +288,28 @@ namespace PocketLadio.Stations.Netladio
 
         private void PlayButton_Click(object sender, System.EventArgs e)
         {
-            PocketLadioUtil.PlayStreaming(Chanel.GetPlayUrl());
+            try
+            {
+                PocketLadioUtil.PlayStreaming(Channel.GetPlayUrl());
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("メディアプレイヤーが見つかりません", "警告");
+            }
         }
 
         private void AccessButton_Click(object sender, System.EventArgs e)
         {
-            if (UrlLabel.Text.Trim() != "")
+            try
             {
-                PocketLadioUtil.AccessWebSite(Chanel.GetWebSiteUrl());
+                if (UrlLabel.Text.Trim().Length != 0)
+                {
+                    PocketLadioUtil.AccessWebsite(Channel.GetWebsiteUrl());
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("ブラウザが見つかりません", "警告");
             }
         }
 
@@ -303,7 +318,7 @@ namespace PocketLadio.Stations.Netladio
             this.Close();
         }
 
-        private void ChanelPropertyForm_Resize(object sender, EventArgs e)
+        private void ChannelPropertyForm_Resize(object sender, EventArgs e)
         {
             FixWindowSize();
         }
