@@ -13,7 +13,7 @@ namespace PocketLadio.Stations.RssPodcast
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
-        private TabControl tabControl1;
+        private TabControl podcastTabControl;
         private TabPage NetladioTabPage;
         private Label RssUrlLabel;
         private TextBox RssUrlTextBox;
@@ -63,7 +63,7 @@ namespace PocketLadio.Stations.RssPodcast
         {
             this.MainMenu = new System.Windows.Forms.MainMenu();
             this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.podcastTabControl = new System.Windows.Forms.TabControl();
             this.NetladioTabPage = new System.Windows.Forms.TabPage();
             this.HeadlineViewTypeTextBox = new System.Windows.Forms.TextBox();
             this.HeadlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
@@ -87,12 +87,12 @@ namespace PocketLadio.Stations.RssPodcast
             this.OkMenuItem.Text = "&OK";
             this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // tabControl1
+            // podcastTabControl
             // 
-            this.tabControl1.Controls.Add(this.NetladioTabPage);
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(240, 268);
+            this.podcastTabControl.Controls.Add(this.NetladioTabPage);
+            this.podcastTabControl.Location = new System.Drawing.Point(0, 0);
+            this.podcastTabControl.SelectedIndex = 0;
+            this.podcastTabControl.Size = new System.Drawing.Size(240, 268);
             // 
             // NetladioTabPage
             // 
@@ -173,7 +173,7 @@ namespace PocketLadio.Stations.RssPodcast
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.podcastTabControl);
             this.MaximizeBox = false;
             this.Menu = this.MainMenu;
             this.Text = "Podcastê›íË";

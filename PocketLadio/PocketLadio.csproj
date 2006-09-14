@@ -94,6 +94,15 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Stations\RssPodcast\UserSetting.cs" />
+    <Compile Include="Stations\ShoutCast\Channel.cs" />
+    <Compile Include="Stations\ShoutCast\ChannelPropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Stations\ShoutCast\Headline.cs" />
+    <Compile Include="Stations\ShoutCast\SettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Stations\ShoutCast\UserSetting.cs" />
     <Compile Include="Stations\Utility\HeadlineUtility.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="Utility\ClipboardTextBox.cs" />
@@ -136,6 +145,7 @@
     <Content Include="Docment\Setting.xml" />
     <Content Include="PocketLadioIcon.ico" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
+    <EmbeddedResource Include="Resource\ShoutCastMaxBitRateSetting.txt" />
     <EmbeddedResource Include="Stations\Netladio\ChannelPropertyForm.resx">
       <DependentUpon>ChannelPropertyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -149,6 +159,14 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Stations\RssPodcast\SettingForm.resx">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stations\ShoutCast\ChannelPropertyForm.resx">
+      <DependentUpon>ChannelPropertyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stations\ShoutCast\SettingForm.resx">
       <DependentUpon>SettingForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

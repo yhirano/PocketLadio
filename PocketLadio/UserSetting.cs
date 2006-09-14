@@ -131,7 +131,8 @@ namespace PocketLadio
                     {
                         return proxyPort;
                     }
-                    else {
+                    else
+                    {
                         return "";
                     }
                 }
@@ -188,7 +189,8 @@ namespace PocketLadio
         /// </summary>
         private static string SettingPath
         {
-            get {
+            get
+            {
                 // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
                 return PocketLadioUtility.GetExecutablePath() + "\\" + settingPath;
             }
@@ -268,6 +270,14 @@ namespace PocketLadio
                                             else if (reader.Value.Equals(Station.StationKind.RssPodcast.ToString()))
                                             {
                                                 stationKind = Station.StationKind.RssPodcast;
+                                            }
+                                            else if (reader.Value.Equals(Station.StationKind.ShoutCast.ToString()))
+                                            {
+                                                stationKind = Station.StationKind.ShoutCast;
+                                            }
+                                            else
+                                            {   // ここに到達することはあり得ない
+                                                throw new ArgumentException("不正状態です");
                                             }
                                         }
                                     } while (reader.MoveToNextAttribute());

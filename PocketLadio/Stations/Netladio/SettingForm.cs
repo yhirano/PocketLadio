@@ -13,7 +13,7 @@ namespace PocketLadio.Stations.Netladio
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
-        private TabControl tabControl1;
+        private TabControl netladioTabControl;
         private TabPage NetladioTabPage;
         private Label HeadlineCvsUrlLabel;
         private Label HeadlineXmlUrlLabel;
@@ -69,7 +69,7 @@ namespace PocketLadio.Stations.Netladio
         {
             this.MainMenu = new System.Windows.Forms.MainMenu();
             this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.netladioTabControl = new System.Windows.Forms.TabControl();
             this.NetladioTabPage = new System.Windows.Forms.TabPage();
             this.HeadlineViewTypeTextBox = new System.Windows.Forms.TextBox();
             this.HeadlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
@@ -99,12 +99,12 @@ namespace PocketLadio.Stations.Netladio
             this.OkMenuItem.Text = "&OK";
             this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // tabControl1
+            // netladioTabControl
             // 
-            this.tabControl1.Controls.Add(this.NetladioTabPage);
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(240, 268);
+            this.netladioTabControl.Controls.Add(this.NetladioTabPage);
+            this.netladioTabControl.Location = new System.Drawing.Point(0, 0);
+            this.netladioTabControl.SelectedIndex = 0;
+            this.netladioTabControl.Size = new System.Drawing.Size(240, 268);
             // 
             // NetladioTabPage
             // 
@@ -228,7 +228,7 @@ namespace PocketLadio.Stations.Netladio
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.netladioTabControl);
             this.MaximizeBox = false;
             this.Menu = this.MainMenu;
             this.Text = "ÇÀÇ∆ÇÁÇ∂ê›íË";

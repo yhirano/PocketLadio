@@ -22,16 +22,8 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
         /// </summary>
-        private const string rssPodcastMimePriorityFileName
+        private const string RSS_PODCAST_MIME_PRIORITY_FILE
             = "PocketLadio.Resource.RssPodcastMimePriority.txt";
-
-        /// <summary>
-        /// PodcastのMIMEタイプの優先度ファイル
-        /// </summary>
-        private static string RssPodcastMimePriorityFileName
-        {
-            get { return rssPodcastMimePriorityFileName; }
-        }
 
         /// <summary>
         /// シングルトンのためプライベート
@@ -55,7 +47,7 @@ namespace PocketLadio.Stations.RssPodcast
                     = System.Reflection.Assembly.GetExecutingAssembly();
                 // 指定されたマニフェストリソースを読み込む
                 sr =
-                    new StreamReader(thisAssembly.GetManifestResourceStream(RssPodcastMimePriorityFileName),
+                    new StreamReader(thisAssembly.GetManifestResourceStream(RSS_PODCAST_MIME_PRIORITY_FILE),
                     Encoding.GetEncoding("shift-jis"));
                 // 内容を読み込む
                 string mimeString = sr.ReadToEnd();
@@ -66,8 +58,8 @@ namespace PocketLadio.Stations.RssPodcast
                 {
                     if (mimePriorityRaw.Length != 0)
                     {
-                        string[] MimePriority = mimePriorityRaw.Split(',');
-                        rssPodcastMimePriorityTable.Add(MimePriority[0], int.Parse(MimePriority[1]));
+                        string[] mimePriority = mimePriorityRaw.Split(',');
+                        rssPodcastMimePriorityTable.Add(mimePriority[0], int.Parse(mimePriority[1]));
                     }
                 }
             }

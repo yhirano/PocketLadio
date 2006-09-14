@@ -4,9 +4,6 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Collections;
 using System.Xml;
-using PocketLadio.Stations.Netladio;
-using PocketLadio.Stations.RssPodcast;
-
 
 namespace PocketLadio.Utility
 {
@@ -34,6 +31,7 @@ namespace PocketLadio.Utility
 
                 PocketLadio.Stations.Netladio.Headline.StartUpInitialize();
                 PocketLadio.Stations.RssPodcast.Headline.StartUpInitialize();
+                PocketLadio.Stations.ShoutCast.Headline.StartUpInitialize();
             }
             catch (XmlException)
             {

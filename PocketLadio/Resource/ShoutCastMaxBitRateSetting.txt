@@ -1,0 +1,5 @@
+All,
+28.8 Modem,24
+33.6 Modem,32
+56K Modem,56
+128kbps ISDN,128

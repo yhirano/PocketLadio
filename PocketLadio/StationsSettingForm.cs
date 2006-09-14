@@ -137,6 +137,7 @@ namespace PocketLadio
             // 
             this.StationKindComboBox.Items.Add("ねとらじ");
             this.StationKindComboBox.Items.Add("Podcast");
+            this.StationKindComboBox.Items.Add("SHOUTcast");
             this.StationKindComboBox.Location = new System.Drawing.Point(137, 27);
             this.StationKindComboBox.Size = new System.Drawing.Size(100, 22);
             // 
@@ -257,20 +258,34 @@ namespace PocketLadio
         {
             if (stationKind == "ねとらじ")
             {
-                Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
-                AlStationList.Add(Station);
-                StationListBox.Items.Add(Station.DisplayName);
+                Station station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
+                AlStationList.Add(station);
+                StationListBox.Items.Add(station.DisplayName);
                 StationNameTextBox.Text = "";
             }
             else if (stationKind == "Podcast")
             {
-                Station Station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
-                AlStationList.Add(Station);
-                StationListBox.Items.Add(Station.DisplayName);
+                Station station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
+                AlStationList.Add(station);
+                StationListBox.Items.Add(station.DisplayName);
                 StationNameTextBox.Text = "";
 
                 // 設定画面を呼び出す
-                Station.Headline.ShowSettingForm();
+                station.Headline.ShowSettingForm();
+            }
+            else if (stationKind == "SHOUTcast")
+            {
+                Station station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.ShoutCast);
+                AlStationList.Add(station);
+                StationListBox.Items.Add(station.DisplayName);
+                StationNameTextBox.Text = "";
+
+                // 設定画面を呼び出す
+                station.Headline.ShowSettingForm();
+            }
+            else {
+                // ここに到達することはあり得ない
+                throw new ArgumentException("不正状態です");
             }
         }
 

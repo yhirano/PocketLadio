@@ -70,7 +70,13 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public static void StartUpInitialize()
         {
-            RssPodcastMimePriority.Initialize();
+            try
+            {
+                RssPodcastMimePriority.Initialize();
+            }
+            catch (ArgumentNullException) {
+                throw;
+            }
         }
 
         /// <summary>

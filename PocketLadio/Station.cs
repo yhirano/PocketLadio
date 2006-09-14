@@ -33,7 +33,7 @@ namespace PocketLadio
         /// </summary>
         public enum StationKind
         {
-            Netladio, RssPodcast
+            Netladio, RssPodcast, ShoutCast
         };
 
         /// <summary>
@@ -95,6 +95,10 @@ namespace PocketLadio
             else if (kind.Equals(StationKind.RssPodcast))
             {
                 headline = new PocketLadio.Stations.RssPodcast.Headline(headlineId);
+            }
+            else if (kind.Equals(StationKind.ShoutCast))
+            {
+                headline = new PocketLadio.Stations.ShoutCast.Headline(headlineId);
             }
         }
     }
