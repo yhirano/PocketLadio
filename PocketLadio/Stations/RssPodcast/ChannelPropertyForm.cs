@@ -311,7 +311,7 @@ namespace PocketLadio.Stations.RssPodcast
             FixWindowSize();
             TitleLabel.Text = Channel.Title.Trim();
             DescriptionLabel.Text = Channel.Description.Trim();
-            LinkLabel.Text = ((Channel.Link != null) ? Channel.Link.ToString().Trim() : "");
+            LinkLabel.Text = ((Channel.GetWebsiteUrl() != null) ? Channel.GetWebsiteUrl().ToString().Trim() : "");
             AuthorLabel.Text = Channel.Author.Trim();
             DateLabel.Text = Channel.Date.Trim();
             LengthLabel.Text = Channel.Length.Trim();

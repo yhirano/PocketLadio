@@ -636,9 +636,8 @@ namespace PocketLadio
         {
             try
             {
-                // 設定を読み込む
-                UserSetting.LoadSetting();
-                RssPodcastMimePriority.LoadSetting();
+                // 起動時の初期化
+                PocketLadioUtility.StartUpInitialize();
 
                 // ヘッドラインが有効な場合、ヘッドラインを動作させる
                 if (UserSetting.HeadlineTimerCheck == true)

@@ -273,7 +273,7 @@ namespace PocketLadio.Stations.Netladio
             FixWindowSize();
             NamLabel.Text = Channel.Nam.Trim();
             GnlLabel.Text = Channel.Gnl.Trim();
-            UrlLabel.Text = ((Channel.Url != null) ? Channel.Url.ToString().Trim() : "");
+            UrlLabel.Text = ((Channel.GetPlayUrl() != null) ? Channel.GetWebsiteUrl().ToString().Trim() : "");
             TimsLabel.Text = Channel.Tims.Trim();
             ClnLabel.Text = Channel.Cln.Trim() + " / " + Channel.Clns.Trim();
             if (Channel.Bit.Length != 0)

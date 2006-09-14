@@ -3,7 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Text;
 
-namespace PocketLadio
+namespace PocketLadio.Stations.RssPodcast
 {
     /// <summary>
     /// PodcastのMIMEタイプの優先度を格納するクラス
@@ -15,12 +15,15 @@ namespace PocketLadio
         /// PodcastのMIMEタイプの優先度テーブル。数値が高い方が優先度が高い。
         /// Key => string MIME, value => int Priority
         /// </summary>
-        private static Hashtable rssPodcastMimePriorityTable = new Hashtable(CaseInsensitiveHashCodeProvider.DefaultInvariant, CaseInsensitiveComparer.DefaultInvariant);
+        private static Hashtable rssPodcastMimePriorityTable =
+            new Hashtable(CaseInsensitiveHashCodeProvider.DefaultInvariant,
+            CaseInsensitiveComparer.DefaultInvariant);
 
         /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
         /// </summary>
-        private const string rssPodcastMimePriorityFileName = "PocketLadio.Resource.RssPodcastMimePriority.txt";
+        private const string rssPodcastMimePriorityFileName
+            = "PocketLadio.Resource.RssPodcastMimePriority.txt";
 
         /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
@@ -38,16 +41,18 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// PodcastのMIMEタイプの優先度をファイルから読み込む
+        /// PodcastのMIMEタイプの優先度をファイルから読み込み、
+        /// Mimeの優先度を決定する。
         /// </summary>
-        public static void LoadSetting()
+        public static void Initialize()
         {
             StreamReader sr =null;
 
             try
             {
                 // 現在のコードを実行しているAssemblyを取得
-                System.Reflection.Assembly thisAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.Reflection.Assembly thisAssembly
+                    = System.Reflection.Assembly.GetExecutingAssembly();
                 // 指定されたマニフェストリソースを読み込む
                 sr =
                     new StreamReader(thisAssembly.GetManifestResourceStream(RssPodcastMimePriorityFileName),

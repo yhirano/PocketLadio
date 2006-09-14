@@ -72,6 +72,14 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
+        /// 起動時の初期化メソッド。何もしない。
+        /// </summary>
+        public static  void StartUpInitialize()
+        {
+            ;
+        }
+
+        /// <summary>
         /// ヘッドラインのIDを返す
         /// </summary>
         /// <returns>ヘッドラインのID</returns>

@@ -18,7 +18,6 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public Uri Url
         {
-            get { return url; }
             set { url = value; }
         }
 
@@ -74,7 +73,6 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public string Mnt
         {
-            get { return mnt; }
             set { mnt = value; }
         }
 
@@ -144,7 +142,6 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public string Srv
         {
-            get { return srv; }
             set { srv = value; }
         }
 
@@ -158,7 +155,6 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public string Prt
         {
-            get { return prt; }
             set { prt = value; }
         }
 
@@ -219,7 +215,7 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>番組のウェブサイトURL</returns>
         public virtual Uri GetWebsiteUrl()
         {
-            return Url;
+            return url;
         }
 
         /// <summary>
@@ -231,13 +227,13 @@ namespace PocketLadio.Stations.Netladio
             string view = ParentHeadline.HeadlineViewType;
             if (view.Length != 0)
             {
-                view = view.Replace("[[NAME]]", nam);
-                view = view.Replace("[[GENRE]]", gnl);
-                view = view.Replace("[[CLN]]", cln);
-                view = view.Replace("[[CLNS]]", clns);
-                view = view.Replace("[[TITLE]]", tit);
-                view = view.Replace("[[TIMES]]", tims);
-                view = view.Replace("[[BIT]]", bit);
+                view = view.Replace("[[NAME]]", nam)
+                    .Replace("[[GENRE]]", gnl)
+                    .Replace("[[CLN]]", cln)
+                    .Replace("[[CLNS]]", clns)
+                    .Replace("[[TITLE]]", tit)
+                    .Replace("[[TIMES]]", tims)
+                    .Replace("[[BIT]]", bit);
             }
 
             return view;
@@ -250,7 +246,7 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>フィルタリング対象のワード</returns>
         public virtual string GetFilteredWord()
         {
-            return nam + " " + gnl;
+            return Nam + " " + Gnl;
         }
     }
 }

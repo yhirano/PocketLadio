@@ -65,6 +65,15 @@ namespace PocketLadio.Stations.RssPodcast
         }
 
         /// <summary>
+        /// 起動時の初期化メソッド。
+        /// PodcastのMIMEタイプの優先度テーブルを初期化する。
+        /// </summary>
+        public static void StartUpInitialize()
+        {
+            RssPodcastMimePriority.Initialize();
+        }
+
+        /// <summary>
         /// ヘッドラインのIDを返す
         /// </summary>
         /// <returns>ヘッドラインのID</returns>

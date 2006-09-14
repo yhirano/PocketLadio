@@ -3,8 +3,9 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Collections;
-using PocketLadio.Utility;
 using System.Xml;
+using PocketLadio.Stations.Netladio;
+using PocketLadio.Stations.RssPodcast;
 
 
 namespace PocketLadio.Utility
@@ -19,6 +20,34 @@ namespace PocketLadio.Utility
         /// </summary>
         private PocketLadioUtility()
         {
+        }
+
+        /// <summary>
+        /// PocketLadio起動時の初期化処理。
+        /// </summary>
+        public static void StartUpInitialize()
+        {
+            try
+            {
+                // 設定を読み込む
+                UserSetting.LoadSetting();
+
+                PocketLadio.Stations.Netladio.Headline.StartUpInitialize();
+                PocketLadio.Stations.RssPodcast.Headline.StartUpInitialize();
+            }
+            catch (XmlException)
+            {
+                throw;
+            }
+            catch (IOException)
+            {
+                throw;
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+
         }
 
         /// <summary>

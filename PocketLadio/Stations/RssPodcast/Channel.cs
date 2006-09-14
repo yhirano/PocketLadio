@@ -30,7 +30,6 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public Uri Link
         {
-            get { return link; }
             set { link = value; }
         }
 
@@ -100,7 +99,6 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public Uri Url
         {
-            get { return url; }
             set { url = value; }
         }
 
@@ -152,7 +150,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>番組の再生URL</returns>
         public virtual Uri GetPlayUrl()
         {
-            return Url;
+            return url;
         }
 
         /// <summary>
@@ -161,7 +159,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>番組のサイト</returns>
         public virtual Uri GetWebsiteUrl()
         {
-            return Link;
+            return link;
         }
 
         /// <summary>
@@ -173,10 +171,10 @@ namespace PocketLadio.Stations.RssPodcast
             string view = ParentHeadline.HeadlineViewType;
             if (view.Length != 0)
             {
-                view = view.Replace("[[TITLE]]", Title);
-                view = view.Replace("[[DESCRIPTION]]", Description);
-                view = view.Replace("[[CATEGORY]]", Category);
-                view = view.Replace("[[AUTHOR]]", Author);
+                view = view.Replace("[[TITLE]]", Title)
+                    .Replace("[[DESCRIPTION]]", Description)
+                    .Replace("[[CATEGORY]]", Category)
+                    .Replace("[[AUTHOR]]", Author);
             }
 
             return view;
@@ -202,7 +200,8 @@ namespace PocketLadio.Stations.RssPodcast
         public void SetEnclosure(Uri podcastUrl, string length, string type)
         {
             // Urlがまだセットされていない場合はとりあえずUrl、Length、Typeを設定して終了
-            if (Url == null) {
+            if (GetPlayUrl() == null)
+            {
                 this.Url = podcastUrl;
                 this.Length = length;
                 this.Type = type;
