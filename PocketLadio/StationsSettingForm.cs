@@ -4,6 +4,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
+using System.Diagnostics;
 using PocketLadio.Utility;
 
 namespace PocketLadio
@@ -32,7 +33,7 @@ namespace PocketLadio
         /// <summary>
         /// 放送局のリスト
         /// </summary>
-        private ArrayList AlStationList = new ArrayList();
+        private ArrayList alStationList = new ArrayList();
 
         /// <summary>
         /// フォームのメイン メニューです。
@@ -256,37 +257,35 @@ namespace PocketLadio
         /// <param name="stationKind">放送局の種類</param>
         private void CreateStation(string stationKind)
         {
+            Station station = null;
             if (stationKind == "ねとらじ")
             {
-                Station station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
-                AlStationList.Add(station);
-                StationListBox.Items.Add(station.DisplayName);
-                StationNameTextBox.Text = "";
+                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
             }
             else if (stationKind == "Podcast")
             {
-                Station station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
-                AlStationList.Add(station);
-                StationListBox.Items.Add(station.DisplayName);
-                StationNameTextBox.Text = "";
+                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
 
                 // 設定画面を呼び出す
                 station.Headline.ShowSettingForm();
             }
             else if (stationKind == "SHOUTcast")
             {
-                Station station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.ShoutCast);
-                AlStationList.Add(station);
-                StationListBox.Items.Add(station.DisplayName);
-                StationNameTextBox.Text = "";
+                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.ShoutCast);
 
                 // 設定画面を呼び出す
                 station.Headline.ShowSettingForm();
             }
-            else {
+            else
+            {
                 // ここに到達することはあり得ない
-                throw new ArgumentException("不正状態です");
+                Trace.Assert(false, "想定外の動作のため、終了します");
             }
+
+            // リストに追加
+            alStationList.Add(station);
+            StationListBox.Items.Add(station.DisplayName);
+            StationNameTextBox.Text = "";
         }
 
         private void StationsSettingForm_Load(object sender, EventArgs e)
@@ -297,7 +296,7 @@ namespace PocketLadio
             // 放送局情報の読み込み
             foreach (Station station in StationList.GetStationList())
             {
-                AlStationList.Add(station);
+                alStationList.Add(station);
                 StationListBox.Items.Add(station.DisplayName);
             }
         }
@@ -307,9 +306,9 @@ namespace PocketLadio
             if (StationListBox.SelectedIndex != -1)
             {
                 // 設定ファイルの削除
-                ((Station)AlStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
+                ((Station)alStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
 
-                AlStationList.RemoveAt(StationListBox.SelectedIndex);
+                alStationList.RemoveAt(StationListBox.SelectedIndex);
                 StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
             }
         }
@@ -326,7 +325,7 @@ namespace PocketLadio
         {
             if (StationListBox.SelectedIndex != -1)
             {
-                ((Station)AlStationList[StationListBox.SelectedIndex]).Headline.ShowSettingForm();
+                ((Station)alStationList[StationListBox.SelectedIndex]).Headline.ShowSettingForm();
             }
         }
 
@@ -335,9 +334,9 @@ namespace PocketLadio
             if (StationListBox.SelectedIndex != -1)
             {
                 // 設定ファイルの削除
-                ((Station)AlStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
+                ((Station)alStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
 
-                AlStationList.RemoveAt(StationListBox.SelectedIndex);
+                alStationList.RemoveAt(StationListBox.SelectedIndex);
                 StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
             }
         }
@@ -368,7 +367,9 @@ namespace PocketLadio
             if (StationNameTextBox.Text.Trim().Length != 0 && StationKindComboBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
-                DialogResult Result = MessageBox.Show(StationNameTextBox.Text.Trim() + "を追加しますか？", StationNameTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                DialogResult Result = MessageBox.Show(
+                    StationNameTextBox.Text.Trim() + "を追加しますか？\n（" + StationNameTextBox.Text.Trim() + "はまだ追加されていません）",
+                    "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (Result == DialogResult.Yes)
                 {
                     CreateStation(StationKindComboBox.Text.Trim());
@@ -376,7 +377,7 @@ namespace PocketLadio
             }
 
             // 設定の書き込み
-            StationList.SetStationList((Station[])AlStationList.ToArray(typeof(Station)));
+            StationList.SetStationList((Station[])alStationList.ToArray(typeof(Station)));
             try
             {
                 UserSetting.SaveSetting();

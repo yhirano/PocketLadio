@@ -5,8 +5,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
+using PocketLadio.Utility;
 using PocketLadio.Stations;
-using PocketLadio.Stations.Utility;
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -127,7 +127,7 @@ namespace PocketLadio.Stations.RssPodcast
                 // itemタグの中にいるか
                 bool inItemFlag = false;
 
-                st = HeadlineUtility.GetHttpStream(setting.RssUrl);
+                st = PocketLadioUtility.GetHttpStream(setting.RssUrl);
                 reader = new XmlTextReader(st);
 
                 while (reader.Read())
@@ -164,7 +164,7 @@ namespace PocketLadio.Stations.RssPodcast
                             } // End of link
                             else if (reader.LocalName == "pubDate")
                             {
-                                channel.Date = reader.ReadString();
+                                channel.SetDate(reader.ReadString());
                             } // End of pubDate
                             else if (reader.LocalName == "category")
                             {

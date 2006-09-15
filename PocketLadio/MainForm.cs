@@ -45,7 +45,12 @@ namespace PocketLadio
         /// <summary>
         /// 選択されていた放送局のID
         /// </summary>
-        private string SelectedStationID = "";
+        private string selectedStationID = "";
+
+        /// <summary>
+        /// CheckHeadline()の動作排他処理のためのフラグ
+        /// </summary>
+        private bool checkHeadlineNowFlag;
 
         public MainForm()
         {
@@ -323,100 +328,109 @@ namespace PocketLadio
         /// </summary>
         private void CheckHeadline()
         {
-            lock (this)
+            // CheckHeadline()が処理の場合は何もせず終了
+            if (checkHeadlineNowFlag == true)
             {
-                // 放送局選択ボックスが選択可能だったフラグ
-                bool StationListComboBoxEnabledFlag = false;
+                return;
+            }
 
-                try
-                {
-                    /** UI前処理 **/
-                    // GetボタンとFilterチェックボックスをいったん選択不可にする
-                    GetButton.Enabled = false;
-                    FilterCheckBox.Enabled = false;
+            // 排他処理のためのフラグを立てる
+            checkHeadlineNowFlag = true;
 
-                    // 放送局選択ボックスが選択可能だった場合にのみ、いったん選択不可にする
-                    // （放送局がひとつも設定されていない場合には、元々選択不可のため）
-                    if (StationListComboBox.Enabled == true)
-                    {
-                        StationListComboBox.Enabled = false;
-                        // 放送局選択ボックスが選択可能だったフラグを立てる
-                        StationListComboBoxEnabledFlag = true;
-                    }
+            // 放送局選択ボックスが選択可能だったフラグ
+            bool StationListComboBoxEnabledFlag = false;
 
-                    /** 番組取得処理 **/
-                    // 番組を取得する
-                    StationList.WebGetHeadlineOfCurrentStation();
+            try
+            {
+                /** UI前処理 **/
+                // GetボタンとFilterチェックボックスをいったん選択不可にする
+                GetButton.Enabled = false;
+                FilterCheckBox.Enabled = false;
 
-                    // 番組が取得できなかった場合
-                    if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
-                    {
-                        InfomationLabel.Text = "No Check - 0 CHs";
-                    }
-                    // 番組が取得できた場合
-                    else
-                    {
-                        InfomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString()
-                            + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
-                    }
+                // 放送局選択ボックスが選択可能だった場合にのみ、いったん選択不可にする
+                // （放送局がひとつも設定されていない場合には、元々選択不可のため）
+                if (StationListComboBox.Enabled == true)
+                {
+                    StationListComboBox.Enabled = false;
+                    // 放送局選択ボックスが選択可能だったフラグを立てる
+                    StationListComboBoxEnabledFlag = true;
+                }
 
-                    // 番組リストを更新する
-                    UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
-                }
-                catch (WebException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show("番組表を取得できませんでした", "接続エラー");
-                }
-                catch (OutOfMemoryException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show("メモリが足りません", "メモリエラー");
-                }
-                catch (IOException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show("記録デバイスが何らかのエラーです", "デバイスエラー");
-                }
-                catch (UriFormatException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
-                }
-                catch (SocketException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show("番組表を取得できませんでした", "ネットワークエラー");
-                }
-                catch (NotSupportedException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
-                }
-                catch (XmlException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show("XML形式のヘッドラインが正常に処理できませんでした", "XMLエラー");
-                }
-                catch (ArgumentException)
-                {
-                    HeadlineCheckTimerStop();
-                    MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
-                }
-                finally
-                {
-                    /** UI後処理 **/
-                    // GetボタンとFilterチェックボックスを選択可能に回復する
-                    GetButton.Enabled = true;
-                    FilterCheckBox.Enabled = true;
+                /** 番組取得処理 **/
+                // 番組を取得する
+                StationList.WebGetHeadlineOfCurrentStation();
 
-                    // 放送局選択ボックスが選択可能だった場合にのみ、選択可能に回復する
-                    // （放送局がひとつも設定されていない場合には、元々選択不可のため）
-                    if (StationListComboBoxEnabledFlag == true)
-                    {
-                        StationListComboBox.Enabled = true;
-                    }
+                // 番組が取得できなかった場合
+                if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
+                {
+                    InfomationLabel.Text = "No Check - 0 CHs";
                 }
+                // 番組が取得できた場合
+                else
+                {
+                    InfomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString()
+                        + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
+                }
+
+                // 番組リストを更新する
+                UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
+            }
+            catch (WebException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show("番組表を取得できませんでした", "接続エラー");
+            }
+            catch (OutOfMemoryException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show("メモリが足りません", "メモリエラー");
+            }
+            catch (IOException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show("記録デバイスが何らかのエラーです", "デバイスエラー");
+            }
+            catch (UriFormatException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
+            }
+            catch (SocketException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show("番組表を取得できませんでした", "ネットワークエラー");
+            }
+            catch (NotSupportedException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
+            }
+            catch (XmlException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show("XML形式のヘッドラインが正常に処理できませんでした", "XMLエラー");
+            }
+            catch (ArgumentException)
+            {
+                HeadlineCheckTimerStop();
+                MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
+            }
+            finally
+            {
+                /** UI後処理 **/
+                // GetボタンとFilterチェックボックスを選択可能に回復する
+                GetButton.Enabled = true;
+                FilterCheckBox.Enabled = true;
+
+                // 放送局選択ボックスが選択可能だった場合にのみ、選択可能に回復する
+                // （放送局がひとつも設定されていない場合には、元々選択不可のため）
+                if (StationListComboBoxEnabledFlag == true)
+                {
+                    StationListComboBox.Enabled = true;
+                }
+
+                // 排他処理のためのフラグを下げる
+                checkHeadlineNowFlag = false;
             }
         }
 
@@ -599,7 +613,7 @@ namespace PocketLadio
                 // 以前に選択されていた放送局を選択し直す
                 for (int Count = 0; Count < StationListComboBox.Items.Count; ++Count)
                 {
-                    if (StationList.GetStationList()[Count].HeadlineId == SelectedStationID)
+                    if (StationList.GetStationList()[Count].HeadlineId == selectedStationID)
                     {
                         this.StationListComboBox.SelectedIndex = Count;
                         break;
@@ -732,6 +746,7 @@ namespace PocketLadio
 
         private void MainForm_Load(object sender, System.EventArgs e)
         {
+            // 初期化処理
             LoadSettings();
 
             FixWindowSize();
@@ -821,7 +836,7 @@ namespace PocketLadio
             // 選択していた放送局を記憶する
             if (StationListComboBox.SelectedIndex != -1)
             {
-                SelectedStationID = StationList.HeadlineIdOfCurrentStation;
+                selectedStationID = StationList.HeadlineIdOfCurrentStation;
             }
         }
 

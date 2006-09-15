@@ -103,7 +103,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Stations\ShoutCast\UserSetting.cs" />
-    <Compile Include="Stations\Utility\HeadlineUtility.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="Utility\ClipboardTextBox.cs" />
     <Compile Include="Utility\PocketLadioUtility.cs" />

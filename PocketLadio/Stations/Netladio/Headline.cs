@@ -5,8 +5,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
+using PocketLadio.Utility;
 using PocketLadio.Stations;
-using PocketLadio.Stations.Utility;
 
 namespace PocketLadio.Stations.Netladio
 {
@@ -182,7 +182,7 @@ namespace PocketLadio.Stations.Netladio
                 // チャンネルのリスト
                 ArrayList alChannels = new ArrayList();
 
-                st = HeadlineUtility.GetHttpStream(setting.HeadlineCsvUrl);
+                st = PocketLadioUtility.GetHttpStream(setting.HeadlineCsvUrl);
                 sr = new StreamReader(st, Encoding.GetEncoding("shift-jis"));
                 string httpString = sr.ReadToEnd();
                 string[] channelsCvs = httpString.Split('\n');
@@ -218,10 +218,10 @@ namespace PocketLadio.Stations.Netladio
                         channel.Mnt = channelCsv[4];
 
                         // Tim取得
-                        channel.Tim = channelCsv[5];
+                        channel.SetTim(channelCsv[5]);
 
                         // Tims取得
-                        channel.Tims = channelCsv[6];
+                        channel.SetTims(channelCsv[6]);
 
                         // Cln取得
                         channel.Cln = channelCsv[7];
@@ -303,7 +303,7 @@ namespace PocketLadio.Stations.Netladio
                 // 番組のリスト
                 ArrayList alChannels = new ArrayList();
 
-                st = HeadlineUtility.GetHttpStream(setting.HeadlineXmlUrl);
+                st = PocketLadioUtility.GetHttpStream(setting.HeadlineXmlUrl);
                 reader = new XmlTextReader(st);
 
                 // チャンネル
@@ -353,11 +353,11 @@ namespace PocketLadio.Stations.Netladio
                             } // End of mnt
                             else if (reader.LocalName == "tim")
                             {
-                                channel.Tim = reader.ReadString();
+                                channel.SetTim(reader.ReadString());
                             } // End of tim
                             else if (reader.LocalName == "tims")
                             {
-                                channel.Tims = reader.ReadString();
+                                channel.SetTims(reader.ReadString());
                             } // End of tims
                             else if (reader.LocalName == "cln")
                             {

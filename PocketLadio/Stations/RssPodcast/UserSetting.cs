@@ -13,12 +13,12 @@ namespace PocketLadio.Stations.RssPodcast
     public class UserSetting
     {
         /// <summary>
-        /// Podcast‚ÌRSS‚ÌURL CSV
+        /// Podcast‚ÌRSS‚ÌURL
         /// </summary>
         private Uri rssUrl;
 
         /// <summary>
-        /// Podcast‚ÌRSS‚ÌURL CSV
+        /// Podcast‚ÌRSS‚ÌURL
         /// </summary>
         public Uri RssUrl
         {

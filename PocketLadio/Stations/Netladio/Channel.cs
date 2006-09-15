@@ -79,29 +79,27 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// Unix epochでの放送開始時間
         /// </summary>
-        private string tim = "";
+        private int tim;
 
         /// <summary>
         /// Unix epochでの放送開始時間
         /// </summary>
-        public string Tim
+        public int Tim
         {
             get { return tim; }
-            set { tim = value; }
         }
 
         /// <summary>
         /// yy/mm/dd hh:mm:ss　表記での放送開始時間
         /// </summary>
-        private string tims = "";
+        private DateTime tims = DateTime.Now;
 
         /// <summary>
         /// yy/mm/dd hh:mm:ss　表記での放送開始時間
         /// </summary>
-        public string Tims
+        public DateTime Tims
         {
             get { return tims; }
-            set { tims = value; }
         }
 
         /// <summary>
@@ -201,6 +199,50 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
+        /// 番組の配信日時をセットする。
+        /// 日時の書式は "yy'/'MM'/'dd HH':'mm':'ss" 。
+        /// </summary>
+        /// <param name="date">番組の配信日時の文字列</param>
+        public void SetTims(string date)
+        {
+            try
+            {
+                tims = DateTime.ParseExact(date, "yy'/'MM'/'dd HH':'mm':'ss",
+                    System.Globalization.DateTimeFormatInfo.InvariantInfo,
+                    System.Globalization.DateTimeStyles.None);
+            }
+            catch (FormatException)
+            {
+                tims = DateTime.Now;
+            }
+        }
+
+        /// <summary>
+        /// 番組の配信日時をセットする。
+        /// Unix epochで指定する。
+        /// </summary>
+        /// <param name="date">番組の配信日時（Unix epoch）</param>
+        public void SetTim(string date)
+        {
+            try
+            {
+                tim = int.Parse(date);
+            }
+            catch (ArgumentException)
+            {
+                tim = 0;
+            }
+            catch (FormatException)
+            {
+                tim = 0;
+            }
+            catch (OverflowException)
+            {
+                tim = 0;
+            }
+        }
+
+        /// <summary>
         /// 番組の放送URLを返す
         /// </summary>
         /// <returns>番組の放送URL</returns>
@@ -232,7 +274,7 @@ namespace PocketLadio.Stations.Netladio
                     .Replace("[[CLN]]", cln)
                     .Replace("[[CLNS]]", clns)
                     .Replace("[[TITLE]]", tit)
-                    .Replace("[[TIMES]]", tims)
+                    .Replace("[[TIMES]]", tims.ToString())
                     .Replace("[[BIT]]", bit);
             }
 

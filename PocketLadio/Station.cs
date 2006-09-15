@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using PocketLadio.Stations;
 
 namespace PocketLadio
@@ -99,6 +100,11 @@ namespace PocketLadio
             else if (kind.Equals(StationKind.ShoutCast))
             {
                 headline = new PocketLadio.Stations.ShoutCast.Headline(headlineId);
+            }
+            else
+            {
+                // ここには到達しない
+                Trace.Assert(false, "想定外の動作のため、終了します");
             }
         }
     }

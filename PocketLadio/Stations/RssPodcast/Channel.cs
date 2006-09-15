@@ -50,15 +50,14 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組の配信日時
         /// </summary>
-        private string date = "";
+        private DateTime date = DateTime.Now;
 
         /// <summary>
         /// 番組の配信日時
         /// </summary>
-        public string Date
+        public DateTime Date
         {
             get { return date; }
-            set { date = value; }
         }
 
         /// <summary>
@@ -145,6 +144,26 @@ namespace PocketLadio.Stations.RssPodcast
         }
 
         /// <summary>
+        /// 番組の配信日時をセットする。
+        /// 日時の書式は "ddd, d MMM yyyy HH':'mm':'ss zzz" 。
+        /// </summary>
+        /// <param name="pubDate">番組の配信日時の文字列</param>
+        public void SetDate(string pubDate)
+        {
+            try
+            {
+                date = DateTime.ParseExact(pubDate, "ddd, d MMM yyyy HH':'mm':'ss zzz",
+                    System.Globalization.DateTimeFormatInfo.InvariantInfo,
+                    System.Globalization.DateTimeStyles.None);
+            }
+            catch (FormatException)
+            {
+                date = DateTime.Now;
+            }
+
+        }
+
+        /// <summary>
         /// 番組の再生URLを返す
         /// </summary>
         /// <returns>番組の再生URL</returns>
@@ -211,7 +230,8 @@ namespace PocketLadio.Stations.RssPodcast
 
             // 現在セットされているエンクロージャー要素より、新たに指定されたエンクロージャー要素の方が優先度の高い場合は、
             // 新しい方のエンクロージャー要素をセットする。
-            if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type) < RssPodcastMimePriority.GetRssPodcastMimePriority(type)) {
+            if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type) < RssPodcastMimePriority.GetRssPodcastMimePriority(type))
+            {
                 this.Url = podcastUrl;
                 this.Length = length;
                 this.Type = type;

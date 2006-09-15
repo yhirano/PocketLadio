@@ -33,7 +33,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ƒ`ƒƒƒ“ƒlƒ‹
         /// </summary>
-        private Channel Channel;
+        private Channel channel;
 
         public ChannelPropertyForm(Channel channel)
         {
@@ -42,7 +42,7 @@ namespace PocketLadio.Stations.Netladio
             //
             InitializeComponent();
 
-            this.Channel = channel;
+            this.channel = channel;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace PocketLadio.Stations.Netladio
             // TimsLabel
             // 
             this.TimsLabel.Location = new System.Drawing.Point(3, 167);
-            this.TimsLabel.Size = new System.Drawing.Size(120, 16);
+            this.TimsLabel.Size = new System.Drawing.Size(234, 16);
             // 
             // ClnCaptionLabel
             // 
@@ -258,7 +258,7 @@ namespace PocketLadio.Stations.Netladio
             this.UrlLabel.Location = new System.Drawing.Point(3, 109);
             this.UrlLabel.Size = new System.Drawing.Size(236, 16);
             this.TimsLabel.Location = new System.Drawing.Point(129, 132);
-            this.TimsLabel.Size = new System.Drawing.Size(120, 16);
+            this.TimsLabel.Size = new System.Drawing.Size(234, 16);
             this.ClnLabel.Location = new System.Drawing.Point(129, 148);
             this.ClnLabel.Size = new System.Drawing.Size(120, 16);
             this.BitLabel.Location = new System.Drawing.Point(129, 164);
@@ -271,14 +271,14 @@ namespace PocketLadio.Stations.Netladio
         private void ChannelPropertyForm_Load(object sender, System.EventArgs e)
         {
             FixWindowSize();
-            NamLabel.Text = Channel.Nam.Trim();
-            GnlLabel.Text = Channel.Gnl.Trim();
-            UrlLabel.Text = ((Channel.GetPlayUrl() != null) ? Channel.GetWebsiteUrl().ToString().Trim() : "");
-            TimsLabel.Text = Channel.Tims.Trim();
-            ClnLabel.Text = Channel.Cln.Trim() + " / " + Channel.Clns.Trim();
-            if (Channel.Bit.Length != 0)
+            NamLabel.Text = channel.Nam.Trim();
+            GnlLabel.Text = channel.Gnl.Trim();
+            UrlLabel.Text = ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "");
+            TimsLabel.Text = channel.Tims.ToString().Trim();
+            ClnLabel.Text = channel.Cln.Trim() + " / " + channel.Clns.Trim();
+            if (channel.Bit.Length != 0)
             {
-                BitLabel.Text = Channel.Bit.Trim() + " Kbps";
+                BitLabel.Text = channel.Bit.Trim() + " Kbps";
             }
             else
             {
@@ -290,7 +290,7 @@ namespace PocketLadio.Stations.Netladio
         {
             try
             {
-                PocketLadioUtility.PlayStreaming(Channel.GetPlayUrl());
+                PocketLadioUtility.PlayStreaming(channel.GetPlayUrl());
             }
             catch (FileNotFoundException)
             {
@@ -304,7 +304,7 @@ namespace PocketLadio.Stations.Netladio
             {
                 if (UrlLabel.Text.Trim().Length != 0)
                 {
-                    PocketLadioUtility.AccessWebsite(Channel.GetWebsiteUrl());
+                    PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
                 }
             }
             catch (FileNotFoundException)

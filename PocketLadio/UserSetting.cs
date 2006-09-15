@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
+using System.Diagnostics;
 using PocketLadio.Utility;
 
 namespace PocketLadio
@@ -243,7 +244,7 @@ namespace PocketLadio
                     {
                         if (reader.NodeType == XmlNodeType.Element)
                         {
-                            if (reader.LocalName.Equals("Station"))
+                            if (reader.LocalName == "Station")
                             {
                                 string id = "";
                                 string name = "";
@@ -251,160 +252,103 @@ namespace PocketLadio
 
                                 if (reader.MoveToFirstAttribute())
                                 {
-                                    do
+                                    id = reader.GetAttribute("id");
+                                    name = reader.GetAttribute("name");
+                                    string kind = reader.GetAttribute("kind");
+                                    if (kind == Station.StationKind.Netladio.ToString())
                                     {
-                                        if (reader.Name.Equals("id"))
-                                        {
-                                            id = reader.Value;
-                                        }
-                                        else if (reader.Name.Equals("name"))
-                                        {
-                                            name = reader.Value;
-                                        }
-                                        else if (reader.Name.Equals("kind"))
-                                        {
-                                            if (reader.Value.Equals(Station.StationKind.Netladio.ToString()))
-                                            {
-                                                stationKind = Station.StationKind.Netladio;
-                                            }
-                                            else if (reader.Value.Equals(Station.StationKind.RssPodcast.ToString()))
-                                            {
-                                                stationKind = Station.StationKind.RssPodcast;
-                                            }
-                                            else if (reader.Value.Equals(Station.StationKind.ShoutCast.ToString()))
-                                            {
-                                                stationKind = Station.StationKind.ShoutCast;
-                                            }
-                                            else
-                                            {   // ここに到達することはあり得ない
-                                                throw new ArgumentException("不正状態です");
-                                            }
-                                        }
-                                    } while (reader.MoveToNextAttribute());
-                                }
+                                        stationKind = Station.StationKind.Netladio;
+                                    }
+                                    else if (kind == Station.StationKind.RssPodcast.ToString())
+                                    {
+                                        stationKind = Station.StationKind.RssPodcast;
+                                    }
+                                    else if (kind == Station.StationKind.ShoutCast.ToString())
+                                    {
+                                        stationKind = Station.StationKind.ShoutCast;
+                                    }
+                                    else
+                                    {
+                                        // ここに到達することはあり得ない
+                                        Trace.Assert(false, "想定外の動作のため、終了します");
+                                    }
 
-                                alStation.Add(new Station(id, name, stationKind));
+                                    alStation.Add(new Station(id, name, stationKind));
+                                }
                             } // End of Station
-
-                            if (reader.LocalName.Equals("MediaPlayerPath"))
+                            else if (reader.LocalName == "MediaPlayerPath")
                             {
-                                if (reader.MoveToFirstAttribute())
-                                {
-                                    do
-                                    {
-                                        if (reader.Name.Equals("path"))
-                                        {
-                                            MediaPlayerPath = reader.Value;
-                                        }
-                                    } while (reader.MoveToNextAttribute());
-                                }
+                                MediaPlayerPath = reader.GetAttribute("path");
                             } // End of MediaPlayerPath
-
-                            if (reader.LocalName.Equals("BrowserPath"))
+                            else if (reader.LocalName == "BrowserPath")
                             {
-                                if (reader.MoveToFirstAttribute())
-                                {
-                                    do
-                                    {
-                                        if (reader.Name.Equals("path"))
-                                        {
-                                            BrowserPath = reader.Value;
-                                        }
-                                    } while (reader.MoveToNextAttribute());
-                                }
+                                BrowserPath = reader.GetAttribute("path");
                             } // End of BrowserPath
-
-                            if (reader.LocalName.Equals("Proxy"))
+                            else if (reader.LocalName == "Proxy")
                             {
                                 if (reader.MoveToFirstAttribute())
                                 {
-                                    do
+                                    string use = reader.GetAttribute("use");
+                                    if (use == bool.TrueString)
                                     {
-                                        if (reader.Name.Equals("use"))
-                                        {
-                                            if (reader.Value.Equals(bool.TrueString))
-                                            {
-                                                ProxyUse = true;
-                                            }
-                                            else if (reader.Value.Equals(bool.FalseString))
-                                            {
-                                                ProxyUse = false;
-                                            }
-                                        }
-                                        else if (reader.Name.Equals("server"))
-                                        {
-                                            ProxyServer = reader.Value;
-                                        }
-                                        else if (reader.Name.Equals("port"))
-                                        {
-                                            ProxyPort = reader.Value;
-                                        }
-                                    } while (reader.MoveToNextAttribute());
+                                        ProxyUse = true;
+                                    }
+                                    else if (use == bool.FalseString)
+                                    {
+                                        ProxyUse = false;
+                                    }
+
+                                    ProxyServer = reader.GetAttribute("server");
+                                    ProxyPort = reader.GetAttribute("port");
                                 }
                             } // End of Proxy
-
-                            if (reader.LocalName.Equals("HeadlineTimer"))
+                            else if (reader.LocalName.Equals("HeadlineTimer"))
                             {
                                 if (reader.MoveToFirstAttribute())
                                 {
-                                    do
+                                    string check = reader.GetAttribute("check");
+                                    if (check == bool.TrueString)
                                     {
-                                        if (reader.Name.Equals("check"))
-                                        {
-                                            if (reader.Value.Equals(bool.TrueString))
-                                            {
-                                                HeadlineTimerCheck = true;
-                                            }
-                                            else if (reader.Value.Equals(bool.FalseString))
-                                            {
-                                                HeadlineTimerCheck = false;
-                                            }
-                                        }
-                                        else if (reader.Name.Equals("millsecond"))
-                                        {
-                                            try
-                                            {
-                                                HeadlineTimerMillSecond = Convert.ToInt32(reader.Value);
-                                            }
-                                            catch (ArgumentException)
-                                            {
-                                                ;
-                                            }
-                                            catch (FormatException)
-                                            {
-                                                ;
-                                            }
-                                            catch (OverflowException)
-                                            {
-                                                ;
-                                            }
-                                        }
-                                    } while (reader.MoveToNextAttribute());
+                                        HeadlineTimerCheck = true;
+                                    }
+                                    else if (check == bool.FalseString)
+                                    {
+                                        HeadlineTimerCheck = false;
+                                    }
+                                    try
+                                    {
+                                        HeadlineTimerMillSecond = Convert.ToInt32(reader.GetAttribute("millsecond"));
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
                                 }
                             } // End of HeadlineTimer
-
-                            if (reader.LocalName.Equals("Filter"))
+                            else if (reader.LocalName == "Filter")
                             {
                                 if (reader.MoveToFirstAttribute())
                                 {
-                                    do
-                                    {
-                                        if (reader.Name.Equals("word"))
-                                        {
-                                            alFilterWords.Add(reader.Value);
-                                        }
-                                    } while (reader.MoveToNextAttribute());
+                                    alFilterWords.Add(reader.GetAttribute("word"));
                                 }
                             } // End of Filter
 
                         }
                         else if (reader.NodeType == XmlNodeType.EndElement)
                         {
-                            if (reader.LocalName.Equals("StationList"))
+                            if (reader.LocalName == "StationList")
                             {
                                 StationList.SetStationList((Station[])alStation.ToArray(typeof(Station)));
                             }
-                            else if (reader.LocalName.Equals("FilterWords"))
+                            else if (reader.LocalName == "FilterWords")
                             {
                                 SetFilterWords((string[])alFilterWords.ToArray(typeof(string)));
                             }

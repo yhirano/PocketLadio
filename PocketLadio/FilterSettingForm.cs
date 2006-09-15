@@ -238,7 +238,9 @@ namespace PocketLadio
             if (AddWordTextBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
-                DialogResult result = MessageBox.Show(AddWordTextBox.Text.Trim() + "を追加しますか？", AddWordTextBox.Text.Trim() + "を追加し忘れていませんか？", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                DialogResult result = MessageBox.Show(
+                    AddWordTextBox.Text.Trim() + "を追加しますか？\n（" + AddWordTextBox.Text.Trim() + "はまだ追加されていません）"
+                    , "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (result == DialogResult.Yes)
                 {
                     FilterListBox.Items.Add(AddWordTextBox.Text.Trim());

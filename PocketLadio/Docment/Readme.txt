@@ -2,8 +2,9 @@ PocketLadio
 
 
 【主な機能】
-PocketLadioはMicrosoft Windows Mobile 5.0 Pocket PC上で動作する「ねとらじ」と
-「Podcast」のヘッドラインをインターネットより取得、表示するツールです。
+PocketLadioはMicrosoft Windows Mobile 5.0 Pocket PC上で動作する「ねとらじ」
+「Podcast」「SHOUTcast」のヘッドラインをインターネットより取得、表示するツール
+です。
 
 ねとらじ
 http://live.ladio.livedoor.com/
@@ -79,7 +80,7 @@ PocketLadioの設定を行うことができます。
 
 ・Podcast設定
 トップ画面から[メニュー]->[放送局の設定]->[(放送局名) - Podcast 設定]を選択す
-るとねとらじの設定を行うことができます。
+るとPodcastの設定を行うことができます。
 [PodcastのRSS URL]はPodcastのRSSのURLを指定します。
 [ヘッドラインの表示方法]はトップ画面でのヘッドラインの表示方法を設定します。
 
@@ -88,6 +89,21 @@ PocketLadioの設定を行うことができます。
 [[DESCRIPTION]] - 番組の詳細
 [[CATEGORY]]    - 番組のカテゴリ
 [[AUTHOR]]      - 番組の著者
+
+・SHOUTcast設定
+トップ画面から[メニュー]->[放送局の設定]->[(放送局名) - SHOUTcast 設定]を選択
+するとSHOUTcastの設定を行うことができます。
+[Seach word]はSHOUTcastの番組の検索キーワードを指定します。
+[Max bit rate]は聴きたい番組の最大ビットレートを指定します。
+[ヘッドラインの表示方法]はトップ画面でのヘッドラインの表示方法を設定します。
+
+・SHOUTcast設定 ヘッドラインの表示方法
+[[RANK]]     - ランク
+[[TITLE]]    - 番組のタイトル
+[[PLAYING]]  - 現在演奏中の曲
+[[LISTENER]] - リスナ数
+[[CATEGORY]] - 番組のカテゴリ
+[[BIT]]      - ビットレート
 
 
 【ライセンス】
@@ -99,10 +115,16 @@ PocketLadioの設定を行うことができます。
 開発にあたりW-ZERO3でのみテストしており、他のデバイスや環境で正常に動作するか
 についてはテストしていません。
 
+SHOUTcastは現状では暫定対応とさせていただきます。
+SHOUTcastサイトのHTMLの解析に非常に時間がかかるために、10件のみの表示としていま
+す。
+
 
 【バージョン履歴】
 Version 0.16
 ・SHOUTcastに対応（暫定）
+・番組の詳細を開くと落ちる場合があったのを修正
+・UIの細かい修正
 
 Version 0.15
 ・XMLの読み込み時に応答が帰ってこなくなる場合があったのを修正
