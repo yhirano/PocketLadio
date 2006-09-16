@@ -453,18 +453,6 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
-        /// 番組の詳細フォームを表示する
-        /// </summary>
-        /// <param name="channel">番組</param>
-        /// <returns>番組の詳細フォーム</returns>
-        public virtual void ShowPropertyForm(IChannel channel)
-        {
-            ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm((Channel)channel);
-            channelPropertyForm.ShowDialog();
-            channelPropertyForm.Dispose();
-        }
-
-        /// <summary>
         /// 設定を保存していたファイルを削除する
         /// </summary>
         public virtual void DeleteUserSettingFile()

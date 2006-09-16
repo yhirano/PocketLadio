@@ -212,6 +212,18 @@ namespace PocketLadio.Stations.RssPodcast
         }
 
         /// <summary>
+        /// 番組の詳細フォームを表示する
+        /// </summary>
+        /// <param name="channel">番組</param>
+        /// <returns>番組の詳細フォーム</returns>
+        public void ShowPropertyForm()
+        {
+            ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm(this);
+            channelPropertyForm.ShowDialog();
+            channelPropertyForm.Dispose();
+        }
+
+        /// <summary>
         /// エンクロージャー要素をセットする。
         /// エンクロージャー要素の追加が複数回あった場合には、MIME Typeの優先度設定に従い、優先度の高いエンクロージャー要素の内容をセットする。
         /// </summary>

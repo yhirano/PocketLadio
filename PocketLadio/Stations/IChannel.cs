@@ -35,5 +35,11 @@ namespace PocketLadio.Stations
         /// </summary>
         /// <returns>フィルタリング対象のワード</returns>
         string GetFilteredWord();
+
+        /// <summary>
+        /// 番組の詳細フォームを表示する
+        /// </summary>
+        /// <param name="channel">番組</param>
+        void ShowPropertyForm();
     }
 }

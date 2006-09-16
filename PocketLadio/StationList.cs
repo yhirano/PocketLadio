@@ -178,7 +178,7 @@ namespace PocketLadio
         {
             if (currentStation != null)
             {
-                currentStation.Headline.ShowPropertyForm(channel);
+                channel.ShowPropertyForm();
             }
         }
     }

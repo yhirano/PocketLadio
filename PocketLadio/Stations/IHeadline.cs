@@ -46,12 +46,6 @@ namespace PocketLadio.Stations
         void ShowSettingForm();
 
         /// <summary>
-        /// 番組の詳細フォームを表示する
-        /// </summary>
-        /// <param name="channel">番組</param>
-        void ShowPropertyForm(IChannel channel);
-
-        /// <summary>
         /// 設定を保存していたファイルを削除する
         /// </summary>
         void DeleteUserSettingFile();

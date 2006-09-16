@@ -244,7 +244,7 @@ namespace PocketLadio.Stations.ShoutCast
                 ArrayList alChannels = new ArrayList();
                 Channel channel = null;
 
-                string searchWord = ((setting.SearchWord.Length != 0) ? "?s=" + setting.SearchWord : "");
+                string searchWord = ((setting.SearchWord.Length != 0) ? "?s=" + setting.SearchWord : "?");
                 // 半角スペースと全角スペースを+に置き換える SHOUTcast上のURLでAND検索のスペースが+に置き換えられるため
                 searchWord = searchWord.Replace(' ', '+').Replace("　", "+");
 
@@ -455,18 +455,6 @@ namespace PocketLadio.Stations.ShoutCast
             SettingForm settingForm = new SettingForm(setting);
             settingForm.ShowDialog();
             settingForm.Dispose();
-        }
-
-        /// <summary>
-        /// 番組の詳細フォームを表示する
-        /// </summary>
-        /// <param name="channel">番組</param>
-        /// <returns>番組の詳細フォーム</returns>
-        public virtual void ShowPropertyForm(IChannel channel)
-        {
-            ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm((Channel)channel);
-            channelPropertyForm.ShowDialog();
-            channelPropertyForm.Dispose();
         }
 
         /// <summary>
