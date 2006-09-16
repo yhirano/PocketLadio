@@ -397,7 +397,7 @@ namespace PocketLadio
             catch (UriFormatException)
             {
                 HeadlineCheckTimerStop();
-                MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
+                MessageBox.Show(StationList.StationNameOfCurrentStation + "のURLが不正です", "URLエラー");
             }
             catch (SocketException)
             {
@@ -407,7 +407,7 @@ namespace PocketLadio
             catch (NotSupportedException)
             {
                 HeadlineCheckTimerStop();
-                MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
+                MessageBox.Show(StationList.StationNameOfCurrentStation + "のURLが不正です", "URLエラー");
             }
             catch (XmlException)
             {
@@ -417,7 +417,7 @@ namespace PocketLadio
             catch (ArgumentException)
             {
                 HeadlineCheckTimerStop();
-                MessageBox.Show(StationList.HeadlineNameOfCurrentStation + "のURLが不正です", "URLエラー");
+                MessageBox.Show(StationList.StationNameOfCurrentStation + "のURLが不正です", "URLエラー");
             }
             finally
             {
@@ -831,7 +831,7 @@ namespace PocketLadio
             // 選択していた放送局を記憶する
             if (stationListComboBox.SelectedIndex != -1)
             {
-                selectedStationID = StationList.HeadlineIdOfCurrentStation;
+                selectedStationID = StationList.StationIdOfCurrentStation;
             }
         }
 

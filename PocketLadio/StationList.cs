@@ -38,9 +38,9 @@ namespace PocketLadio
         private static Station currentStation;
 
         /// <summary>
-        /// 放送局の持つヘッドラインのIDを返す
+        /// 放送局のIDを返す
         /// </summary>
-        public static string HeadlineIdOfCurrentStation
+        public static string StationIdOfCurrentStation
         {
             get { return (currentStation != null ? currentStation.Id : ""); }
         }
@@ -48,7 +48,7 @@ namespace PocketLadio
         /// <summary>
         /// 放送局の名前を返す
         /// </summary>
-        public static string HeadlineNameOfCurrentStation
+        public static string StationNameOfCurrentStation
         {
             get { return (currentStation != null ? currentStation.Name : ""); }
         }
