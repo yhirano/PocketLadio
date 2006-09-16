@@ -255,7 +255,7 @@ namespace PocketLadio
                         {
                             if (reader.LocalName == "StationList") {
                                 inStationListFlag = true;
-                            }
+                            } // End of StationList
                             else if (reader.LocalName == "FilterWords") {
                                 inFilterWordsFlag = true;
                             }
