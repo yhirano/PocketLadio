@@ -617,7 +617,7 @@ namespace PocketLadio
                 // 以前に選択されていた放送局を選択し直す
                 for (int count = 0; count < stationListComboBox.Items.Count; ++count)
                 {
-                    if (StationList.GetStationList()[count].HeadlineId == selectedStationID)
+                    if (StationList.GetStationList()[count].Id == selectedStationID)
                     {
                         this.stationListComboBox.SelectedIndex = count;
                         break;
@@ -644,48 +644,6 @@ namespace PocketLadio
                 this.stationListComboBox.Enabled = false;
                 // 各放送局の切り替えボックスをクリアする
                 this.stationListComboBox.Items.Clear();
-            }
-        }
-
-        /// <summary>
-        /// 設定の読み込み
-        /// </summary>
-        private void LoadSettings()
-        {
-            try
-            {
-                // 起動時の初期化
-                PocketLadioUtility.StartUpInitialize();
-
-                // ヘッドラインが有効な場合、ヘッドラインを動作させる
-                if (UserSetting.HeadlineTimerCheck == true)
-                {
-                    HeadlineCheckTimerStart();
-                }
-                else
-                {
-                    HeadlineCheckTimerStop();
-                }
-
-                StationsSettingAndCheckBoxAdd();
-
-                // 番組リストがある場合
-                if (StationList.GetChannelsFilteredOfCurrentStation().Length > 0)
-                {
-                    UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
-                }
-            }
-            catch (XmlException)
-            {
-                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの解析エラー");
-            }
-            catch (IOException)
-            {
-                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
-            }
-            catch (ArgumentNullException)
-            {
-                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
             }
         }
 
@@ -750,10 +708,56 @@ namespace PocketLadio
 
         private void MainForm_Load(object sender, System.EventArgs e)
         {
-            // 初期化処理
-            LoadSettings();
+            try
+            {
+                // 起動時の初期化
+                PocketLadioSpecificProcess.StartUpInitialize();
+
+                // ヘッドラインが有効な場合、ヘッドラインを動作させる
+                if (UserSetting.HeadlineTimerCheck == true)
+                {
+                    HeadlineCheckTimerStart();
+                }
+                else
+                {
+                    HeadlineCheckTimerStop();
+                }
+
+                StationsSettingAndCheckBoxAdd();
+
+                // 番組リストがある場合
+                if (StationList.GetChannelsFilteredOfCurrentStation().Length > 0)
+                {
+                    UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
+                }
+            }
+            catch (XmlException)
+            {
+                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの解析エラー");
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
+            }
 
             FixWindowSize();
+        }
+
+        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                // 終了時処理
+                PocketLadioSpecificProcess.ExitDisable();
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+            }
         }
 
         private void PlayMenuItem_Click(object sender, System.EventArgs e)
@@ -781,19 +785,6 @@ namespace PocketLadio
         private void HeadlineCheckTimer_Tick(object sender, System.EventArgs e)
         {
             CheckHeadline();
-        }
-
-        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            try
-            {
-                // 設定ファイルの書き込み
-                UserSetting.SaveSetting();
-            }
-            catch (IOException)
-            {
-                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
-            }
         }
 
         private void PocketLadioSettingMenuItem_Click(object sender, System.EventArgs e)

@@ -42,7 +42,7 @@ namespace PocketLadio
         /// </summary>
         public static string HeadlineIdOfCurrentStation
         {
-            get { return (currentStation != null ? currentStation.HeadlineId : ""); }
+            get { return (currentStation != null ? currentStation.Id : ""); }
         }
 
         /// <summary>

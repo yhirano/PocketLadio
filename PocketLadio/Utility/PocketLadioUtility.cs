@@ -7,7 +7,6 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Collections;
 using System.Xml;
-using System.Windows.Forms;
 
 #endregion
 
@@ -23,35 +22,6 @@ namespace PocketLadio.Utility
         /// </summary>
         private PocketLadioUtility()
         {
-        }
-
-        /// <summary>
-        /// PocketLadio起動時の初期化処理。
-        /// </summary>
-        public static void StartUpInitialize()
-        {
-            try
-            {
-                // 設定を読み込む
-                UserSetting.LoadSetting();
-
-                PocketLadio.Stations.Netladio.Headline.StartUpInitialize();
-                PocketLadio.Stations.RssPodcast.Headline.StartUpInitialize();
-                PocketLadio.Stations.ShoutCast.Headline.StartUpInitialize();
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
-
         }
 
         /// <summary>

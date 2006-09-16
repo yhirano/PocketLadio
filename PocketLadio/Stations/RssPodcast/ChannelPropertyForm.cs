@@ -13,7 +13,7 @@ using PocketLadio.Utility;
 namespace PocketLadio.Stations.RssPodcast
 {
     /// <summary>
-    /// チャンネルの詳細情報表示フォーム
+    /// 番組の詳細情報表示フォーム
     /// </summary>
     public class ChannelPropertyForm : System.Windows.Forms.Form
     {

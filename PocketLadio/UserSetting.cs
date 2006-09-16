@@ -435,7 +435,7 @@ namespace PocketLadio
                 foreach (Station station in StationList.GetStationList())
                 {
                     writer.WriteStartElement("Station");
-                    writer.WriteAttributeString("id", station.HeadlineId);
+                    writer.WriteAttributeString("id", station.Id);
                     writer.WriteAttributeString("name", station.Name);
                     writer.WriteAttributeString("kind", station.Kind.ToString());
                     writer.WriteEndElement(); // End of Station

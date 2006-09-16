@@ -14,9 +14,17 @@ namespace PocketLadio
     public class Station
     {
         /// <summary>
-        /// ヘッドラインのID
+        /// 放送局のID
         /// </summary>
-        private string headlineId;
+        private string id;
+
+        /// <summary>
+        /// 放送局のID
+        /// </summary>
+        public string Id
+        {
+            get { return id; }
+        }
 
         /// <summary>
         /// 放送局の名前
@@ -58,14 +66,6 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// ヘッドラインのID
-        /// </summary>
-        public string HeadlineId
-        {
-            get { return headlineId; }
-        }
-
-        /// <summary>
         /// 放送局の名前
         /// </summary>
         public string Name
@@ -84,26 +84,26 @@ namespace PocketLadio
         /// <summary>
         /// 放送局のコンストラクタ
         /// </summary>
-        /// <param name="ID">ヘッドラインのID</param>
+        /// <param name="id">放送局のID</param>
         /// <param name="name">放送局の名前</param>
-        /// <param name="StationKind">放送局の種類</param>
-        public Station(string headlineID, string name, StationKind stationKind)
+        /// <param name="stationKind">放送局の種類</param>
+        public Station(string id, string name, StationKind stationKind)
         {
-            this.headlineId = headlineID;
+            this.id = id;
             this.name = name;
             this.kind = stationKind;
 
             if (kind.Equals(StationKind.Netladio))
             {
-                headline = new PocketLadio.Stations.Netladio.Headline(headlineId);
+                headline = new PocketLadio.Stations.Netladio.Headline(id);
             }
             else if (kind.Equals(StationKind.RssPodcast))
             {
-                headline = new PocketLadio.Stations.RssPodcast.Headline(headlineId);
+                headline = new PocketLadio.Stations.RssPodcast.Headline(id);
             }
             else if (kind.Equals(StationKind.ShoutCast))
             {
-                headline = new PocketLadio.Stations.ShoutCast.Headline(headlineId);
+                headline = new PocketLadio.Stations.ShoutCast.Headline(id);
             }
             else
             {
