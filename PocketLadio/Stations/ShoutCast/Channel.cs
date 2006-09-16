@@ -195,7 +195,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         /// <param name="channel">番組</param>
         /// <returns>番組の詳細フォーム</returns>
-        public void ShowPropertyForm()
+        public virtual void ShowPropertyForm()
         {
             ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm(this);
             channelPropertyForm.ShowDialog();

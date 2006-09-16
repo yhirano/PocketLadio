@@ -162,7 +162,35 @@ namespace PocketLadio.Stations.RssPodcast
             {
                 date = DateTime.Now;
             }
+        }
 
+        /// <summary>
+        /// エンクロージャー要素をセットする。
+        /// エンクロージャー要素の追加が複数回あった場合には、MIME Typeの優先度設定に従い、優先度の高いエンクロージャー要素の内容をセットする。
+        /// </summary>
+        /// <param name="podcastUrl">エンクロージャーのURL</param>
+        /// <param name="length">エンクロージャーのLENGTH</param>
+        /// <param name="type">エンクロージャーのTYPE</param>
+        public void SetEnclosure(Uri podcastUrl, string length, string type)
+        {
+            // Urlがまだセットされていない場合はとりあえずUrl、Length、Typeを設定して終了
+            if (GetPlayUrl() == null)
+            {
+                this.Url = podcastUrl;
+                this.Length = length;
+                this.Type = type;
+
+                return;
+            }
+
+            // 現在セットされているエンクロージャー要素より、新たに指定されたエンクロージャー要素の方が優先度の高い場合は、
+            // 新しい方のエンクロージャー要素をセットする。
+            if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type) < RssPodcastMimePriority.GetRssPodcastMimePriority(type))
+            {
+                this.Url = podcastUrl;
+                this.Length = length;
+                this.Type = type;
+            }
         }
 
         /// <summary>
@@ -216,40 +244,11 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         /// <param name="channel">番組</param>
         /// <returns>番組の詳細フォーム</returns>
-        public void ShowPropertyForm()
+        public virtual void ShowPropertyForm()
         {
             ChannelPropertyForm channelPropertyForm = new ChannelPropertyForm(this);
             channelPropertyForm.ShowDialog();
             channelPropertyForm.Dispose();
-        }
-
-        /// <summary>
-        /// エンクロージャー要素をセットする。
-        /// エンクロージャー要素の追加が複数回あった場合には、MIME Typeの優先度設定に従い、優先度の高いエンクロージャー要素の内容をセットする。
-        /// </summary>
-        /// <param name="podcastUrl">エンクロージャーのURL</param>
-        /// <param name="length">エンクロージャーのLENGTH</param>
-        /// <param name="type">エンクロージャーのTYPE</param>
-        public void SetEnclosure(Uri podcastUrl, string length, string type)
-        {
-            // Urlがまだセットされていない場合はとりあえずUrl、Length、Typeを設定して終了
-            if (GetPlayUrl() == null)
-            {
-                this.Url = podcastUrl;
-                this.Length = length;
-                this.Type = type;
-
-                return;
-            }
-
-            // 現在セットされているエンクロージャー要素より、新たに指定されたエンクロージャー要素の方が優先度の高い場合は、
-            // 新しい方のエンクロージャー要素をセットする。
-            if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type) < RssPodcastMimePriority.GetRssPodcastMimePriority(type))
-            {
-                this.Url = podcastUrl;
-                this.Length = length;
-                this.Type = type;
-            }
         }
     }
 }
