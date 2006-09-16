@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Resources;
 
 [assembly: AssemblyTitle("PocketLadio")]
-[assembly: AssemblyDescription("Simple net-ladio and podcast checker for Windows Mobile")]
+[assembly: AssemblyDescription("Simple Net-ladio, Podcast and SHOUTcast checker for Windows Mobile")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PocketLadio")]

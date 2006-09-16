@@ -1,3 +1,5 @@
+#region ディレクティブを使用する
+
 using System;
 using System.Drawing;
 using System.Collections;
@@ -6,6 +8,8 @@ using System.Windows.Forms;
 using System.IO;
 using PocketLadio.Utility;
 
+#endregion
+
 namespace PocketLadio.Stations.RssPodcast
 {
     /// <summary>
@@ -13,29 +17,29 @@ namespace PocketLadio.Stations.RssPodcast
     /// </summary>
     public class ChannelPropertyForm : System.Windows.Forms.Form
     {
-        private Label TitleCaptionLabel;
-        private Label DescriptionCaptionLabel;
-        private Label LinkCaptionLabel;
-        private Label DateCaptionLabel;
-        private Label TitleLabel;
-        private Label DescriptionLabel;
-        private Label LinkLabel;
-        private Label DateLabel;
-        private Button AccessButton;
-        private MenuItem OkMenuItem;
-        private Button PlayButton;
-        private MainMenu MainMenu;
-        private Label AuthorLabel;
-        private Label AuthorCaptionLabel;
-        private Label LengthLabel;
-        private Label LengthCaptionLabel;
-        private Label TypeLabel;
-        private Label TypeCaptionLabel;
+        private Label titleCaptionLabel;
+        private Label descriptionCaptionLabel;
+        private Label linkCaptionLabel;
+        private Label dateCaptionLabel;
+        private Label titleLabel;
+        private Label descriptionLabel;
+        private Label linkLabel;
+        private Label dateLabel;
+        private Button accessButton;
+        private MenuItem okMenuItem;
+        private Button playButton;
+        private MainMenu mainMenu;
+        private Label authorLabel;
+        private Label authorCaptionLabel;
+        private Label lengthLabel;
+        private Label lengthCaptionLabel;
+        private Label typeLabel;
+        private Label typeCaptionLabel;
 
         /// <summary>
         /// チャンネル
         /// </summary>
-        private Channel Channel;
+        private Channel channel;
 
         public ChannelPropertyForm(Channel channel)
         {
@@ -44,7 +48,7 @@ namespace PocketLadio.Stations.RssPodcast
             //
             InitializeComponent();
 
-            this.Channel = channel;
+            this.channel = channel;
         }
 
         /// <summary>
@@ -62,146 +66,146 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         private void InitializeComponent()
         {
-            this.TitleCaptionLabel = new System.Windows.Forms.Label();
-            this.TitleLabel = new System.Windows.Forms.Label();
-            this.DescriptionCaptionLabel = new System.Windows.Forms.Label();
-            this.DescriptionLabel = new System.Windows.Forms.Label();
-            this.LinkCaptionLabel = new System.Windows.Forms.Label();
-            this.LinkLabel = new System.Windows.Forms.Label();
-            this.DateCaptionLabel = new System.Windows.Forms.Label();
-            this.DateLabel = new System.Windows.Forms.Label();
-            this.AccessButton = new System.Windows.Forms.Button();
-            this.MainMenu = new System.Windows.Forms.MainMenu();
-            this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.PlayButton = new System.Windows.Forms.Button();
-            this.AuthorLabel = new System.Windows.Forms.Label();
-            this.AuthorCaptionLabel = new System.Windows.Forms.Label();
-            this.LengthLabel = new System.Windows.Forms.Label();
-            this.LengthCaptionLabel = new System.Windows.Forms.Label();
-            this.TypeLabel = new System.Windows.Forms.Label();
-            this.TypeCaptionLabel = new System.Windows.Forms.Label();
+            this.titleCaptionLabel = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.descriptionCaptionLabel = new System.Windows.Forms.Label();
+            this.descriptionLabel = new System.Windows.Forms.Label();
+            this.linkCaptionLabel = new System.Windows.Forms.Label();
+            this.linkLabel = new System.Windows.Forms.Label();
+            this.dateCaptionLabel = new System.Windows.Forms.Label();
+            this.dateLabel = new System.Windows.Forms.Label();
+            this.accessButton = new System.Windows.Forms.Button();
+            this.mainMenu = new System.Windows.Forms.MainMenu();
+            this.okMenuItem = new System.Windows.Forms.MenuItem();
+            this.playButton = new System.Windows.Forms.Button();
+            this.authorLabel = new System.Windows.Forms.Label();
+            this.authorCaptionLabel = new System.Windows.Forms.Label();
+            this.lengthLabel = new System.Windows.Forms.Label();
+            this.lengthCaptionLabel = new System.Windows.Forms.Label();
+            this.typeLabel = new System.Windows.Forms.Label();
+            this.typeCaptionLabel = new System.Windows.Forms.Label();
             // 
-            // TitleCaptionLabel
+            // titleCaptionLabel
             // 
-            this.TitleCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.TitleCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.TitleCaptionLabel.Text = "番組名";
+            this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
+            this.titleCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.titleCaptionLabel.Text = "番組名";
             // 
-            // TitleLabel
+            // titleLabel
             // 
-            this.TitleLabel.Location = new System.Drawing.Point(3, 19);
-            this.TitleLabel.Size = new System.Drawing.Size(234, 16);
+            this.titleLabel.Location = new System.Drawing.Point(3, 19);
+            this.titleLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // DescriptionCaptionLabel
+            // descriptionCaptionLabel
             // 
-            this.DescriptionCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.DescriptionCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.DescriptionCaptionLabel.Text = "詳細";
+            this.descriptionCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.descriptionCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.descriptionCaptionLabel.Text = "詳細";
             // 
-            // DescriptionLabel
+            // descriptionLabel
             // 
-            this.DescriptionLabel.Location = new System.Drawing.Point(3, 51);
-            this.DescriptionLabel.Size = new System.Drawing.Size(234, 16);
+            this.descriptionLabel.Location = new System.Drawing.Point(3, 51);
+            this.descriptionLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // LinkCaptionLabel
+            // linkCaptionLabel
             // 
-            this.LinkCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.LinkCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.LinkCaptionLabel.Text = "リンク";
+            this.linkCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.linkCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.linkCaptionLabel.Text = "リンク";
             // 
-            // LinkLabel
+            // linkLabel
             // 
-            this.LinkLabel.Location = new System.Drawing.Point(3, 109);
-            this.LinkLabel.Size = new System.Drawing.Size(234, 16);
+            this.linkLabel.Location = new System.Drawing.Point(3, 109);
+            this.linkLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // DateCaptionLabel
+            // dateCaptionLabel
             // 
-            this.DateCaptionLabel.Location = new System.Drawing.Point(3, 183);
-            this.DateCaptionLabel.Size = new System.Drawing.Size(64, 16);
-            this.DateCaptionLabel.Text = "配信時刻";
+            this.dateCaptionLabel.Location = new System.Drawing.Point(3, 183);
+            this.dateCaptionLabel.Size = new System.Drawing.Size(64, 16);
+            this.dateCaptionLabel.Text = "配信時刻";
             // 
-            // DateLabel
+            // dateLabel
             // 
-            this.DateLabel.Location = new System.Drawing.Point(3, 199);
-            this.DateLabel.Size = new System.Drawing.Size(234, 16);
+            this.dateLabel.Location = new System.Drawing.Point(3, 199);
+            this.dateLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // AccessButton
+            // accessButton
             // 
-            this.AccessButton.Location = new System.Drawing.Point(165, 128);
-            this.AccessButton.Size = new System.Drawing.Size(72, 20);
-            this.AccessButton.Text = "&Access";
-            this.AccessButton.Click += new System.EventHandler(this.AccessButton_Click);
+            this.accessButton.Location = new System.Drawing.Point(165, 128);
+            this.accessButton.Size = new System.Drawing.Size(72, 20);
+            this.accessButton.Text = "&Access";
+            this.accessButton.Click += new System.EventHandler(this.AccessButton_Click);
             // 
-            // MainMenu
+            // mainMenu
             // 
-            this.MainMenu.MenuItems.Add(this.OkMenuItem);
+            this.mainMenu.MenuItems.Add(this.okMenuItem);
             // 
-            // OkMenuItem
+            // okMenuItem
             // 
-            this.OkMenuItem.Text = "&OK";
-            this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
+            this.okMenuItem.Text = "&OK";
+            this.okMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // PlayButton
+            // playButton
             // 
-            this.PlayButton.Location = new System.Drawing.Point(165, 70);
-            this.PlayButton.Size = new System.Drawing.Size(72, 20);
-            this.PlayButton.Text = "&Play";
-            this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
+            this.playButton.Location = new System.Drawing.Point(165, 70);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
+            this.playButton.Text = "&Play";
+            this.playButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
-            // AuthorLabel
+            // authorLabel
             // 
-            this.AuthorLabel.Location = new System.Drawing.Point(3, 167);
-            this.AuthorLabel.Size = new System.Drawing.Size(88, 16);
+            this.authorLabel.Location = new System.Drawing.Point(3, 167);
+            this.authorLabel.Size = new System.Drawing.Size(88, 16);
             // 
-            // AuthorCaptionLabel
+            // authorCaptionLabel
             // 
-            this.AuthorCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.AuthorCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.AuthorCaptionLabel.Text = "著者";
+            this.authorCaptionLabel.Location = new System.Drawing.Point(3, 151);
+            this.authorCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.authorCaptionLabel.Text = "著者";
             // 
-            // LengthLabel
+            // lengthLabel
             // 
-            this.LengthLabel.Location = new System.Drawing.Point(3, 231);
-            this.LengthLabel.Size = new System.Drawing.Size(88, 16);
+            this.lengthLabel.Location = new System.Drawing.Point(3, 231);
+            this.lengthLabel.Size = new System.Drawing.Size(88, 16);
             // 
-            // LengthCaptionLabel
+            // lengthCaptionLabel
             // 
-            this.LengthCaptionLabel.Location = new System.Drawing.Point(3, 215);
-            this.LengthCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.LengthCaptionLabel.Text = "長さ";
+            this.lengthCaptionLabel.Location = new System.Drawing.Point(3, 215);
+            this.lengthCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.lengthCaptionLabel.Text = "長さ";
             // 
-            // TypeLabel
+            // typeLabel
             // 
-            this.TypeLabel.Location = new System.Drawing.Point(97, 231);
-            this.TypeLabel.Size = new System.Drawing.Size(140, 16);
+            this.typeLabel.Location = new System.Drawing.Point(97, 231);
+            this.typeLabel.Size = new System.Drawing.Size(140, 16);
             // 
-            // TypeCaptionLabel
+            // typeCaptionLabel
             // 
-            this.TypeCaptionLabel.Location = new System.Drawing.Point(97, 215);
-            this.TypeCaptionLabel.Size = new System.Drawing.Size(34, 16);
-            this.TypeCaptionLabel.Text = "タイプ";
+            this.typeCaptionLabel.Location = new System.Drawing.Point(97, 215);
+            this.typeCaptionLabel.Size = new System.Drawing.Size(34, 16);
+            this.typeCaptionLabel.Text = "タイプ";
             // 
-            // ChannelPropertyForm
+            // channelPropertyForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.LengthLabel);
-            this.Controls.Add(this.LengthCaptionLabel);
-            this.Controls.Add(this.TypeLabel);
-            this.Controls.Add(this.TypeCaptionLabel);
-            this.Controls.Add(this.AuthorLabel);
-            this.Controls.Add(this.AuthorCaptionLabel);
-            this.Controls.Add(this.PlayButton);
-            this.Controls.Add(this.AccessButton);
-            this.Controls.Add(this.DateLabel);
-            this.Controls.Add(this.DateCaptionLabel);
-            this.Controls.Add(this.LinkLabel);
-            this.Controls.Add(this.LinkCaptionLabel);
-            this.Controls.Add(this.DescriptionLabel);
-            this.Controls.Add(this.DescriptionCaptionLabel);
-            this.Controls.Add(this.TitleLabel);
-            this.Controls.Add(this.TitleCaptionLabel);
+            this.Controls.Add(this.lengthLabel);
+            this.Controls.Add(this.lengthCaptionLabel);
+            this.Controls.Add(this.typeLabel);
+            this.Controls.Add(this.typeCaptionLabel);
+            this.Controls.Add(this.authorLabel);
+            this.Controls.Add(this.authorCaptionLabel);
+            this.Controls.Add(this.playButton);
+            this.Controls.Add(this.accessButton);
+            this.Controls.Add(this.dateLabel);
+            this.Controls.Add(this.dateCaptionLabel);
+            this.Controls.Add(this.linkLabel);
+            this.Controls.Add(this.linkCaptionLabel);
+            this.Controls.Add(this.descriptionLabel);
+            this.Controls.Add(this.descriptionCaptionLabel);
+            this.Controls.Add(this.titleLabel);
+            this.Controls.Add(this.titleCaptionLabel);
             this.MaximizeBox = false;
-            this.Menu = this.MainMenu;
+            this.Menu = this.mainMenu;
             this.Text = "番組の詳細";
             this.Resize += new System.EventHandler(this.ChannelPropertyForm_Resize);
             this.Load += new System.EventHandler(this.ChannelPropertyForm_Load);
@@ -232,38 +236,38 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         private void FixWindowSizeVertical()
         {
-            this.TitleCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.TitleCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.TitleLabel.Location = new System.Drawing.Point(3, 19);
-            this.TitleLabel.Size = new System.Drawing.Size(234, 16);
-            this.DescriptionCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.DescriptionCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.DescriptionLabel.Location = new System.Drawing.Point(3, 51);
-            this.DescriptionLabel.Size = new System.Drawing.Size(234, 16);
-            this.LinkCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.LinkCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.LinkLabel.Location = new System.Drawing.Point(3, 109);
-            this.LinkLabel.Size = new System.Drawing.Size(234, 16);
-            this.DateCaptionLabel.Location = new System.Drawing.Point(3, 183);
-            this.DateCaptionLabel.Size = new System.Drawing.Size(64, 16);
-            this.DateLabel.Location = new System.Drawing.Point(3, 199);
-            this.DateLabel.Size = new System.Drawing.Size(234, 16);
-            this.AccessButton.Location = new System.Drawing.Point(165, 128);
-            this.AccessButton.Size = new System.Drawing.Size(72, 20);
-            this.PlayButton.Location = new System.Drawing.Point(165, 70);
-            this.PlayButton.Size = new System.Drawing.Size(72, 20);
-            this.AuthorLabel.Location = new System.Drawing.Point(3, 167);
-            this.AuthorLabel.Size = new System.Drawing.Size(88, 16);
-            this.AuthorCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.AuthorCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.LengthLabel.Location = new System.Drawing.Point(3, 231);
-            this.LengthLabel.Size = new System.Drawing.Size(88, 16);
-            this.LengthCaptionLabel.Location = new System.Drawing.Point(3, 215);
-            this.LengthCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.TypeLabel.Location = new System.Drawing.Point(97, 231);
-            this.TypeLabel.Size = new System.Drawing.Size(140, 16);
-            this.TypeCaptionLabel.Location = new System.Drawing.Point(97, 215);
-            this.TypeCaptionLabel.Size = new System.Drawing.Size(34, 16);
+            this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
+            this.titleCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.titleLabel.Location = new System.Drawing.Point(3, 19);
+            this.titleLabel.Size = new System.Drawing.Size(234, 16);
+            this.descriptionCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.descriptionCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.descriptionLabel.Location = new System.Drawing.Point(3, 51);
+            this.descriptionLabel.Size = new System.Drawing.Size(234, 16);
+            this.linkCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.linkCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.linkLabel.Location = new System.Drawing.Point(3, 109);
+            this.linkLabel.Size = new System.Drawing.Size(234, 16);
+            this.dateCaptionLabel.Location = new System.Drawing.Point(3, 183);
+            this.dateCaptionLabel.Size = new System.Drawing.Size(64, 16);
+            this.dateLabel.Location = new System.Drawing.Point(3, 199);
+            this.dateLabel.Size = new System.Drawing.Size(234, 16);
+            this.accessButton.Location = new System.Drawing.Point(165, 128);
+            this.accessButton.Size = new System.Drawing.Size(72, 20);
+            this.playButton.Location = new System.Drawing.Point(165, 70);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
+            this.authorLabel.Location = new System.Drawing.Point(3, 167);
+            this.authorLabel.Size = new System.Drawing.Size(88, 16);
+            this.authorCaptionLabel.Location = new System.Drawing.Point(3, 151);
+            this.authorCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.lengthLabel.Location = new System.Drawing.Point(3, 231);
+            this.lengthLabel.Size = new System.Drawing.Size(88, 16);
+            this.lengthCaptionLabel.Location = new System.Drawing.Point(3, 215);
+            this.lengthCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.typeLabel.Location = new System.Drawing.Point(97, 231);
+            this.typeLabel.Size = new System.Drawing.Size(140, 16);
+            this.typeCaptionLabel.Location = new System.Drawing.Point(97, 215);
+            this.typeCaptionLabel.Size = new System.Drawing.Size(34, 16);
         }
 
         /// <summary>
@@ -271,58 +275,58 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         private void FixWindowSizeHorizon()
         {
-            this.TitleCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.TitleCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.TitleCaptionLabel.Text = "番組名";
-            this.TitleLabel.Location = new System.Drawing.Point(3, 19);
-            this.TitleLabel.Size = new System.Drawing.Size(314, 16);
-            this.DescriptionCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.DescriptionCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.DescriptionLabel.Location = new System.Drawing.Point(3, 51);
-            this.DescriptionLabel.Size = new System.Drawing.Size(314, 16);
-            this.LinkCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.LinkCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.LinkLabel.Location = new System.Drawing.Point(3, 109);
-            this.LinkLabel.Size = new System.Drawing.Size(236, 16);
-            this.DateCaptionLabel.Location = new System.Drawing.Point(3, 141);
-            this.DateCaptionLabel.Size = new System.Drawing.Size(64, 16);
-            this.DateLabel.Location = new System.Drawing.Point(73, 141);
-            this.DateLabel.Size = new System.Drawing.Size(244, 16);
-            this.AccessButton.Location = new System.Drawing.Point(245, 109);
-            this.AccessButton.Size = new System.Drawing.Size(72, 20);
-            this.PlayButton.Location = new System.Drawing.Point(245, 70);
-            this.PlayButton.Size = new System.Drawing.Size(72, 20);
-            this.AuthorLabel.Location = new System.Drawing.Point(41, 125);
-            this.AuthorLabel.Size = new System.Drawing.Size(88, 16);
-            this.AuthorCaptionLabel.Location = new System.Drawing.Point(3, 125);
-            this.AuthorCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.LengthLabel.Location = new System.Drawing.Point(41, 157);
-            this.LengthLabel.Size = new System.Drawing.Size(88, 16);
-            this.LengthCaptionLabel.Location = new System.Drawing.Point(3, 157);
-            this.LengthCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.TypeLabel.Location = new System.Drawing.Point(175, 157);
-            this.TypeLabel.Size = new System.Drawing.Size(142, 16);
-            this.TypeCaptionLabel.Location = new System.Drawing.Point(135, 157);
-            this.TypeCaptionLabel.Size = new System.Drawing.Size(34, 16);
+            this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
+            this.titleCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.titleCaptionLabel.Text = "番組名";
+            this.titleLabel.Location = new System.Drawing.Point(3, 19);
+            this.titleLabel.Size = new System.Drawing.Size(314, 16);
+            this.descriptionCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.descriptionCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.descriptionLabel.Location = new System.Drawing.Point(3, 51);
+            this.descriptionLabel.Size = new System.Drawing.Size(314, 16);
+            this.linkCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.linkCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.linkLabel.Location = new System.Drawing.Point(3, 109);
+            this.linkLabel.Size = new System.Drawing.Size(236, 16);
+            this.dateCaptionLabel.Location = new System.Drawing.Point(3, 141);
+            this.dateCaptionLabel.Size = new System.Drawing.Size(64, 16);
+            this.dateLabel.Location = new System.Drawing.Point(73, 141);
+            this.dateLabel.Size = new System.Drawing.Size(244, 16);
+            this.accessButton.Location = new System.Drawing.Point(245, 109);
+            this.accessButton.Size = new System.Drawing.Size(72, 20);
+            this.playButton.Location = new System.Drawing.Point(245, 70);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
+            this.authorLabel.Location = new System.Drawing.Point(41, 125);
+            this.authorLabel.Size = new System.Drawing.Size(88, 16);
+            this.authorCaptionLabel.Location = new System.Drawing.Point(3, 125);
+            this.authorCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.lengthLabel.Location = new System.Drawing.Point(41, 157);
+            this.lengthLabel.Size = new System.Drawing.Size(88, 16);
+            this.lengthCaptionLabel.Location = new System.Drawing.Point(3, 157);
+            this.lengthCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.typeLabel.Location = new System.Drawing.Point(175, 157);
+            this.typeLabel.Size = new System.Drawing.Size(142, 16);
+            this.typeCaptionLabel.Location = new System.Drawing.Point(135, 157);
+            this.typeCaptionLabel.Size = new System.Drawing.Size(34, 16);
         }
 
         private void ChannelPropertyForm_Load(object sender, System.EventArgs e)
         {
             FixWindowSize();
-            TitleLabel.Text = Channel.Title.Trim();
-            DescriptionLabel.Text = Channel.Description.Trim();
-            LinkLabel.Text = ((Channel.GetWebsiteUrl() != null) ? Channel.GetWebsiteUrl().ToString().Trim() : "");
-            AuthorLabel.Text = Channel.Author.Trim();
-            DateLabel.Text = Channel.Date.ToString().Trim();
-            LengthLabel.Text = Channel.Length.Trim();
-            TypeLabel.Text = Channel.Type.Trim();
+            titleLabel.Text = channel.Title.Trim();
+            descriptionLabel.Text = channel.Description.Trim();
+            linkLabel.Text = ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "");
+            authorLabel.Text = channel.Author.Trim();
+            dateLabel.Text = channel.Date.ToString().Trim();
+            lengthLabel.Text = channel.Length.Trim();
+            typeLabel.Text = channel.Type.Trim();
         }
 
         private void PlayButton_Click(object sender, System.EventArgs e)
         {
             try
             {
-                PocketLadioUtility.PlayStreaming(Channel.GetPlayUrl());
+                PocketLadioUtility.PlayStreaming(channel.GetPlayUrl());
             }
             catch (FileNotFoundException)
             {
@@ -334,9 +338,9 @@ namespace PocketLadio.Stations.RssPodcast
         {
             try
             {
-                if (LinkLabel.Text.Trim().Length != 0)
+                if (linkLabel.Text.Trim().Length != 0)
                 {
-                    PocketLadioUtility.AccessWebsite(Channel.GetWebsiteUrl());
+                    PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
                 }
             }
             catch (FileNotFoundException)

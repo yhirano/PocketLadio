@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
 using System.Windows.Forms;
 using PocketLadio.ExtCF.Windows.Forms;
+
+#endregion
 
 namespace PocketLadio.Utility
 {
@@ -34,9 +38,9 @@ namespace PocketLadio.Utility
             string clipboardText = Clipboard.GetText();
             if (txtBox != null && clipboardText != null)
             {
-                string Before = txtBox.Text.Substring(0, txtBox.SelectionStart);
-                string After = txtBox.Text.Substring(txtBox.SelectionStart + txtBox.SelectionLength, txtBox.TextLength - (txtBox.SelectionStart + txtBox.SelectionLength));
-                txtBox.Text = Before + clipboardText + After;
+                string before = txtBox.Text.Substring(0, txtBox.SelectionStart);
+                string after = txtBox.Text.Substring(txtBox.SelectionStart + txtBox.SelectionLength, txtBox.TextLength - (txtBox.SelectionStart + txtBox.SelectionLength));
+                txtBox.Text = before + clipboardText + after;
             }
         }
     }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
+
+#endregion
 
 namespace PocketLadio.Stations
 {

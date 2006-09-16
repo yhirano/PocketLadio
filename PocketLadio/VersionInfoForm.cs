@@ -15,14 +15,14 @@ namespace PocketLadio
     /// </summary>
     public class VersionInfoForm : System.Windows.Forms.Form
     {
-        private MenuItem OkMenuItem;
-        private Label ApplicationNameLabel;
-        private Label VersionNumberlabel;
-        private Label CopyrightLabel;
+        private MenuItem okMenuItem;
+        private Label applicationNameLabel;
+        private Label versionNumberlabel;
+        private Label copyrightLabel;
         /// <summary>
         /// フォームのメイン メニューです。
         /// </summary>
-        private System.Windows.Forms.MainMenu MainMenu;
+        private System.Windows.Forms.MainMenu mainMenu;
 
         public VersionInfoForm()
         {
@@ -45,49 +45,49 @@ namespace PocketLadio
         /// </summary>
         private void InitializeComponent()
         {
-            this.MainMenu = new System.Windows.Forms.MainMenu();
-            this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.ApplicationNameLabel = new System.Windows.Forms.Label();
-            this.VersionNumberlabel = new System.Windows.Forms.Label();
-            this.CopyrightLabel = new System.Windows.Forms.Label();
+            this.mainMenu = new System.Windows.Forms.MainMenu();
+            this.okMenuItem = new System.Windows.Forms.MenuItem();
+            this.applicationNameLabel = new System.Windows.Forms.Label();
+            this.versionNumberlabel = new System.Windows.Forms.Label();
+            this.copyrightLabel = new System.Windows.Forms.Label();
             // 
-            // MainMenu
+            // mainMenu
             // 
-            this.MainMenu.MenuItems.Add(this.OkMenuItem);
+            this.mainMenu.MenuItems.Add(this.okMenuItem);
             // 
-            // OkMenuItem
+            // okMenuItem
             // 
-            this.OkMenuItem.Text = "&OK";
-            this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
+            this.okMenuItem.Text = "&OK";
+            this.okMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // ApplicationNameLabel
+            // applicationNameLabel
             // 
-            this.ApplicationNameLabel.Location = new System.Drawing.Point(3, 9);
-            this.ApplicationNameLabel.Size = new System.Drawing.Size(234, 20);
-            this.ApplicationNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.applicationNameLabel.Location = new System.Drawing.Point(3, 9);
+            this.applicationNameLabel.Size = new System.Drawing.Size(234, 20);
+            this.applicationNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // VersionNumberlabel
+            // versionNumberlabel
             // 
-            this.VersionNumberlabel.Location = new System.Drawing.Point(3, 29);
-            this.VersionNumberlabel.Size = new System.Drawing.Size(234, 20);
-            this.VersionNumberlabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.versionNumberlabel.Location = new System.Drawing.Point(3, 29);
+            this.versionNumberlabel.Size = new System.Drawing.Size(234, 20);
+            this.versionNumberlabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // CopyrightLabel
+            // copyrightLabel
             // 
-            this.CopyrightLabel.Location = new System.Drawing.Point(3, 49);
-            this.CopyrightLabel.Size = new System.Drawing.Size(234, 20);
-            this.CopyrightLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.copyrightLabel.Location = new System.Drawing.Point(3, 49);
+            this.copyrightLabel.Size = new System.Drawing.Size(234, 20);
+            this.copyrightLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // VersionInfoForm
+            // versionInfoForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.CopyrightLabel);
-            this.Controls.Add(this.VersionNumberlabel);
-            this.Controls.Add(this.ApplicationNameLabel);
-            this.Menu = this.MainMenu;
+            this.Controls.Add(this.copyrightLabel);
+            this.Controls.Add(this.versionNumberlabel);
+            this.Controls.Add(this.applicationNameLabel);
+            this.MaximizeBox = false;
+            this.Menu = this.mainMenu;
             this.Text = "バージョン情報";
             this.Load += new System.EventHandler(this.VersionInfoForm_Load);
-            this.MaximizeBox = false;
 
         }
 
@@ -95,9 +95,9 @@ namespace PocketLadio
 
         private void VersionInfoForm_Load(object sender, EventArgs e)
         {
-            ApplicationNameLabel.Text = PocketLadioInfo.ApplicationName;
-            VersionNumberlabel.Text = "Version " + PocketLadioInfo.VersionNumber;
-            CopyrightLabel.Text = PocketLadioInfo.Copyright;
+            applicationNameLabel.Text = PocketLadioInfo.ApplicationName;
+            versionNumberlabel.Text = "Version " + PocketLadioInfo.VersionNumber;
+            copyrightLabel.Text = PocketLadioInfo.Copyright;
         }
 
         private void OkMenuItem_Click(object sender, EventArgs e)

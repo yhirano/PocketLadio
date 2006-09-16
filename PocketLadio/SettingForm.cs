@@ -1,3 +1,5 @@
+#region ディレクティブを使用する
+
 using System;
 using System.Drawing;
 using System.Collections;
@@ -7,6 +9,8 @@ using System.IO;
 using System.Windows.Forms;
 using PocketLadio.Utility;
 
+#endregion
+
 namespace PocketLadio
 {
     /// <summary>
@@ -14,38 +18,38 @@ namespace PocketLadio
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
-        private MainMenu MainMenu;
-        private MenuItem OkMenuItem;
-        private ContextMenu MediaPlayeraPathContextMenu;
-        private MenuItem CutMediaPlayeraPathMenuItem;
-        private MenuItem CopyMediaPlayeraPathMenuItem;
-        private MenuItem PasteMediaPlayeraPathMenuItem;
-        private ContextMenu BrowserPathContextMenu;
-        private MenuItem CutBrowserPathMenuItem;
-        private MenuItem CopyBrowserPathMenuItem;
-        private MenuItem PasteBrowserPathMenuItem;
-        private TabPage PocketLadioTabPage;
-        private TextBox BrowserPathTextBox;
-        private TextBox MediaPlayerPathTextBox;
-        private Label BrowserPathLabel;
-        private Label MediaPlayerPathLabel;
-        private NumericUpDown HeadlineTimerSecondNumericUpDown;
-        private Label HeadlineTimerSecondLabel;
-        private TabPage NetworkTabPage;
-        private TextBox ProxyPortTextBox;
-        private TextBox ProxyServerTextBox;
-        private Label ProxyPortLabel;
-        private Label ProxyServerLabel;
-        private ContextMenu ProxyServerContextMenu;
-        private MenuItem CutProxyServerMenuItem;
-        private MenuItem CopyProxyServerMenuItem;
-        private MenuItem PasteProxyServerMenuItem;
-        private ContextMenu ProxyPortContextMenu;
-        private MenuItem CutProxyPortMenuItem;
-        private MenuItem CopyProxyPortMenuItem;
-        private MenuItem PasteProxyPortMenuItem;
-        private CheckBox ProxyUseCheckBox;
-        private TabControl SettingTabControl;
+        private MainMenu mainMenu;
+        private MenuItem okMenuItem;
+        private ContextMenu mediaPlayeraPathContextMenu;
+        private MenuItem cutMediaPlayeraPathMenuItem;
+        private MenuItem copyMediaPlayeraPathMenuItem;
+        private MenuItem pasteMediaPlayeraPathMenuItem;
+        private ContextMenu browserPathContextMenu;
+        private MenuItem cutBrowserPathMenuItem;
+        private MenuItem copyBrowserPathMenuItem;
+        private MenuItem pasteBrowserPathMenuItem;
+        private TabPage pocketLadioTabPage;
+        private TextBox browserPathTextBox;
+        private TextBox mediaPlayerPathTextBox;
+        private Label browserPathLabel;
+        private Label mediaPlayerPathLabel;
+        private NumericUpDown headlineTimerSecondNumericUpDown;
+        private Label headlineTimerSecondLabel;
+        private TabPage networkTabPage;
+        private TextBox proxyPortTextBox;
+        private TextBox proxyServerTextBox;
+        private Label proxyPortLabel;
+        private Label proxyServerLabel;
+        private ContextMenu proxyServerContextMenu;
+        private MenuItem cutProxyServerMenuItem;
+        private MenuItem copyProxyServerMenuItem;
+        private MenuItem pasteProxyServerMenuItem;
+        private ContextMenu proxyPortContextMenu;
+        private MenuItem cutProxyPortMenuItem;
+        private MenuItem copyProxyPortMenuItem;
+        private MenuItem pasteProxyPortMenuItem;
+        private CheckBox proxyUseCheckBox;
+        private TabControl settingTabControl;
 
         public SettingForm()
         {
@@ -70,240 +74,240 @@ namespace PocketLadio
         /// </summary>
         private void InitializeComponent()
         {
-            this.MainMenu = new System.Windows.Forms.MainMenu();
-            this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.BrowserPathContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.MediaPlayeraPathContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.PocketLadioTabPage = new System.Windows.Forms.TabPage();
-            this.BrowserPathTextBox = new System.Windows.Forms.TextBox();
-            this.MediaPlayerPathTextBox = new System.Windows.Forms.TextBox();
-            this.BrowserPathLabel = new System.Windows.Forms.Label();
-            this.MediaPlayerPathLabel = new System.Windows.Forms.Label();
-            this.HeadlineTimerSecondNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.HeadlineTimerSecondLabel = new System.Windows.Forms.Label();
-            this.SettingTabControl = new System.Windows.Forms.TabControl();
-            this.NetworkTabPage = new System.Windows.Forms.TabPage();
-            this.ProxyUseCheckBox = new System.Windows.Forms.CheckBox();
-            this.ProxyPortTextBox = new System.Windows.Forms.TextBox();
-            this.ProxyPortContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutProxyPortMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyProxyPortMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteProxyPortMenuItem = new System.Windows.Forms.MenuItem();
-            this.ProxyServerTextBox = new System.Windows.Forms.TextBox();
-            this.ProxyServerContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutProxyServerMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyProxyServerMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteProxyServerMenuItem = new System.Windows.Forms.MenuItem();
-            this.ProxyPortLabel = new System.Windows.Forms.Label();
-            this.ProxyServerLabel = new System.Windows.Forms.Label();
+            this.mainMenu = new System.Windows.Forms.MainMenu();
+            this.okMenuItem = new System.Windows.Forms.MenuItem();
+            this.browserPathContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.pasteBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.mediaPlayeraPathContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.pasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.pocketLadioTabPage = new System.Windows.Forms.TabPage();
+            this.browserPathTextBox = new System.Windows.Forms.TextBox();
+            this.mediaPlayerPathTextBox = new System.Windows.Forms.TextBox();
+            this.browserPathLabel = new System.Windows.Forms.Label();
+            this.mediaPlayerPathLabel = new System.Windows.Forms.Label();
+            this.headlineTimerSecondNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.headlineTimerSecondLabel = new System.Windows.Forms.Label();
+            this.settingTabControl = new System.Windows.Forms.TabControl();
+            this.networkTabPage = new System.Windows.Forms.TabPage();
+            this.proxyUseCheckBox = new System.Windows.Forms.CheckBox();
+            this.proxyPortTextBox = new System.Windows.Forms.TextBox();
+            this.proxyPortContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutProxyPortMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyProxyPortMenuItem = new System.Windows.Forms.MenuItem();
+            this.pasteProxyPortMenuItem = new System.Windows.Forms.MenuItem();
+            this.proxyServerTextBox = new System.Windows.Forms.TextBox();
+            this.proxyServerContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutProxyServerMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyProxyServerMenuItem = new System.Windows.Forms.MenuItem();
+            this.pasteProxyServerMenuItem = new System.Windows.Forms.MenuItem();
+            this.proxyPortLabel = new System.Windows.Forms.Label();
+            this.proxyServerLabel = new System.Windows.Forms.Label();
             // 
-            // MainMenu
+            // mainMenu
             // 
-            this.MainMenu.MenuItems.Add(this.OkMenuItem);
+            this.mainMenu.MenuItems.Add(this.okMenuItem);
             // 
-            // OkMenuItem
+            // okMenuItem
             // 
-            this.OkMenuItem.Text = "&OK";
-            this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
+            this.okMenuItem.Text = "&OK";
+            this.okMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // BrowserPathContextMenu
+            // browserPathContextMenu
             // 
-            this.BrowserPathContextMenu.MenuItems.Add(this.CutBrowserPathMenuItem);
-            this.BrowserPathContextMenu.MenuItems.Add(this.CopyBrowserPathMenuItem);
-            this.BrowserPathContextMenu.MenuItems.Add(this.PasteBrowserPathMenuItem);
+            this.browserPathContextMenu.MenuItems.Add(this.cutBrowserPathMenuItem);
+            this.browserPathContextMenu.MenuItems.Add(this.copyBrowserPathMenuItem);
+            this.browserPathContextMenu.MenuItems.Add(this.pasteBrowserPathMenuItem);
             // 
-            // CutBrowserPathMenuItem
+            // cutBrowserPathMenuItem
             // 
-            this.CutBrowserPathMenuItem.Text = "切り取り(&T)";
-            this.CutBrowserPathMenuItem.Click += new System.EventHandler(this.CutBrowserPathMenuItem_Click);
+            this.cutBrowserPathMenuItem.Text = "切り取り(&T)";
+            this.cutBrowserPathMenuItem.Click += new System.EventHandler(this.CutBrowserPathMenuItem_Click);
             // 
-            // CopyBrowserPathMenuItem
+            // copyBrowserPathMenuItem
             // 
-            this.CopyBrowserPathMenuItem.Text = "コピー(&C)";
-            this.CopyBrowserPathMenuItem.Click += new System.EventHandler(this.CopyBrowserPathMenuItem_Click);
+            this.copyBrowserPathMenuItem.Text = "コピー(&C)";
+            this.copyBrowserPathMenuItem.Click += new System.EventHandler(this.CopyBrowserPathMenuItem_Click);
             // 
-            // PasteBrowserPathMenuItem
+            // pasteBrowserPathMenuItem
             // 
-            this.PasteBrowserPathMenuItem.Text = "貼り付け(&P)";
-            this.PasteBrowserPathMenuItem.Click += new System.EventHandler(this.PasteBrowserPathMenuItem_Click);
+            this.pasteBrowserPathMenuItem.Text = "貼り付け(&P)";
+            this.pasteBrowserPathMenuItem.Click += new System.EventHandler(this.PasteBrowserPathMenuItem_Click);
             // 
-            // MediaPlayeraPathContextMenu
+            // mediaPlayeraPathContextMenu
             // 
-            this.MediaPlayeraPathContextMenu.MenuItems.Add(this.CutMediaPlayeraPathMenuItem);
-            this.MediaPlayeraPathContextMenu.MenuItems.Add(this.CopyMediaPlayeraPathMenuItem);
-            this.MediaPlayeraPathContextMenu.MenuItems.Add(this.PasteMediaPlayeraPathMenuItem);
+            this.mediaPlayeraPathContextMenu.MenuItems.Add(this.cutMediaPlayeraPathMenuItem);
+            this.mediaPlayeraPathContextMenu.MenuItems.Add(this.copyMediaPlayeraPathMenuItem);
+            this.mediaPlayeraPathContextMenu.MenuItems.Add(this.pasteMediaPlayeraPathMenuItem);
             // 
-            // CutMediaPlayeraPathMenuItem
+            // cutMediaPlayeraPathMenuItem
             // 
-            this.CutMediaPlayeraPathMenuItem.Text = "切り取り(&T)";
-            this.CutMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.CutMediaPlayeraPathMenuItem_Click);
+            this.cutMediaPlayeraPathMenuItem.Text = "切り取り(&T)";
+            this.cutMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.CutMediaPlayeraPathMenuItem_Click);
             // 
-            // CopyMediaPlayeraPathMenuItem
+            // copyMediaPlayeraPathMenuItem
             // 
-            this.CopyMediaPlayeraPathMenuItem.Text = "コピー(&C)";
-            this.CopyMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.CopyMediaPlayeraPathMenuItem_Click);
+            this.copyMediaPlayeraPathMenuItem.Text = "コピー(&C)";
+            this.copyMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.CopyMediaPlayeraPathMenuItem_Click);
             // 
-            // PasteMediaPlayeraPathMenuItem
+            // pasteMediaPlayeraPathMenuItem
             // 
-            this.PasteMediaPlayeraPathMenuItem.Text = "貼り付け(&P)";
-            this.PasteMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.PasteMediaPlayeraPathMenuItem_Click);
+            this.pasteMediaPlayeraPathMenuItem.Text = "貼り付け(&P)";
+            this.pasteMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.PasteMediaPlayeraPathMenuItem_Click);
             // 
-            // PocketLadioTabPage
+            // pocketLadioTabPage
             // 
-            this.PocketLadioTabPage.Controls.Add(this.BrowserPathTextBox);
-            this.PocketLadioTabPage.Controls.Add(this.MediaPlayerPathTextBox);
-            this.PocketLadioTabPage.Controls.Add(this.BrowserPathLabel);
-            this.PocketLadioTabPage.Controls.Add(this.MediaPlayerPathLabel);
-            this.PocketLadioTabPage.Controls.Add(this.HeadlineTimerSecondNumericUpDown);
-            this.PocketLadioTabPage.Controls.Add(this.HeadlineTimerSecondLabel);
-            this.PocketLadioTabPage.Location = new System.Drawing.Point(0, 0);
-            this.PocketLadioTabPage.Size = new System.Drawing.Size(240, 245);
-            this.PocketLadioTabPage.Text = "PocketLadio設定";
+            this.pocketLadioTabPage.Controls.Add(this.browserPathTextBox);
+            this.pocketLadioTabPage.Controls.Add(this.mediaPlayerPathTextBox);
+            this.pocketLadioTabPage.Controls.Add(this.browserPathLabel);
+            this.pocketLadioTabPage.Controls.Add(this.mediaPlayerPathLabel);
+            this.pocketLadioTabPage.Controls.Add(this.headlineTimerSecondNumericUpDown);
+            this.pocketLadioTabPage.Controls.Add(this.headlineTimerSecondLabel);
+            this.pocketLadioTabPage.Location = new System.Drawing.Point(0, 0);
+            this.pocketLadioTabPage.Size = new System.Drawing.Size(240, 245);
+            this.pocketLadioTabPage.Text = "PocketLadio設定";
             // 
-            // BrowserPathTextBox
+            // browserPathTextBox
             // 
-            this.BrowserPathTextBox.ContextMenu = this.BrowserPathContextMenu;
-            this.BrowserPathTextBox.Location = new System.Drawing.Point(3, 114);
-            this.BrowserPathTextBox.Size = new System.Drawing.Size(234, 21);
+            this.browserPathTextBox.ContextMenu = this.browserPathContextMenu;
+            this.browserPathTextBox.Location = new System.Drawing.Point(3, 114);
+            this.browserPathTextBox.Size = new System.Drawing.Size(234, 21);
             // 
-            // MediaPlayerPathTextBox
+            // mediaPlayerPathTextBox
             // 
-            this.MediaPlayerPathTextBox.ContextMenu = this.MediaPlayeraPathContextMenu;
-            this.MediaPlayerPathTextBox.Location = new System.Drawing.Point(3, 71);
-            this.MediaPlayerPathTextBox.Size = new System.Drawing.Size(234, 21);
+            this.mediaPlayerPathTextBox.ContextMenu = this.mediaPlayeraPathContextMenu;
+            this.mediaPlayerPathTextBox.Location = new System.Drawing.Point(3, 71);
+            this.mediaPlayerPathTextBox.Size = new System.Drawing.Size(234, 21);
             // 
-            // BrowserPathLabel
+            // browserPathLabel
             // 
-            this.BrowserPathLabel.Location = new System.Drawing.Point(3, 95);
-            this.BrowserPathLabel.Size = new System.Drawing.Size(79, 16);
-            this.BrowserPathLabel.Text = "ブラウザのパス";
+            this.browserPathLabel.Location = new System.Drawing.Point(3, 95);
+            this.browserPathLabel.Size = new System.Drawing.Size(79, 16);
+            this.browserPathLabel.Text = "ブラウザのパス";
             // 
-            // MediaPlayerPathLabel
+            // mediaPlayerPathLabel
             // 
-            this.MediaPlayerPathLabel.Location = new System.Drawing.Point(3, 52);
-            this.MediaPlayerPathLabel.Size = new System.Drawing.Size(132, 16);
-            this.MediaPlayerPathLabel.Text = "メディアプレーヤーのパス";
+            this.mediaPlayerPathLabel.Location = new System.Drawing.Point(3, 52);
+            this.mediaPlayerPathLabel.Size = new System.Drawing.Size(132, 16);
+            this.mediaPlayerPathLabel.Text = "メディアプレーヤーのパス";
             // 
-            // HeadlineTimerSecondNumericUpDown
+            // headlineTimerSecondNumericUpDown
             // 
-            this.HeadlineTimerSecondNumericUpDown.Location = new System.Drawing.Point(182, 27);
-            this.HeadlineTimerSecondNumericUpDown.ReadOnly = true;
-            this.HeadlineTimerSecondNumericUpDown.Size = new System.Drawing.Size(55, 22);
-            this.HeadlineTimerSecondNumericUpDown.Value = new decimal(new int[] {
+            this.headlineTimerSecondNumericUpDown.Location = new System.Drawing.Point(182, 27);
+            this.headlineTimerSecondNumericUpDown.ReadOnly = true;
+            this.headlineTimerSecondNumericUpDown.Size = new System.Drawing.Size(55, 22);
+            this.headlineTimerSecondNumericUpDown.Value = new decimal(new int[] {
             60,
             0,
             0,
             0});
             // 
-            // HeadlineTimerSecondLabel
+            // headlineTimerSecondLabel
             // 
-            this.HeadlineTimerSecondLabel.Location = new System.Drawing.Point(3, 4);
-            this.HeadlineTimerSecondLabel.Size = new System.Drawing.Size(188, 20);
-            this.HeadlineTimerSecondLabel.Text = "ヘッドラインの自動チェック間隔(秒)";
+            this.headlineTimerSecondLabel.Location = new System.Drawing.Point(3, 4);
+            this.headlineTimerSecondLabel.Size = new System.Drawing.Size(188, 20);
+            this.headlineTimerSecondLabel.Text = "ヘッドラインの自動チェック間隔(秒)";
             // 
-            // SettingTabControl
+            // settingTabControl
             // 
-            this.SettingTabControl.Controls.Add(this.PocketLadioTabPage);
-            this.SettingTabControl.Controls.Add(this.NetworkTabPage);
-            this.SettingTabControl.Location = new System.Drawing.Point(0, 0);
-            this.SettingTabControl.SelectedIndex = 0;
-            this.SettingTabControl.Size = new System.Drawing.Size(240, 268);
+            this.settingTabControl.Controls.Add(this.pocketLadioTabPage);
+            this.settingTabControl.Controls.Add(this.networkTabPage);
+            this.settingTabControl.Location = new System.Drawing.Point(0, 0);
+            this.settingTabControl.SelectedIndex = 0;
+            this.settingTabControl.Size = new System.Drawing.Size(240, 268);
             // 
-            // NetworkTabPage
+            // networkTabPage
             // 
-            this.NetworkTabPage.Controls.Add(this.ProxyUseCheckBox);
-            this.NetworkTabPage.Controls.Add(this.ProxyPortTextBox);
-            this.NetworkTabPage.Controls.Add(this.ProxyServerTextBox);
-            this.NetworkTabPage.Controls.Add(this.ProxyPortLabel);
-            this.NetworkTabPage.Controls.Add(this.ProxyServerLabel);
-            this.NetworkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.NetworkTabPage.Size = new System.Drawing.Size(240, 245);
-            this.NetworkTabPage.Text = "ネットワーク設定";
+            this.networkTabPage.Controls.Add(this.proxyUseCheckBox);
+            this.networkTabPage.Controls.Add(this.proxyPortTextBox);
+            this.networkTabPage.Controls.Add(this.proxyServerTextBox);
+            this.networkTabPage.Controls.Add(this.proxyPortLabel);
+            this.networkTabPage.Controls.Add(this.proxyServerLabel);
+            this.networkTabPage.Location = new System.Drawing.Point(0, 0);
+            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
+            this.networkTabPage.Text = "ネットワーク設定";
             // 
-            // ProxyUseCheckBox
+            // proxyUseCheckBox
             // 
-            this.ProxyUseCheckBox.Location = new System.Drawing.Point(3, 3);
-            this.ProxyUseCheckBox.Size = new System.Drawing.Size(135, 20);
-            this.ProxyUseCheckBox.Text = "プロキシを使用する";
+            this.proxyUseCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.proxyUseCheckBox.Size = new System.Drawing.Size(135, 20);
+            this.proxyUseCheckBox.Text = "プロキシを使用する";
             // 
-            // ProxyPortTextBox
+            // proxyPortTextBox
             // 
-            this.ProxyPortTextBox.ContextMenu = this.ProxyPortContextMenu;
-            this.ProxyPortTextBox.Location = new System.Drawing.Point(3, 88);
-            this.ProxyPortTextBox.Size = new System.Drawing.Size(74, 21);
+            this.proxyPortTextBox.ContextMenu = this.proxyPortContextMenu;
+            this.proxyPortTextBox.Location = new System.Drawing.Point(3, 88);
+            this.proxyPortTextBox.Size = new System.Drawing.Size(74, 21);
             // 
-            // ProxyPortContextMenu
+            // proxyPortContextMenu
             // 
-            this.ProxyPortContextMenu.MenuItems.Add(this.CutProxyPortMenuItem);
-            this.ProxyPortContextMenu.MenuItems.Add(this.CopyProxyPortMenuItem);
-            this.ProxyPortContextMenu.MenuItems.Add(this.PasteProxyPortMenuItem);
+            this.proxyPortContextMenu.MenuItems.Add(this.cutProxyPortMenuItem);
+            this.proxyPortContextMenu.MenuItems.Add(this.copyProxyPortMenuItem);
+            this.proxyPortContextMenu.MenuItems.Add(this.pasteProxyPortMenuItem);
             // 
-            // CutProxyPortMenuItem
+            // cutProxyPortMenuItem
             // 
-            this.CutProxyPortMenuItem.Text = "切り取り(&T)";
-            this.CutProxyPortMenuItem.Click += new System.EventHandler(this.CutProxyPortMenuItem_Click);
+            this.cutProxyPortMenuItem.Text = "切り取り(&T)";
+            this.cutProxyPortMenuItem.Click += new System.EventHandler(this.CutProxyPortMenuItem_Click);
             // 
-            // CopyProxyPortMenuItem
+            // copyProxyPortMenuItem
             // 
-            this.CopyProxyPortMenuItem.Text = "コピー(&C)";
-            this.CopyProxyPortMenuItem.Click += new System.EventHandler(this.CopyProxyPortMenuItem_Click);
+            this.copyProxyPortMenuItem.Text = "コピー(&C)";
+            this.copyProxyPortMenuItem.Click += new System.EventHandler(this.CopyProxyPortMenuItem_Click);
             // 
-            // PasteProxyPortMenuItem
+            // pasteProxyPortMenuItem
             // 
-            this.PasteProxyPortMenuItem.Text = "貼り付け(&P)";
-            this.PasteProxyPortMenuItem.Click += new System.EventHandler(this.PasteProxyPortMenuItem_Click);
+            this.pasteProxyPortMenuItem.Text = "貼り付け(&P)";
+            this.pasteProxyPortMenuItem.Click += new System.EventHandler(this.PasteProxyPortMenuItem_Click);
             // 
-            // ProxyServerTextBox
+            // proxyServerTextBox
             // 
-            this.ProxyServerTextBox.ContextMenu = this.ProxyServerContextMenu;
-            this.ProxyServerTextBox.Location = new System.Drawing.Point(3, 45);
-            this.ProxyServerTextBox.Size = new System.Drawing.Size(234, 21);
+            this.proxyServerTextBox.ContextMenu = this.proxyServerContextMenu;
+            this.proxyServerTextBox.Location = new System.Drawing.Point(3, 45);
+            this.proxyServerTextBox.Size = new System.Drawing.Size(234, 21);
             // 
-            // ProxyServerContextMenu
+            // proxyServerContextMenu
             // 
-            this.ProxyServerContextMenu.MenuItems.Add(this.CutProxyServerMenuItem);
-            this.ProxyServerContextMenu.MenuItems.Add(this.CopyProxyServerMenuItem);
-            this.ProxyServerContextMenu.MenuItems.Add(this.PasteProxyServerMenuItem);
+            this.proxyServerContextMenu.MenuItems.Add(this.cutProxyServerMenuItem);
+            this.proxyServerContextMenu.MenuItems.Add(this.copyProxyServerMenuItem);
+            this.proxyServerContextMenu.MenuItems.Add(this.pasteProxyServerMenuItem);
             // 
-            // CutProxyServerMenuItem
+            // cutProxyServerMenuItem
             // 
-            this.CutProxyServerMenuItem.Text = "切り取り(&T)";
-            this.CutProxyServerMenuItem.Click += new System.EventHandler(this.CutProxyServerMenuItem_Click);
+            this.cutProxyServerMenuItem.Text = "切り取り(&T)";
+            this.cutProxyServerMenuItem.Click += new System.EventHandler(this.CutProxyServerMenuItem_Click);
             // 
-            // CopyProxyServerMenuItem
+            // copyProxyServerMenuItem
             // 
-            this.CopyProxyServerMenuItem.Text = "コピー(&C)";
-            this.CopyProxyServerMenuItem.Click += new System.EventHandler(this.CopyProxyServerMenuItem_Click);
+            this.copyProxyServerMenuItem.Text = "コピー(&C)";
+            this.copyProxyServerMenuItem.Click += new System.EventHandler(this.CopyProxyServerMenuItem_Click);
             // 
-            // PasteProxyServerMenuItem
+            // pasteProxyServerMenuItem
             // 
-            this.PasteProxyServerMenuItem.Text = "貼り付け(&P)";
-            this.PasteProxyServerMenuItem.Click += new System.EventHandler(this.PasteProxyServerMenuItem_Click);
+            this.pasteProxyServerMenuItem.Text = "貼り付け(&P)";
+            this.pasteProxyServerMenuItem.Click += new System.EventHandler(this.PasteProxyServerMenuItem_Click);
             // 
-            // ProxyPortLabel
+            // proxyPortLabel
             // 
-            this.ProxyPortLabel.Location = new System.Drawing.Point(3, 69);
-            this.ProxyPortLabel.Size = new System.Drawing.Size(192, 16);
-            this.ProxyPortLabel.Text = "プロキシのポート番号 （例： 8080）";
+            this.proxyPortLabel.Location = new System.Drawing.Point(3, 69);
+            this.proxyPortLabel.Size = new System.Drawing.Size(192, 16);
+            this.proxyPortLabel.Text = "プロキシのポート番号 （例： 8080）";
             // 
-            // ProxyServerLabel
+            // proxyServerLabel
             // 
-            this.ProxyServerLabel.Location = new System.Drawing.Point(3, 26);
-            this.ProxyServerLabel.Size = new System.Drawing.Size(230, 16);
-            this.ProxyServerLabel.Text = "プロキシサーバ （例：proxy.example.com）";
+            this.proxyServerLabel.Location = new System.Drawing.Point(3, 26);
+            this.proxyServerLabel.Size = new System.Drawing.Size(230, 16);
+            this.proxyServerLabel.Text = "プロキシサーバ （例：proxy.example.com）";
             // 
-            // SettingForm
+            // settingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.SettingTabControl);
+            this.Controls.Add(this.settingTabControl);
             this.MaximizeBox = false;
-            this.Menu = this.MainMenu;
+            this.Menu = this.mainMenu;
             this.Text = "設定";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
             this.Load += new System.EventHandler(this.SettingForm_Load);
@@ -314,30 +318,30 @@ namespace PocketLadio
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
             // ヘッドラインチェックタイマーの上限と下限
-            HeadlineTimerSecondNumericUpDown.Minimum = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec / 1000;
-            HeadlineTimerSecondNumericUpDown.Maximum = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec / 1000;
+            headlineTimerSecondNumericUpDown.Minimum = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec / 1000;
+            headlineTimerSecondNumericUpDown.Maximum = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec / 1000;
 
             // 設定の読み込み
-            MediaPlayerPathTextBox.Text = UserSetting.MediaPlayerPath;
-            BrowserPathTextBox.Text = UserSetting.BrowserPath;
-            ProxyUseCheckBox.Checked = UserSetting.ProxyUse;
-            ProxyServerTextBox.Text = UserSetting.ProxyServer;
-            ProxyPortTextBox.Text = UserSetting.ProxyPort;
-            HeadlineTimerSecondNumericUpDown.Text = (UserSetting.HeadlineTimerMillSecond / 1000).ToString();
+            mediaPlayerPathTextBox.Text = UserSetting.MediaPlayerPath;
+            browserPathTextBox.Text = UserSetting.BrowserPath;
+            proxyUseCheckBox.Checked = UserSetting.ProxyUse;
+            proxyServerTextBox.Text = UserSetting.ProxyServer;
+            proxyPortTextBox.Text = UserSetting.ProxyPort;
+            headlineTimerSecondNumericUpDown.Text = (UserSetting.HeadlineTimerMillSecond / 1000).ToString();
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 設定の書き込み
-            UserSetting.MediaPlayerPath = MediaPlayerPathTextBox.Text.Trim();
-            UserSetting.BrowserPath = BrowserPathTextBox.Text.Trim();
-            UserSetting.ProxyUse = ProxyUseCheckBox.Checked;
-            UserSetting.ProxyServer = ProxyServerTextBox.Text.Trim();
-            UserSetting.ProxyPort = ProxyPortTextBox.Text.Trim();
+            UserSetting.MediaPlayerPath = mediaPlayerPathTextBox.Text.Trim();
+            UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
+            UserSetting.ProxyUse = proxyUseCheckBox.Checked;
+            UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
+            UserSetting.ProxyPort = proxyPortTextBox.Text.Trim();
             
             try
             {
-                UserSetting.HeadlineTimerMillSecond = Convert.ToInt32(HeadlineTimerSecondNumericUpDown.Text) * 1000;
+                UserSetting.HeadlineTimerMillSecond = Convert.ToInt32(headlineTimerSecondNumericUpDown.Text) * 1000;
             }
             catch (ArgumentException)
             {
@@ -367,8 +371,8 @@ namespace PocketLadio
             try
             {
                 // プロキシサーバ設定・プロキシポート設定のどちらかに何かが入力されている場合かつ、プロキシポートの設定が不正な場合
-                if ((ProxyServerTextBox.Text.Trim().Length != 0 || ProxyPortTextBox.Text.Trim().Length != 0)
-                    && (int.Parse(ProxyPortTextBox.Text) < 0x00 || int.Parse(ProxyPortTextBox.Text) > 0xFFFF))
+                if ((proxyServerTextBox.Text.Trim().Length != 0 || proxyPortTextBox.Text.Trim().Length != 0)
+                    && (int.Parse(proxyPortTextBox.Text) < 0x00 || int.Parse(proxyPortTextBox.Text) > 0xFFFF))
                 {
                     MessageBox.Show("プロキシのポート番号は0～65535で設定してください");
                 }
@@ -393,62 +397,62 @@ namespace PocketLadio
 
         private void CutMediaPlayeraPathMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Cut(MediaPlayerPathTextBox);
+            ClipboardTextBox.Cut(mediaPlayerPathTextBox);
         }
 
         private void CopyMediaPlayeraPathMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Copy(MediaPlayerPathTextBox);
+            ClipboardTextBox.Copy(mediaPlayerPathTextBox);
         }
 
         private void PasteMediaPlayeraPathMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Paste(MediaPlayerPathTextBox);
+            ClipboardTextBox.Paste(mediaPlayerPathTextBox);
         }
 
         private void CutBrowserPathMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Cut(BrowserPathTextBox);
+            ClipboardTextBox.Cut(browserPathTextBox);
         }
 
         private void CopyBrowserPathMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Copy(BrowserPathTextBox);
+            ClipboardTextBox.Copy(browserPathTextBox);
         }
 
         private void PasteBrowserPathMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Paste(BrowserPathTextBox);
+            ClipboardTextBox.Paste(browserPathTextBox);
         }
 
         private void CutProxyServerMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Cut(ProxyServerTextBox);
+            ClipboardTextBox.Cut(proxyServerTextBox);
         }
 
         private void CopyProxyServerMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Copy(ProxyServerTextBox);
+            ClipboardTextBox.Copy(proxyServerTextBox);
         }
 
         private void PasteProxyServerMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Paste(ProxyServerTextBox);
+            ClipboardTextBox.Paste(proxyServerTextBox);
         }
 
         private void CutProxyPortMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Cut(ProxyPortTextBox);
+            ClipboardTextBox.Cut(proxyPortTextBox);
         }
 
         private void CopyProxyPortMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Copy(ProxyPortTextBox);
+            ClipboardTextBox.Copy(proxyPortTextBox);
         }
 
         private void PasteProxyPortMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Paste(ProxyPortTextBox);
+            ClipboardTextBox.Paste(proxyPortTextBox);
         }
     }
 }

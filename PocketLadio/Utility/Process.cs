@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
+
+#endregion
 
 namespace PocketLadio.Utility
 {

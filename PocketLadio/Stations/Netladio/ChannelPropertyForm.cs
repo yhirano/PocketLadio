@@ -1,3 +1,5 @@
+#region ディレクティブを使用する
+
 using System;
 using System.Drawing;
 using System.Collections;
@@ -6,6 +8,8 @@ using System.Windows.Forms;
 using System.IO;
 using PocketLadio.Utility;
 
+#endregion
+
 namespace PocketLadio.Stations.Netladio
 {
     /// <summary>
@@ -13,22 +17,22 @@ namespace PocketLadio.Stations.Netladio
     /// </summary>
     public class ChannelPropertyForm : System.Windows.Forms.Form
     {
-        private Label NamCaptionLabel;
-        private Label GnlCaptionLabel;
-        private Label UrlCaptionLabel;
-        private Label TimsCaptionLabel;
-        private Label ClnCaptionLabel;
-        private Label BitCaptionLabel;
-        private Label NamLabel;
-        private Label GnlLabel;
-        private Label UrlLabel;
-        private Label TimsLabel;
-        private Label ClnLabel;
-        private Label BitLabel;
-        private Button AccessButton;
-        private MenuItem OkMenuItem;
-        private Button PlayButton;
-        private MainMenu MainMenu;
+        private Label namCaptionLabel;
+        private Label gnlCaptionLabel;
+        private Label urlCaptionLabel;
+        private Label timsCaptionLabel;
+        private Label clnCaptionLabel;
+        private Label bitCaptionLabel;
+        private Label namLabel;
+        private Label gnlLabel;
+        private Label urlLabel;
+        private Label timsLabel;
+        private Label clnLabel;
+        private Label bitLabel;
+        private Button accessButton;
+        private MenuItem okMenuItem;
+        private Button playButton;
+        private MainMenu mainMenu;
 
         /// <summary>
         /// チャンネル
@@ -60,131 +64,131 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         private void InitializeComponent()
         {
-            this.NamCaptionLabel = new System.Windows.Forms.Label();
-            this.NamLabel = new System.Windows.Forms.Label();
-            this.GnlCaptionLabel = new System.Windows.Forms.Label();
-            this.GnlLabel = new System.Windows.Forms.Label();
-            this.UrlCaptionLabel = new System.Windows.Forms.Label();
-            this.UrlLabel = new System.Windows.Forms.Label();
-            this.TimsCaptionLabel = new System.Windows.Forms.Label();
-            this.TimsLabel = new System.Windows.Forms.Label();
-            this.ClnCaptionLabel = new System.Windows.Forms.Label();
-            this.ClnLabel = new System.Windows.Forms.Label();
-            this.BitCaptionLabel = new System.Windows.Forms.Label();
-            this.BitLabel = new System.Windows.Forms.Label();
-            this.AccessButton = new System.Windows.Forms.Button();
-            this.MainMenu = new System.Windows.Forms.MainMenu();
-            this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.PlayButton = new System.Windows.Forms.Button();
+            this.namCaptionLabel = new System.Windows.Forms.Label();
+            this.namLabel = new System.Windows.Forms.Label();
+            this.gnlCaptionLabel = new System.Windows.Forms.Label();
+            this.gnlLabel = new System.Windows.Forms.Label();
+            this.urlCaptionLabel = new System.Windows.Forms.Label();
+            this.urlLabel = new System.Windows.Forms.Label();
+            this.timsCaptionLabel = new System.Windows.Forms.Label();
+            this.timsLabel = new System.Windows.Forms.Label();
+            this.clnCaptionLabel = new System.Windows.Forms.Label();
+            this.clnLabel = new System.Windows.Forms.Label();
+            this.bitCaptionLabel = new System.Windows.Forms.Label();
+            this.bitLabel = new System.Windows.Forms.Label();
+            this.accessButton = new System.Windows.Forms.Button();
+            this.mainMenu = new System.Windows.Forms.MainMenu();
+            this.okMenuItem = new System.Windows.Forms.MenuItem();
+            this.playButton = new System.Windows.Forms.Button();
             // 
-            // NamCaptionLabel
+            // namCaptionLabel
             // 
-            this.NamCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.NamCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.NamCaptionLabel.Text = "番組名";
+            this.namCaptionLabel.Location = new System.Drawing.Point(3, 3);
+            this.namCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.namCaptionLabel.Text = "番組名";
             // 
-            // NamLabel
+            // namLabel
             // 
-            this.NamLabel.Location = new System.Drawing.Point(3, 19);
-            this.NamLabel.Size = new System.Drawing.Size(234, 16);
+            this.namLabel.Location = new System.Drawing.Point(3, 19);
+            this.namLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // GnlCaptionLabel
+            // gnlCaptionLabel
             // 
-            this.GnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.GnlCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.GnlCaptionLabel.Text = "ジャンル";
+            this.gnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.gnlCaptionLabel.Size = new System.Drawing.Size(48, 16);
+            this.gnlCaptionLabel.Text = "ジャンル";
             // 
-            // GnlLabel
+            // gnlLabel
             // 
-            this.GnlLabel.Location = new System.Drawing.Point(3, 51);
-            this.GnlLabel.Size = new System.Drawing.Size(234, 16);
+            this.gnlLabel.Location = new System.Drawing.Point(3, 51);
+            this.gnlLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // UrlCaptionLabel
+            // urlCaptionLabel
             // 
-            this.UrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.UrlCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.UrlCaptionLabel.Text = "URL";
+            this.urlCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.urlCaptionLabel.Size = new System.Drawing.Size(32, 16);
+            this.urlCaptionLabel.Text = "URL";
             // 
-            // UrlLabel
+            // urlLabel
             // 
-            this.UrlLabel.Location = new System.Drawing.Point(3, 109);
-            this.UrlLabel.Size = new System.Drawing.Size(234, 16);
+            this.urlLabel.Location = new System.Drawing.Point(3, 109);
+            this.urlLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // TimsCaptionLabel
+            // timsCaptionLabel
             // 
-            this.TimsCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.TimsCaptionLabel.Size = new System.Drawing.Size(88, 16);
-            this.TimsCaptionLabel.Text = "放送開始時刻";
+            this.timsCaptionLabel.Location = new System.Drawing.Point(3, 151);
+            this.timsCaptionLabel.Size = new System.Drawing.Size(88, 16);
+            this.timsCaptionLabel.Text = "放送開始時刻";
             // 
-            // TimsLabel
+            // timsLabel
             // 
-            this.TimsLabel.Location = new System.Drawing.Point(3, 167);
-            this.TimsLabel.Size = new System.Drawing.Size(234, 16);
+            this.timsLabel.Location = new System.Drawing.Point(3, 167);
+            this.timsLabel.Size = new System.Drawing.Size(234, 16);
             // 
-            // ClnCaptionLabel
+            // clnCaptionLabel
             // 
-            this.ClnCaptionLabel.Location = new System.Drawing.Point(3, 183);
-            this.ClnCaptionLabel.Size = new System.Drawing.Size(120, 16);
-            this.ClnCaptionLabel.Text = "リスナ数（現在/述べ）";
+            this.clnCaptionLabel.Location = new System.Drawing.Point(3, 183);
+            this.clnCaptionLabel.Size = new System.Drawing.Size(120, 16);
+            this.clnCaptionLabel.Text = "リスナ数（現在/述べ）";
             // 
-            // ClnLabel
+            // clnLabel
             // 
-            this.ClnLabel.Location = new System.Drawing.Point(3, 199);
-            this.ClnLabel.Size = new System.Drawing.Size(120, 16);
+            this.clnLabel.Location = new System.Drawing.Point(3, 199);
+            this.clnLabel.Size = new System.Drawing.Size(120, 16);
             // 
-            // BitCaptionLabel
+            // bitCaptionLabel
             // 
-            this.BitCaptionLabel.Location = new System.Drawing.Point(129, 183);
-            this.BitCaptionLabel.Size = new System.Drawing.Size(64, 16);
-            this.BitCaptionLabel.Text = "ビットレート";
+            this.bitCaptionLabel.Location = new System.Drawing.Point(129, 183);
+            this.bitCaptionLabel.Size = new System.Drawing.Size(64, 16);
+            this.bitCaptionLabel.Text = "ビットレート";
             // 
-            // BitLabel
+            // bitLabel
             // 
-            this.BitLabel.Location = new System.Drawing.Point(129, 199);
-            this.BitLabel.Size = new System.Drawing.Size(108, 16);
+            this.bitLabel.Location = new System.Drawing.Point(129, 199);
+            this.bitLabel.Size = new System.Drawing.Size(108, 16);
             // 
-            // AccessButton
+            // accessButton
             // 
-            this.AccessButton.Location = new System.Drawing.Point(165, 128);
-            this.AccessButton.Size = new System.Drawing.Size(72, 20);
-            this.AccessButton.Text = "&Access";
-            this.AccessButton.Click += new System.EventHandler(this.AccessButton_Click);
+            this.accessButton.Location = new System.Drawing.Point(165, 128);
+            this.accessButton.Size = new System.Drawing.Size(72, 20);
+            this.accessButton.Text = "&Access";
+            this.accessButton.Click += new System.EventHandler(this.AccessButton_Click);
             // 
-            // MainMenu
+            // mainMenu
             // 
-            this.MainMenu.MenuItems.Add(this.OkMenuItem);
+            this.mainMenu.MenuItems.Add(this.okMenuItem);
             // 
-            // OkMenuItem
+            // okMenuItem
             // 
-            this.OkMenuItem.Text = "&OK";
-            this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
+            this.okMenuItem.Text = "&OK";
+            this.okMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // PlayButton
+            // playButton
             // 
-            this.PlayButton.Location = new System.Drawing.Point(165, 70);
-            this.PlayButton.Size = new System.Drawing.Size(72, 20);
-            this.PlayButton.Text = "&Play";
-            this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
+            this.playButton.Location = new System.Drawing.Point(165, 70);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
+            this.playButton.Text = "&Play";
+            this.playButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
-            // ChannelPropertyForm
+            // channelPropertyForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.PlayButton);
-            this.Controls.Add(this.AccessButton);
-            this.Controls.Add(this.BitLabel);
-            this.Controls.Add(this.BitCaptionLabel);
-            this.Controls.Add(this.ClnLabel);
-            this.Controls.Add(this.ClnCaptionLabel);
-            this.Controls.Add(this.TimsLabel);
-            this.Controls.Add(this.TimsCaptionLabel);
-            this.Controls.Add(this.UrlLabel);
-            this.Controls.Add(this.UrlCaptionLabel);
-            this.Controls.Add(this.GnlLabel);
-            this.Controls.Add(this.GnlCaptionLabel);
-            this.Controls.Add(this.NamLabel);
-            this.Controls.Add(this.NamCaptionLabel);
+            this.Controls.Add(this.playButton);
+            this.Controls.Add(this.accessButton);
+            this.Controls.Add(this.bitLabel);
+            this.Controls.Add(this.bitCaptionLabel);
+            this.Controls.Add(this.clnLabel);
+            this.Controls.Add(this.clnCaptionLabel);
+            this.Controls.Add(this.timsLabel);
+            this.Controls.Add(this.timsCaptionLabel);
+            this.Controls.Add(this.urlLabel);
+            this.Controls.Add(this.urlCaptionLabel);
+            this.Controls.Add(this.gnlLabel);
+            this.Controls.Add(this.gnlCaptionLabel);
+            this.Controls.Add(this.namLabel);
+            this.Controls.Add(this.namCaptionLabel);
             this.MaximizeBox = false;
-            this.Menu = this.MainMenu;
+            this.Menu = this.mainMenu;
             this.Text = "番組の詳細";
             this.Resize += new System.EventHandler(this.ChannelPropertyForm_Resize);
             this.Load += new System.EventHandler(this.ChannelPropertyForm_Load);
@@ -215,28 +219,28 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         private void FixWindowSizeVertical()
         {
-            this.NamCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.GnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.UrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.TimsCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.ClnCaptionLabel.Location = new System.Drawing.Point(3, 183);
-            this.BitCaptionLabel.Location = new System.Drawing.Point(129, 183);
+            this.namCaptionLabel.Location = new System.Drawing.Point(3, 3);
+            this.gnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.urlCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.timsCaptionLabel.Location = new System.Drawing.Point(3, 151);
+            this.clnCaptionLabel.Location = new System.Drawing.Point(3, 183);
+            this.bitCaptionLabel.Location = new System.Drawing.Point(129, 183);
 
-            this.NamLabel.Location = new System.Drawing.Point(3, 19);
-            this.NamLabel.Size = new System.Drawing.Size(234, 16);
-            this.GnlLabel.Location = new System.Drawing.Point(3, 51);
-            this.GnlLabel.Size = new System.Drawing.Size(234, 16);
-            this.UrlLabel.Location = new System.Drawing.Point(3, 109);
-            this.UrlLabel.Size = new System.Drawing.Size(234, 16);
-            this.TimsLabel.Location = new System.Drawing.Point(3, 167);
-            this.TimsLabel.Size = new System.Drawing.Size(120, 16);
-            this.ClnLabel.Location = new System.Drawing.Point(3, 199);
-            this.ClnLabel.Size = new System.Drawing.Size(120, 16);
-            this.BitLabel.Location = new System.Drawing.Point(129, 199);
-            this.BitLabel.Size = new System.Drawing.Size(108, 16);
+            this.namLabel.Location = new System.Drawing.Point(3, 19);
+            this.namLabel.Size = new System.Drawing.Size(234, 16);
+            this.gnlLabel.Location = new System.Drawing.Point(3, 51);
+            this.gnlLabel.Size = new System.Drawing.Size(234, 16);
+            this.urlLabel.Location = new System.Drawing.Point(3, 109);
+            this.urlLabel.Size = new System.Drawing.Size(234, 16);
+            this.timsLabel.Location = new System.Drawing.Point(3, 167);
+            this.timsLabel.Size = new System.Drawing.Size(120, 16);
+            this.clnLabel.Location = new System.Drawing.Point(3, 199);
+            this.clnLabel.Size = new System.Drawing.Size(120, 16);
+            this.bitLabel.Location = new System.Drawing.Point(129, 199);
+            this.bitLabel.Size = new System.Drawing.Size(108, 16);
 
-            this.AccessButton.Location = new System.Drawing.Point(165, 128);
-            this.PlayButton.Location = new System.Drawing.Point(165, 70);
+            this.accessButton.Location = new System.Drawing.Point(165, 128);
+            this.playButton.Location = new System.Drawing.Point(165, 70);
         }
 
         /// <summary>
@@ -244,45 +248,45 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         private void FixWindowSizeHorizon()
         {
-            this.NamCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.GnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.UrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.TimsCaptionLabel.Location = new System.Drawing.Point(3, 132);
-            this.ClnCaptionLabel.Location = new System.Drawing.Point(3, 148);
-            this.BitCaptionLabel.Location = new System.Drawing.Point(3, 164);
+            this.namCaptionLabel.Location = new System.Drawing.Point(3, 3);
+            this.gnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.urlCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.timsCaptionLabel.Location = new System.Drawing.Point(3, 132);
+            this.clnCaptionLabel.Location = new System.Drawing.Point(3, 148);
+            this.bitCaptionLabel.Location = new System.Drawing.Point(3, 164);
 
-            this.NamLabel.Location = new System.Drawing.Point(3, 19);
-            this.NamLabel.Size = new System.Drawing.Size(314, 16);
-            this.GnlLabel.Location = new System.Drawing.Point(3, 51);
-            this.GnlLabel.Size = new System.Drawing.Size(314, 16);
-            this.UrlLabel.Location = new System.Drawing.Point(3, 109);
-            this.UrlLabel.Size = new System.Drawing.Size(236, 16);
-            this.TimsLabel.Location = new System.Drawing.Point(129, 132);
-            this.TimsLabel.Size = new System.Drawing.Size(234, 16);
-            this.ClnLabel.Location = new System.Drawing.Point(129, 148);
-            this.ClnLabel.Size = new System.Drawing.Size(120, 16);
-            this.BitLabel.Location = new System.Drawing.Point(129, 164);
-            this.BitLabel.Size = new System.Drawing.Size(108, 16);
+            this.namLabel.Location = new System.Drawing.Point(3, 19);
+            this.namLabel.Size = new System.Drawing.Size(314, 16);
+            this.gnlLabel.Location = new System.Drawing.Point(3, 51);
+            this.gnlLabel.Size = new System.Drawing.Size(314, 16);
+            this.urlLabel.Location = new System.Drawing.Point(3, 109);
+            this.urlLabel.Size = new System.Drawing.Size(236, 16);
+            this.timsLabel.Location = new System.Drawing.Point(129, 132);
+            this.timsLabel.Size = new System.Drawing.Size(234, 16);
+            this.clnLabel.Location = new System.Drawing.Point(129, 148);
+            this.clnLabel.Size = new System.Drawing.Size(120, 16);
+            this.bitLabel.Location = new System.Drawing.Point(129, 164);
+            this.bitLabel.Size = new System.Drawing.Size(108, 16);
 
-            this.AccessButton.Location = new System.Drawing.Point(245, 109);
-            this.PlayButton.Location = new System.Drawing.Point(245, 70);
+            this.accessButton.Location = new System.Drawing.Point(245, 109);
+            this.playButton.Location = new System.Drawing.Point(245, 70);
         }
 
         private void ChannelPropertyForm_Load(object sender, System.EventArgs e)
         {
             FixWindowSize();
-            NamLabel.Text = channel.Nam.Trim();
-            GnlLabel.Text = channel.Gnl.Trim();
-            UrlLabel.Text = ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "");
-            TimsLabel.Text = channel.Tims.ToString().Trim();
-            ClnLabel.Text = channel.Cln.Trim() + " / " + channel.Clns.Trim();
+            namLabel.Text = channel.Nam.Trim();
+            gnlLabel.Text = channel.Gnl.Trim();
+            urlLabel.Text = ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "");
+            timsLabel.Text = channel.Tims.ToString().Trim();
+            clnLabel.Text = channel.Cln.Trim() + " / " + channel.Clns.Trim();
             if (channel.Bit.Length != 0)
             {
-                BitLabel.Text = channel.Bit.Trim() + " Kbps";
+                bitLabel.Text = channel.Bit.Trim() + " Kbps";
             }
             else
             {
-                BitLabel.Text = "Unknown";
+                bitLabel.Text = "Unknown";
             }
         }
 
@@ -302,7 +306,7 @@ namespace PocketLadio.Stations.Netladio
         {
             try
             {
-                if (UrlLabel.Text.Trim().Length != 0)
+                if (urlLabel.Text.Trim().Length != 0)
                 {
                     PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
                 }

@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
 using System.Diagnostics;
 using PocketLadio.Stations;
+
+#endregion
 
 namespace PocketLadio
 {

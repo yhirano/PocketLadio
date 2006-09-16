@@ -1,9 +1,13 @@
+#region ディレクティブを使用する
+
 using System;
 using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
 using PocketLadio.Utility;
+
+#endregion
 
 namespace PocketLadio.Stations.ShoutCast
 {
@@ -15,7 +19,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// SHOUTcastのURL
         /// </summary>
-        public readonly static Uri SHOUTCAST_URL = new Uri("http://www.shoutcast.com/");
+        public readonly static Uri ShoutcastUrl = new Uri("http://www.shoutcast.com/");
 
         /// <summary>
         /// 検索単語
@@ -141,7 +145,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// 親ヘッドライン
         /// </summary>
-        private readonly Headline ParentHeadline;
+        private readonly Headline parentHeadline;
 
         /// <summary>
         /// 設定のコンストラクタ
@@ -149,7 +153,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <param name="ParentHeadline">親ヘッドライン</param>
         public UserSetting(Headline parentHeadline)
         {
-            this.ParentHeadline = parentHeadline;
+            this.parentHeadline = parentHeadline;
         }
 
         /// <summary>
@@ -159,7 +163,7 @@ namespace PocketLadio.Stations.ShoutCast
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.SHOUTcast." + ParentHeadline.GetId() + ".xml";
+            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.SHOUTcast." + parentHeadline.GetId() + ".xml";
         }
 
         /// <summary>

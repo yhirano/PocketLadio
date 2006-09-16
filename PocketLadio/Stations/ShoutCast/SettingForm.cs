@@ -1,3 +1,5 @@
+#region ディレクティブを使用する
+
 using System;
 using System.Drawing;
 using System.Collections;
@@ -6,12 +8,14 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using PocketLadio.Utility;
 
+#endregion
+
 namespace PocketLadio.Stations.ShoutCast
 {
     /// <summary>
     /// ねとらじの設定フォーム
     /// </summary>
-    public class settingForm : System.Windows.Forms.Form
+    public class SettingForm : System.Windows.Forms.Form
     {
         private TabControl shoutCastSettingTabControl;
         private TabPage shoutCastTabPage;
@@ -26,7 +30,7 @@ namespace PocketLadio.Stations.ShoutCast
         private MenuItem copySearchWordMenuItem;
         private MenuItem pastSearchWordMenuItem;
         private TextBox headlineViewTypeTextBox;
-        private Label HeadlineViewTypeLabel;
+        private Label headlineViewTypeLabel;
         private TextBox searchWordTextBox;
         private Label maxBitRateLabel;
         private Label searchWordLabel;
@@ -38,7 +42,7 @@ namespace PocketLadio.Stations.ShoutCast
         private UserSetting setting;
 
 
-        public settingForm(UserSetting setting)
+        public SettingForm(UserSetting setting)
         {
             this.setting = setting;
 
@@ -73,7 +77,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.cutHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.copyHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
-            this.HeadlineViewTypeLabel = new System.Windows.Forms.Label();
+            this.headlineViewTypeLabel = new System.Windows.Forms.Label();
             this.searchWordTextBox = new System.Windows.Forms.TextBox();
             this.searchWordContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutSearchWordMenuItem = new System.Windows.Forms.MenuItem();
@@ -102,7 +106,7 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             this.shoutCastTabPage.Controls.Add(this.maxBitRateComboBox);
             this.shoutCastTabPage.Controls.Add(this.headlineViewTypeTextBox);
-            this.shoutCastTabPage.Controls.Add(this.HeadlineViewTypeLabel);
+            this.shoutCastTabPage.Controls.Add(this.headlineViewTypeLabel);
             this.shoutCastTabPage.Controls.Add(this.searchWordTextBox);
             this.shoutCastTabPage.Controls.Add(this.maxBitRateLabel);
             this.shoutCastTabPage.Controls.Add(this.searchWordLabel);
@@ -144,9 +148,9 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // HeadlineViewTypeLabel
             // 
-            this.HeadlineViewTypeLabel.Location = new System.Drawing.Point(3, 91);
-            this.HeadlineViewTypeLabel.Size = new System.Drawing.Size(135, 20);
-            this.HeadlineViewTypeLabel.Text = "ヘッドラインの表示方法";
+            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 91);
+            this.headlineViewTypeLabel.Size = new System.Drawing.Size(135, 20);
+            this.headlineViewTypeLabel.Text = "ヘッドラインの表示方法";
             // 
             // searchWordTextBox
             // 

@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections;
-using PocketLadio.Stations;
+﻿#region ディレクティブを使用する
+
+using System;
+
+#endregion
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -132,7 +134,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 親ヘッドライン
         /// </summary>
-        private readonly Headline ParentHeadline;
+        private readonly Headline parentHeadline;
 
         /// <summary>
         /// チャンネルのコンストラクタ
@@ -140,7 +142,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <param name="ParentHeadline">親ヘッドライン</param>
         public Channel(Headline parentHeadline)
         {
-            this.ParentHeadline = parentHeadline;
+            this.parentHeadline = parentHeadline;
         }
 
         /// <summary>
@@ -187,7 +189,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>番組の表示方法に従った番組の情報</returns>
         public virtual string GetChannelView()
         {
-            string view = ParentHeadline.HeadlineViewType;
+            string view = parentHeadline.HeadlineViewType;
             if (view.Length != 0)
             {
                 view = view.Replace("[[TITLE]]", Title)

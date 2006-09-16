@@ -1,3 +1,5 @@
+#region ディレクティブを使用する
+
 using System;
 using System.IO;
 using System.Net;
@@ -7,6 +9,8 @@ using System.Collections;
 using System.Xml;
 using PocketLadio.Utility;
 using PocketLadio.Stations;
+
+#endregion
 
 namespace PocketLadio.Stations.Netladio
 {
@@ -188,12 +192,12 @@ namespace PocketLadio.Stations.Netladio
                 string[] channelsCvs = httpString.Split('\n');
 
                 // 1行目はヘッダなので無視
-                for (int Count = 1; Count < channelsCvs.Length; ++Count)
+                for (int count = 1; count < channelsCvs.Length; ++count)
                 {
-                    if (channelsCvs[Count].Length != 0)
+                    if (channelsCvs[count].Length != 0)
                     {
                         Channel channel = new Channel(this);
-                        string[] channelCsv = channelsCvs[Count].Split(',');
+                        string[] channelCsv = channelsCvs[count].Split(',');
 
                         // Url取得
                         try
@@ -320,9 +324,8 @@ namespace PocketLadio.Stations.Netladio
                             inSourceFlag = true;
                             channel = new Channel(this);
                         } // End of source
-
                         // sourceタグの中にいる場合
-                        if (inSourceFlag == true)
+                        else if (inSourceFlag == true)
                         {
                             if (reader.LocalName == "url")
                             {
@@ -383,7 +386,7 @@ namespace PocketLadio.Stations.Netladio
                             {
                                 channel.Bit = reader.ReadString();
                             } // End of bit
-                        }
+                        } // End of sourceタグの中にいる場合
                     }
                     else if (reader.NodeType == XmlNodeType.EndElement)
                     {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
 using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
@@ -7,6 +9,8 @@ using System.IO;
 using System.Diagnostics;
 using PocketLadio.Utility;
 
+#endregion
+
 namespace PocketLadio
 {
     /// <summary>
@@ -14,21 +18,21 @@ namespace PocketLadio
     /// </summary>
     public class StationsSettingForm : System.Windows.Forms.Form
     {
-        private MenuItem OkMenuItem;
-        private Label StationListLabel;
-        private Label AddStationLabel;
-        private ListBox StationListBox;
-        private Button DeleteButton;
-        private Button AddButton;
-        private ComboBox StationKindComboBox;
-        private TextBox StationNameTextBox;
-        private ContextMenu StationListBoxContextMenu;
-        private MenuItem SettingMenuItem;
-        private MenuItem DeleteMenuItem;
-        private ContextMenu StationNameContextMenu;
-        private MenuItem CutStationNameMenuItem;
-        private MenuItem CopyStationNameMenuItem;
-        private MenuItem PasteStationNameMenuItem;
+        private MenuItem okMenuItem;
+        private Label stationListLabel;
+        private Label addStationLabel;
+        private ListBox stationListBox;
+        private Button deleteButton;
+        private Button addButton;
+        private ComboBox stationKindComboBox;
+        private TextBox stationNameTextBox;
+        private ContextMenu stationListBoxContextMenu;
+        private MenuItem settingMenuItem;
+        private MenuItem deleteMenuItem;
+        private ContextMenu stationNameContextMenu;
+        private MenuItem cutStationNameMenuItem;
+        private MenuItem copyStationNameMenuItem;
+        private MenuItem pasteStationNameMenuItem;
 
         /// <summary>
         /// 放送局のリスト
@@ -38,7 +42,7 @@ namespace PocketLadio
         /// <summary>
         /// フォームのメイン メニューです。
         /// </summary>
-        private System.Windows.Forms.MainMenu MainMenu;
+        private System.Windows.Forms.MainMenu mainMenu;
 
         public StationsSettingForm()
         {
@@ -61,126 +65,126 @@ namespace PocketLadio
         /// </summary>
         private void InitializeComponent()
         {
-            this.MainMenu = new System.Windows.Forms.MainMenu();
-            this.OkMenuItem = new System.Windows.Forms.MenuItem();
-            this.StationListLabel = new System.Windows.Forms.Label();
-            this.AddStationLabel = new System.Windows.Forms.Label();
-            this.StationListBox = new System.Windows.Forms.ListBox();
-            this.StationListBoxContextMenu = new System.Windows.Forms.ContextMenu();
-            this.SettingMenuItem = new System.Windows.Forms.MenuItem();
-            this.DeleteMenuItem = new System.Windows.Forms.MenuItem();
-            this.DeleteButton = new System.Windows.Forms.Button();
-            this.AddButton = new System.Windows.Forms.Button();
-            this.StationKindComboBox = new System.Windows.Forms.ComboBox();
-            this.StationNameTextBox = new System.Windows.Forms.TextBox();
-            this.StationNameContextMenu = new System.Windows.Forms.ContextMenu();
-            this.CutStationNameMenuItem = new System.Windows.Forms.MenuItem();
-            this.CopyStationNameMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteStationNameMenuItem = new System.Windows.Forms.MenuItem();
+            this.mainMenu = new System.Windows.Forms.MainMenu();
+            this.okMenuItem = new System.Windows.Forms.MenuItem();
+            this.stationListLabel = new System.Windows.Forms.Label();
+            this.addStationLabel = new System.Windows.Forms.Label();
+            this.stationListBox = new System.Windows.Forms.ListBox();
+            this.stationListBoxContextMenu = new System.Windows.Forms.ContextMenu();
+            this.settingMenuItem = new System.Windows.Forms.MenuItem();
+            this.deleteMenuItem = new System.Windows.Forms.MenuItem();
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.addButton = new System.Windows.Forms.Button();
+            this.stationKindComboBox = new System.Windows.Forms.ComboBox();
+            this.stationNameTextBox = new System.Windows.Forms.TextBox();
+            this.stationNameContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutStationNameMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyStationNameMenuItem = new System.Windows.Forms.MenuItem();
+            this.pasteStationNameMenuItem = new System.Windows.Forms.MenuItem();
             // 
-            // MainMenu
+            // mainMenu
             // 
-            this.MainMenu.MenuItems.Add(this.OkMenuItem);
+            this.mainMenu.MenuItems.Add(this.okMenuItem);
             // 
-            // OkMenuItem
+            // okMenuItem
             // 
-            this.OkMenuItem.Text = "&OK";
-            this.OkMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
+            this.okMenuItem.Text = "&OK";
+            this.okMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // StationListLabel
+            // stationListLabel
             // 
-            this.StationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.StationListLabel.Size = new System.Drawing.Size(84, 20);
-            this.StationListLabel.Text = "放送局一覧";
+            this.stationListLabel.Location = new System.Drawing.Point(3, 77);
+            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
+            this.stationListLabel.Text = "放送局一覧";
             // 
-            // AddStationLabel
+            // addStationLabel
             // 
-            this.AddStationLabel.Location = new System.Drawing.Point(3, 4);
-            this.AddStationLabel.Size = new System.Drawing.Size(84, 20);
-            this.AddStationLabel.Text = "放送局の追加";
+            this.addStationLabel.Location = new System.Drawing.Point(3, 4);
+            this.addStationLabel.Size = new System.Drawing.Size(84, 20);
+            this.addStationLabel.Text = "放送局の追加";
             // 
-            // StationListBox
+            // stationListBox
             // 
-            this.StationListBox.ContextMenu = this.StationListBoxContextMenu;
-            this.StationListBox.Location = new System.Drawing.Point(3, 99);
-            this.StationListBox.Size = new System.Drawing.Size(234, 142);
+            this.stationListBox.ContextMenu = this.stationListBoxContextMenu;
+            this.stationListBox.Location = new System.Drawing.Point(3, 99);
+            this.stationListBox.Size = new System.Drawing.Size(234, 142);
             // 
-            // StationListBoxContextMenu
+            // stationListBoxContextMenu
             // 
-            this.StationListBoxContextMenu.MenuItems.Add(this.SettingMenuItem);
-            this.StationListBoxContextMenu.MenuItems.Add(this.DeleteMenuItem);
+            this.stationListBoxContextMenu.MenuItems.Add(this.settingMenuItem);
+            this.stationListBoxContextMenu.MenuItems.Add(this.deleteMenuItem);
             // 
-            // SettingMenuItem
+            // settingMenuItem
             // 
-            this.SettingMenuItem.Text = "設定(&S)";
-            this.SettingMenuItem.Click += new System.EventHandler(this.SettingMenuItem_Click);
+            this.settingMenuItem.Text = "設定(&S)";
+            this.settingMenuItem.Click += new System.EventHandler(this.SettingMenuItem_Click);
             // 
-            // DeleteMenuItem
+            // deleteMenuItem
             // 
-            this.DeleteMenuItem.Text = "削除(&D)";
-            this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
+            this.deleteMenuItem.Text = "削除(&D)";
+            this.deleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
             // 
-            // DeleteButton
+            // deleteButton
             // 
-            this.DeleteButton.Location = new System.Drawing.Point(165, 245);
-            this.DeleteButton.Size = new System.Drawing.Size(72, 20);
-            this.DeleteButton.Text = "削除(&D)";
-            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            this.deleteButton.Location = new System.Drawing.Point(165, 245);
+            this.deleteButton.Size = new System.Drawing.Size(72, 20);
+            this.deleteButton.Text = "削除(&D)";
+            this.deleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
-            // AddButton
+            // addButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(165, 54);
-            this.AddButton.Size = new System.Drawing.Size(72, 20);
-            this.AddButton.Text = "追加(&A)";
-            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
+            this.addButton.Location = new System.Drawing.Point(165, 54);
+            this.addButton.Size = new System.Drawing.Size(72, 20);
+            this.addButton.Text = "追加(&A)";
+            this.addButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
-            // StationKindComboBox
+            // stationKindComboBox
             // 
-            this.StationKindComboBox.Items.Add("ねとらじ");
-            this.StationKindComboBox.Items.Add("Podcast");
-            this.StationKindComboBox.Items.Add("SHOUTcast");
-            this.StationKindComboBox.Location = new System.Drawing.Point(137, 27);
-            this.StationKindComboBox.Size = new System.Drawing.Size(100, 22);
+            this.stationKindComboBox.Items.Add("ねとらじ");
+            this.stationKindComboBox.Items.Add("Podcast");
+            this.stationKindComboBox.Items.Add("SHOUTcast");
+            this.stationKindComboBox.Location = new System.Drawing.Point(137, 27);
+            this.stationKindComboBox.Size = new System.Drawing.Size(100, 22);
             // 
-            // StationNameTextBox
+            // stationNameTextBox
             // 
-            this.StationNameTextBox.ContextMenu = this.StationNameContextMenu;
-            this.StationNameTextBox.Location = new System.Drawing.Point(3, 27);
-            this.StationNameTextBox.Size = new System.Drawing.Size(128, 21);
-            this.StationNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StationNameTextBox_KeyDown);
+            this.stationNameTextBox.ContextMenu = this.stationNameContextMenu;
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(128, 21);
+            this.stationNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StationNameTextBox_KeyDown);
             // 
-            // StationNameContextMenu
+            // stationNameContextMenu
             // 
-            this.StationNameContextMenu.MenuItems.Add(this.CutStationNameMenuItem);
-            this.StationNameContextMenu.MenuItems.Add(this.CopyStationNameMenuItem);
-            this.StationNameContextMenu.MenuItems.Add(this.PasteStationNameMenuItem);
+            this.stationNameContextMenu.MenuItems.Add(this.cutStationNameMenuItem);
+            this.stationNameContextMenu.MenuItems.Add(this.copyStationNameMenuItem);
+            this.stationNameContextMenu.MenuItems.Add(this.pasteStationNameMenuItem);
             // 
-            // CutStationNameMenuItem
+            // cutStationNameMenuItem
             // 
-            this.CutStationNameMenuItem.Text = "切り取り(&T)";
-            this.CutStationNameMenuItem.Click += new System.EventHandler(this.CutStationNameMenuItem_Click);
+            this.cutStationNameMenuItem.Text = "切り取り(&T)";
+            this.cutStationNameMenuItem.Click += new System.EventHandler(this.CutStationNameMenuItem_Click);
             // 
-            // CopyStationNameMenuItem
+            // copyStationNameMenuItem
             // 
-            this.CopyStationNameMenuItem.Text = "コピー(&C)";
-            this.CopyStationNameMenuItem.Click += new System.EventHandler(this.CopyStationNameMenuItem_Click);
+            this.copyStationNameMenuItem.Text = "コピー(&C)";
+            this.copyStationNameMenuItem.Click += new System.EventHandler(this.CopyStationNameMenuItem_Click);
             // 
-            // PasteStationNameMenuItem
+            // pasteStationNameMenuItem
             // 
-            this.PasteStationNameMenuItem.Text = "貼り付け(&P)";
-            this.PasteStationNameMenuItem.Click += new System.EventHandler(this.PasteStationNameMenuItem_Click);
+            this.pasteStationNameMenuItem.Text = "貼り付け(&P)";
+            this.pasteStationNameMenuItem.Click += new System.EventHandler(this.PasteStationNameMenuItem_Click);
             // 
-            // StationsSettingForm
+            // stationsSettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.StationListLabel);
-            this.Controls.Add(this.AddStationLabel);
-            this.Controls.Add(this.StationListBox);
-            this.Controls.Add(this.DeleteButton);
-            this.Controls.Add(this.AddButton);
-            this.Controls.Add(this.StationKindComboBox);
-            this.Controls.Add(this.StationNameTextBox);
-            this.Menu = this.MainMenu;
+            this.Controls.Add(this.stationListLabel);
+            this.Controls.Add(this.addStationLabel);
+            this.Controls.Add(this.stationListBox);
+            this.Controls.Add(this.deleteButton);
+            this.Controls.Add(this.addButton);
+            this.Controls.Add(this.stationKindComboBox);
+            this.Controls.Add(this.stationNameTextBox);
+            this.Menu = this.mainMenu;
             this.Text = "放送局の追加と削除";
             this.Resize += new System.EventHandler(this.StationsSettingForm_Resize);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.StationsSettingForm_Closing);
@@ -213,21 +217,21 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeVertical()
         {
-            this.StationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.StationListLabel.Size = new System.Drawing.Size(84, 20);
-            this.AddStationLabel.Location = new System.Drawing.Point(3, 4);
-            this.AddStationLabel.Size = new System.Drawing.Size(84, 20);
-            this.StationListBox.ContextMenu = this.StationListBoxContextMenu;
-            this.StationListBox.Location = new System.Drawing.Point(3, 99);
-            this.StationListBox.Size = new System.Drawing.Size(234, 142);
-            this.DeleteButton.Location = new System.Drawing.Point(165, 245);
-            this.DeleteButton.Size = new System.Drawing.Size(72, 20);
-            this.AddButton.Location = new System.Drawing.Point(165, 54);
-            this.AddButton.Size = new System.Drawing.Size(72, 20);
-            this.StationKindComboBox.Location = new System.Drawing.Point(137, 27);
-            this.StationKindComboBox.Size = new System.Drawing.Size(100, 22);
-            this.StationNameTextBox.Location = new System.Drawing.Point(3, 27);
-            this.StationNameTextBox.Size = new System.Drawing.Size(128, 21);
+            this.stationListLabel.Location = new System.Drawing.Point(3, 77);
+            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
+            this.addStationLabel.Location = new System.Drawing.Point(3, 4);
+            this.addStationLabel.Size = new System.Drawing.Size(84, 20);
+            this.stationListBox.ContextMenu = this.stationListBoxContextMenu;
+            this.stationListBox.Location = new System.Drawing.Point(3, 99);
+            this.stationListBox.Size = new System.Drawing.Size(234, 142);
+            this.deleteButton.Location = new System.Drawing.Point(165, 245);
+            this.deleteButton.Size = new System.Drawing.Size(72, 20);
+            this.addButton.Location = new System.Drawing.Point(165, 54);
+            this.addButton.Size = new System.Drawing.Size(72, 20);
+            this.stationKindComboBox.Location = new System.Drawing.Point(137, 27);
+            this.stationKindComboBox.Size = new System.Drawing.Size(100, 22);
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(128, 21);
         }
 
         /// <summary>
@@ -235,20 +239,20 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeHorizon()
         {
-            this.StationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.StationListLabel.Size = new System.Drawing.Size(84, 20);
-            this.AddStationLabel.Location = new System.Drawing.Point(3, 4);
-            this.AddStationLabel.Size = new System.Drawing.Size(84, 20);
-            this.StationListBox.Location = new System.Drawing.Point(3, 99);
-            this.StationListBox.Size = new System.Drawing.Size(314, 58);
-            this.DeleteButton.Location = new System.Drawing.Point(245, 165);
-            this.DeleteButton.Size = new System.Drawing.Size(72, 20);
-            this.AddButton.Location = new System.Drawing.Point(245, 55);
-            this.AddButton.Size = new System.Drawing.Size(72, 20);
-            this.StationKindComboBox.Location = new System.Drawing.Point(217, 27);
-            this.StationKindComboBox.Size = new System.Drawing.Size(100, 22);
-            this.StationNameTextBox.Location = new System.Drawing.Point(3, 27);
-            this.StationNameTextBox.Size = new System.Drawing.Size(208, 21);
+            this.stationListLabel.Location = new System.Drawing.Point(3, 77);
+            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
+            this.addStationLabel.Location = new System.Drawing.Point(3, 4);
+            this.addStationLabel.Size = new System.Drawing.Size(84, 20);
+            this.stationListBox.Location = new System.Drawing.Point(3, 99);
+            this.stationListBox.Size = new System.Drawing.Size(314, 58);
+            this.deleteButton.Location = new System.Drawing.Point(245, 165);
+            this.deleteButton.Size = new System.Drawing.Size(72, 20);
+            this.addButton.Location = new System.Drawing.Point(245, 55);
+            this.addButton.Size = new System.Drawing.Size(72, 20);
+            this.stationKindComboBox.Location = new System.Drawing.Point(217, 27);
+            this.stationKindComboBox.Size = new System.Drawing.Size(100, 22);
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(208, 21);
         }
 
         /// <summary>
@@ -260,18 +264,18 @@ namespace PocketLadio
             Station station = null;
             if (stationKind == "ねとらじ")
             {
-                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
+                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
             }
             else if (stationKind == "Podcast")
             {
-                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
+                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
 
                 // 設定画面を呼び出す
                 station.Headline.ShowSettingForm();
             }
             else if (stationKind == "SHOUTcast")
             {
-                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), StationNameTextBox.Text.Trim(), Station.StationKind.ShoutCast);
+                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.ShoutCast);
 
                 // 設定画面を呼び出す
                 station.Headline.ShowSettingForm();
@@ -284,8 +288,8 @@ namespace PocketLadio
 
             // リストに追加
             alStationList.Add(station);
-            StationListBox.Items.Add(station.DisplayName);
-            StationNameTextBox.Text = "";
+            stationListBox.Items.Add(station.DisplayName);
+            stationNameTextBox.Text = "";
         }
 
         private void StationsSettingForm_Load(object sender, EventArgs e)
@@ -297,63 +301,63 @@ namespace PocketLadio
             foreach (Station station in StationList.GetStationList())
             {
                 alStationList.Add(station);
-                StationListBox.Items.Add(station.DisplayName);
+                stationListBox.Items.Add(station.DisplayName);
             }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (StationListBox.SelectedIndex != -1)
+            if (stationListBox.SelectedIndex != -1)
             {
                 // 設定ファイルの削除
-                ((Station)alStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
+                ((Station)alStationList[stationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
 
-                alStationList.RemoveAt(StationListBox.SelectedIndex);
-                StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
+                alStationList.RemoveAt(stationListBox.SelectedIndex);
+                stationListBox.Items.RemoveAt(stationListBox.SelectedIndex);
             }
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            if (StationNameTextBox.Text.Trim().Length != 0 && StationKindComboBox.Text.Trim().Length != 0)
+            if (stationNameTextBox.Text.Trim().Length != 0 && stationKindComboBox.Text.Trim().Length != 0)
             {
-                CreateStation(StationKindComboBox.Text.Trim());
+                CreateStation(stationKindComboBox.Text.Trim());
             }
         }
 
         private void SettingMenuItem_Click(object sender, EventArgs e)
         {
-            if (StationListBox.SelectedIndex != -1)
+            if (stationListBox.SelectedIndex != -1)
             {
-                ((Station)alStationList[StationListBox.SelectedIndex]).Headline.ShowSettingForm();
+                ((Station)alStationList[stationListBox.SelectedIndex]).Headline.ShowSettingForm();
             }
         }
 
         private void DeleteMenuItem_Click(object sender, EventArgs e)
         {
-            if (StationListBox.SelectedIndex != -1)
+            if (stationListBox.SelectedIndex != -1)
             {
                 // 設定ファイルの削除
-                ((Station)alStationList[StationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
+                ((Station)alStationList[stationListBox.SelectedIndex]).Headline.DeleteUserSettingFile();
 
-                alStationList.RemoveAt(StationListBox.SelectedIndex);
-                StationListBox.Items.RemoveAt(StationListBox.SelectedIndex);
+                alStationList.RemoveAt(stationListBox.SelectedIndex);
+                stationListBox.Items.RemoveAt(stationListBox.SelectedIndex);
             }
         }
 
         private void CutStationNameMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Cut(StationNameTextBox);
+            ClipboardTextBox.Cut(stationNameTextBox);
         }
 
         private void CopyStationNameMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Copy(StationNameTextBox);
+            ClipboardTextBox.Copy(stationNameTextBox);
         }
 
         private void PasteStationNameMenuItem_Click(object sender, EventArgs e)
         {
-            ClipboardTextBox.Paste(StationNameTextBox);
+            ClipboardTextBox.Paste(stationNameTextBox);
         }
 
         private void OkMenuItem_Click(object sender, EventArgs e)
@@ -364,15 +368,15 @@ namespace PocketLadio
         private void StationsSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 放送局を追加し忘れていると思われる場合
-            if (StationNameTextBox.Text.Trim().Length != 0 && StationKindComboBox.Text.Trim().Length != 0)
+            if (stationNameTextBox.Text.Trim().Length != 0 && stationKindComboBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
-                DialogResult Result = MessageBox.Show(
-                    StationNameTextBox.Text.Trim() + "を追加しますか？\n（" + StationNameTextBox.Text.Trim() + "はまだ追加されていません）",
+                DialogResult result = MessageBox.Show(
+                    stationNameTextBox.Text.Trim() + "を追加しますか？\n（" + stationNameTextBox.Text.Trim() + "はまだ追加されていません）",
                     "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (Result == DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
-                    CreateStation(StationKindComboBox.Text.Trim());
+                    CreateStation(stationKindComboBox.Text.Trim());
                 }
             }
 

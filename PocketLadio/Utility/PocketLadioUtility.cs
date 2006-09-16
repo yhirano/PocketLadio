@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -6,6 +8,8 @@ using System.Reflection;
 using System.Collections;
 using System.Xml;
 using System.Windows.Forms;
+
+#endregion
 
 namespace PocketLadio.Utility
 {
@@ -126,8 +130,8 @@ namespace PocketLadio.Utility
                     }
                 }
 
-                WebResponse Result = req.GetResponse();
-                st = Result.GetResponseStream();
+                WebResponse result = req.GetResponse();
+                st = result.GetResponseStream();
             }
             catch (WebException)
             {

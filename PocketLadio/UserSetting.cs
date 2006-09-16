@@ -1,3 +1,5 @@
+#region ディレクティブを使用する
+
 using System;
 using System.Text;
 using System.Collections;
@@ -5,6 +7,8 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using PocketLadio.Utility;
+
+#endregion
 
 namespace PocketLadio
 {
@@ -240,42 +244,57 @@ namespace PocketLadio
                     ArrayList alFilterWords = new ArrayList();
                     ArrayList alStation = new ArrayList();
 
+                    // StationListタグの中にいるか
+                    bool inStationListFlag = false;
+                    // FilterWordsタグの中にいるか
+                    bool inFilterWordsFlag = false;
+
                     while (reader.Read())
                     {
                         if (reader.NodeType == XmlNodeType.Element)
                         {
-                            if (reader.LocalName == "Station")
+                            if (reader.LocalName == "StationList") {
+                                inStationListFlag = true;
+                            }
+                            else if (reader.LocalName == "FilterWords") {
+                                inFilterWordsFlag = true;
+                            }
+                            // StationListタグの中にいる場合
+                            else if (inStationListFlag == true)
                             {
-                                string id = "";
-                                string name = "";
-                                Station.StationKind stationKind = Station.StationKind.Netladio;
-
-                                if (reader.MoveToFirstAttribute())
+                                if (reader.LocalName == "Station")
                                 {
-                                    id = reader.GetAttribute("id");
-                                    name = reader.GetAttribute("name");
-                                    string kind = reader.GetAttribute("kind");
-                                    if (kind == Station.StationKind.Netladio.ToString())
-                                    {
-                                        stationKind = Station.StationKind.Netladio;
-                                    }
-                                    else if (kind == Station.StationKind.RssPodcast.ToString())
-                                    {
-                                        stationKind = Station.StationKind.RssPodcast;
-                                    }
-                                    else if (kind == Station.StationKind.ShoutCast.ToString())
-                                    {
-                                        stationKind = Station.StationKind.ShoutCast;
-                                    }
-                                    else
-                                    {
-                                        // ここに到達することはあり得ない
-                                        Trace.Assert(false, "想定外の動作のため、終了します");
-                                    }
+                                    string id = "";
+                                    string name = "";
+                                    Station.StationKind stationKind = Station.StationKind.Netladio;
 
-                                    alStation.Add(new Station(id, name, stationKind));
-                                }
-                            } // End of Station
+                                    if (reader.MoveToFirstAttribute())
+                                    {
+                                        id = reader.GetAttribute("id");
+                                        name = reader.GetAttribute("name");
+                                        string kind = reader.GetAttribute("kind");
+                                        if (kind == Station.StationKind.Netladio.ToString())
+                                        {
+                                            stationKind = Station.StationKind.Netladio;
+                                        }
+                                        else if (kind == Station.StationKind.RssPodcast.ToString())
+                                        {
+                                            stationKind = Station.StationKind.RssPodcast;
+                                        }
+                                        else if (kind == Station.StationKind.ShoutCast.ToString())
+                                        {
+                                            stationKind = Station.StationKind.ShoutCast;
+                                        }
+                                        else
+                                        {
+                                            // ここに到達することはあり得ない
+                                            Trace.Assert(false, "想定外の動作のため、終了します");
+                                        }
+
+                                        alStation.Add(new Station(id, name, stationKind));
+                                    }
+                                } // End of Station
+                            } // End of StationListタグの中にいる場合
                             else if (reader.LocalName == "MediaPlayerPath")
                             {
                                 MediaPlayerPath = reader.GetAttribute("path");
@@ -333,23 +352,29 @@ namespace PocketLadio
                                     }
                                 }
                             } // End of HeadlineTimer
-                            else if (reader.LocalName == "Filter")
+                            // FilterWordsタグの中にいる場合
+                            else if (inFilterWordsFlag == true)
                             {
-                                if (reader.MoveToFirstAttribute())
+                                if (reader.LocalName == "Filter")
                                 {
-                                    alFilterWords.Add(reader.GetAttribute("word"));
-                                }
-                            } // End of Filter
+                                    if (reader.MoveToFirstAttribute())
+                                    {
+                                        alFilterWords.Add(reader.GetAttribute("word"));
+                                    }
+                                } // End of Filter
+                            } // End of FilterWordsタグの中にいる場合
 
                         }
                         else if (reader.NodeType == XmlNodeType.EndElement)
                         {
                             if (reader.LocalName == "StationList")
                             {
+                                inStationListFlag = false;
                                 StationList.SetStationList((Station[])alStation.ToArray(typeof(Station)));
                             }
                             else if (reader.LocalName == "FilterWords")
                             {
+                                inFilterWordsFlag = false;
                                 SetFilterWords((string[])alFilterWords.ToArray(typeof(string)));
                             }
                         }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -7,6 +9,8 @@ using System.Collections;
 using System.Xml;
 using PocketLadio.Utility;
 using PocketLadio.Stations;
+
+#endregion
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -139,9 +143,8 @@ namespace PocketLadio.Stations.RssPodcast
                             inItemFlag = true;
                             channel = new Channel(this);
                         } // End of item
-
                         // itemタグの中にいる場合
-                        if (inItemFlag == true)
+                        else if (inItemFlag == true)
                         {
                             if (reader.LocalName == "title")
                             {
@@ -208,7 +211,7 @@ namespace PocketLadio.Stations.RssPodcast
                                     ;
                                 }
                             } // End of enclosure
-                        }
+                        } // End of itemタグの中にいる場合
                     }
                     else if (reader.NodeType == XmlNodeType.EndElement)
                     {

@@ -1,3 +1,5 @@
+#region ディレクティブを使用する
+
 using System;
 using System.IO;
 using System.Net;
@@ -8,6 +10,8 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using PocketLadio.Utility;
 using PocketLadio.Stations;
+
+#endregion
 
 namespace PocketLadio.Stations.ShoutCast
 {
@@ -54,7 +58,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         public Uri ShoutCastUrl
         {
-            get { return UserSetting.SHOUTCAST_URL; }
+            get { return UserSetting.ShoutcastUrl; }
         }
 
         #region HTML解析用正規表現
@@ -448,7 +452,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <returns>ヘッドラインの設定フォーム</returns>
         public virtual void ShowSettingForm()
         {
-            settingForm settingForm = new settingForm(setting);
+            SettingForm settingForm = new SettingForm(setting);
             settingForm.ShowDialog();
             settingForm.Dispose();
         }

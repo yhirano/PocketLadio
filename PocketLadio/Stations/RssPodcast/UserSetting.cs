@@ -1,9 +1,13 @@
+#region ディレクティブを使用する
+
 using System;
 using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
 using PocketLadio.Utility;
+
+#endregion
 
 namespace PocketLadio.Stations.RssPodcast
 {
@@ -43,7 +47,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 親ヘッドライン
         /// </summary>
-        private readonly Headline ParentHeadline;
+        private readonly Headline parentHeadline;
 
         /// <summary>
         /// 設定のコンストラクタ
@@ -51,7 +55,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <param name="ParentHeadline">親ヘッドライン</param>
         public UserSetting(Headline parentHeadline)
         {
-            this.ParentHeadline = parentHeadline;
+            this.parentHeadline = parentHeadline;
         }
 
         /// <summary>
@@ -61,7 +65,7 @@ namespace PocketLadio.Stations.RssPodcast
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.RssPodcast." + ParentHeadline.GetId() + ".xml";
+            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.RssPodcast." + parentHeadline.GetId() + ".xml";
         }
 
         /// <summary>

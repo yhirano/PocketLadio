@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region ディレクティブを使用する
+
+using System;
 using System.Collections;
 using System.IO;
 using System.Text;
+
+#endregion
 
 namespace PocketLadio.Stations.RssPodcast
 {

@@ -1,10 +1,8 @@
+#region ディレクティブを使用する
+
 using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Reflection;
-using System.Collections;
-using PocketLadio.Utility;
-using System.Xml;
+
+#endregion
 
 namespace PocketLadio
 {
