@@ -6,6 +6,7 @@ using System.Collections;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Diagnostics;
 using PocketLadio.Utility;
 
 #endregion
@@ -286,6 +287,11 @@ namespace PocketLadio.Stations.Netladio
             else if (headlineGetWayXmlRadioButton.Checked)
             {
                 setting.HeadlineGetWay = UserSetting.HeadlineGetType.Xml;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
             }
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
 
