@@ -194,6 +194,14 @@ namespace PocketLadio.Stations.Netladio
         private readonly Headline parentHeadline;
 
         /// <summary>
+        /// 親ヘッドライン
+        /// </summary>
+        public virtual IHeadline ParentHeadline
+        {
+            get { return parentHeadline; }
+        } 
+
+        /// <summary>
         /// チャンネルのコンストラクタ
         /// </summary>
         /// <param name="ParentHeadline">親ヘッドライン</param>

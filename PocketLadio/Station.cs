@@ -95,15 +95,15 @@ namespace PocketLadio
 
             if (kind.Equals(StationKind.Netladio))
             {
-                headline = new PocketLadio.Stations.Netladio.Headline(id);
+                headline = new PocketLadio.Stations.Netladio.Headline(id, this);
             }
             else if (kind.Equals(StationKind.RssPodcast))
             {
-                headline = new PocketLadio.Stations.RssPodcast.Headline(id);
+                headline = new PocketLadio.Stations.RssPodcast.Headline(id, this);
             }
             else if (kind.Equals(StationKind.ShoutCast))
             {
-                headline = new PocketLadio.Stations.ShoutCast.Headline(id);
+                headline = new PocketLadio.Stations.ShoutCast.Headline(id, this);
             }
             else
             {

@@ -53,12 +53,27 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
+        /// 親放送局
+        /// </summary>
+        private readonly Station parentStation;
+
+        /// <summary>
+        /// 親放送局
+        /// </summary>
+        public virtual Station ParentStation
+        {
+            get { return parentStation; }
+        } 
+
+        /// <summary>
         /// ヘッドラインのコンストラクタ
         /// </summary>
-        /// <param name="ID">ヘッドラインのID</param>
-        public Headline(string id)
+        /// <param name="id">ヘッドラインのID</param>
+        /// <param name="parentStation">親放送局</param>
+        public Headline(string id, Station parentStation)
         {
             this.id = id;
+            this.parentStation = parentStation;
             setting = new UserSetting(this);
 
             try

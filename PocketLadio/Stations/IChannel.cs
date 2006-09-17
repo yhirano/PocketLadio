@@ -12,6 +12,11 @@ namespace PocketLadio.Stations
     public interface IChannel
     {
         /// <summary>
+        /// 親ヘッドライン
+        /// </summary>
+        IHeadline ParentHeadline { get; }
+
+        /// <summary>
         /// 番組の放送URLを返す
         /// </summary>
         /// <returns>番組の放送URL</returns>
