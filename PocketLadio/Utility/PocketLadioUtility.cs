@@ -25,10 +25,30 @@ namespace PocketLadio.Utility
         }
 
         /// <summary>
+        /// 音声ファイルを再生する。
+        /// 再生用プログラムが見つからない場合はFileNotFoundExceptionを投げる。
+        /// </summary>
+        /// <param name="filePath">音声ファイルのパス</param>
+        public static void PlayStreaming(string filePath)
+        {
+            // 再生用メディアプレイヤーが見つからない場合には例外を投げる
+            if (File.Exists(UserSetting.MediaPlayerPath) == false)
+            {
+                throw new FileNotFoundException("Not found media player.");
+            }
+            if (filePath == "")
+            {
+                return;
+            }
+
+            Process.CreateProcess(UserSetting.MediaPlayerPath, filePath);
+        }
+
+        /// <summary>
         /// ストリーミングを再生する。
         /// 再生用プログラムが見つからない場合はFileNotFoundExceptionを投げる。
         /// </summary>
-        /// <param name="url">ストリーミングのURL</param>
+        /// <param name="streamingUrl">ストリーミングのURL</param>
         public static void PlayStreaming(Uri streamingUrl)
         {
             // 再生用メディアプレイヤーが見つからない場合には例外を投げる

@@ -244,13 +244,13 @@ namespace PocketLadio.Stations.ShoutCast
                 ArrayList alChannels = new ArrayList();
                 Channel channel = null;
 
-                string searchWord = ((setting.SearchWord.Length != 0) ? "?s=" + setting.SearchWord : "?");
+                string searchWord = ((setting.SearchWord.Length != 0) ? "&s=" + setting.SearchWord : "");
                 // 半角スペースと全角スペースを+に置き換える SHOUTcast上のURLでAND検索のスペースが+に置き換えられるため
                 searchWord = searchWord.Replace(' ', '+').Replace("　", "+");
 
                 string perView = ((setting.PerView.ToString().Length != 0) ? "&numresult=" + setting.PerView : "");
                 string maxBitRate = ((setting.MaxBitRate.Length != 0) ? "&bitrate=" + setting.MaxBitRate : "");
-                Uri url = new Uri(ShoutCastUrl.ToString() + searchWord + perView + maxBitRate);
+                Uri url = new Uri(ShoutCastUrl.ToString() + "?" + searchWord + perView + maxBitRate);
 
                 st = PocketLadioUtility.GetHttpStream(url);
                 sr = new StreamReader(st, Encoding.GetEncoding("Windows-1252"));
