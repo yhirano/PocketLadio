@@ -93,10 +93,10 @@ namespace PocketLadio.Utility
                     ((HttpWebRequest)req).UserAgent = PocketLadioInfo.UserAgent;
 
                     // プロキシの設定が存在した場合、プロキシを設定
-                    if (PocketLadio.UserSetting.ProxyUse == true && !(PocketLadio.UserSetting.ProxyServer.Length == 0 || PocketLadio.UserSetting.ProxyPort.Length == 0))
+                    if (UserSetting.ProxyUse == true && !(UserSetting.ProxyServer.Length == 0 || UserSetting.ProxyPort.Length == 0))
                     {
                         ((HttpWebRequest)req).Proxy =
-                            new WebProxy(PocketLadio.UserSetting.ProxyServer, int.Parse(PocketLadio.UserSetting.ProxyPort));
+                            new WebProxy(UserSetting.ProxyServer, int.Parse(UserSetting.ProxyPort));
                     }
                 }
 

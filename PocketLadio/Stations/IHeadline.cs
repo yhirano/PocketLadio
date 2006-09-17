@@ -32,7 +32,7 @@ namespace PocketLadio.Stations
         /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
-        void WebGetHeadline();
+        void FetchHeadline();
 
         /// <summary>
         /// ヘッドラインをネットから取得した時刻を返す

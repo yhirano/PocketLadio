@@ -113,7 +113,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
-        public virtual void WebGetHeadline()
+        public virtual void FetchHeadline()
         {
             // 時刻をセットする
             lastCheckTime = DateTime.Now;
@@ -122,11 +122,11 @@ namespace PocketLadio.Stations.Netladio
             {
                 if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
                 {
-                    WebGetHeadlineCvs();
+                    FetchHeadlineCvs();
                 }
                 else if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
                 {
-                    WebGetHeadlineXml();
+                    FetchHeadlineXml();
                 }
             }
             catch (WebException)
@@ -176,7 +176,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ヘッドラインをネットから取得する（CVS使用）
         /// </summary>
-        private void WebGetHeadlineCvs()
+        private void FetchHeadlineCvs()
         {
             Stream st = null;
             StreamReader sr = null;
@@ -297,7 +297,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ヘッドラインをネットから取得する（XML使用）
         /// </summary>
-        private void WebGetHeadlineXml()
+        private void FetchHeadlineXml()
         {
             Stream st = null;
             XmlTextReader reader = null;
@@ -319,7 +319,7 @@ namespace PocketLadio.Stations.Netladio
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.LocalName.Equals("source"))
+                        if (reader.LocalName == "source")
                         {
                             inSourceFlag = true;
                             channel = new Channel(this);

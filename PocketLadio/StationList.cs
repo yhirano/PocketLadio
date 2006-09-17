@@ -155,7 +155,7 @@ namespace PocketLadio
         {
             if (currentStation != null)
             {
-                currentStation.Headline.WebGetHeadline();
+                currentStation.Headline.FetchHeadline();
             }
         }
 

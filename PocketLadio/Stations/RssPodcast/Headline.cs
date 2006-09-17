@@ -113,7 +113,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
-        public virtual void WebGetHeadline()
+        public virtual void FetchHeadline()
         {
             // 時刻をセットする
             lastCheckTime = DateTime.Now;
@@ -138,7 +138,7 @@ namespace PocketLadio.Stations.RssPodcast
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.LocalName.Equals("item"))
+                        if (reader.LocalName == "item")
                         {
                             inItemFlag = true;
                             channel = new Channel(this);

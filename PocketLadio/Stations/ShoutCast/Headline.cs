@@ -230,7 +230,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
-        public virtual void WebGetHeadline()
+        public virtual void FetchHeadline()
         {
             // 時刻をセットする
             lastCheckTime = DateTime.Now;

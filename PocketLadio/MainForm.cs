@@ -273,7 +273,7 @@ namespace PocketLadio
         /// 番組リストを更新する
         /// </summary>
         /// <param name="channels">番組の配列</param>
-        private void UpdateRadioList(IChannel[] channels)
+        private void DrawChannelList(IChannel[] channels)
         {
             // いったん番組リストを画面から消す
             headlineListBox.Visible = false;
@@ -377,7 +377,7 @@ namespace PocketLadio
                 }
 
                 // 番組リストを更新する
-                UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
+                DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
             }
             catch (WebException)
             {
@@ -574,45 +574,47 @@ namespace PocketLadio
         /// <summary>
         /// 各放送局の設定メニューと切り替えボックスの追加
         /// </summary>
-        private void StationsSettingAndCheckBoxAdd()
+        private void AddStationsSettingAndComboBoxItem()
         {
             // 放送局が存在する場合の処理
             // 各放送局の設定メニュー追加と切り替えボックス追加を行う
             if (StationList.GetStationList().Length != 0)
             {
-                // 各放送局の設定メニューを追加処理
-                {
-                    // 各放送局の設定メニューをいったん選択不可にする
-                    this.stationSettingMenuItem.Enabled = false;
-                    // 各放送局の設定メニューをいったんクリアする
-                    this.stationSettingMenuItem.MenuItems.Clear();
-                    // 各放送局の設定メニューを追加
-                    foreach (Station station in StationList.GetStationList())
-                    {
-                        StationMenuItem EachStationSettingMenuItem = new StationMenuItem();
-                        this.stationSettingMenuItem.MenuItems.Add(EachStationSettingMenuItem);
-                        EachStationSettingMenuItem.Text = station.DisplayName + " 設定";
-                        EachStationSettingMenuItem.SetStation(station);
-                        EachStationSettingMenuItem.Click += new System.EventHandler(this.EachStationSettingMenuItem_Click);
-                    }
-                    // 設定メニューが追加し終わったので、各放送局の設定メニューを選択可能にする
-                    this.stationSettingMenuItem.Enabled = true;
-                }
+                #region 各放送局の設定メニューを追加処理
 
-                // 各放送局の切り替えボックスを追加処理
+                // 各放送局の設定メニューをいったん選択不可にする
+                this.stationSettingMenuItem.Enabled = false;
+                // 各放送局の設定メニューをいったんクリアする
+                this.stationSettingMenuItem.MenuItems.Clear();
+                // 各放送局の設定メニューを追加
+                foreach (Station station in StationList.GetStationList())
                 {
-                    // 各放送局の切り替えボックスをいったん選択不可にする
-                    this.stationListComboBox.Enabled = false;
-                    // 各放送局の切り替えボックスをいったんクリアする
-                    this.stationListComboBox.Items.Clear();
-                    // 各放送局の切り替えボックスの追加
-                    foreach (Station station in StationList.GetStationList())
-                    {
-                        this.stationListComboBox.Items.Add(station.DisplayName);
-                    }
-                    // 切り替えボックスが追加し終わったので、各放送局の切り替えボックスを選択可能にする
-                    this.stationListComboBox.Enabled = true;
+                    StationMenuItem EachStationSettingMenuItem = new StationMenuItem();
+                    this.stationSettingMenuItem.MenuItems.Add(EachStationSettingMenuItem);
+                    EachStationSettingMenuItem.Text = station.DisplayName + " 設定";
+                    EachStationSettingMenuItem.SetStation(station);
+                    EachStationSettingMenuItem.Click += new System.EventHandler(this.EachStationSettingMenuItem_Click);
                 }
+                // 設定メニューが追加し終わったので、各放送局の設定メニューを選択可能にする
+                this.stationSettingMenuItem.Enabled = true;
+
+                #endregion
+
+                #region  各放送局の切り替えボックスを追加処理
+
+                // 各放送局の切り替えボックスをいったん選択不可にする
+                this.stationListComboBox.Enabled = false;
+                // 各放送局の切り替えボックスをいったんクリアする
+                this.stationListComboBox.Items.Clear();
+                // 各放送局の切り替えボックスの追加
+                foreach (Station station in StationList.GetStationList())
+                {
+                    this.stationListComboBox.Items.Add(station.DisplayName);
+                }
+                // 切り替えボックスが追加し終わったので、各放送局の切り替えボックスを選択可能にする
+                this.stationListComboBox.Enabled = true;
+
+                #endregion
 
                 // 以前に選択されていた放送局を選択し直す
                 for (int count = 0; count < stationListComboBox.Items.Count; ++count)
@@ -678,11 +680,16 @@ namespace PocketLadio
 
         private void FilterCheckBox_CheckStateChanged(object sender, System.EventArgs e)
         {
-            /** UI前処理 **/
-            // Filterチェックボックスをいったん選択不可にする
-            filterCheckBox.Enabled = false;
+            #region UI前処理
 
-            /** フィルタリング処理 **/
+            // Filterチェックボックスと放送局切り替えボックスをいったん選択不可にする
+            filterCheckBox.Enabled = false;
+            stationListComboBox.Enabled = true;
+
+            #endregion
+
+            #region フィルタリング処理
+
             if (filterCheckBox.Checked == true)
             {
                 StationList.FilterEnable = true;
@@ -691,11 +698,17 @@ namespace PocketLadio
             {
                 StationList.FilterEnable = false;
             }
-            UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
+            DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
 
-            /** UI後処理 **/
-            // Filterチェックボックスを選択可能に回復する
+            #endregion
+
+            #region UI後処理
+
+            // Filterチェックボックスと放送局切り替えボックスを選択可能に回復する
             filterCheckBox.Enabled = true;
+            stationListComboBox.Enabled = true;
+
+            #endregion
         }
 
         private void ChannelPropertyMenuItem_Click(object sender, System.EventArgs e)
@@ -723,12 +736,12 @@ namespace PocketLadio
                     HeadlineCheckTimerStop();
                 }
 
-                StationsSettingAndCheckBoxAdd();
+                AddStationsSettingAndComboBoxItem();
 
                 // 番組リストがある場合
                 if (StationList.GetChannelsFilteredOfCurrentStation().Length > 0)
                 {
-                    UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
+                    DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
                 }
             }
             catch (XmlException)
@@ -812,11 +825,21 @@ namespace PocketLadio
         {
             headlineCheckTimer.Interval = UserSetting.HeadlineTimerMillSecond;
 
-            StationsSettingAndCheckBoxAdd();
+            AddStationsSettingAndComboBoxItem();
         }
 
         private void StationListComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            #region UI前処理
+
+            // Filterチェックボックスと放送局切り替えボックスをいったん選択不可にする
+            filterCheckBox.Enabled = false;
+            stationListComboBox.Enabled = false;
+
+            #endregion
+
+            #region 切り替え処理
+
             StationList.ChangeCurrentStationAt(stationListComboBox.SelectedIndex);
             if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
             {
@@ -826,13 +849,23 @@ namespace PocketLadio
             {
                 infomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString() + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
             }
-            UpdateRadioList(StationList.GetChannelsFilteredOfCurrentStation());
+            DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
 
             // 選択していた放送局を記憶する
             if (stationListComboBox.SelectedIndex != -1)
             {
                 selectedStationID = StationList.StationIdOfCurrentStation;
             }
+
+            #endregion
+
+            #region UI後処理
+
+            // Filterチェックボックスと放送局切り替えボックスを選択可能に回復する
+            filterCheckBox.Enabled = true;
+            stationListComboBox.Enabled = true;
+
+            #endregion
         }
 
         private void StationsSettingMenuItem_Click(object sender, EventArgs e)
