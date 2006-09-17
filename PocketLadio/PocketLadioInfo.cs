@@ -59,53 +59,53 @@ namespace PocketLadio
         /// <summary>
         /// ヘッドラインチェックタイマーの上限
         /// </summary>
-        private const int headlineCheckTimerMaximumMillSec = 600000;
+        private const int HEADLINE_CHECK_TIMER_MAXIMUM_MILL_SEC = 600000;
 
         /// <summary>
         /// ヘッドラインチェックタイマーの上限
         /// </summary>
         public static int HeadlineCheckTimerMaximumMillSec
         {
-            get { return headlineCheckTimerMaximumMillSec; }
+            get { return HEADLINE_CHECK_TIMER_MAXIMUM_MILL_SEC; }
         }
 
         /// <summary>
         ///ヘッドラインチェックタイマーの下限 
         /// </summary>
-        private const int headlineCheckTimerMinimumMillSec = 20000;
+        private const int HEADLINE_CHECK_TIMER_MINIMUM_MILL_SEC = 20000;
 
         /// <summary>
         ///ヘッドラインチェックタイマーの下限 
         /// </summary>
         public static int HeadlineCheckTimerMinimumMillSec
         {
-            get { return headlineCheckTimerMinimumMillSec; }
+            get { return HEADLINE_CHECK_TIMER_MINIMUM_MILL_SEC; }
         }
 
         /// <summary>
         /// Web接続時のタイムアウト時間
         /// </summary>
-        private const int webRequestTimeoutMillSec = 20000;
+        private const int WEB_REQUEST_TIMEOUT_MILL_SEC = 20000;
 
         /// <summary>
         /// Web接続時のタイムアウト時間
         /// </summary>
         public static int WebRequestTimeoutMillSec
         {
-            get { return webRequestTimeoutMillSec; }
+            get { return WEB_REQUEST_TIMEOUT_MILL_SEC; }
         }
 
         /// <summary>
         /// ネットアクセス時のUserAgent設定
         /// </summary>
-        private const string userAgent = applicationName + "/" + versionNumber;
+        private const string USER_AGENT = applicationName + "/" + versionNumber;
 
         /// <summary>
         /// ネットアクセス時のUserAgent設定
         /// </summary>
         public static string UserAgent
         {
-            get { return userAgent; }
+            get { return USER_AGENT; }
         }
 
         #endregion
