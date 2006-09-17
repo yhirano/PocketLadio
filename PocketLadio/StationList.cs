@@ -151,7 +151,7 @@ namespace PocketLadio
         /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
-        public static void WebGetHeadlineOfCurrentStation()
+        public static void FetchHeadlineOfCurrentStation()
         {
             if (currentStation != null)
             {

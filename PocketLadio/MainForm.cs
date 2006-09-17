@@ -342,11 +342,12 @@ namespace PocketLadio
             checkHeadlineNowFlag = true;
 
             // 放送局選択ボックスが選択可能だったフラグ
-            bool StationListComboBoxEnabledFlag = false;
+            bool stationListComboBoxEnabledFlag = false;
 
             try
             {
-                /** UI前処理 **/
+                #region UI前処理
+
                 // GetボタンとFilterチェックボックスをいったん選択不可にする
                 getButton.Enabled = false;
                 filterCheckBox.Enabled = false;
@@ -357,12 +358,15 @@ namespace PocketLadio
                 {
                     stationListComboBox.Enabled = false;
                     // 放送局選択ボックスが選択可能だったフラグを立てる
-                    StationListComboBoxEnabledFlag = true;
+                    stationListComboBoxEnabledFlag = true;
                 }
 
-                /** 番組取得処理 **/
+                #endregion
+
+                #region 番組取得処理
+
                 // 番組を取得する
-                StationList.WebGetHeadlineOfCurrentStation();
+                StationList.FetchHeadlineOfCurrentStation();
 
                 // 番組が取得できなかった場合
                 if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
@@ -375,6 +379,8 @@ namespace PocketLadio
                     infomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString()
                         + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
                 }
+
+                #endregion
 
                 // 番組リストを更新する
                 DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
@@ -421,20 +427,23 @@ namespace PocketLadio
             }
             finally
             {
-                /** UI後処理 **/
+                #region  UI後処理
+
                 // GetボタンとFilterチェックボックスを選択可能に回復する
                 getButton.Enabled = true;
                 filterCheckBox.Enabled = true;
 
                 // 放送局選択ボックスが選択可能だった場合にのみ、選択可能に回復する
                 // （放送局がひとつも設定されていない場合には、元々選択不可のため）
-                if (StationListComboBoxEnabledFlag == true)
+                if (stationListComboBoxEnabledFlag == true)
                 {
                     stationListComboBox.Enabled = true;
                 }
 
                 // 排他処理のためのフラグを下げる
                 checkHeadlineNowFlag = false;
+
+                #endregion
             }
         }
 
