@@ -20,7 +20,7 @@ namespace PocketLadio
         /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
         /// </summary>
-        private static string mediaPlayerPath = "\\Program Files\\TCPMP\\player.exe";
+        private static string mediaPlayerPath = @"\Program Files\TCPMP\player.exe";
 
         /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
@@ -34,7 +34,7 @@ namespace PocketLadio
         /// <summary>
         /// Webブラウザのファイルパス
         /// </summary>
-        private static string browserPath = "\\Windows\\iexplore.exe";
+        private static string browserPath = @"\Windows\iexplore.exe";
 
         /// <summary>
         /// Webブラウザのファイルパス
@@ -197,7 +197,7 @@ namespace PocketLadio
             get
             {
                 // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-                return PocketLadioUtility.GetExecutablePath() + "\\" + settingPath;
+                return PocketLadioUtility.GetExecutablePath() + @"\" + settingPath;
             }
         }
 

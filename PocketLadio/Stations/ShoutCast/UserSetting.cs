@@ -163,7 +163,7 @@ namespace PocketLadio.Stations.ShoutCast
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.SHOUTcast." + parentHeadline.GetId() + ".xml";
+            return PocketLadioUtility.GetExecutablePath() + @"\" + "Setting.SHOUTcast." + parentHeadline.GetId() + ".xml";
         }
 
         /// <summary>

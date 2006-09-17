@@ -101,7 +101,7 @@ namespace PocketLadio.Stations.Netladio
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.Netladio." + parentHeadline.GetId() + ".xml";
+            return PocketLadioUtility.GetExecutablePath() + @"\" + "Setting.Netladio." + parentHeadline.GetId() + ".xml";
         }
 
         /// <summary>

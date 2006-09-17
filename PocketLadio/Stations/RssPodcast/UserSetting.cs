@@ -65,7 +65,7 @@ namespace PocketLadio.Stations.RssPodcast
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtility.GetExecutablePath() + "\\" + "Setting.RssPodcast." + parentHeadline.GetId() + ".xml";
+            return PocketLadioUtility.GetExecutablePath() + @"\" + "Setting.RssPodcast." + parentHeadline.GetId() + ".xml";
         }
 
         /// <summary>
