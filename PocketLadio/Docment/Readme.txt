@@ -9,6 +9,9 @@ PocketLadioはMicrosoft Windows Mobile 5.0 Pocket PC上で動作する「ねとらじ」
 ねとらじ
 http://live.ladio.livedoor.com/
 
+SHOUTcast
+http://www.shoutcast.com/
+
 
 【必要環境】
 Microsoft Windows Mobile 5.0 Pocket PC
