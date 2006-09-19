@@ -93,9 +93,25 @@ namespace PocketLadio
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
             ws.UserAgent = PocketLadioInfo.UserAgent;
-            Stream st = ws.GetHttpStream();
+            Stream st = ws.GetWebStream();
 
             return st;
+        }
+
+        /// <summary>
+        /// Web上のストリームをダウンロードする
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <param name="fileName">保存するファイル名</param>
+        public static void FetchFile(Uri url, string fileName)
+        {
+            WebStream ws = new WebStream(url);
+            ws.ProxyUse = PocketLadio.UserSetting.ProxyUse;
+            ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
+            ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
+            ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
+            ws.UserAgent = PocketLadioInfo.UserAgent;
+            ws.FetchFile(fileName);
         }
     }
 }
