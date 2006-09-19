@@ -326,7 +326,7 @@ namespace PocketLadio
             browserPathTextBox.Text = UserSetting.BrowserPath;
             proxyUseCheckBox.Checked = UserSetting.ProxyUse;
             proxyServerTextBox.Text = UserSetting.ProxyServer;
-            proxyPortTextBox.Text = UserSetting.ProxyPort;
+            proxyPortTextBox.Text = UserSetting.ProxyPort.ToString();
             headlineTimerSecondNumericUpDown.Text = (UserSetting.HeadlineTimerMillSecond / 1000).ToString();
         }
 
@@ -337,7 +337,7 @@ namespace PocketLadio
             UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
             UserSetting.ProxyUse = proxyUseCheckBox.Checked;
             UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
-            UserSetting.ProxyPort = proxyPortTextBox.Text.Trim();
+            UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
             
             try
             {

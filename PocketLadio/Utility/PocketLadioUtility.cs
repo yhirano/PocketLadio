@@ -99,10 +99,20 @@ namespace PocketLadio.Utility
         /// </summary>
         /// <param name="url">URL</param>
         /// <returns>HTTPレスポンスのストリーム</returns>
-        public static Stream GetHttpStream(Uri url) {
+        public static Stream GetHttpStream(Uri url)
+        {
             Stream st = null;
+            FileStream fs = null;
+
             try
             {
+                // Urlがファイル指定の場合はfile streamを返す
+                if (url.IsFile == true)
+                {
+                    fs = new FileStream(url.LocalPath, FileMode.Open, FileAccess.Read);
+                    return fs;
+                }
+
                 WebRequest req = WebRequest.Create(url);
                 req.Timeout = PocketLadioInfo.WebRequestTimeoutMillSec;
 
@@ -113,10 +123,10 @@ namespace PocketLadio.Utility
                     ((HttpWebRequest)req).UserAgent = PocketLadioInfo.UserAgent;
 
                     // プロキシの設定が存在した場合、プロキシを設定
-                    if (UserSetting.ProxyUse == true && !(UserSetting.ProxyServer.Length == 0 || UserSetting.ProxyPort.Length == 0))
+                    if (UserSetting.ProxyUse == true && UserSetting.ProxyServer.Length != 0)
                     {
                         ((HttpWebRequest)req).Proxy =
-                            new WebProxy(UserSetting.ProxyServer, int.Parse(UserSetting.ProxyPort));
+                            new WebProxy(UserSetting.ProxyServer, UserSetting.ProxyPort);
                     }
                 }
 
