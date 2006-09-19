@@ -7,7 +7,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
-using PocketLadio.Utility;
 using PocketLadio.Stations;
 
 #endregion
@@ -150,7 +149,8 @@ namespace PocketLadio.Stations.RssPodcast
                 // itemタグの中にいるか
                 bool inItemFlag = false;
 
-                st = PocketLadioUtility.GetHttpStream(setting.RssUrl);
+                st = PocketLadioUtility.GetWebStream(setting.RssUrl);
+
                 reader = new XmlTextReader(st);
 
                 while (reader.Read())

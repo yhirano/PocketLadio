@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
-using PocketLadio.Utility;
+using MiscPocketCompactLibrary.Reflection;
 
 #endregion
 
@@ -101,7 +101,7 @@ namespace PocketLadio.Stations.Netladio
         private string GetSettingPath()
         {
             // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-            return PocketLadioUtility.GetExecutablePath() + @"\" + "Setting.Netladio." + parentHeadline.GetId() + ".xml";
+            return AssemblyUtility.GetExecutablePath() + @"\" + "Setting.Netladio." + parentHeadline.GetId() + ".xml";
         }
 
         /// <summary>

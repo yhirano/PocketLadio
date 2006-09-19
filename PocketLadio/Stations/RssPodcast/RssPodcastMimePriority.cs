@@ -53,6 +53,7 @@ namespace PocketLadio.Stations.RssPodcast
                 sr =
                     new StreamReader(thisAssembly.GetManifestResourceStream(RSS_PODCAST_MIME_PRIORITY_FILE),
                     Encoding.GetEncoding("shift-jis"));
+
                 // 内容を読み込む
                 string mimeString = sr.ReadToEnd();
 

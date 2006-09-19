@@ -8,8 +8,8 @@ using System.Text;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Xml;
-using PocketLadio.Utility;
 using PocketLadio.Stations;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
@@ -187,6 +187,7 @@ namespace PocketLadio.Stations.ShoutCast
                 sr =
                     new StreamReader(thisAssembly.GetManifestResourceStream(SHOUTCAST_MAX_BIT_RATE_SETTING_FILE),
                     Encoding.GetEncoding("shift-jis"));
+                
                 // ì‡óeÇì«Ç›çûÇﬁ
                 string bitRateString = sr.ReadToEnd();
 
@@ -267,7 +268,8 @@ namespace PocketLadio.Stations.ShoutCast
                 string maxBitRate = ((setting.MaxBitRate.Length != 0) ? "&bitrate=" + setting.MaxBitRate : "");
                 Uri url = new Uri(ShoutCastUrl.ToString() + "?" + searchWord + perView + maxBitRate);
 
-                st = PocketLadioUtility.GetHttpStream(url);
+                st = PocketLadioUtility.GetWebStream(url);
+
                 sr = new StreamReader(st, Encoding.GetEncoding("Windows-1252"));
                 string httpString = sr.ReadToEnd();
                 string[] lines = httpString.Split('\n');

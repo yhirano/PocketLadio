@@ -6,7 +6,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
-using PocketLadio.Utility;
+using MiscPocketCompactLibrary.Reflection;
 
 #endregion
 
@@ -170,7 +170,7 @@ namespace PocketLadio
             get
             {
                 // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-                return PocketLadioUtility.GetExecutablePath() + @"\" + SETTING_PATH;
+                return AssemblyUtility.GetExecutablePath() + @"\" + SETTING_PATH;
             }
         }
 

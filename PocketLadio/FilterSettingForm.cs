@@ -6,7 +6,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
-using PocketLadio.Utility;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 
@@ -149,7 +149,7 @@ namespace PocketLadio
             this.filterListLabel.Size = new System.Drawing.Size(100, 20);
             this.filterListLabel.Text = "フィルター一覧";
             // 
-            // filterSettingForm
+            // FilterSettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.filterListLabel);

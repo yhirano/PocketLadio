@@ -7,7 +7,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
-using PocketLadio.Utility;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 

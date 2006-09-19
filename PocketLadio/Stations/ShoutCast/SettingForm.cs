@@ -6,7 +6,7 @@ using System.Collections;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Forms;
-using PocketLadio.Utility;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 

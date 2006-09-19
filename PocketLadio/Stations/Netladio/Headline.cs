@@ -7,7 +7,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
-using PocketLadio.Utility;
 using PocketLadio.Stations;
 
 #endregion
@@ -63,7 +62,7 @@ namespace PocketLadio.Stations.Netladio
         public virtual Station ParentStation
         {
             get { return parentStation; }
-        } 
+        }
 
         /// <summary>
         /// ヘッドラインのコンストラクタ
@@ -93,7 +92,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 起動時の初期化メソッド。何もしない。
         /// </summary>
-        public static  void StartUpInitialize()
+        public static void StartUpInitialize()
         {
             ;
         }
@@ -201,7 +200,8 @@ namespace PocketLadio.Stations.Netladio
                 // チャンネルのリスト
                 ArrayList alChannels = new ArrayList();
 
-                st = PocketLadioUtility.GetHttpStream(setting.HeadlineCsvUrl);
+                st = PocketLadioUtility.GetWebStream(setting.HeadlineCsvUrl);
+
                 sr = new StreamReader(st, Encoding.GetEncoding("shift-jis"));
                 string httpString = sr.ReadToEnd();
                 string[] channelsCvs = httpString.Split('\n');
@@ -220,6 +220,11 @@ namespace PocketLadio.Stations.Netladio
                             channel.Url = new Uri(channelCsv[0]);
                         }
                         catch (UriFormatException)
+                        {
+                            ;
+                        }
+                        // PC上で起きることを確認したが、対処するべきか分からないのでとりあえず無視
+                        catch (IndexOutOfRangeException)
                         {
                             ;
                         }
@@ -322,7 +327,8 @@ namespace PocketLadio.Stations.Netladio
                 // 番組のリスト
                 ArrayList alChannels = new ArrayList();
 
-                st = PocketLadioUtility.GetHttpStream(setting.HeadlineXmlUrl);
+                st = PocketLadioUtility.GetWebStream(setting.HeadlineXmlUrl);
+
                 reader = new XmlTextReader(st);
 
                 // チャンネル
