@@ -340,25 +340,12 @@ namespace PocketLadio
             // 排他処理のためのフラグを立てる
             checkHeadlineNowFlag = true;
 
-            // 放送局選択ボックスが選択可能だったフラグ
-            bool stationListComboBoxEnabledFlag = false;
-
             try
             {
                 #region UI前処理
 
-                // GetボタンとFilterチェックボックスをいったん選択不可にする
-                getButton.Enabled = false;
-                filterCheckBox.Enabled = false;
-
-                // 放送局選択ボックスが選択可能だった場合にのみ、いったん選択不可にする
-                // （放送局がひとつも設定されていない場合には、元々選択不可のため）
-                if (stationListComboBox.Enabled == true)
-                {
-                    stationListComboBox.Enabled = false;
-                    // 放送局選択ボックスが選択可能だったフラグを立てる
-                    stationListComboBoxEnabledFlag = true;
-                }
+                // フォームをいったん選択不可にする
+                this.Enabled = false;
 
                 #endregion
 
@@ -428,20 +415,11 @@ namespace PocketLadio
             {
                 #region  UI後処理
 
-                // GetボタンとFilterチェックボックスを選択可能に回復する
-                getButton.Enabled = true;
-                filterCheckBox.Enabled = true;
-
-                // 放送局選択ボックスが選択可能だった場合にのみ、選択可能に回復する
-                // （放送局がひとつも設定されていない場合には、元々選択不可のため）
-                if (stationListComboBoxEnabledFlag == true)
-                {
-                    stationListComboBox.Enabled = true;
-                }
+                // フォームを選択可能に回復する
+                this.Enabled = true;
 
                 // 排他処理のためのフラグを下げる
                 checkHeadlineNowFlag = false;
-
                 #endregion
             }
         }
@@ -690,9 +668,8 @@ namespace PocketLadio
         {
             #region UI前処理
 
-            // Filterチェックボックスと放送局切り替えボックスをいったん選択不可にする
-            filterCheckBox.Enabled = false;
-            stationListComboBox.Enabled = true;
+            // フォームをいったん選択不可にする
+            this.Enabled = false;
 
             #endregion
 
@@ -712,9 +689,8 @@ namespace PocketLadio
 
             #region UI後処理
 
-            // Filterチェックボックスと放送局切り替えボックスを選択可能に回復する
-            filterCheckBox.Enabled = true;
-            stationListComboBox.Enabled = true;
+            // フォームを選択可能に回復する
+            this.Enabled = true;
 
             #endregion
         }
@@ -840,9 +816,8 @@ namespace PocketLadio
         {
             #region UI前処理
 
-            // Filterチェックボックスと放送局切り替えボックスをいったん選択不可にする
-            filterCheckBox.Enabled = false;
-            stationListComboBox.Enabled = false;
+            // フォームをいったん選択不可にする
+            this.Enabled = false;
 
             #endregion
 
@@ -869,9 +844,8 @@ namespace PocketLadio
 
             #region UI後処理
 
-            // Filterチェックボックスと放送局切り替えボックスを選択可能に回復する
-            filterCheckBox.Enabled = true;
-            stationListComboBox.Enabled = true;
+            // フォームを選択可能に回復する
+            this.Enabled = true;
 
             #endregion
         }
