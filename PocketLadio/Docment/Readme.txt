@@ -24,18 +24,20 @@ http://www.microsoft.com/japan/msdn/vstudio/device/netcf/
 
 
 【インストール】
-ZIPファイルを解凍し、PocketLadio.exeを適当なフォルダに置いてください。
+ZIPファイルを解凍し、PocketLadio.exeとMiscPocketCompactLibrary.dllを適当なフォ
+ルダに置いてください。
 
 
 【アップデート】
-ZIPファイルを解凍し、PocketLadio.exeを適当なフォルダに置いてください。
+ZIPファイルを解凍し、PocketLadio.exeとMiscPocketCompactLibrary.dllを適当なフォ
+ルダに置いてください。
 同こんのSetting.*.xmlを上書きしてしまいますと、今までの設定が消えてしまいます
 ので注意してください。
 
 
 【アンインストール】
-PocketLadio.exeと、同じフォルダにあるSetting.xmlおよびSetting.*.xmlを削除して
-ください。
+PocketLadio.exeとMiscPocketCompactLibrary.dll、同じフォルダにあるSetting.xmlお
+よびSetting.*.xmlを削除してください。
 PocketLadioはレジストリを使用しません。
 
 
@@ -124,6 +126,10 @@ SHOUTcastサイトのHTMLの解析に非常に時間がかかるために、10件のみの表示としていま
 
 
 【バージョン履歴】
+Version 0.18
+・クリップボードの内容がテキスト以外の場合に、ペーストをすると落ちていたのを
+　（多分）修正
+
 Version 0.17
 ・SHOUTcastにおいてSerch wordを指定しない場合に番組が取得できなかったのを修正
 

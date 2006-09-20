@@ -707,6 +707,19 @@ namespace PocketLadio
         {
             try
             {
+                // 起動時のチェック
+                PocketLadioSpecificProcess.StartUpCheck();
+            }
+            catch (DllNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+                Application.Exit();
+
+                return;
+            }
+
+            try
+            {
                 // 起動時の初期化
                 PocketLadioSpecificProcess.StartUpInitialize();
 

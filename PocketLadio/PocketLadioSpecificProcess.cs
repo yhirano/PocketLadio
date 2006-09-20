@@ -21,6 +21,18 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// PocketLadio起動時のチェック処理。
+        /// </summary>
+        public static void StartUpCheck()
+        {
+            // MiscPocketCompactLibrary.dllが見つからない場合は例外を投げる
+            if (File.Exists("MiscPocketCompactLibrary.dll") == false)
+            {
+                throw new DllNotFoundException("Not found MiscPocketCompactLibrary.dll.");
+            }
+        }
+
+        /// <summary>
         /// PocketLadio起動時の初期化処理。
         /// </summary>
         public static void StartUpInitialize()
