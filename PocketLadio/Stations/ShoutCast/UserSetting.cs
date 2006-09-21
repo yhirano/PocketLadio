@@ -22,6 +22,18 @@ namespace PocketLadio.Stations.ShoutCast
         public readonly static Uri ShoutcastUrl = new Uri("http://www.shoutcast.com/");
 
         /// <summary>
+        /// Max Bit Rate設定の設定表示と実際値を示すファイル
+        /// </summary>
+        public const string SHOUTCAST_MAX_BIT_RATE_SETTING_FILE
+            = "PocketLadio.Resource.ShoutCastMaxBitRateSetting.txt";
+
+        /// <summary>
+        /// ヘッドライン表示数の規定値ファイル
+        /// </summary>
+        public const string SHOUTCAST_PER_VIEW_SETTING_FILE
+            = "PocketLadio.Resource.ShoutCastViewPerSearchSetting.txt";
+
+        /// <summary>
         /// 検索単語
         /// </summary>
         private string searchWord = "";
@@ -81,17 +93,31 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ヘッドライン取得数
         /// </summary>
-        private int perView = 10;
+        private string perView = "10";
 
         /// <summary>
         /// ヘッドライン取得数
         /// </summary>
-        public int PerView
+        public string PerView
         {
             get { return perView; }
             set { perView = value; }
         }
 
+        /// <summary>
+        /// ヘッドライン取得数の設定可能値の配列
+        /// </summary>
+        private static string[] perViewArray = new string[0];
+
+        /// <summary>
+        /// ヘッドライン取得数の設定可能値の配列
+        /// </summary>
+        public static string[] PerViewArray
+        {
+            get { return UserSetting.perViewArray; }
+            set { UserSetting.perViewArray = value; }
+        }
+       
         /// <summary>
         /// HTML解析時に、HTMLの解析をしない先頭からの行数。
         /// 200を指定した場合には、0～200行目は解析しない。
@@ -203,14 +229,13 @@ namespace PocketLadio.Stations.ShoutCast
                                 maxBitRateKey = reader.GetAttribute("key");
                             }
                         } // End of MaxBitRate
-                        /*
                         else if (reader.LocalName == "PerView")
                         {
                             if (reader.MoveToFirstAttribute())
                             {
                                 try
                                 {
-                                    PerView = int.Parse(reader.GetAttribute("view"));
+                                    perView = reader.GetAttribute("view");
                                 }
                                 catch (ArgumentException)
                                 {
@@ -222,6 +247,7 @@ namespace PocketLadio.Stations.ShoutCast
                                 }
                             }
                         } // End of PerView
+                        /*
                         else if (reader.LocalName == "IgnoreHtmlAnalyze")
                         {
                             if (reader.MoveToFirstAttribute())
@@ -321,7 +347,7 @@ namespace PocketLadio.Stations.ShoutCast
                 writer.WriteEndElement(); // End of MaxBitRate
 
                 writer.WriteStartElement("PerView");
-                writer.WriteAttributeString("view", PerView.ToString());
+                writer.WriteAttributeString("view", perView);
                 writer.WriteEndElement(); // End of PerView
 
                 writer.WriteStartElement("IgnoreHtmlAnalyze");

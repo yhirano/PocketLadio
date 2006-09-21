@@ -128,12 +128,6 @@ namespace PocketLadio.Stations.ShoutCast
         #endregion
 
         /// <summary>
-        /// Max Bit Rate設定の設定表示と実際値を示すファイル
-        /// </summary>
-        private const string SHOUTCAST_MAX_BIT_RATE_SETTING_FILE
-            = "PocketLadio.Resource.ShoutCastMaxBitRateSetting.txt";
-
-        /// <summary>
         /// 親放送局
         /// </summary>
         private readonly Station parentStation;
@@ -176,20 +170,23 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         public static void StartUpInitialize()
         {
-            StreamReader sr = null;
+            StreamReader srMaxBitRate = null;
+            StreamReader srPerView = null;
 
             try
             {
+                #region ビットレート対応表の読み込み
+
                 // 現在のコードを実行しているAssemblyを取得
                 System.Reflection.Assembly thisAssembly
                     = System.Reflection.Assembly.GetExecutingAssembly();
                 // 指定されたマニフェストリソースを読み込む
-                sr =
-                    new StreamReader(thisAssembly.GetManifestResourceStream(SHOUTCAST_MAX_BIT_RATE_SETTING_FILE),
+                srMaxBitRate =
+                    new StreamReader(thisAssembly.GetManifestResourceStream(UserSetting.SHOUTCAST_MAX_BIT_RATE_SETTING_FILE),
                     Encoding.GetEncoding("shift-jis"));
-                
+
                 // 内容を読み込む
-                string bitRateString = sr.ReadToEnd();
+                string bitRateString = srMaxBitRate.ReadToEnd();
 
                 string[] maxBitRateRawArray = bitRateString.Split('\n');
 
@@ -201,6 +198,23 @@ namespace PocketLadio.Stations.ShoutCast
                         UserSetting.MaxBitRateTable.Add(maxBitRate[0], maxBitRate[1].Trim());
                     }
                 }
+
+                #endregion
+
+                #region ヘッドライン取得数の設定可能値を読み込む
+                // 指定されたマニフェストリソースを読み込む
+                srPerView =
+                    new StreamReader(thisAssembly.GetManifestResourceStream(UserSetting.SHOUTCAST_PER_VIEW_SETTING_FILE),
+                    Encoding.GetEncoding("shift-jis"));
+
+                // 内容を読み込む
+                UserSetting.PerViewArray = srPerView.ReadToEnd().Split('\n');
+                for (int count = 0; count < UserSetting.PerViewArray.Length; count++)
+                {
+                    UserSetting.PerViewArray[count] = UserSetting.PerViewArray[count].Trim();
+                }
+
+                #endregion
             }
             catch (ArgumentNullException)
             {
@@ -208,9 +222,13 @@ namespace PocketLadio.Stations.ShoutCast
             }
             finally
             {
-                if (sr != null)
+                if (srMaxBitRate != null)
                 {
-                    sr.Close();
+                    srMaxBitRate.Close();
+                }
+                if (srPerView != null)
+                {
+                    srPerView.Close();
                 }
             }
 
@@ -409,12 +427,14 @@ namespace PocketLadio.Stations.ShoutCast
                     if (maybeRankLineMatch.Success)
                     {
                         maybeRankLine = lines[lineNumber];
+
                     }
                 }
 
                 channels = (Channel[])alChannels.ToArray(typeof(Channel));
 
                 #endregion
+
             }
             catch (WebException)
             {

@@ -35,6 +35,8 @@ namespace PocketLadio.Stations.ShoutCast
         private Label maxBitRateLabel;
         private Label searchWordLabel;
         private ComboBox maxBitRateComboBox;
+        private ComboBox perViewComboBox;
+        private Label perViewLabel;
 
         /// <summary>
         /// 設定
@@ -85,6 +87,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.pastSearchWordMenuItem = new System.Windows.Forms.MenuItem();
             this.maxBitRateLabel = new System.Windows.Forms.Label();
             this.searchWordLabel = new System.Windows.Forms.Label();
+            this.perViewComboBox = new System.Windows.Forms.ComboBox();
+            this.perViewLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
             // 
@@ -104,6 +108,8 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // shoutCastTabPage
             // 
+            this.shoutCastTabPage.Controls.Add(this.perViewComboBox);
+            this.shoutCastTabPage.Controls.Add(this.perViewLabel);
             this.shoutCastTabPage.Controls.Add(this.maxBitRateComboBox);
             this.shoutCastTabPage.Controls.Add(this.headlineViewTypeTextBox);
             this.shoutCastTabPage.Controls.Add(this.headlineViewTypeLabel);
@@ -122,7 +128,7 @@ namespace PocketLadio.Stations.ShoutCast
             // headlineViewTypeTextBox
             // 
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
-            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 114);
+            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 158);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
             // 
             // headlineViewTypeContextMenu
@@ -146,9 +152,9 @@ namespace PocketLadio.Stations.ShoutCast
             this.pasteHeadlineViewTypeMenuItem.Text = "貼り付け(&P)";
             this.pasteHeadlineViewTypeMenuItem.Click += new System.EventHandler(this.PasteHeadlineViewTypeMenuItem_Click);
             // 
-            // HeadlineViewTypeLabel
+            // headlineViewTypeLabel
             // 
-            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 91);
+            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 135);
             this.headlineViewTypeLabel.Size = new System.Drawing.Size(135, 20);
             this.headlineViewTypeLabel.Text = "ヘッドラインの表示方法";
             // 
@@ -191,7 +197,18 @@ namespace PocketLadio.Stations.ShoutCast
             this.searchWordLabel.Size = new System.Drawing.Size(86, 16);
             this.searchWordLabel.Text = "Search word";
             // 
-            // settingForm
+            // perViewComboBox
+            // 
+            this.perViewComboBox.Location = new System.Drawing.Point(3, 110);
+            this.perViewComboBox.Size = new System.Drawing.Size(122, 22);
+            // 
+            // perViewLabel
+            // 
+            this.perViewLabel.Location = new System.Drawing.Point(3, 91);
+            this.perViewLabel.Size = new System.Drawing.Size(86, 16);
+            this.perViewLabel.Text = "Per View";
+            // 
+            // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.shoutCastSettingTabControl);
@@ -206,27 +223,56 @@ namespace PocketLadio.Stations.ShoutCast
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
+            #region コンボボックスの初期化
+
             // Max bit rateコンボボックスの初期化
             foreach (string bitrateKey in UserSetting.MaxBitRateTable.Keys)
             {
                 maxBitRateComboBox.Items.Add(bitrateKey);
             }
 
-            // 設定の読み込み
+            // Per Viewコンボボックスの初期化
+            foreach (string perViewKey in UserSetting.PerViewArray)
+            {
+                perViewComboBox.Items.Add(perViewKey);
+            }
+
+            #endregion
+
+            #region 設定の読み込み
+
             // 検索対象の読み込み
             searchWordTextBox.Text = setting.SearchWord.Trim();
+
             // maxBitRateComboBoxの位置あわせ
             maxBitRateComboBox.SelectedIndex = 0;
-            for (int count = 0; count < maxBitRateComboBox.Items.Count; ++count)
+            if (UserSetting.MaxBitRateTable.ContainsKey(setting.MaxBitRateKey) == true)
             {
-                maxBitRateComboBox.SelectedIndex = count;
-                if (maxBitRateComboBox.SelectedItem.ToString() == setting.MaxBitRateKey)
+                for (int count = 0; count < maxBitRateComboBox.Items.Count; ++count)
+                {
+                    maxBitRateComboBox.SelectedIndex = count;
+                    if (maxBitRateComboBox.SelectedItem.ToString() == setting.MaxBitRateKey)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // perViewComboBoxの位置あわせ
+            perViewComboBox.SelectedIndex = 0;
+            for (int count = 0; count < perViewComboBox.Items.Count; ++count)
+            {
+                perViewComboBox.SelectedIndex = count;
+                if (perViewComboBox.SelectedItem.ToString() == setting.PerView)
                 {
                     break;
                 }
             }
+
             //ヘッドライン表示方法の読み込み
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
+
+            #endregion
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -234,6 +280,7 @@ namespace PocketLadio.Stations.ShoutCast
             // 設定の書き込み
             setting.SearchWord = searchWordTextBox.Text.Trim();
             setting.MaxBitRateKey = maxBitRateComboBox.SelectedItem.ToString().Trim();
+            setting.PerView = perViewComboBox.SelectedItem.ToString().Trim();
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
 
             try
