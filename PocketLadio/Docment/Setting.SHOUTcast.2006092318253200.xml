@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Setting>
+  <Header>
+    <Name name="PocketLadio" />
+    <Version version="0.19" />
+    <Date date="2006/09/23 18:25:43" />
+  </Header>
+  <Content>
+    <SearchWord word="Top 40" />
+    <MaxBitRate key="All" />
+    <PerView view="10" />
+    <IgnoreHtmlAnalyze firstto="200" endfrom="250" />
+    <HeadlineViewType type="[[RANK]] [[TITLE]]" />
+  </Content>
+</Setting>

@@ -2,17 +2,19 @@
 <Setting>
   <Header>
     <Name name="PocketLadio" />
-    <Version version="0.9" />
-    <Date date="2006/08/19 12:24:59" />
+    <Version version="0.19" />
+    <Date date="2006/09/23 18:25:46" />
   </Header>
   <Content>
     <StationList>
       <Station id="2006010817544890" name="ねとらじ" kind="Netladio" />
       <Station id="2006081912213326" name="日本経済新聞＜総合版＞" kind="RssPodcast" />
       <Station id="2006081912235821" name="ECC 英会話 Podcasting" kind="RssPodcast" />
+      <Station id="2006092318253200" name="Top 40" kind="ShoutCast" />
     </StationList>
     <MediaPlayerPath path="\Program Files\TCPMP\player.exe" />
     <BrowserPath path="\Windows\iexplore.exe" />
+    <Proxy use="False" server="" port="0" />
     <HeadlineTimer check="False" millsecond="60000" />
     <FilterWords />
   </Content>
