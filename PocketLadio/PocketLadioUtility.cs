@@ -86,7 +86,8 @@ namespace PocketLadio
         /// </summary>
         /// <param name="url">URL</param>
         /// <returns>Web上のストリーム</returns>
-        public static Stream GetWebStream(Uri url) {
+        public static Stream GetWebStream(Uri url)
+        {
             WebStream ws = new WebStream(url);
             ws.ProxyUse = PocketLadio.UserSetting.ProxyUse;
             ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
@@ -112,6 +113,28 @@ namespace PocketLadio
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
             ws.UserAgent = PocketLadioInfo.UserAgent;
             ws.FetchFile(fileName);
+        }
+
+        /// <summary>
+        /// Web上のストリームをダウンロードする
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <param name="fileName">保存するファイル名</param>
+        /// <param name="doDownloadProgressMinimum">ファイルサイズの最小値（0）をセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressMaximum">ファイルサイズをセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressValue">ダウンロード済みのファイルサイズをセットするデリゲート</param>
+        public static void FetchFile(Uri url, string fileName,
+            WebStream.SetDownloadProgressMinimumInvoker doDownloadProgressMinimum,
+            WebStream.SetDownloadProgressMaximumInvoker doSetDownloadProgressMaximum,
+            WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
+        {
+            WebStream ws = new WebStream(url);
+            ws.ProxyUse = PocketLadio.UserSetting.ProxyUse;
+            ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
+            ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
+            ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
+            ws.UserAgent = PocketLadioInfo.UserAgent;
+            ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// ヘッドライン表示数の規定値ファイル
         /// </summary>
         public const string SHOUTCAST_PER_VIEW_SETTING_FILE
-            = "PocketLadio.Resource.ShoutCastViewPerSearchSetting.txt";
+            = "PocketLadio.Resource.ShoutCastPerViewSetting.txt";
 
         /// <summary>
         /// 検索単語

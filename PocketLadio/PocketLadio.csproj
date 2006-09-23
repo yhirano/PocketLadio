@@ -140,7 +140,7 @@
     <Content Include="Docment\Setting.RssPodcast.2006081912235821.xml" />
     <Content Include="Docment\Setting.xml" />
     <Content Include="PocketLadioIcon.ico" />
-    <EmbeddedResource Include="Resource\ShoutCastViewPerSearchSetting.txt" />
+    <EmbeddedResource Include="Resource\ShoutCastPerViewSetting.txt" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
     <EmbeddedResource Include="Resource\ShoutCastMaxBitRateSetting.txt" />
     <EmbeddedResource Include="Stations\Netladio\ChannelPropertyForm.resx">

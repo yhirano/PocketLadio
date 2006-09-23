@@ -306,7 +306,7 @@ namespace PocketLadio.Stations.ShoutCast
                 for (int lineNumber = analyzeHtmlFirstTo; lineNumber < analyzeHtmlLast; ++lineNumber)
                 {
                     /*** playlist.plsを検索 ***/
-                    Match pathMatch = pathRegex.Match(lines[lineNumber].Trim());
+                    Match pathMatch = pathRegex.Match(lines[lineNumber]);
 
                     // playlist.plsが見つかった場合
                     if (pathMatch.Success)
@@ -330,7 +330,7 @@ namespace PocketLadio.Stations.ShoutCast
                         // Categoryが見つからない場合は行を読み飛ばして検索する
                         for (++lineNumber; lineNumber < analyzeHtmlLast; ++lineNumber)
                         {
-                            categoryMatch = categoryRegex.Match(lines[lineNumber].Trim());
+                            categoryMatch = categoryRegex.Match(lines[lineNumber]);
 
                             // Categoryが見つかった場合
                             if (categoryMatch.Success)
@@ -346,7 +346,7 @@ namespace PocketLadio.Stations.ShoutCast
                         // ClusterUrlが見つからない場合は行を読み飛ばして検索する
                         for (; lineNumber < analyzeHtmlLast; ++lineNumber)
                         {
-                            clusterUrlMatch = clusterUrlRegex.Match(lines[lineNumber].Trim());
+                            clusterUrlMatch = clusterUrlRegex.Match(lines[lineNumber]);
 
                             // Categoryが見つかった場合
                             if (clusterUrlMatch.Success)
@@ -369,7 +369,7 @@ namespace PocketLadio.Stations.ShoutCast
                         // Titleが見つからない場合は行を読み飛ばして検索する
                         for (; lineNumber < analyzeHtmlLast; ++lineNumber)
                         {
-                            titleMatch = titleRegex.Match(lines[lineNumber].Trim());
+                            titleMatch = titleRegex.Match(lines[lineNumber]);
 
                             // Titleが見つかった場合
                             if (titleMatch.Success)
@@ -380,20 +380,20 @@ namespace PocketLadio.Stations.ShoutCast
                         }
 
                         /*** Listenerを検索 ***/
-                        Match listenerMatch = listenerRegex.Match(lines[lineNumber].Trim());
+                        Match listenerMatch = listenerRegex.Match(lines[lineNumber]);
                         for (; lineNumber < analyzeHtmlLast; ++lineNumber)
                         {
-                            listenerMatch = listenerRegex.Match(lines[lineNumber].Trim());
+                            listenerMatch = listenerRegex.Match(lines[lineNumber]);
                             if (listenerMatch.Success)
                             {
                                 break;
                             }
 
                             // Now Playing:は存在しない場合があるのでリスナー数検出の中でチェックを行う
-                            Match playingNowMatch = playingNowRegex.Match(lines[lineNumber].Trim());
+                            Match playingNowMatch = playingNowRegex.Match(lines[lineNumber]);
                             if (playingNowMatch.Success)
                             {
-                                Match playingMatch = playingRegex.Match(playingNowMatch.Groups[1].Value.Trim());
+                                Match playingMatch = playingRegex.Match(playingNowMatch.Groups[1].Value);
                                 if (playingMatch.Success)
                                 {
                                     channel.Playing = playingMatch.Groups[1].Value;
@@ -409,7 +409,7 @@ namespace PocketLadio.Stations.ShoutCast
                         // Bitrateが見つからない場合は行を読み飛ばして検索する
                         for (++lineNumber; lineNumber < analyzeHtmlLast; ++lineNumber)
                         {
-                            bitrateMatch = bitRateRegex.Match(lines[lineNumber].Trim());
+                            bitrateMatch = bitRateRegex.Match(lines[lineNumber]);
 
                             // Bitrateが見つかった場合
                             if (bitrateMatch.Success)
