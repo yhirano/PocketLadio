@@ -19,7 +19,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ねとらじのヘッドラインのURL CSV
         /// </summary>
-        private Uri headlineCsvUrl = new Uri("http://yp.ladio.livedoor.jp/stats/list.csv");
+        private Uri headlineCsvUrl = new Uri(PocketLadioInfo.NetladioHeadlineCsvUrl);
 
         /// <summary>
         /// ねとらじのヘッドラインのURL CSV
@@ -33,7 +33,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ねとらじのヘッドラインのURL XML
         /// </summary>
-        private Uri headlineXmlUrl = new Uri("http://yp.ladio.livedoor.jp/stats/list.xml");
+        private Uri headlineXmlUrl = new Uri(PocketLadioInfo.NetladioHeadlineXmlUrl);
 
         /// <summary>
         /// ねとらじのヘッドラインのURL XML

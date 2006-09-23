@@ -58,7 +58,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         public Uri ShoutCastUrl
         {
-            get { return UserSetting.ShoutcastUrl; }
+            get { return new Uri(PocketLadioInfo.ShoutcastUrl); }
         }
 
         #region HTML解析用正規表現
@@ -184,7 +184,7 @@ namespace PocketLadio.Stations.ShoutCast
                     = System.Reflection.Assembly.GetExecutingAssembly();
                 // 指定されたマニフェストリソースを読み込む
                 srMaxBitRate =
-                    new StreamReader(thisAssembly.GetManifestResourceStream(UserSetting.SHOUTCAST_MAX_BIT_RATE_SETTING_FILE),
+                    new StreamReader(thisAssembly.GetManifestResourceStream(PocketLadioInfo.ShoutcastMaxBitRateSettingFile),
                     Encoding.GetEncoding("shift-jis"));
 
                 // 内容を読み込む
@@ -206,7 +206,7 @@ namespace PocketLadio.Stations.ShoutCast
                 #region ヘッドライン取得数の設定可能値を読み込む
                 // 指定されたマニフェストリソースを読み込む
                 srPerView =
-                    new StreamReader(thisAssembly.GetManifestResourceStream(UserSetting.SHOUTCAST_PER_VIEW_SETTING_FILE),
+                    new StreamReader(thisAssembly.GetManifestResourceStream(PocketLadioInfo.ShoutcastPerViewSettingFile),
                     Encoding.GetEncoding("shift-jis"));
 
                 // 内容を読み込む
@@ -286,7 +286,7 @@ namespace PocketLadio.Stations.ShoutCast
 
                 string perView = ((setting.PerView.ToString().Length != 0) ? "&numresult=" + setting.PerView : "");
                 string maxBitRate = ((setting.MaxBitRate.Length != 0) ? "&bitrate=" + setting.MaxBitRate : "");
-                Uri url = new Uri(ShoutCastUrl.ToString() + "?" + searchWord + perView + maxBitRate);
+                Uri url = new Uri(PocketLadioInfo.ShoutcastUrl + "?" + searchWord + perView + maxBitRate);
 
                 st = PocketLadioUtility.GetWebStream(url);
 

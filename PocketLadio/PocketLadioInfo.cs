@@ -16,40 +16,40 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーション名
         /// </summary>
-        private const string applicationName = "PocketLadio";
+        private const string APPLICATION_NAME = "PocketLadio";
 
         /// <summary>
         /// アプリケーション名
         /// </summary>
         public static string ApplicationName
         {
-            get { return applicationName; }
+            get { return APPLICATION_NAME; }
         }
 
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string versionNumber = "0.19";
+        private const string VERSION_NUMBER = "0.19";
 
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
         public static string VersionNumber
         {
-            get { return versionNumber; }
+            get { return VERSION_NUMBER; }
         }
 
         /// <summary>
         /// 著作権情報
         /// </summary>
-        private const string copyright = "Copyright (C) 2005-2006 Uraroji";
+        private const string COPYRIGHT = "Copyright (C) 2005-2006 Uraroji";
 
         /// <summary>
         /// 著作権情報
         /// </summary>
         public static string Copyright
         {
-            get { return copyright; }
+            get { return COPYRIGHT; }
         }
 
         #endregion
@@ -98,7 +98,7 @@ namespace PocketLadio
         /// <summary>
         /// ネットアクセス時のUserAgent設定
         /// </summary>
-        private const string USER_AGENT = applicationName + "/" + versionNumber;
+        private const string USER_AGENT = APPLICATION_NAME + "/" + VERSION_NUMBER;
 
         /// <summary>
         /// ネットアクセス時のUserAgent設定
@@ -107,6 +107,101 @@ namespace PocketLadio
         {
             get { return USER_AGENT; }
         }
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL CSV
+        /// </summary>
+        private const string NETLADIO_HEADLINE_CVS_URL = "http://yp.ladio.livedoor.jp/stats/list.csv";
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL CSV
+        /// </summary>
+        public static string NetladioHeadlineCsvUrl
+        {
+            get { return NETLADIO_HEADLINE_CVS_URL; }
+        } 
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL XML
+        /// </summary>
+        private const string NETLADIO_HEADLINE_XML_URL = "http://yp.ladio.livedoor.jp/stats/list.xml";
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL XML
+        /// </summary>
+        public static string NetladioHeadlineXmlUrl
+        {
+            get { return NETLADIO_HEADLINE_XML_URL; }
+        } 
+
+        /// <summary>
+        /// PodcastのMIMEタイプの優先度ファイル
+        /// </summary>
+        private const string RSS_PODCAST_MIME_PRIORITY_FILE
+            = "PocketLadio.Resource.RssPodcastMimePriority.txt";
+
+        /// <summary>
+        /// PodcastのMIMEタイプの優先度ファイル
+        /// </summary>
+        public static string RssPodcastMimePriorityFile
+        {
+            get { return RSS_PODCAST_MIME_PRIORITY_FILE; }
+        } 
+
+        /// <summary>
+        /// SHOUTcastのMax Bit Rate設定の設定表示と実際値を示すファイル
+        /// </summary>
+        private const string SHOUTCAST_MAX_BIT_RATE_SETTING_FILE
+            = "PocketLadio.Resource.ShoutCastMaxBitRateSetting.txt";
+
+        /// <summary>
+        /// SHOUTcastのMax Bit Rate設定の設定表示と実際値を示すファイル
+        /// </summary>
+        public static string ShoutcastMaxBitRateSettingFile
+        {
+            get { return SHOUTCAST_MAX_BIT_RATE_SETTING_FILE; }
+        } 
+
+        /// <summary>
+        /// SHOUTcastのヘッドライン表示数の規定値ファイル
+        /// </summary>
+        private const string SHOUTCAST_PER_VIEW_SETTING_FILE
+            = "PocketLadio.Resource.ShoutCastPerViewSetting.txt";
+
+        /// <summary>
+        /// SHOUTcastのヘッドライン表示数の規定値ファイル
+        /// </summary>
+        public static string ShoutcastPerViewSettingFile
+        {
+            get { return SHOUTCAST_PER_VIEW_SETTING_FILE; }
+        } 
+
+        /// <summary>
+        /// SHOUTcastのURL
+        /// </summary>
+        private const string SHOUTCAST_URL = "http://www.shoutcast.com/";
+
+        /// <summary>
+        /// SHOUTcastのURL
+        /// </summary>
+        public static string ShoutcastUrl
+        {
+            get { return SHOUTCAST_URL; }
+        } 
+
+        /// <summary>
+        /// アプリケーションの設定ファイル
+        /// </summary>
+        private const string SETTING_FILE = "Setting.xml";
+
+        /// <summary>
+        /// アプリケーションの設定ファイル
+        /// </summary>
+        public static string SettingFile
+        {
+            get { return SETTING_FILE; }
+        } 
+
 
         #endregion
 

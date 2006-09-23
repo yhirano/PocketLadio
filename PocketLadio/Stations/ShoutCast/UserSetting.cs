@@ -17,23 +17,6 @@ namespace PocketLadio.Stations.ShoutCast
     public class UserSetting
     {
         /// <summary>
-        /// SHOUTcastのURL
-        /// </summary>
-        public readonly static Uri ShoutcastUrl = new Uri("http://www.shoutcast.com/");
-
-        /// <summary>
-        /// Max Bit Rate設定の設定表示と実際値を示すファイル
-        /// </summary>
-        public const string SHOUTCAST_MAX_BIT_RATE_SETTING_FILE
-            = "PocketLadio.Resource.ShoutCastMaxBitRateSetting.txt";
-
-        /// <summary>
-        /// ヘッドライン表示数の規定値ファイル
-        /// </summary>
-        public const string SHOUTCAST_PER_VIEW_SETTING_FILE
-            = "PocketLadio.Resource.ShoutCastPerViewSetting.txt";
-
-        /// <summary>
         /// 検索単語
         /// </summary>
         private string searchWord = "";
