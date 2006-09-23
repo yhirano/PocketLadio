@@ -219,27 +219,33 @@ namespace PocketLadio.Stations.Netladio
         private void FixWindowSizeVertical()
         {
             this.namCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.gnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.urlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.timsCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.clnCaptionLabel.Location = new System.Drawing.Point(3, 183);
-            this.bitCaptionLabel.Location = new System.Drawing.Point(129, 183);
-
+            this.namCaptionLabel.Size = new System.Drawing.Size(48, 16);
             this.namLabel.Location = new System.Drawing.Point(3, 19);
             this.namLabel.Size = new System.Drawing.Size(234, 16);
+            this.gnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.gnlCaptionLabel.Size = new System.Drawing.Size(48, 16);
             this.gnlLabel.Location = new System.Drawing.Point(3, 51);
             this.gnlLabel.Size = new System.Drawing.Size(234, 16);
+            this.urlCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.urlCaptionLabel.Size = new System.Drawing.Size(32, 16);
             this.urlLabel.Location = new System.Drawing.Point(3, 109);
             this.urlLabel.Size = new System.Drawing.Size(234, 16);
+            this.timsCaptionLabel.Location = new System.Drawing.Point(3, 151);
+            this.timsCaptionLabel.Size = new System.Drawing.Size(88, 16);
             this.timsLabel.Location = new System.Drawing.Point(3, 167);
-            this.timsLabel.Size = new System.Drawing.Size(120, 16);
+            this.timsLabel.Size = new System.Drawing.Size(234, 16);
+            this.clnCaptionLabel.Location = new System.Drawing.Point(3, 183);
+            this.clnCaptionLabel.Size = new System.Drawing.Size(120, 16);
             this.clnLabel.Location = new System.Drawing.Point(3, 199);
             this.clnLabel.Size = new System.Drawing.Size(120, 16);
+            this.bitCaptionLabel.Location = new System.Drawing.Point(129, 183);
+            this.bitCaptionLabel.Size = new System.Drawing.Size(64, 16);
             this.bitLabel.Location = new System.Drawing.Point(129, 199);
             this.bitLabel.Size = new System.Drawing.Size(108, 16);
-
             this.accessButton.Location = new System.Drawing.Point(165, 128);
+            this.accessButton.Size = new System.Drawing.Size(72, 20);
             this.playButton.Location = new System.Drawing.Point(165, 70);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
         }
 
         /// <summary>
@@ -248,27 +254,33 @@ namespace PocketLadio.Stations.Netladio
         private void FixWindowSizeHorizon()
         {
             this.namCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.gnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.urlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.timsCaptionLabel.Location = new System.Drawing.Point(3, 132);
-            this.clnCaptionLabel.Location = new System.Drawing.Point(3, 148);
-            this.bitCaptionLabel.Location = new System.Drawing.Point(3, 164);
-
+            this.namCaptionLabel.Size = new System.Drawing.Size(48, 16);
             this.namLabel.Location = new System.Drawing.Point(3, 19);
             this.namLabel.Size = new System.Drawing.Size(314, 16);
+            this.gnlCaptionLabel.Location = new System.Drawing.Point(3, 35);
+            this.gnlCaptionLabel.Size = new System.Drawing.Size(48, 16);
             this.gnlLabel.Location = new System.Drawing.Point(3, 51);
             this.gnlLabel.Size = new System.Drawing.Size(314, 16);
+            this.urlCaptionLabel.Location = new System.Drawing.Point(3, 93);
+            this.urlCaptionLabel.Size = new System.Drawing.Size(32, 16);
             this.urlLabel.Location = new System.Drawing.Point(3, 109);
             this.urlLabel.Size = new System.Drawing.Size(236, 16);
+            this.timsCaptionLabel.Location = new System.Drawing.Point(3, 132);
+            this.timsCaptionLabel.Size = new System.Drawing.Size(88, 16);
             this.timsLabel.Location = new System.Drawing.Point(129, 132);
-            this.timsLabel.Size = new System.Drawing.Size(234, 16);
+            this.timsLabel.Size = new System.Drawing.Size(188, 16);
+            this.clnCaptionLabel.Location = new System.Drawing.Point(3, 148);
+            this.clnCaptionLabel.Size = new System.Drawing.Size(120, 16);
             this.clnLabel.Location = new System.Drawing.Point(129, 148);
             this.clnLabel.Size = new System.Drawing.Size(120, 16);
+            this.bitCaptionLabel.Location = new System.Drawing.Point(3, 164);
+            this.bitCaptionLabel.Size = new System.Drawing.Size(64, 16);
             this.bitLabel.Location = new System.Drawing.Point(129, 164);
             this.bitLabel.Size = new System.Drawing.Size(108, 16);
-
             this.accessButton.Location = new System.Drawing.Point(245, 109);
+            this.accessButton.Size = new System.Drawing.Size(72, 20);
             this.playButton.Location = new System.Drawing.Point(245, 70);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
         }
 
         private void ChannelPropertyForm_Load(object sender, System.EventArgs e)
