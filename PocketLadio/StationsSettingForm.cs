@@ -151,6 +151,8 @@ namespace PocketLadio
             this.stationNameTextBox.ContextMenu = this.stationNameContextMenu;
             this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
             this.stationNameTextBox.Size = new System.Drawing.Size(128, 21);
+            this.stationNameTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.StationNameTextBox_KeyUp);
+            this.stationNameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.StationNameTextBox_KeyPress);
             this.stationNameTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StationNameTextBox_KeyDown);
             // 
             // stationNameContextMenu
@@ -174,7 +176,7 @@ namespace PocketLadio
             this.pasteStationNameMenuItem.Text = "貼り付け(&P)";
             this.pasteStationNameMenuItem.Click += new System.EventHandler(this.PasteStationNameMenuItem_Click);
             // 
-            // stationsSettingForm
+            // StationsSettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.stationListLabel);
@@ -401,9 +403,37 @@ namespace PocketLadio
         private void StationNameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // 入力ボタンを押したとき
-            if ((e.KeyCode == System.Windows.Forms.Keys.Enter))
+            if (e.KeyCode == Keys.Enter)
             {
                 AddButton_Click(sender, e);
+            }
+            // 切り取りショートカット
+            else if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(stationNameTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(stationNameTextBox);
+            }
+        }
+
+        private void StationNameTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 入力ボタンを押したときの音を消すため
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void StationNameTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(stationNameTextBox);
             }
         }
     }

@@ -113,6 +113,8 @@ namespace PocketLadio.Stations.RssPodcast
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
             this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 70);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
+            this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
+            this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
             // 
             // headlineViewTypeContextMenu
             // 
@@ -146,6 +148,8 @@ namespace PocketLadio.Stations.RssPodcast
             this.rssUrlTextBox.ContextMenu = this.rssUrlContextMenu;
             this.rssUrlTextBox.Location = new System.Drawing.Point(3, 23);
             this.rssUrlTextBox.Size = new System.Drawing.Size(234, 21);
+            this.rssUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.RssUrlTextBox_KeyUp);
+            this.rssUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RssUrlTextBox_KeyDown);
             // 
             // rssUrlContextMenu
             // 
@@ -174,7 +178,7 @@ namespace PocketLadio.Stations.RssPodcast
             this.rssUrlLabel.Size = new System.Drawing.Size(109, 16);
             this.rssUrlLabel.Text = "PodcastのRSS URL";
             // 
-            // settingForm
+            // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.podcastTabControl);
@@ -250,6 +254,52 @@ namespace PocketLadio.Stations.RssPodcast
         private void PasteHeadlineViewTypeMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Paste(headlineViewTypeTextBox);
+        }
+
+        private void RssUrlTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(rssUrlTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(rssUrlTextBox);
+            }
+        }
+
+        private void RssUrlTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(rssUrlTextBox);
+            }
+        }
+
+        private void HeadlineViewTypeTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(headlineViewTypeTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(headlineViewTypeTextBox);
+            }
+        }
+
+        private void HeadlineViewTypeTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(headlineViewTypeTextBox);
+            }
         }
     }
 }

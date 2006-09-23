@@ -73,6 +73,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.shoutCastSettingTabControl = new System.Windows.Forms.TabControl();
             this.shoutCastTabPage = new System.Windows.Forms.TabPage();
+            this.perViewComboBox = new System.Windows.Forms.ComboBox();
+            this.perViewLabel = new System.Windows.Forms.Label();
             this.maxBitRateComboBox = new System.Windows.Forms.ComboBox();
             this.headlineViewTypeTextBox = new System.Windows.Forms.TextBox();
             this.headlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
@@ -87,8 +89,6 @@ namespace PocketLadio.Stations.ShoutCast
             this.pastSearchWordMenuItem = new System.Windows.Forms.MenuItem();
             this.maxBitRateLabel = new System.Windows.Forms.Label();
             this.searchWordLabel = new System.Windows.Forms.Label();
-            this.perViewComboBox = new System.Windows.Forms.ComboBox();
-            this.perViewLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
             // 
@@ -120,6 +120,17 @@ namespace PocketLadio.Stations.ShoutCast
             this.shoutCastTabPage.Size = new System.Drawing.Size(240, 245);
             this.shoutCastTabPage.Text = "SHOUTcast設定";
             // 
+            // perViewComboBox
+            // 
+            this.perViewComboBox.Location = new System.Drawing.Point(3, 110);
+            this.perViewComboBox.Size = new System.Drawing.Size(122, 22);
+            // 
+            // perViewLabel
+            // 
+            this.perViewLabel.Location = new System.Drawing.Point(3, 91);
+            this.perViewLabel.Size = new System.Drawing.Size(86, 16);
+            this.perViewLabel.Text = "Per View";
+            // 
             // maxBitRateComboBox
             // 
             this.maxBitRateComboBox.Location = new System.Drawing.Point(3, 66);
@@ -130,6 +141,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
             this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 158);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
+            this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
+            this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
             // 
             // headlineViewTypeContextMenu
             // 
@@ -163,6 +176,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.searchWordTextBox.ContextMenu = this.searchWordContextMenu;
             this.searchWordTextBox.Location = new System.Drawing.Point(3, 23);
             this.searchWordTextBox.Size = new System.Drawing.Size(234, 21);
+            this.searchWordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SearchWordTextBox_KeyUp);
+            this.searchWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchWordTextBox_KeyDown);
             // 
             // searchWordContextMenu
             // 
@@ -196,17 +211,6 @@ namespace PocketLadio.Stations.ShoutCast
             this.searchWordLabel.Location = new System.Drawing.Point(3, 4);
             this.searchWordLabel.Size = new System.Drawing.Size(86, 16);
             this.searchWordLabel.Text = "Search word";
-            // 
-            // perViewComboBox
-            // 
-            this.perViewComboBox.Location = new System.Drawing.Point(3, 110);
-            this.perViewComboBox.Size = new System.Drawing.Size(122, 22);
-            // 
-            // perViewLabel
-            // 
-            this.perViewLabel.Location = new System.Drawing.Point(3, 91);
-            this.perViewLabel.Size = new System.Drawing.Size(86, 16);
-            this.perViewLabel.Text = "Per View";
             // 
             // SettingForm
             // 
@@ -326,6 +330,52 @@ namespace PocketLadio.Stations.ShoutCast
         private void PasteSearchWordMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Paste(searchWordTextBox);
+        }
+
+        private void SearchWordTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(searchWordTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(searchWordTextBox);
+            }
+        }
+
+        private void SearchWordTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(searchWordTextBox);
+            }
+        }
+
+        private void HeadlineViewTypeTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(headlineViewTypeTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(headlineViewTypeTextBox);
+            }
+        }
+
+        private void HeadlineViewTypeTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(headlineViewTypeTextBox);
+            }
         }
     }
 }

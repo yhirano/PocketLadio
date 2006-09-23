@@ -49,6 +49,8 @@ namespace PocketLadio
         private MenuItem copyProxyPortMenuItem;
         private MenuItem pasteProxyPortMenuItem;
         private CheckBox proxyUseCheckBox;
+        private Button browserPathReferenceButton;
+        private Button mediaPlayerPathReferenceButton;
         private TabControl settingTabControl;
 
         public SettingForm()
@@ -85,6 +87,8 @@ namespace PocketLadio
             this.copyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.pocketLadioTabPage = new System.Windows.Forms.TabPage();
+            this.browserPathReferenceButton = new System.Windows.Forms.Button();
+            this.mediaPlayerPathReferenceButton = new System.Windows.Forms.Button();
             this.browserPathTextBox = new System.Windows.Forms.TextBox();
             this.mediaPlayerPathTextBox = new System.Windows.Forms.TextBox();
             this.browserPathLabel = new System.Windows.Forms.Label();
@@ -160,6 +164,8 @@ namespace PocketLadio
             // 
             // pocketLadioTabPage
             // 
+            this.pocketLadioTabPage.Controls.Add(this.browserPathReferenceButton);
+            this.pocketLadioTabPage.Controls.Add(this.mediaPlayerPathReferenceButton);
             this.pocketLadioTabPage.Controls.Add(this.browserPathTextBox);
             this.pocketLadioTabPage.Controls.Add(this.mediaPlayerPathTextBox);
             this.pocketLadioTabPage.Controls.Add(this.browserPathLabel);
@@ -170,17 +176,35 @@ namespace PocketLadio
             this.pocketLadioTabPage.Size = new System.Drawing.Size(240, 245);
             this.pocketLadioTabPage.Text = "PocketLadio設定";
             // 
+            // browserPathReferenceButton
+            // 
+            this.browserPathReferenceButton.Location = new System.Drawing.Point(189, 114);
+            this.browserPathReferenceButton.Size = new System.Drawing.Size(48, 20);
+            this.browserPathReferenceButton.Text = "参照";
+            this.browserPathReferenceButton.Click += new System.EventHandler(this.BrowserPathReferenceButton_Click);
+            // 
+            // mediaPlayerPathReferenceButton
+            // 
+            this.mediaPlayerPathReferenceButton.Location = new System.Drawing.Point(189, 71);
+            this.mediaPlayerPathReferenceButton.Size = new System.Drawing.Size(48, 20);
+            this.mediaPlayerPathReferenceButton.Text = "参照";
+            this.mediaPlayerPathReferenceButton.Click += new System.EventHandler(this.MediaPlayerPathReferenceButton_Click);
+            // 
             // browserPathTextBox
             // 
             this.browserPathTextBox.ContextMenu = this.browserPathContextMenu;
             this.browserPathTextBox.Location = new System.Drawing.Point(3, 114);
-            this.browserPathTextBox.Size = new System.Drawing.Size(234, 21);
+            this.browserPathTextBox.Size = new System.Drawing.Size(180, 21);
+            this.browserPathTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.BrowserPathTextBox_KeyUp);
+            this.browserPathTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BrowserPathTextBox_KeyDown);
             // 
             // mediaPlayerPathTextBox
             // 
             this.mediaPlayerPathTextBox.ContextMenu = this.mediaPlayeraPathContextMenu;
             this.mediaPlayerPathTextBox.Location = new System.Drawing.Point(3, 71);
-            this.mediaPlayerPathTextBox.Size = new System.Drawing.Size(234, 21);
+            this.mediaPlayerPathTextBox.Size = new System.Drawing.Size(180, 21);
+            this.mediaPlayerPathTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MediaPlayerPathTextBox_KeyUp);
+            this.mediaPlayerPathTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MediaPlayerPathTextBox_KeyDown);
             // 
             // browserPathLabel
             // 
@@ -227,7 +251,7 @@ namespace PocketLadio
             this.networkTabPage.Controls.Add(this.proxyPortLabel);
             this.networkTabPage.Controls.Add(this.proxyServerLabel);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
+            this.networkTabPage.Size = new System.Drawing.Size(240, 245);
             this.networkTabPage.Text = "ネットワーク設定";
             // 
             // proxyUseCheckBox
@@ -241,6 +265,8 @@ namespace PocketLadio
             this.proxyPortTextBox.ContextMenu = this.proxyPortContextMenu;
             this.proxyPortTextBox.Location = new System.Drawing.Point(3, 88);
             this.proxyPortTextBox.Size = new System.Drawing.Size(74, 21);
+            this.proxyPortTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ProxyPortTextBox_KeyUp);
+            this.proxyPortTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProxyPortTextBox_KeyDown);
             // 
             // proxyPortContextMenu
             // 
@@ -268,6 +294,8 @@ namespace PocketLadio
             this.proxyServerTextBox.ContextMenu = this.proxyServerContextMenu;
             this.proxyServerTextBox.Location = new System.Drawing.Point(3, 45);
             this.proxyServerTextBox.Size = new System.Drawing.Size(234, 21);
+            this.proxyServerTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ProxyServerTextBox_KeyUp);
+            this.proxyServerTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProxyServerTextBox_KeyDown);
             // 
             // proxyServerContextMenu
             // 
@@ -302,7 +330,7 @@ namespace PocketLadio
             this.proxyServerLabel.Size = new System.Drawing.Size(230, 16);
             this.proxyServerLabel.Text = "プロキシサーバ （例：proxy.example.com）";
             // 
-            // settingForm
+            // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.settingTabControl);
@@ -338,7 +366,7 @@ namespace PocketLadio
             UserSetting.ProxyUse = proxyUseCheckBox.Checked;
             UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
             UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
-            
+
             try
             {
                 UserSetting.HeadlineTimerMillSecond = Convert.ToInt32(headlineTimerSecondNumericUpDown.Text) * 1000;
@@ -453,6 +481,134 @@ namespace PocketLadio
         private void PasteProxyPortMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Paste(proxyPortTextBox);
+        }
+
+        private void MediaPlayerPathReferenceButton_Click(object sender, EventArgs e)
+        {
+            SmartPDA.Windows.Forms.OpenFileDialog fd = SmartPDA.Windows.Forms.FileDialogFactory.MakeOpenFileDialog();
+
+            if (Directory.Exists(Path.GetDirectoryName(mediaPlayerPathTextBox.Text.Trim())))
+            {
+                fd.InitialDirectory = Path.GetDirectoryName(mediaPlayerPathTextBox.Text.Trim());
+            }
+            fd.Filter = "*.exe|*.exe|*.*|*.*";
+            fd.IconVisible = true;
+            fd.Activation = ItemActivation.OneClick;
+
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                mediaPlayerPathTextBox.Text = fd.FileName;
+            }
+        }
+
+        private void BrowserPathReferenceButton_Click(object sender, EventArgs e)
+        {
+            SmartPDA.Windows.Forms.OpenFileDialog fd = SmartPDA.Windows.Forms.FileDialogFactory.MakeOpenFileDialog();
+
+            if (Directory.Exists(Path.GetDirectoryName(browserPathTextBox.Text.Trim())))
+            {
+                fd.InitialDirectory = Path.GetDirectoryName(browserPathTextBox.Text.Trim());
+            }
+            fd.Filter = "*.exe|*.exe|*.*|*.*";
+            fd.IconVisible = true;
+            fd.Activation = ItemActivation.OneClick;
+
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                browserPathTextBox.Text = fd.FileName;
+            }
+        }
+
+        private void MediaPlayerPathTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(mediaPlayerPathTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(mediaPlayerPathTextBox);
+            }
+        }
+
+        private void MediaPlayerPathTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(mediaPlayerPathTextBox);
+            }
+        }
+
+        private void BrowserPathTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(browserPathTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(browserPathTextBox);
+            }
+        }
+
+        private void BrowserPathTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(browserPathTextBox);
+            }
+        }
+
+        private void ProxyServerTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(proxyServerTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(proxyServerTextBox);
+            }
+        }
+
+        private void ProxyServerTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(proxyServerTextBox);
+            }
+        }
+
+        private void ProxyPortTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(proxyPortTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(proxyPortTextBox);
+            }
+        }
+
+        private void ProxyPortTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(proxyPortTextBox);
+            }
         }
     }
 }

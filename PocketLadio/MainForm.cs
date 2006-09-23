@@ -29,7 +29,7 @@ namespace PocketLadio
         private MenuItem exitMenuItem;
         private Button playButton;
         private ListBox headlineListBox;
-        private Button getButton;
+        private Button updateButton;
         private CheckBox filterCheckBox;
         private Label infomationLabel;
         private MainMenu mainMenu;
@@ -96,7 +96,7 @@ namespace PocketLadio
             this.playMenuItem = new System.Windows.Forms.MenuItem();
             this.browserMenuItem = new System.Windows.Forms.MenuItem();
             this.channelPropertyMenuItem = new System.Windows.Forms.MenuItem();
-            this.getButton = new System.Windows.Forms.Button();
+            this.updateButton = new System.Windows.Forms.Button();
             this.filterCheckBox = new System.Windows.Forms.CheckBox();
             this.infomationLabel = new System.Windows.Forms.Label();
             this.headlineCheckTimer = new System.Windows.Forms.Timer();
@@ -182,7 +182,7 @@ namespace PocketLadio
             // 
             this.headlineListBox.ContextMenu = this.headlineContextMenu;
             this.headlineListBox.Location = new System.Drawing.Point(3, 60);
-            this.headlineListBox.Size = new System.Drawing.Size(234, 184);
+            this.headlineListBox.Size = new System.Drawing.Size(234, 170);
             this.headlineListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             // 
             // headlineContextMenu
@@ -207,12 +207,12 @@ namespace PocketLadio
             this.channelPropertyMenuItem.Text = "î‘ëgÇÃè⁄ç◊(&R)";
             this.channelPropertyMenuItem.Click += new System.EventHandler(this.ChannelPropertyMenuItem_Click);
             // 
-            // getButton
+            // updateButton
             // 
-            this.getButton.Location = new System.Drawing.Point(3, 3);
-            this.getButton.Size = new System.Drawing.Size(72, 20);
-            this.getButton.Text = "&Get";
-            this.getButton.Click += new System.EventHandler(this.GetButton_Click);
+            this.updateButton.Location = new System.Drawing.Point(3, 3);
+            this.updateButton.Size = new System.Drawing.Size(72, 20);
+            this.updateButton.Text = "&Update";
+            this.updateButton.Click += new System.EventHandler(this.UpdateButton_Click);
             // 
             // filterCheckBox
             // 
@@ -238,13 +238,13 @@ namespace PocketLadio
             this.stationListComboBox.Size = new System.Drawing.Size(234, 22);
             this.stationListComboBox.SelectedIndexChanged += new System.EventHandler(this.StationListComboBox_SelectedIndexChanged);
             // 
-            // mainForm
+            // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.stationListComboBox);
             this.Controls.Add(this.infomationLabel);
             this.Controls.Add(this.filterCheckBox);
-            this.Controls.Add(this.getButton);
+            this.Controls.Add(this.updateButton);
             this.Controls.Add(this.headlineListBox);
             this.Controls.Add(this.playButton);
             this.MaximizeBox = false;
@@ -486,7 +486,7 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeVertical()
         {
-            this.getButton.Location = new System.Drawing.Point(3, 3);
+            this.updateButton.Location = new System.Drawing.Point(3, 3);
             this.playButton.Location = new System.Drawing.Point(81, 3);
             this.filterCheckBox.Location = new System.Drawing.Point(181, 3);
             this.headlineListBox.Location = new System.Drawing.Point(3, 60);
@@ -502,7 +502,7 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeHorizon()
         {
-            this.getButton.Location = new System.Drawing.Point(3, 3);
+            this.updateButton.Location = new System.Drawing.Point(3, 3);
             this.playButton.Location = new System.Drawing.Point(81, 3);
             this.filterCheckBox.Location = new System.Drawing.Point(261, 3);
             this.headlineListBox.Location = new System.Drawing.Point(3, 60);
@@ -654,7 +654,7 @@ namespace PocketLadio
             filterSettingForm.Dispose();
         }
 
-        private void GetButton_Click(object sender, System.EventArgs e)
+        private void UpdateButton_Click(object sender, System.EventArgs e)
         {
             CheckHeadline();
         }

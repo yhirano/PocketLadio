@@ -129,6 +129,8 @@ namespace PocketLadio.Stations.Netladio
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
             this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 162);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
+            this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
+            this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
             // 
             // headlineViewTypeContextMenu
             // 
@@ -190,12 +192,16 @@ namespace PocketLadio.Stations.Netladio
             this.headlineXmlUrlTextBox.Enabled = false;
             this.headlineXmlUrlTextBox.Location = new System.Drawing.Point(3, 64);
             this.headlineXmlUrlTextBox.Size = new System.Drawing.Size(234, 21);
+            this.headlineXmlUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineXmlUrlTextBox_KeyUp);
+            this.headlineXmlUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineXmlUrlTextBox_KeyDown);
             // 
             // headlineCsvUrlTextBox
             // 
             this.headlineCsvUrlTextBox.ContextMenu = this.headlineCvsUrlContextMenu;
             this.headlineCsvUrlTextBox.Location = new System.Drawing.Point(3, 23);
             this.headlineCsvUrlTextBox.Size = new System.Drawing.Size(234, 21);
+            this.headlineCsvUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineCsvUrlTextBox_KeyUp);
+            this.headlineCsvUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineCsvUrlTextBox_KeyDown);
             // 
             // headlineCvsUrlContextMenu
             // 
@@ -230,7 +236,7 @@ namespace PocketLadio.Stations.Netladio
             this.headlineCvsUrlLabel.Size = new System.Drawing.Size(124, 16);
             this.headlineCvsUrlLabel.Text = "ヘッドラインのURL CSV";
             // 
-            // settingForm
+            // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.netladioTabControl);
@@ -338,6 +344,74 @@ namespace PocketLadio.Stations.Netladio
         private void PasteHeadlineCvsUrlMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Paste(headlineCsvUrlTextBox);
+        }
+
+        private void HeadlineCsvUrlTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control) {
+                ClipboardTextBox.Cut(headlineCsvUrlTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(headlineCsvUrlTextBox);
+            }
+        }
+
+        private void HeadlineCsvUrlTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(headlineCsvUrlTextBox);
+            }
+        }
+
+        private void HeadlineXmlUrlTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(headlineXmlUrlTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(headlineXmlUrlTextBox);
+            }
+        }
+
+        private void HeadlineXmlUrlTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(headlineXmlUrlTextBox);
+            }
+        }
+
+        private void HeadlineViewTypeTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(headlineViewTypeTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(headlineViewTypeTextBox);
+            }
+        }
+
+        private void HeadlineViewTypeTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(headlineViewTypeTextBox);
+            }
         }
     }
 }

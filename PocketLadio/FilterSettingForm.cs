@@ -75,6 +75,8 @@ namespace PocketLadio
             this.addWordTextBox.ContextMenu = this.addWordContextMenu;
             this.addWordTextBox.Location = new System.Drawing.Point(3, 27);
             this.addWordTextBox.Size = new System.Drawing.Size(156, 21);
+            this.addWordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyUp);
+            this.addWordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddWordTextBox_KeyPress);
             this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
             // 
             // addWordContextMenu
@@ -335,9 +337,36 @@ namespace PocketLadio
         private void AddWordTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // 入力ボタンを押したとき
-            if ((e.KeyCode == System.Windows.Forms.Keys.Enter))
+            if (e.KeyCode == Keys.Enter)
             {
                 AddWordButton_Click(sender, e);
+            }
+            // 切り取りショートカット
+            else if (e.KeyCode == Keys.X && e.Control) {
+                ClipboardTextBox.Cut(addWordTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(addWordTextBox);
+            }
+        }
+
+        private void AddWordTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 入力ボタンを押したときの音を消すため
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void AddWordTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(addWordTextBox);
             }
         }
     }

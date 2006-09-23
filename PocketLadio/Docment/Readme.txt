@@ -24,26 +24,27 @@ http://www.microsoft.com/japan/msdn/vstudio/device/netcf/
 
 
 【インストール】
-ZIPファイルを解凍し、PocketLadio.exeとMiscPocketCompactLibrary.dllを適当なフォ
-ルダに置いてください。
+ZIPファイルを解凍し、PocketLadio.exe・MiscPocketCompactLibrary.dll・
+FileDialog.dll・GetFileInfo.dllを適当なフォルダに置いてください。
 
 
 【アップデート】
-ZIPファイルを解凍し、PocketLadio.exeとMiscPocketCompactLibrary.dllを適当なフォ
-ルダに置いてください。
+ZIPファイルを解凍し、PocketLadio.exe・MiscPocketCompactLibrary.dll・
+FileDialog.dll・GetFileInfo.dllを適当なフォルダに置いてください。
 同こんのSetting.*.xmlを上書きしてしまいますと、今までの設定が消えてしまいます
 ので注意してください。
 
 
 【アンインストール】
-PocketLadio.exeとMiscPocketCompactLibrary.dll、同じフォルダにあるSetting.xmlお
-よびSetting.*.xmlを削除してください。
+PocketLadio.exe・MiscPocketCompactLibrary.dll・FileDialog.dll・
+GetFileInfo.dll、同じフォルダにあるSetting.xmlおよびSetting.*.xmlを削除してく
+ださい。
 PocketLadioはレジストリを使用しません。
 
 
 【使い方】
 ・PocketLadioの使い方
-Getボタンで配信中のヘッドラインを取得します。
+Updateボタンを押し、配信中のヘッドラインを取得します。
 Playボタンで選択した番組を再生します。
 Filterチェックボックスであらかじめ設定したフィルタ条件に一致する番組のみを表示
 します。
@@ -129,7 +130,13 @@ SHOUTcastサイトのHTMLの解析に非常に時間がかかるために、ヘッドラインの取得数は
 Version 0.18
 ・クリップボードの内容がテキスト以外の場合に、ペーストをすると落ちていたのを
 　（多分）修正
-・SHOUTcastでヘッドライン取得数を変更できるようにした。
+・SHOUTcastでヘッドライン取得数を変更できるようにした
+・放送局の追加と削除画面とフィルターの追加と削除画面でエンターキーを押して入力
+　するとビープ音が鳴っていたのを鳴らないように変更
+・メディアプレイヤーとブラウザのパス設定をファイルダイアログから設定できるよう
+　にした
+・クリップボードのキーボードショートカットに対応（テキストボックスのみ）
+・メイン画面GetボタンをUpdateボタンに変更
 
 Version 0.17
 ・SHOUTcastにおいてSerch wordを指定しない場合に番組が取得できなかったのを修正
