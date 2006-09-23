@@ -265,7 +265,6 @@ namespace PocketLadio.Stations.ShoutCast
             this.categoryLabel.Size = new System.Drawing.Size(314, 16);
             this.clusterUrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
             this.clusterUrlCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.clusterUrlCaptionLabel.Text = "Cluster URL";
             this.clusterUrlLabel.Location = new System.Drawing.Point(3, 109);
             this.clusterUrlLabel.Size = new System.Drawing.Size(236, 16);
             this.playingCaptionLabel.Location = new System.Drawing.Point(3, 132);
@@ -280,6 +279,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.bitRateCaptionLabel.Size = new System.Drawing.Size(77, 16);
             this.bitRateLabel.Location = new System.Drawing.Point(86, 164);
             this.bitRateLabel.Size = new System.Drawing.Size(108, 16);
+            this.accessButton.Location = new System.Drawing.Point(245, 109);
+            this.accessButton.Size = new System.Drawing.Size(72, 20);
             this.playButton.Location = new System.Drawing.Point(245, 70);
             this.playButton.Size = new System.Drawing.Size(72, 20);
         }

@@ -68,7 +68,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// Path解析用。
         /// </summary>
         private readonly static Regex pathRegex = new Regex(
-            @"<a\s+[^>]*href\s*=\s*(?:""(?<1>.*playlist\.pls[^""]*)""|(?<1>.*playlist\.pls[^\s>]+))[^>]*>(?<2>[^<]*)",
+            @"<a\s+[^>]*href=""(.*playlist\.pls[^""]*)""[^>]*>",
             RegexOptions.None);
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// ClusterUrl解析用。
         /// </summary>
         private readonly static Regex clusterUrlRegex = new Regex(
-            @"<a\s+[^>]*href\s*=\s*(?:""(?<1>.*[^""]*)""|(?<1>.*[^\s>]+))[^>]*>(?<2>[^<]*)",
+            @"<a\s+[^>]*href=""(.*[^""]*)""[^>]*>",
             RegexOptions.None);
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// HTML解析用正規表現。
         /// Listener解析用。
         /// </summary>
-        private readonly static Regex listenerRegex = new Regex(@"\D*(\d+/\d+)</font>", RegexOptions.None);
+        private readonly static Regex listenerRegex = new Regex(@"(\d+/\d+)</font>", RegexOptions.None);
 
         /// <summary>
         /// HTML解析用正規表現。
@@ -119,9 +119,11 @@ namespace PocketLadio.Stations.ShoutCast
         /// HTML解析用正規表現。
         /// BitRate解析用。
         /// </summary>
-        private readonly static Regex bitRateRegex = new Regex(@"\D(\d+)</font>", RegexOptions.None);
+        private readonly static Regex bitRateRegex = new Regex(@"(\d+)</font>", RegexOptions.None);
 
+        /// <summary>
         /// HTML解析用正規表現。
+        /// Rankらしき行の解析用。
         /// </summary>
         private readonly static Regex maybeRankLineRegex = new Regex(@"^.*</b>", RegexOptions.None);
 
