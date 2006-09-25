@@ -223,7 +223,6 @@ namespace PocketLadio
             this.stationListLabel.Size = new System.Drawing.Size(84, 20);
             this.addStationLabel.Location = new System.Drawing.Point(3, 4);
             this.addStationLabel.Size = new System.Drawing.Size(84, 20);
-            this.stationListBox.ContextMenu = this.stationListBoxContextMenu;
             this.stationListBox.Location = new System.Drawing.Point(3, 99);
             this.stationListBox.Size = new System.Drawing.Size(234, 142);
             this.deleteButton.Location = new System.Drawing.Point(165, 245);
