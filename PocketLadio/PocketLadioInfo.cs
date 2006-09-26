@@ -179,7 +179,7 @@ namespace PocketLadio
         /// <summary>
         /// SHOUTcast‚ÌURL
         /// </summary>
-        private const string SHOUTCAST_URL = "http://www.shoutcast.com/";
+        private const string SHOUTCAST_URL = "http://www.shoutcast.com";
 
         /// <summary>
         /// SHOUTcast‚ÌURL

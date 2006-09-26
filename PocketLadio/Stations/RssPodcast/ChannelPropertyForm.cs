@@ -276,7 +276,6 @@ namespace PocketLadio.Stations.RssPodcast
         {
             this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
             this.titleCaptionLabel.Size = new System.Drawing.Size(48, 16);
-            this.titleCaptionLabel.Text = "”Ô‘g–¼";
             this.titleLabel.Location = new System.Drawing.Point(3, 19);
             this.titleLabel.Size = new System.Drawing.Size(314, 16);
             this.descriptionCaptionLabel.Location = new System.Drawing.Point(3, 35);

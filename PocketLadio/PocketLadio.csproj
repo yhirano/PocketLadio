@@ -142,18 +142,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Docment\Readme.txt">
-    </Content>
-    <Content Include="Docment\Setting.Netladio.2006010817544890.xml">
-    </Content>
-    <Content Include="Docment\Setting.RssPodcast.2006081912213326.xml">
-    </Content>
-    <Content Include="Docment\Setting.RssPodcast.2006081912235821.xml">
-    </Content>
-    <Content Include="Docment\Setting.SHOUTcast.2006092318253200.xml">
-    </Content>
-    <Content Include="Docment\Setting.xml">
-    </Content>
     <Content Include="PocketLadioIcon.ico" />
     <EmbeddedResource Include="Resource\ShoutCastPerViewSetting.txt" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />

@@ -125,6 +125,7 @@ PocketLadioの設定を行うことができます。
 
 【バージョン履歴】
 Version 0.20
+・SHOUTcastヘッドライン解析の高速化
 ・UIの細かい修正
 
 Version 0.19

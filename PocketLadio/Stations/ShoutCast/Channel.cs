@@ -151,7 +151,7 @@ namespace PocketLadio.Stations.ShoutCast
         {
             try
             {
-                return new Uri(parentHeadline.ShoutCastUrl.ToString() + path);
+                return new Uri(PocketLadioInfo.ShoutcastUrl + path);
             }
             catch (UriFormatException)
             {

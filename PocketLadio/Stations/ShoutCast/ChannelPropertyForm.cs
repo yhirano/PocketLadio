@@ -228,12 +228,10 @@ namespace PocketLadio.Stations.ShoutCast
             this.categoryLabel.Size = new System.Drawing.Size(234, 16);
             this.clusterUrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
             this.clusterUrlCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.clusterUrlCaptionLabel.Text = "Cluster URL";
             this.clusterUrlLabel.Location = new System.Drawing.Point(3, 109);
             this.clusterUrlLabel.Size = new System.Drawing.Size(234, 16);
             this.playingCaptionLabel.Location = new System.Drawing.Point(3, 151);
             this.playingCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.playingCaptionLabel.Text = "Playing Now";
             this.playingLabel.Location = new System.Drawing.Point(3, 167);
             this.playingLabel.Size = new System.Drawing.Size(234, 16);
             this.listenerCaptionLabel.Location = new System.Drawing.Point(3, 183);
