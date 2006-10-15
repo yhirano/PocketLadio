@@ -448,7 +448,7 @@ namespace PocketLadio.Stations.Netladio
                                     {
                                         SortScending = Headline.SortScending.Ascending;
                                     }
-                                    else if (kind == Headline.SortScending.Descending.ToString())
+                                    else if (scending == Headline.SortScending.Descending.ToString())
                                     {
                                         SortScending = Headline.SortScending.Descending;
                                     }

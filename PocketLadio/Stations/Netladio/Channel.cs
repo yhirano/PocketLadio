@@ -283,8 +283,8 @@ namespace PocketLadio.Stations.Netladio
             {
                 view = view.Replace("[[NAME]]", Nam)
                     .Replace("[[GENRE]]", Gnl)
-                    .Replace("[[CLN]]", Cln.ToString())
-                    .Replace("[[CLNS]]", Clns.ToString())
+                    .Replace("[[CLN]]", ((Cln >= 0) ? Cln.ToString() : "na"))
+                    .Replace("[[CLNS]]", ((Clns >= 0) ? Clns.ToString() : "na"))
                     .Replace("[[TITLE]]", Tit)
                     .Replace("[[TIMES]]", Tims.ToString())
                     .Replace("[[BIT]]", Bit.ToString());
