@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Xml;
+using System.Diagnostics;
 using MiscPocketCompactLibrary.Reflection;
 
 #endregion
@@ -84,6 +85,128 @@ namespace PocketLadio.Stations.Netladio
         /// 単語フィルター
         /// </summary>
         private String[] filterWords = new String[0];
+
+        /// <summary>
+        /// ビットレート（～以下）フィルターを使用するか
+        /// </summary>
+        private bool filterBelowBitRateUse = false;
+
+        /// <summary>
+        /// ビットレート（～以下）フィルターを使用するか
+        /// </summary>
+        public bool FilterBelowBitRateUse
+        {
+            get { return filterBelowBitRateUse; }
+            set { filterBelowBitRateUse = value; }
+        }
+
+        /// <summary>
+        /// ビットレート（～以下）フィルター
+        /// </summary>
+        private int filterBelowBitRate = 320;
+
+        /// <summary>
+        /// ビットレート（～以下）フィルター
+        /// </summary>
+        public int FilterBelowBitRate
+        {
+            get {
+                if (filterBelowBitRate >= 0)
+                {
+                    return filterBelowBitRate;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            set {
+                if (value >= 0)
+                {
+                    filterBelowBitRate = value;
+                }
+                else
+                {
+                    ;
+                }
+            }
+        }
+
+        /// <summary>
+        /// ビットレート（～以上）フィルターを使用するか
+        /// </summary>
+        private bool filterAboveBitRateUse = false;
+
+        /// <summary>
+        /// ビットレート（～以上）フィルターを使用するか
+        /// </summary>
+        public bool FilterAboveBitRateUse
+        {
+            get { return filterAboveBitRateUse; }
+            set { filterAboveBitRateUse = value; }
+        }
+
+        /// <summary>
+        /// ビットレート（～以上）フィルター
+        /// </summary>
+        private int filterAboveBitRate = 0;
+
+        /// <summary>
+        /// ビットレート（～以上）フィルター
+        /// </summary>
+        public int FilterAboveBitRate
+        {
+            get
+            {
+                if (filterAboveBitRate >= 0)
+                {
+                    return filterAboveBitRate;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            set
+            {
+                if (value >= 0)
+                {
+                    filterAboveBitRate = value;
+                }
+                else
+                {
+                    ;
+                }
+            }
+        }
+
+        /// <summary>
+        /// ソートフィルター
+        /// </summary>
+        private Headline.SortKind sortKind = Headline.SortKind.None;
+
+        /// <summary>
+        /// ソートフィルター
+        /// </summary>
+        public Headline.SortKind SortKind
+        {
+            get { return sortKind; }
+            set { sortKind = value; }
+        }
+
+        /// <summary>
+        /// ソートの昇順・降順
+        /// </summary>
+        private Headline.SortScending sortScending = Headline.SortScending.Ascending;
+
+        /// <summary>
+        /// ソートの昇順・降順
+        /// </summary>
+        public Headline.SortScending SortScending
+        {
+            get { return sortScending; }
+            set { sortScending = value; }
+        }
 
         /// <summary>
         /// 親ヘッドライン
@@ -218,7 +341,124 @@ namespace PocketLadio.Stations.Netladio
                                 {
                                     alFilterWords.Add(reader.GetAttribute("word"));
                                 }
-                            } // End of Filter
+                            } // End of Word
+                            else if (reader.LocalName == "AboveBitRate")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string use = reader.GetAttribute("use");
+                                    if (use == bool.TrueString)
+                                    {
+                                        FilterAboveBitRateUse = true;
+                                    }
+                                    else if (use == bool.FalseString)
+                                    {
+                                        FilterAboveBitRateUse = false;
+                                    }
+
+                                    try
+                                    {
+                                        string bitRate = reader.GetAttribute("bitrate");
+                                        FilterAboveBitRate = int.Parse(bitRate);
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of AboveBitRate
+                            else if (reader.LocalName == "BelowBitRate")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string use = reader.GetAttribute("use");
+                                    if (use == bool.TrueString)
+                                    {
+                                        FilterBelowBitRateUse = true;
+                                    }
+                                    else if (use == bool.FalseString)
+                                    {
+                                        FilterBelowBitRateUse = false;
+                                    }
+
+                                    try
+                                    {
+                                        string bitRate = reader.GetAttribute("bitrate");
+                                        FilterBelowBitRate = int.Parse(bitRate);
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of BelowBitRate
+                            else if (reader.LocalName == "Sort")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string kind = reader.GetAttribute("kind");
+                                    if (kind == Headline.SortKind.None.ToString())
+                                    {
+                                        SortKind = Headline.SortKind.None;
+                                    }
+                                    else if (kind == Headline.SortKind.Nam.ToString())
+                                    {
+                                        SortKind = Headline.SortKind.Nam;
+                                    }
+                                    else if (kind == Headline.SortKind.Tims.ToString())
+                                    {
+                                        SortKind = Headline.SortKind.Tims;
+                                    }
+                                    else if (kind == Headline.SortKind.Cln.ToString())
+                                    {
+                                        SortKind = Headline.SortKind.Cln;
+                                    }
+                                    else if (kind == Headline.SortKind.Clns.ToString())
+                                    {
+                                        SortKind = Headline.SortKind.Clns;
+                                    }
+                                    else if (kind == Headline.SortKind.Bit.ToString())
+                                    {
+                                        SortKind = Headline.SortKind.Bit;
+                                    }
+                                    else
+                                    {
+                                        // ここに到達することはあり得ない
+                                        Trace.Assert(false, "想定外の動作のため、終了します");
+                                    }
+
+                                    string scending = reader.GetAttribute("scending");
+                                    if (scending == Headline.SortScending.Ascending.ToString())
+                                    {
+                                        SortScending = Headline.SortScending.Ascending;
+                                    }
+                                    else if (kind == Headline.SortScending.Descending.ToString())
+                                    {
+                                        SortScending = Headline.SortScending.Descending;
+                                    }
+                                    else
+                                    {
+                                        // ここに到達することはあり得ない
+                                        Trace.Assert(false, "想定外の動作のため、終了します");
+                                    }
+                                }
+                            } // End of Sort
                         } // End of Filterタグの中にいる場合
                     }
                     else if (reader.NodeType == XmlNodeType.EndElement)
@@ -299,12 +539,29 @@ namespace PocketLadio.Stations.Netladio
                 writer.WriteEndElement(); // End of HeadlineViewType
 
                 writer.WriteStartElement("Filter");
+                
                 foreach (string filterWord in GetFilterWords())
                 {
                     writer.WriteStartElement("Word");
                     writer.WriteAttributeString("word", filterWord);
                     writer.WriteEndElement(); // End of Word
                 }
+
+                writer.WriteStartElement("AboveBitRate");
+                writer.WriteAttributeString("use", FilterAboveBitRateUse.ToString());
+                writer.WriteAttributeString("bitrate", FilterAboveBitRate.ToString());
+                writer.WriteEndElement(); // End of AboveBitRate
+
+                writer.WriteStartElement("BelowBitRate");
+                writer.WriteAttributeString("use", FilterBelowBitRateUse.ToString());
+                writer.WriteAttributeString("bitrate", FilterBelowBitRate.ToString());
+                writer.WriteEndElement(); // End of BelowBitRate
+
+                writer.WriteStartElement("Sort");
+                writer.WriteAttributeString("kind", SortKind.ToString());
+                writer.WriteAttributeString("scending", SortScending.ToString());
+                writer.WriteEndElement(); // End of Sort
+
                 writer.WriteEndElement(); // End of Filter
 
                 writer.WriteEndElement(); // End of Content.

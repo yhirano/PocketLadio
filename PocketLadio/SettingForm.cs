@@ -365,7 +365,22 @@ namespace PocketLadio
             UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
             UserSetting.ProxyUse = proxyUseCheckBox.Checked;
             UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
-            UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
+            try
+            {
+                UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
 
             try
             {
@@ -396,31 +411,7 @@ namespace PocketLadio
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)
         {
-            try
-            {
-                // プロキシサーバ設定・プロキシポート設定のどちらかに何かが入力されている場合かつ、プロキシポートの設定が不正な場合
-                if ((proxyServerTextBox.Text.Trim().Length != 0 || proxyPortTextBox.Text.Trim().Length != 0)
-                    && (int.Parse(proxyPortTextBox.Text) < 0x00 || int.Parse(proxyPortTextBox.Text) > 0xFFFF))
-                {
-                    MessageBox.Show("プロキシのポート番号は0～65535で設定してください");
-                }
-                else
-                {
-                    this.Close();
-                }
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("プロキシのポート番号は0～65535で設定してください");
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("プロキシのポート番号は0～65535で設定してください");
-            }
-            catch (OverflowException)
-            {
-                MessageBox.Show("プロキシのポート番号は0～65535で設定してください");
-            }
+            this.Close();
         }
 
         private void CutMediaPlayeraPathMenuItem_Click(object sender, EventArgs e)

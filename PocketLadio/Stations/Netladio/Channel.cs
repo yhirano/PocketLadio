@@ -109,12 +109,12 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 現リスナ数
         /// </summary>
-        private string cln = "";
+        private int cln = -1;
 
         /// <summary>
         /// 現リスナ数
         /// </summary>
-        public string Cln
+        public int Cln
         {
             get { return cln; }
             set { cln = value; }
@@ -123,12 +123,12 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 延べリスナ数
         /// </summary>
-        private string clns = "";
+        private int clns = -1;
 
         /// <summary>
         /// 延べリスナ数
         /// </summary>
-        public string Clns
+        public int Clns
         {
             get { return clns; }
             set { clns = value; }
@@ -177,12 +177,12 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ビットレート
         /// </summary>
-        private string bit = "";
+        private int bit = -1;
 
         /// <summary>
         /// ビットレート
         /// </summary>
-        public string Bit
+        public int Bit
         {
             get { return bit; }
             set { bit = value; }
@@ -199,7 +199,7 @@ namespace PocketLadio.Stations.Netladio
         public virtual IHeadline ParentHeadline
         {
             get { return parentHeadline; }
-        } 
+        }
 
         /// <summary>
         /// チャンネルのコンストラクタ
@@ -281,13 +281,13 @@ namespace PocketLadio.Stations.Netladio
             string view = parentHeadline.HeadlineViewType;
             if (view.Length != 0)
             {
-                view = view.Replace("[[NAME]]", nam)
-                    .Replace("[[GENRE]]", gnl)
-                    .Replace("[[CLN]]", cln)
-                    .Replace("[[CLNS]]", clns)
-                    .Replace("[[TITLE]]", tit)
-                    .Replace("[[TIMES]]", tims.ToString())
-                    .Replace("[[BIT]]", bit);
+                view = view.Replace("[[NAME]]", Nam)
+                    .Replace("[[GENRE]]", Gnl)
+                    .Replace("[[CLN]]", Cln.ToString())
+                    .Replace("[[CLNS]]", Clns.ToString())
+                    .Replace("[[TITLE]]", Tit)
+                    .Replace("[[TIMES]]", Tims.ToString())
+                    .Replace("[[BIT]]", Bit.ToString());
             }
 
             return view;

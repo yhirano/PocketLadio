@@ -290,10 +290,17 @@ namespace PocketLadio.Stations.Netladio
             gnlLabel.Text = channel.Gnl.Trim();
             urlLabel.Text = ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "");
             timsLabel.Text = channel.Tims.ToString().Trim();
-            clnLabel.Text = channel.Cln.Trim() + " / " + channel.Clns.Trim();
-            if (channel.Bit.Length != 0)
+            if (channel.Cln >= 0)
             {
-                bitLabel.Text = channel.Bit.Trim() + " Kbps";
+                clnLabel.Text = channel.Cln.ToString();
+            }
+            if (channel.Clns >= 0)
+            {
+                clnLabel.Text += " / " + channel.Clns.ToString();
+            }
+            if (channel.Bit > 0)
+            {
+                bitLabel.Text = channel.Bit.ToString() + " Kbps";
             }
             else
             {

@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
+using System.Diagnostics;
 using PocketLadio.Stations;
 
 #endregion
@@ -49,6 +50,22 @@ namespace PocketLadio.Stations.Netladio
         public string HeadlineViewType
         {
             get { return setting.HeadlineViewType; }
+        }
+
+        /// <summary>
+        /// ソートの種類
+        /// </summary>
+        public enum SortKind
+        {
+            None, Nam, Tims, Cln, Clns, Bit
+        }
+
+        /// <summary>
+        /// ソートの昇順・降順
+        /// </summary>
+        public enum SortScending
+        {
+            Ascending, Descending
         }
 
         /// <summary>
@@ -130,11 +147,13 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
-            // フィルタが存在する場合
+            #region 単語フィルタ処理
+
+            ArrayList alChannels = new ArrayList();
+
+            // 単語フィルタが存在する場合
             if (setting.GetFilterWords().Length > 0)
             {
-                ArrayList alChannels = new ArrayList();
-
                 foreach (IChannel channel in GetChannels())
                 {
                     foreach (string filter in setting.GetFilterWords())
@@ -146,14 +165,103 @@ namespace PocketLadio.Stations.Netladio
                         }
                     }
                 }
-
-                return (IChannel[])alChannels.ToArray(typeof(IChannel));
             }
-            // フィルタが存在しない場合
+            // 単語フィルタが存在しない場合
             else
             {
-                return GetChannels();
+                alChannels.AddRange(GetChannels());
             }
+
+            #endregion
+
+            #region 最低ビットレートフィルタ処理
+
+            ArrayList alDeleteChannels = new ArrayList();
+
+            // 最低ビットレートフィルタが存在する場合
+            if (setting.FilterAboveBitRateUse == true)
+            {
+                // 削除する番組のリストを作成
+                foreach (Channel channel in alChannels)
+                {
+                    if (channel.Bit < setting.FilterAboveBitRate)
+                    {
+                        alDeleteChannels.Add(channel);
+                    }
+                }
+                // 番組を削除
+                foreach (Channel deleteChannel in alDeleteChannels)
+                {
+                    alChannels.Remove(deleteChannel);
+                }
+            }
+
+            #endregion
+
+            #region 最大ビットレートフィルタ処理
+
+            alDeleteChannels.Clear();
+
+            // 最大ビットレートフィルタが存在する場合
+            if (setting.FilterBelowBitRateUse == true)
+            {
+                foreach (Channel channel in alChannels)
+                {
+                    if (channel.Bit > setting.FilterBelowBitRate)
+                    {
+                        alDeleteChannels.Add(channel);
+                    }
+                }
+                // 番組を削除
+                foreach (Channel deleteChannel in alDeleteChannels)
+                {
+                    alChannels.Remove(deleteChannel);
+                }
+            }
+
+            #endregion
+
+            #region ソート処理
+
+            if (setting.SortKind == SortKind.None)
+            {
+                ;
+            }
+            else if (setting.SortKind == SortKind.Nam)
+            {
+                alChannels.Sort((IComparer)new ChannelNamComparer());
+
+            }
+            else if (setting.SortKind == SortKind.Tims)
+            {
+                alChannels.Sort((IComparer)new ChannelTimsComparer());
+            }
+            else if (setting.SortKind == SortKind.Cln)
+            {
+                alChannels.Sort((IComparer)new ChannelClnComparer());
+            }
+            else if (setting.SortKind == SortKind.Clns)
+            {
+                alChannels.Sort((IComparer)new ChannelClnsComparer());
+            }
+            else if (setting.SortKind == SortKind.Bit)
+            {
+                alChannels.Sort((IComparer)new ChannelBitComparer());
+            }
+            else {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+
+            // 降順の場合
+            if (setting.SortKind != SortKind.None && setting.SortScending == SortScending.Descending)
+            {
+                alChannels.Reverse();
+            }
+
+            #endregion
+
+            return (IChannel[])alChannels.ToArray(typeof(IChannel));
         }
 
         /// <summary>
@@ -279,11 +387,41 @@ namespace PocketLadio.Stations.Netladio
                         // Tims取得
                         channel.SetTims(channelCsv[6]);
 
-                        // Cln取得
-                        channel.Cln = channelCsv[7];
+                        try
+                        {
+                            // Cln取得
+                            channel.Cln = int.Parse(channelCsv[7]);
+                        }
+                        catch (ArgumentException)
+                        {
+                            ;
+                        }
+                        catch (FormatException)
+                        {
+                            ;
+                        }
+                        catch (OverflowException)
+                        {
+                            ;
+                        }
 
-                        // Clns取得
-                        channel.Clns = channelCsv[8];
+                        try
+                        {
+                            // Clns取得
+                            channel.Clns = int.Parse(channelCsv[8]);
+                        }
+                        catch (ArgumentException)
+                        {
+                            ;
+                        }
+                        catch (FormatException)
+                        {
+                            ;
+                        }
+                        catch (OverflowException)
+                        {
+                            ;
+                        }
 
                         // Srv取得
                         channel.Srv = channelCsv[9];
@@ -299,8 +437,23 @@ namespace PocketLadio.Stations.Netladio
 
                         if (channelCsv.Length >= 13)
                         {
-                            // Bit取得
-                            channel.Bit = channelCsv[12];
+                            try
+                            {
+                                // Bit取得
+                                channel.Bit = int.Parse(channelCsv[12]);
+                            }
+                            catch (ArgumentException)
+                            {
+                                ;
+                            }
+                            catch (FormatException)
+                            {
+                                ;
+                            }
+                            catch (OverflowException)
+                            {
+                                ;
+                            }
                         }
 
                         alChannels.Add(channel);
@@ -417,11 +570,41 @@ namespace PocketLadio.Stations.Netladio
                             } // End of tims
                             else if (reader.LocalName == "cln")
                             {
-                                channel.Cln = reader.ReadString();
+                                try
+                                {
+                                    channel.Cln = int.Parse(reader.ReadString());
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                                catch (OverflowException)
+                                {
+                                    ;
+                                }
                             } // End of cln
                             else if (reader.LocalName == "clns")
                             {
-                                channel.Clns = reader.ReadString();
+                                try
+                                {
+                                    channel.Clns = int.Parse(reader.ReadString());
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                                catch (OverflowException)
+                                {
+                                    ;
+                                }
                             } // End of clns
                             else if (reader.LocalName == "srv")
                             {
@@ -437,7 +620,22 @@ namespace PocketLadio.Stations.Netladio
                             } // End of typ
                             else if (reader.LocalName == "bit")
                             {
-                                channel.Bit = reader.ReadString();
+                                try
+                                {
+                                    channel.Bit = int.Parse(reader.ReadString());
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                                catch (OverflowException)
+                                {
+                                    ;
+                                }
                             } // End of bit
                         } // End of sourceタグの中にいる場合
                     }
@@ -511,6 +709,75 @@ namespace PocketLadio.Stations.Netladio
         public virtual void DeleteUserSettingFile()
         {
             setting.DeleteUserSettingFile();
+        }
+    }
+
+    /// <summary>
+    /// タイトルを比較
+    /// </summary>
+    public class ChannelNamComparer : IComparer
+    {
+        public int Compare(object object1, object object2)
+        {
+            return ((Channel)object1).Nam.CompareTo(((Channel)object2).Nam);
+        }
+    }
+
+    /// <summary>
+    /// 放送開始時間を比較
+    /// </summary>
+    public class ChannelTimsComparer : IComparer
+    {
+        public int Compare(object object1, object object2)
+        {
+            Channel channel1 = (Channel)object1;
+            Channel channel2 = (Channel)object2;
+
+            if (channel1.Tims > channel2.Tims)
+            {
+                return 1;
+            }
+            if (channel1.Tims == channel2.Tims)
+            {
+                return 0;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 現リスナ数を比較
+    /// </summary>
+    public class ChannelClnComparer : IComparer
+    {
+        public int Compare(object object1, object object2)
+        {
+            return ((Channel)object1).Cln - ((Channel)object2).Cln;
+        }
+    }
+
+    /// <summary>
+    /// 述べリスナ数を比較
+    /// </summary>
+    public class ChannelClnsComparer : IComparer
+    {
+        public int Compare(object object1, object object2)
+        {
+            return ((Channel)object1).Clns - ((Channel)object2).Clns;
+        }
+    }
+
+    /// <summary>
+    /// ビットレートを比較
+    /// </summary>
+    public class ChannelBitComparer : IComparer
+    {
+        public int Compare(object object1, object object2)
+        {
+            return ((Channel)object1).Bit - ((Channel)object2).Bit;
         }
     }
 }

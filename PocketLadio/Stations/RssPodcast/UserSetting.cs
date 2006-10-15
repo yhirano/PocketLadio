@@ -152,7 +152,7 @@ namespace PocketLadio.Stations.RssPodcast
                                 {
                                     alFilterWords.Add(reader.GetAttribute("word"));
                                 }
-                            } // End of Filter
+                            } // End of Word
                         } // End of FilterÉ^ÉOÇÃíÜÇ…Ç¢ÇÈèÍçá
                     }
                     else if (reader.NodeType == XmlNodeType.EndElement)
