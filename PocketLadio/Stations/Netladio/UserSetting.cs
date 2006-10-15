@@ -81,6 +81,11 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
+        /// 単語フィルター
+        /// </summary>
+        private String[] filterWords = new String[0];
+
+        /// <summary>
         /// 親ヘッドライン
         /// </summary>
         private readonly Headline parentHeadline;
@@ -92,6 +97,24 @@ namespace PocketLadio.Stations.Netladio
         public UserSetting(Headline parentHeadline)
         {
             this.parentHeadline = parentHeadline;
+        }
+
+        /// <summary>
+        /// 単語フィルターを返す
+        /// </summary>
+        /// <returns>単語フィルター</returns>
+        public string[] GetFilterWords()
+        {
+            return filterWords;
+        }
+
+        /// <summary>
+        /// 単語フィルターをセットする
+        /// </summary>
+        /// <param name="filterWord">単語フィルター</param>
+        public void SetFilterWords(string[] filterWord)
+        {
+            filterWords = filterWord;
         }
 
         /// <summary>
@@ -118,6 +141,11 @@ namespace PocketLadio.Stations.Netladio
             FileStream fs = null;
             XmlTextReader reader = null;
 
+            ArrayList alFilterWords = new ArrayList();
+
+            // Filterタグの中にいるか
+            bool inFilterFlag = false;
+
             try
             {
                 fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
@@ -127,7 +155,11 @@ namespace PocketLadio.Stations.Netladio
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.LocalName == "HeadlineCsvUrl")
+                        if (reader.LocalName == "Filter")
+                        {
+                            inFilterFlag = true;
+                        }
+                        else if (reader.LocalName == "HeadlineCsvUrl")
                         {
                             if (reader.MoveToFirstAttribute())
                             {
@@ -177,6 +209,25 @@ namespace PocketLadio.Stations.Netladio
                                 HeadlineViewType = reader.GetAttribute("type");
                             }
                         } // End of HeadlineViewType
+                        // Filterタグの中にいる場合
+                        else if (inFilterFlag == true)
+                        {
+                            if (reader.LocalName == "Word")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    alFilterWords.Add(reader.GetAttribute("word"));
+                                }
+                            } // End of Filter
+                        } // End of Filterタグの中にいる場合
+                    }
+                    else if (reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        if (reader.LocalName == "Filter")
+                        {
+                            inFilterFlag = false;
+                            SetFilterWords((string[])alFilterWords.ToArray(typeof(string)));
+                        }
                     }
                 }
             }
@@ -246,6 +297,15 @@ namespace PocketLadio.Stations.Netladio
                 writer.WriteStartElement("HeadlineViewType");
                 writer.WriteAttributeString("type", HeadlineViewType);
                 writer.WriteEndElement(); // End of HeadlineViewType
+
+                writer.WriteStartElement("Filter");
+                foreach (string filterWord in GetFilterWords())
+                {
+                    writer.WriteStartElement("Word");
+                    writer.WriteAttributeString("word", filterWord);
+                    writer.WriteEndElement(); // End of Word
+                }
+                writer.WriteEndElement(); // End of Filter
 
                 writer.WriteEndElement(); // End of Content.
 

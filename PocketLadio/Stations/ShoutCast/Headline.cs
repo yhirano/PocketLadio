@@ -169,33 +169,12 @@ namespace PocketLadio.Stations.ShoutCast
 
             try
             {
-                #region ビットレート対応表の読み込み
+                #region ヘッドライン取得数の設定可能値を読み込む
 
                 // 現在のコードを実行しているAssemblyを取得
                 System.Reflection.Assembly thisAssembly
                     = System.Reflection.Assembly.GetExecutingAssembly();
-                // 指定されたマニフェストリソースを読み込む
-                srMaxBitRate =
-                    new StreamReader(thisAssembly.GetManifestResourceStream(PocketLadioInfo.ShoutcastMaxBitRateSettingFile),
-                    Encoding.GetEncoding("shift-jis"));
 
-                // 内容を読み込む
-                string bitRateString = srMaxBitRate.ReadToEnd();
-
-                string[] maxBitRateRawArray = bitRateString.Split('\n');
-
-                foreach (string maxBitRateRaw in maxBitRateRawArray)
-                {
-                    if (maxBitRateRaw.Length != 0)
-                    {
-                        string[] maxBitRate = maxBitRateRaw.Split(',');
-                        UserSetting.MaxBitRateTable.Add(maxBitRate[0], maxBitRate[1].Trim());
-                    }
-                }
-
-                #endregion
-
-                #region ヘッドライン取得数の設定可能値を読み込む
                 // 指定されたマニフェストリソースを読み込む
                 srPerView =
                     new StreamReader(thisAssembly.GetManifestResourceStream(PocketLadioInfo.ShoutcastPerViewSettingFile),
@@ -256,6 +235,38 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
+        /// フィルタリングした番組の結果を返す
+        /// </summary>
+        /// <returns>フィルタリングした番組のリスト</returns>
+        public virtual IChannel[] GetChannelsFiltered()
+        {
+            // フィルタが存在する場合
+            if (setting.GetFilterWords().Length > 0)
+            {
+                ArrayList alChannels = new ArrayList();
+
+                foreach (IChannel channel in GetChannels())
+                {
+                    foreach (string filter in setting.GetFilterWords())
+                    {
+                        if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                        {
+                            alChannels.Add(channel);
+                            break;
+                        }
+                    }
+                }
+
+                return (IChannel[])alChannels.ToArray(typeof(IChannel));
+            }
+            // フィルタが存在しない場合
+            else
+            {
+                return GetChannels();
+            }
+        }
+
+        /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
         public virtual void FetchHeadline()
@@ -277,8 +288,7 @@ namespace PocketLadio.Stations.ShoutCast
                 searchWord = searchWord.Replace(' ', '+').Replace("　", "+");
 
                 string perView = ((setting.PerView.ToString().Length != 0) ? "&numresult=" + setting.PerView : "");
-                string maxBitRate = ((setting.MaxBitRate.Length != 0) ? "&bitrate=" + setting.MaxBitRate : "");
-                Uri url = new Uri(PocketLadioInfo.ShoutcastUrl + "/?" + searchWord + perView + maxBitRate);
+                Uri url = new Uri(PocketLadioInfo.ShoutcastUrl + "/?" + searchWord + perView);
 
                 st = PocketLadioUtility.GetWebStream(url);
 

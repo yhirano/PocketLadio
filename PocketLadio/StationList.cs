@@ -123,23 +123,9 @@ namespace PocketLadio
             }
 
             // フィルタが存在する場合
-            if (FilterEnable == true && UserSetting.GetFilterWords().Length > 0)
+            if (FilterEnable == true)
             {
-                ArrayList alChannels = new ArrayList();
-
-                foreach (IChannel channel in currentStation.Headline.GetChannels())
-                {
-                    foreach (string filter in UserSetting.GetFilterWords())
-                    {
-                        if (channel.GetFilteredWord().IndexOf(filter) != -1)
-                        {
-                            alChannels.Add(channel);
-                            break;
-                        }
-                    }
-                }
-
-                return (IChannel[])alChannels.ToArray(typeof(IChannel));
+                return currentStation.Headline.GetChannelsFiltered();
             }
             // フィルタが存在しない場合
             else

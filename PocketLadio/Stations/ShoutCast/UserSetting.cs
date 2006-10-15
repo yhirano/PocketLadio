@@ -31,49 +31,6 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
-        /// 最大ビットレートの設定テーブルのキー
-        /// </summary>
-        private string maxBitRateKey = "All";
-
-        /// <summary>
-        /// 最大ビットレートの設定テーブルのキー
-        /// </summary>
-        public string MaxBitRateKey
-        {
-            get { return maxBitRateKey; }
-            set { maxBitRateKey = value; }
-        }
-
-        /// <summary>
-        /// 最大ビットレートの設定テーブル。
-        /// key => 設定, value => ビットレート数値
-        /// </summary>
-        private static Hashtable maxBitRateTable =
-            new Hashtable(CaseInsensitiveHashCodeProvider.DefaultInvariant,
-            CaseInsensitiveComparer.DefaultInvariant);
-
-        /// <summary>
-        /// 最大ビットレートの設定テーブル。
-        /// key => 設定, value => ビットレート数値
-        /// </summary>
-        public static Hashtable MaxBitRateTable
-        {
-            get { return UserSetting.maxBitRateTable; }
-        }
-
-        /// <summary>
-        /// 最大ビットレート
-        /// </summary>
-        public string MaxBitRate
-        {
-            get
-            {
-                return ((maxBitRateTable.ContainsKey(maxBitRateKey) == true) ?
-                    (string)maxBitRateTable[maxBitRateKey] : "");
-            }
-        }
-
-        /// <summary>
         /// ヘッドライン取得数
         /// </summary>
         private string perView = "10";
@@ -138,18 +95,23 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
-        /// ねとらじヘッドラインの表示方法
+        /// Shoutcastヘッドラインの表示方法
         /// </summary>
         private string headlineViewType = "[[RANK]] [[TITLE]]";
 
         /// <summary>
-        /// ねとらじヘッドラインの表示方法
+        /// Shoutcastヘッドラインの表示方法
         /// </summary>
         public string HeadlineViewType
         {
             get { return headlineViewType; }
             set { headlineViewType = value; }
         }
+
+        /// <summary>
+        /// 単語フィルター
+        /// </summary>
+        private String[] filterWords = new String[0];
 
         /// <summary>
         /// 親ヘッドライン
@@ -166,7 +128,25 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
-        /// ねとらじの設定ファイルの保存場所を返す
+        /// 単語フィルターを返す
+        /// </summary>
+        /// <returns>単語フィルター</returns>
+        public string[] GetFilterWords()
+        {
+            return filterWords;
+        }
+
+        /// <summary>
+        /// 単語フィルターをセットする
+        /// </summary>
+        /// <param name="filterWord">単語フィルター</param>
+        public void SetFilterWords(string[] filterWord)
+        {
+            filterWords = filterWord;
+        }
+
+        /// <summary>
+        /// Shoutcastの設定ファイルの保存場所を返す
         /// </summary>
         /// <returns>設定ファイルの保存場所</returns>
         private string GetSettingPath()
@@ -176,7 +156,7 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
-        /// ねとらじの設定をファイルから読み込む
+        /// Shoutcastの設定をファイルから読み込む
         /// </summary>
         public void LoadSetting()
         {
@@ -194,24 +174,26 @@ namespace PocketLadio.Stations.ShoutCast
                 fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
                 reader = new XmlTextReader(fs);
 
+                ArrayList alFilterWords = new ArrayList();
+
+                // Filterタグの中にいるか
+                bool inFilterFlag = false;
+
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.LocalName == "SearchWord")
+                        if (reader.LocalName == "Filter")
+                        {
+                            inFilterFlag = true;
+                        }
+                        else if (reader.LocalName == "SearchWord")
                         {
                             if (reader.MoveToFirstAttribute())
                             {
                                 SearchWord = reader.GetAttribute("word");
                             }
                         } // End of SearchWord
-                        else if (reader.LocalName == "MaxBitRate")
-                        {
-                            if (reader.MoveToFirstAttribute())
-                            {
-                                maxBitRateKey = reader.GetAttribute("key");
-                            }
-                        } // End of MaxBitRate
                         else if (reader.LocalName == "PerView")
                         {
                             if (reader.MoveToFirstAttribute())
@@ -267,6 +249,25 @@ namespace PocketLadio.Stations.ShoutCast
                                 HeadlineViewType = reader.GetAttribute("type");
                             }
                         } // End of HeadlineViewType
+                        // Filterタグの中にいる場合
+                        else if (inFilterFlag == true)
+                        {
+                            if (reader.LocalName == "Word")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    alFilterWords.Add(reader.GetAttribute("word"));
+                                }
+                            } // End of Filter
+                        } // End of Filterタグの中にいる場合
+                    }
+                    else if (reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        if (reader.LocalName == "Filter")
+                        {
+                            inFilterFlag = false;
+                            SetFilterWords((string[])alFilterWords.ToArray(typeof(string)));
+                        }
                     }
                 }
             }
@@ -287,7 +288,7 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
-        /// ねとらじの設定をファイルに保存
+        /// Shoutcastの設定をファイルに保存
         /// </summary>
         public void SaveSetting()
         {
@@ -325,10 +326,6 @@ namespace PocketLadio.Stations.ShoutCast
                 writer.WriteAttributeString("word", SearchWord);
                 writer.WriteEndElement(); // End of SearchWord
 
-                writer.WriteStartElement("MaxBitRate");
-                writer.WriteAttributeString("key", maxBitRateKey);
-                writer.WriteEndElement(); // End of MaxBitRate
-
                 writer.WriteStartElement("PerView");
                 writer.WriteAttributeString("view", perView);
                 writer.WriteEndElement(); // End of PerView
@@ -341,6 +338,15 @@ namespace PocketLadio.Stations.ShoutCast
                 writer.WriteStartElement("HeadlineViewType");
                 writer.WriteAttributeString("type", HeadlineViewType);
                 writer.WriteEndElement(); // End of HeadlineViewType
+
+                writer.WriteStartElement("Filter");
+                foreach (string filterWord in GetFilterWords())
+                {
+                    writer.WriteStartElement("Word");
+                    writer.WriteAttributeString("word", filterWord);
+                    writer.WriteEndElement(); // End of Word
+                }
+                writer.WriteEndElement(); // End of Filter
 
                 writer.WriteEndElement(); // End of Content.
 

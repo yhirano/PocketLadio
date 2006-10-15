@@ -22,7 +22,6 @@ namespace PocketLadio
     {
         private MenuItem menuMenuItem;
         private MenuItem headlineCheckTimerMenuItem;
-        private MenuItem filterSettingMenuItem;
         private MenuItem stationSettingMenuItem;
         private MenuItem versionInfoMenuItem;
         private MenuItem separateMenuItem1;
@@ -83,7 +82,6 @@ namespace PocketLadio
             this.separateMenuItem1 = new System.Windows.Forms.MenuItem();
             this.stationsSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.stationSettingMenuItem = new System.Windows.Forms.MenuItem();
-            this.filterSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem2 = new System.Windows.Forms.MenuItem();
             this.pocketLadioSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem3 = new System.Windows.Forms.MenuItem();
@@ -112,7 +110,6 @@ namespace PocketLadio
             this.menuMenuItem.MenuItems.Add(this.separateMenuItem1);
             this.menuMenuItem.MenuItems.Add(this.stationsSettingMenuItem);
             this.menuMenuItem.MenuItems.Add(this.stationSettingMenuItem);
-            this.menuMenuItem.MenuItems.Add(this.filterSettingMenuItem);
             this.menuMenuItem.MenuItems.Add(this.separateMenuItem2);
             this.menuMenuItem.MenuItems.Add(this.pocketLadioSettingMenuItem);
             this.menuMenuItem.MenuItems.Add(this.separateMenuItem3);
@@ -138,11 +135,6 @@ namespace PocketLadio
             // stationSettingMenuItem
             // 
             this.stationSettingMenuItem.Text = "放送局の設定(&S)";
-            // 
-            // filterSettingMenuItem
-            // 
-            this.filterSettingMenuItem.Text = "フィルターの追加と削除(&F)";
-            this.filterSettingMenuItem.Click += new System.EventHandler(this.FilterSettingMenuItem_Click);
             // 
             // separateMenuItem2
             // 
@@ -645,13 +637,6 @@ namespace PocketLadio
             VersionInfoForm versionInfoForm = new VersionInfoForm();
             versionInfoForm.ShowDialog();
             versionInfoForm.Dispose();
-        }
-
-        private void FilterSettingMenuItem_Click(object sender, System.EventArgs e)
-        {
-            FilterSettingForm filterSettingForm = new FilterSettingForm();
-            filterSettingForm.ShowDialog();
-            filterSettingForm.Dispose();
         }
 
         private void UpdateButton_Click(object sender, System.EventArgs e)

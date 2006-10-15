@@ -153,11 +153,6 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// 検索フィルター
-        /// </summary>
-        private static string[] filterWords = new string[0];
-
-        /// <summary>
         /// アプリケーションの設定ファイルの保存場所
         /// </summary>
         private static string SettingPath
@@ -177,24 +172,6 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// 検索フィルターを返す
-        /// </summary>
-        /// <returns>検索フィルター</returns>
-        public static string[] GetFilterWords()
-        {
-            return UserSetting.filterWords;
-        }
-
-        /// <summary>
-        /// 検索フィルターをセットする
-        /// </summary>
-        /// <param name="filterWord">検索フィルター</param>
-        public static void SetFilterWords(string[] filterWord)
-        {
-            UserSetting.filterWords = filterWord;
-        }
-
-        /// <summary>
         /// 設定をファイルから読み込む
         /// </summary>
         public static void LoadSetting()
@@ -209,13 +186,10 @@ namespace PocketLadio
                     fs = new FileStream(SettingPath, FileMode.Open, FileAccess.Read);
                     reader = new XmlTextReader(fs);
 
-                    ArrayList alFilterWords = new ArrayList();
                     ArrayList alStation = new ArrayList();
 
                     // StationListタグの中にいるか
                     bool inStationListFlag = false;
-                    // FilterWordsタグの中にいるか
-                    bool inFilterWordsFlag = false;
 
                     while (reader.Read())
                     {
@@ -224,9 +198,6 @@ namespace PocketLadio
                             if (reader.LocalName == "StationList") {
                                 inStationListFlag = true;
                             } // End of StationList
-                            else if (reader.LocalName == "FilterWords") {
-                                inFilterWordsFlag = true;
-                            }
                             // StationListタグの中にいる場合
                             else if (inStationListFlag == true)
                             {
@@ -337,18 +308,6 @@ namespace PocketLadio
                                     }
                                 }
                             } // End of HeadlineTimer
-                            // FilterWordsタグの中にいる場合
-                            else if (inFilterWordsFlag == true)
-                            {
-                                if (reader.LocalName == "Filter")
-                                {
-                                    if (reader.MoveToFirstAttribute())
-                                    {
-                                        alFilterWords.Add(reader.GetAttribute("word"));
-                                    }
-                                } // End of Filter
-                            } // End of FilterWordsタグの中にいる場合
-
                         }
                         else if (reader.NodeType == XmlNodeType.EndElement)
                         {
@@ -356,11 +315,6 @@ namespace PocketLadio
                             {
                                 inStationListFlag = false;
                                 StationList.SetStationList((Station[])alStation.ToArray(typeof(Station)));
-                            }
-                            else if (reader.LocalName == "FilterWords")
-                            {
-                                inFilterWordsFlag = false;
-                                SetFilterWords((string[])alFilterWords.ToArray(typeof(string)));
                             }
                         }
                     }
@@ -445,15 +399,6 @@ namespace PocketLadio
                 writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
                 writer.WriteAttributeString("millsecond", HeadlineTimerMillSecond.ToString());
                 writer.WriteEndElement(); // End of HeadlineTimer
-
-                writer.WriteStartElement("FilterWords");
-                foreach (string filterWord in GetFilterWords())
-                {
-                    writer.WriteStartElement("Filter");
-                    writer.WriteAttributeString("word", filterWord);
-                    writer.WriteEndElement(); // End of Filter
-                }
-                writer.WriteEndElement(); // End of FilterWords
 
                 writer.WriteEndElement(); // End of Content.
 

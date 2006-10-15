@@ -35,6 +35,12 @@ namespace PocketLadio.Stations
         IChannel[] GetChannels();
 
         /// <summary>
+        /// フィルタリングした番組の結果を返す
+        /// </summary>
+        /// <returns>フィルタリングした番組のリスト</returns>
+        IChannel[] GetChannelsFiltered();
+
+        /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
         void FetchHeadline();

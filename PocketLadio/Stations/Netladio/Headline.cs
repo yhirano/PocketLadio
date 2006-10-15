@@ -125,6 +125,38 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
+        /// フィルタリングした番組の結果を返す
+        /// </summary>
+        /// <returns>フィルタリングした番組のリスト</returns>
+        public virtual IChannel[] GetChannelsFiltered()
+        {
+            // フィルタが存在する場合
+            if (setting.GetFilterWords().Length > 0)
+            {
+                ArrayList alChannels = new ArrayList();
+
+                foreach (IChannel channel in GetChannels())
+                {
+                    foreach (string filter in setting.GetFilterWords())
+                    {
+                        if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                        {
+                            alChannels.Add(channel);
+                            break;
+                        }
+                    }
+                }
+
+                return (IChannel[])alChannels.ToArray(typeof(IChannel));
+            }
+            // フィルタが存在しない場合
+            else
+            {
+                return GetChannels();
+            }
+        }
+
+        /// <summary>
         /// ヘッドラインをネットから取得する
         /// </summary>
         public virtual void FetchHeadline()
