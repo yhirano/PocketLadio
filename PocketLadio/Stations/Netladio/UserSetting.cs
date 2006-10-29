@@ -264,15 +264,15 @@ namespace PocketLadio.Stations.Netladio
             FileStream fs = null;
             XmlTextReader reader = null;
 
-            ArrayList alFilterWords = new ArrayList();
-
-            // Filterタグの中にいるか
-            bool inFilterFlag = false;
-
             try
             {
                 fs = new FileStream(GetSettingPath(), FileMode.Open, FileAccess.Read);
                 reader = new XmlTextReader(fs);
+
+                ArrayList alFilterWords = new ArrayList();
+
+                // Filterタグの中にいるか
+                bool inFilterFlag = false;
 
                 while (reader.Read())
                 {
@@ -451,11 +451,6 @@ namespace PocketLadio.Stations.Netladio
                                     else if (scending == Headline.SortScending.Descending.ToString())
                                     {
                                         SortScending = Headline.SortScending.Descending;
-                                    }
-                                    else
-                                    {
-                                        // ここに到達することはあり得ない
-                                        Trace.Assert(false, "想定外の動作のため、終了します");
                                     }
                                 }
                             } // End of Sort

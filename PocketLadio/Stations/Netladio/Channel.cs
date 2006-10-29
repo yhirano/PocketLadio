@@ -287,7 +287,7 @@ namespace PocketLadio.Stations.Netladio
                     .Replace("[[CLNS]]", ((Clns >= 0) ? Clns.ToString() : "na"))
                     .Replace("[[TITLE]]", Tit)
                     .Replace("[[TIMES]]", Tims.ToString())
-                    .Replace("[[BIT]]", Bit.ToString());
+                    .Replace("[[BIT]]", ((Bit > 0) ? Bit.ToString() : "na"));
             }
 
             return view;

@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Diagnostics;
 using PocketLadio.Stations;
 using MiscPocketCompactLibrary.Net;
 
@@ -51,6 +52,22 @@ namespace PocketLadio.Stations.ShoutCast
         public string HeadlineViewType
         {
             get { return setting.HeadlineViewType; }
+        }
+
+        /// <summary>
+        /// ソートの種類
+        /// </summary>
+        public enum SortKind
+        {
+            None, Title, Listener, BitRate
+        }
+
+        /// <summary>
+        /// ソートの昇順・降順
+        /// </summary>
+        public enum SortScending
+        {
+            Ascending, Descending
         }
 
 		#region HTML解析用正規表現
@@ -240,11 +257,13 @@ namespace PocketLadio.Stations.ShoutCast
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
-            // フィルタが存在する場合
+            ArrayList alChannels = new ArrayList();
+
+            #region 単語フィルタ処理
+
+            // 単語フィルタが存在する場合
             if (setting.GetFilterWords().Length > 0)
             {
-                ArrayList alChannels = new ArrayList();
-
                 foreach (IChannel channel in GetChannels())
                 {
                     foreach (string filter in setting.GetFilterWords())
@@ -256,14 +275,97 @@ namespace PocketLadio.Stations.ShoutCast
                         }
                     }
                 }
-
-                return (IChannel[])alChannels.ToArray(typeof(IChannel));
             }
-            // フィルタが存在しない場合
+            // 単語フィルタが存在しない場合
             else
             {
-                return GetChannels();
+                alChannels.AddRange(GetChannels());
             }
+
+            #endregion
+
+            #region 最低ビットレートフィルタ処理
+
+            ArrayList alDeleteChannels = new ArrayList();
+
+            // 最低ビットレートフィルタが存在する場合
+            if (setting.FilterAboveBitRateUse == true)
+            {
+                // 削除する番組のリストを作成
+                foreach (Channel channel in alChannels)
+                {
+                    if (0 < channel.BitRate && channel.BitRate < setting.FilterAboveBitRate)
+                    {
+                        alDeleteChannels.Add(channel);
+                    }
+                }
+                // 番組を削除
+                foreach (Channel deleteChannel in alDeleteChannels)
+                {
+                    alChannels.Remove(deleteChannel);
+                }
+            }
+
+            #endregion
+
+
+            #region 最大ビットレートフィルタ処理
+
+            alDeleteChannels.Clear();
+
+            // 最大ビットレートフィルタが存在する場合
+            if (setting.FilterBelowBitRateUse == true)
+            {
+                foreach (Channel channel in alChannels)
+                {
+                    if (channel.BitRate > setting.FilterBelowBitRate)
+                    {
+                        alDeleteChannels.Add(channel);
+                    }
+                }
+                // 番組を削除
+                foreach (Channel deleteChannel in alDeleteChannels)
+                {
+                    alChannels.Remove(deleteChannel);
+                }
+            }
+
+            #endregion
+
+            #region ソート処理
+
+            if (setting.SortKind == SortKind.None)
+            {
+                ;
+            }
+            else if (setting.SortKind == SortKind.Title)
+            {
+                alChannels.Sort((IComparer)new ChannelTitleComparer());
+
+            }
+            else if (setting.SortKind == SortKind.Listener)
+            {
+                alChannels.Sort((IComparer)new ChannelListenerComparer());
+            }
+            else if (setting.SortKind == SortKind.BitRate)
+            {
+                alChannels.Sort((IComparer)new ChannelBitRateComparer());
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+
+            // 降順の場合
+            if (setting.SortKind != SortKind.None && setting.SortScending == SortScending.Descending)
+            {
+                alChannels.Reverse();
+            }
+
+            #endregion
+
+            return (IChannel[])alChannels.ToArray(typeof(IChannel));
         }
 
         /// <summary>
@@ -405,7 +507,22 @@ namespace PocketLadio.Stations.ShoutCast
                             }
 
                         }
-                        channel.Listener = listenerMatch.Groups[1].Value;
+                        try
+                        {
+                            channel.Listener = int.Parse(listenerMatch.Groups[1].Value);
+                        }
+                        catch (ArgumentException)
+                        {
+                            ;
+                        }
+                        catch (FormatException)
+                        {
+                            ;
+                        }
+                        catch (OverflowException)
+                        {
+                            ;
+                        }
 
                         /*** Bitrateを検索 ***/
                         Match bitrateMatch;
@@ -418,8 +535,23 @@ namespace PocketLadio.Stations.ShoutCast
                             // Bitrateが見つかった場合
                             if (bitrateMatch.Success)
                             {
-                                channel.BitRate = bitrateMatch.Groups[1].Value;
-                                break;
+                                try
+                                {
+                                    channel.BitRate = int.Parse(bitrateMatch.Groups[1].Value);
+                                    break;
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                                catch (OverflowException)
+                                {
+                                    ;
+                                }
                             }
                         }
                         alChannels.Add(channel);
@@ -505,5 +637,41 @@ namespace PocketLadio.Stations.ShoutCast
         {
             setting.DeleteUserSettingFile();
         }
+
+        #region ソート用比較クラス
+
+        /// <summary>
+        /// タイトルを比較
+        /// </summary>
+        class ChannelTitleComparer : IComparer
+        {
+            public int Compare(object object1, object object2)
+            {
+                return ((Channel)object1).Title.CompareTo(((Channel)object2).Title);
+            }
+        }
+
+        /// <summary>
+        /// リスナ数を比較
+        /// </summary>
+        class ChannelListenerComparer : IComparer
+        {
+            public int Compare(object object1, object object2)
+            {
+                return ((Channel)object1).Listener - ((Channel)object2).Listener;
+            }
+        }
+        /// <summary>
+        /// ビットレートを比較
+        /// </summary>
+        class ChannelBitRateComparer : IComparer
+        {
+            public int Compare(object object1, object object2)
+            {
+                return ((Channel)object1).BitRate - ((Channel)object2).BitRate;
+            }
+        }
+
+        #endregion
     }
 }

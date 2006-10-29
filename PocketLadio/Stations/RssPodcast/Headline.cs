@@ -134,7 +134,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
-            // フィルタが存在する場合
+            // 単語フィルタが存在する場合
             if (setting.GetFilterWords().Length > 0)
             {
                 ArrayList alChannels = new ArrayList();
@@ -153,7 +153,7 @@ namespace PocketLadio.Stations.RssPodcast
 
                 return (IChannel[])alChannels.ToArray(typeof(IChannel));
             }
-            // フィルタが存在しない場合
+            // 単語フィルタが存在しない場合
             else
             {
                 return GetChannels();

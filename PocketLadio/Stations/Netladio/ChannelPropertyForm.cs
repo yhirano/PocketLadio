@@ -302,10 +302,6 @@ namespace PocketLadio.Stations.Netladio
             {
                 bitLabel.Text = channel.Bit.ToString() + " Kbps";
             }
-            else
-            {
-                bitLabel.Text = "Unknown";
-            }
         }
 
         private void PlayButton_Click(object sender, System.EventArgs e)

@@ -290,14 +290,13 @@ namespace PocketLadio.Stations.ShoutCast
             categoryLabel.Text = channel.Category.Trim();
             clusterUrlLabel.Text = ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "");
             playingLabel.Text = channel.Playing.Trim();
-            listenerLabel.Text = channel.Listener.Trim();
-            if (channel.BitRate.Length != 0)
+            if (channel.Listener >= 0)
             {
-                bitRateLabel.Text = channel.BitRate.Trim() + " Kbps";
+                listenerLabel.Text = channel.Listener.ToString();
             }
-            else
+            if (channel.BitRate > 0)
             {
-                bitRateLabel.Text = "Unknown";
+                bitRateLabel.Text = channel.BitRate.ToString() + " Kbps";
             }
         }
 

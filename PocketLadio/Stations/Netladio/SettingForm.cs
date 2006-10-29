@@ -62,7 +62,7 @@ namespace PocketLadio.Stations.Netladio
         private TextBox filterBelowBitRateTextBox;
         private Label sortLabel;
         private ComboBox sortKindComboBox;
-        private Panel panel1;
+        private Panel sortScendingPanel;
         private RadioButton sortDescendingRadioButton;
         private RadioButton sortAscendingRadioButton;
 
@@ -133,17 +133,17 @@ namespace PocketLadio.Stations.Netladio
             this.copyAddWordMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteAddWordMenuItem = new System.Windows.Forms.MenuItem();
             this.filter2TabPage = new System.Windows.Forms.TabPage();
+            this.sortScendingPanel = new System.Windows.Forms.Panel();
+            this.sortDescendingRadioButton = new System.Windows.Forms.RadioButton();
+            this.sortAscendingRadioButton = new System.Windows.Forms.RadioButton();
+            this.sortKindComboBox = new System.Windows.Forms.ComboBox();
+            this.sortLabel = new System.Windows.Forms.Label();
             this.filterBelowBitRateLabel = new System.Windows.Forms.Label();
             this.filterBelowBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterBelowBitRateTextBox = new System.Windows.Forms.TextBox();
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
-            this.sortLabel = new System.Windows.Forms.Label();
-            this.sortKindComboBox = new System.Windows.Forms.ComboBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.sortAscendingRadioButton = new System.Windows.Forms.RadioButton();
-            this.sortDescendingRadioButton = new System.Windows.Forms.RadioButton();
             // 
             // mainMenu
             // 
@@ -374,7 +374,7 @@ namespace PocketLadio.Stations.Netladio
             // 
             // filter2TabPage
             // 
-            this.filter2TabPage.Controls.Add(this.panel1);
+            this.filter2TabPage.Controls.Add(this.sortScendingPanel);
             this.filter2TabPage.Controls.Add(this.sortKindComboBox);
             this.filter2TabPage.Controls.Add(this.sortLabel);
             this.filter2TabPage.Controls.Add(this.filterBelowBitRateLabel);
@@ -386,6 +386,43 @@ namespace PocketLadio.Stations.Netladio
             this.filter2TabPage.Location = new System.Drawing.Point(0, 0);
             this.filter2TabPage.Size = new System.Drawing.Size(240, 245);
             this.filter2TabPage.Text = "フィルター設定2";
+            // 
+            // sortScendingPanel
+            // 
+            this.sortScendingPanel.Controls.Add(this.sortDescendingRadioButton);
+            this.sortScendingPanel.Controls.Add(this.sortAscendingRadioButton);
+            this.sortScendingPanel.Location = new System.Drawing.Point(66, 149);
+            this.sortScendingPanel.Size = new System.Drawing.Size(171, 28);
+            // 
+            // sortDescendingRadioButton
+            // 
+            this.sortDescendingRadioButton.Location = new System.Drawing.Point(88, 3);
+            this.sortDescendingRadioButton.Size = new System.Drawing.Size(79, 20);
+            this.sortDescendingRadioButton.Text = "降順";
+            // 
+            // sortAscendingRadioButton
+            // 
+            this.sortAscendingRadioButton.Checked = true;
+            this.sortAscendingRadioButton.Location = new System.Drawing.Point(3, 3);
+            this.sortAscendingRadioButton.Size = new System.Drawing.Size(79, 20);
+            this.sortAscendingRadioButton.Text = "昇順";
+            // 
+            // sortKindComboBox
+            // 
+            this.sortKindComboBox.Items.Add("並び替えしない");
+            this.sortKindComboBox.Items.Add("タイトル");
+            this.sortKindComboBox.Items.Add("放送開始日時");
+            this.sortKindComboBox.Items.Add("現リスナ数");
+            this.sortKindComboBox.Items.Add("総リスナ数");
+            this.sortKindComboBox.Items.Add("ビットレート");
+            this.sortKindComboBox.Location = new System.Drawing.Point(66, 121);
+            this.sortKindComboBox.Size = new System.Drawing.Size(171, 22);
+            // 
+            // sortLabel
+            // 
+            this.sortLabel.Location = new System.Drawing.Point(3, 121);
+            this.sortLabel.Size = new System.Drawing.Size(57, 20);
+            this.sortLabel.Text = "並び替え";
             // 
             // filterBelowBitRateLabel
             // 
@@ -421,43 +458,6 @@ namespace PocketLadio.Stations.Netladio
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
-            // sortLabel
-            // 
-            this.sortLabel.Location = new System.Drawing.Point(3, 121);
-            this.sortLabel.Size = new System.Drawing.Size(57, 20);
-            this.sortLabel.Text = "並び替え";
-            // 
-            // sortKindComboBox
-            // 
-            this.sortKindComboBox.Items.Add("並び替えしない");
-            this.sortKindComboBox.Items.Add("タイトル");
-            this.sortKindComboBox.Items.Add("放送開始日時");
-            this.sortKindComboBox.Items.Add("現リスナ数");
-            this.sortKindComboBox.Items.Add("総リスナ数");
-            this.sortKindComboBox.Items.Add("ビットレート");
-            this.sortKindComboBox.Location = new System.Drawing.Point(66, 121);
-            this.sortKindComboBox.Size = new System.Drawing.Size(171, 22);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.sortDescendingRadioButton);
-            this.panel1.Controls.Add(this.sortAscendingRadioButton);
-            this.panel1.Location = new System.Drawing.Point(66, 149);
-            this.panel1.Size = new System.Drawing.Size(171, 28);
-            // 
-            // sortAscendingRadioButton
-            // 
-            this.sortAscendingRadioButton.Checked = true;
-            this.sortAscendingRadioButton.Location = new System.Drawing.Point(3, 3);
-            this.sortAscendingRadioButton.Size = new System.Drawing.Size(79, 20);
-            this.sortAscendingRadioButton.Text = "昇順";
-            // 
-            // sortDescendingRadioButton
-            // 
-            this.sortDescendingRadioButton.Location = new System.Drawing.Point(88, 3);
-            this.sortDescendingRadioButton.Size = new System.Drawing.Size(79, 20);
-            this.sortDescendingRadioButton.Text = "降順";
-            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -473,7 +473,8 @@ namespace PocketLadio.Stations.Netladio
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
-            // 設定の読み込み
+            #region 設定の読み込み
+
             headlineCsvUrlTextBox.Text = ((setting.HeadlineCsvUrl != null) ? setting.HeadlineCsvUrl.ToString() : "");
             headlineXmlUrlTextBox.Text = ((setting.HeadlineXmlUrl != null) ? setting.HeadlineXmlUrl.ToString() : "");
             if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
@@ -488,7 +489,7 @@ namespace PocketLadio.Stations.Netladio
             }
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
-            // フィルターリストにフィルタの内容を追加する
+            // フィルターリストに単語フィルタの内容を追加する
             foreach (string word in setting.GetFilterWords())
             {
                 filterListBox.Items.Add(word);
@@ -546,11 +547,13 @@ namespace PocketLadio.Stations.Netladio
                 // ここに到達することはあり得ない
                 Trace.Assert(false, "想定外の動作のため、終了します");
             }
+
+            #endregion
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // フィルターを追加し忘れていると思われる場合
+            // 単語フィルターを追加し忘れていると思われる場合
             if (addWordTextBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
@@ -564,7 +567,10 @@ namespace PocketLadio.Stations.Netladio
                 }
             }
 
-            // 設定の書き込み
+            #region 設定の書き込み
+
+            #region ヘッドライン取得URLの書き込み
+
             try
             {
                 setting.HeadlineCsvUrl = new Uri(headlineCsvUrlTextBox.Text.Trim());
@@ -574,14 +580,6 @@ namespace PocketLadio.Stations.Netladio
                 ;
             }
 
-            ArrayList alFilterWord = new ArrayList();
-            IEnumerator filterEnumerator = filterListBox.Items.GetEnumerator();
-            while (filterEnumerator.MoveNext())
-            {
-                alFilterWord.Add(((string)filterEnumerator.Current).Trim());
-            }
-            setting.SetFilterWords((string[])alFilterWord.ToArray(typeof(string)));
-
             try
             {
                 setting.HeadlineXmlUrl = new Uri(headlineXmlUrlTextBox.Text.Trim());
@@ -590,6 +588,11 @@ namespace PocketLadio.Stations.Netladio
             {
                 ;
             }
+
+            #endregion
+
+            #region ヘッドライン取得方法の書き込み
+
             if (headlineGetWayCvsRadioButton.Checked)
             {
                 setting.HeadlineGetWay = UserSetting.HeadlineGetType.Cvs;
@@ -604,6 +607,22 @@ namespace PocketLadio.Stations.Netladio
                 Trace.Assert(false, "想定外の動作のため、終了します");
             }
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
+
+            #endregion
+
+            #region 単語フィルターの書き込み
+
+            ArrayList alFilterWord = new ArrayList();
+            IEnumerator filterEnumerator = filterListBox.Items.GetEnumerator();
+            while (filterEnumerator.MoveNext())
+            {
+                alFilterWord.Add(((string)filterEnumerator.Current).Trim());
+            }
+            setting.SetFilterWords((string[])alFilterWord.ToArray(typeof(string)));
+
+            #endregion
+
+            #region ビットレートフィルターの有効・無効設定書き込み
 
             setting.FilterAboveBitRateUse = filterAboveBitRateUseCheckBox.Checked;
             try
@@ -641,28 +660,31 @@ namespace PocketLadio.Stations.Netladio
                 ;
             }
 
-            // ソート種類を書き込む
-            if (sortKindComboBox.SelectedIndex == 0)
+            #endregion
+
+            #region ソート種類を書き込み
+
+            if (sortKindComboBox.Text.Trim() == "並び替えしない")
             {
                 setting.SortKind = Headline.SortKind.None;
             }
-            else if (sortKindComboBox.SelectedIndex == 1)
+            else if (sortKindComboBox.Text.Trim() == "タイトル")
             {
                 setting.SortKind = Headline.SortKind.Nam;
             }
-            else if (sortKindComboBox.SelectedIndex == 2)
+            else if (sortKindComboBox.Text.Trim() == "放送開始日時")
             {
                 setting.SortKind = Headline.SortKind.Tims;
             }
-            else if (sortKindComboBox.SelectedIndex == 3)
+            else if (sortKindComboBox.Text.Trim() == "現リスナ数")
             {
                 setting.SortKind = Headline.SortKind.Cln;
             }
-            else if (sortKindComboBox.SelectedIndex == 4)
+            else if (sortKindComboBox.Text.Trim() == "総リスナ数")
             {
                 setting.SortKind = Headline.SortKind.Clns;
             }
-            else if (sortKindComboBox.SelectedIndex == 5)
+            else if (sortKindComboBox.Text.Trim() == "ビットレート")
             {
                 setting.SortKind = Headline.SortKind.Bit;
             }
@@ -686,6 +708,8 @@ namespace PocketLadio.Stations.Netladio
                 Trace.Assert(false, "想定外の動作のため、終了します");
             }
 
+            #endregion
+
             try
             {
                 setting.SaveSetting();
@@ -694,6 +718,8 @@ namespace PocketLadio.Stations.Netladio
             {
                 MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }
+
+            #endregion
         }
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)

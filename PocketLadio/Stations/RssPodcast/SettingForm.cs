@@ -304,20 +304,23 @@ namespace PocketLadio.Stations.RssPodcast
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
-            // 設定の読み込み
+            #region 設定の読み込み
+
             rssUrlTextBox.Text = ((setting.RssUrl != null) ? setting.RssUrl.ToString() : "");
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
-            // フィルターリストにフィルタの内容を追加する
+            // フィルターリストに単語フィルタの内容を追加する
             foreach (string word in setting.GetFilterWords())
             {
                 filterListBox.Items.Add(word);
             }
+
+            #endregion
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // フィルターを追加し忘れていると思われる場合
+            // 単語フィルターを追加し忘れていると思われる場合
             if (addWordTextBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
@@ -331,7 +334,8 @@ namespace PocketLadio.Stations.RssPodcast
                 }
             }
 
-            // 設定の書き込み
+            #region 設定の書き込み
+
             try
             {
                 setting.RssUrl = new Uri(rssUrlTextBox.Text.Trim());
@@ -358,6 +362,8 @@ namespace PocketLadio.Stations.RssPodcast
             {
                 MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }
+
+            #endregion
         }
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)

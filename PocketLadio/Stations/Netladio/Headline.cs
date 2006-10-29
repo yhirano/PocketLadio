@@ -147,9 +147,9 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
-            #region 単語フィルタ処理
-
             ArrayList alChannels = new ArrayList();
+
+            #region 単語フィルタ処理
 
             // 単語フィルタが存在する場合
             if (setting.GetFilterWords().Length > 0)
@@ -184,7 +184,7 @@ namespace PocketLadio.Stations.Netladio
                 // 削除する番組のリストを作成
                 foreach (Channel channel in alChannels)
                 {
-                    if (channel.Bit < setting.FilterAboveBitRate)
+                    if (0 < channel.Bit && channel.Bit < setting.FilterAboveBitRate)
                     {
                         alDeleteChannels.Add(channel);
                     }
@@ -710,74 +710,78 @@ namespace PocketLadio.Stations.Netladio
         {
             setting.DeleteUserSettingFile();
         }
-    }
 
-    /// <summary>
-    /// タイトルを比較
-    /// </summary>
-    public class ChannelNamComparer : IComparer
-    {
-        public int Compare(object object1, object object2)
+        #region ソート用比較クラス
+
+        /// <summary>
+        /// タイトルを比較
+        /// </summary>
+        class ChannelNamComparer : IComparer
         {
-            return ((Channel)object1).Nam.CompareTo(((Channel)object2).Nam);
-        }
-    }
-
-    /// <summary>
-    /// 放送開始時間を比較
-    /// </summary>
-    public class ChannelTimsComparer : IComparer
-    {
-        public int Compare(object object1, object object2)
-        {
-            Channel channel1 = (Channel)object1;
-            Channel channel2 = (Channel)object2;
-
-            if (channel1.Tims > channel2.Tims)
+            public int Compare(object object1, object object2)
             {
-                return 1;
-            }
-            if (channel1.Tims == channel2.Tims)
-            {
-                return 0;
-            }
-            else
-            {
-                return -1;
+                return ((Channel)object1).Nam.CompareTo(((Channel)object2).Nam);
             }
         }
-    }
 
-    /// <summary>
-    /// 現リスナ数を比較
-    /// </summary>
-    public class ChannelClnComparer : IComparer
-    {
-        public int Compare(object object1, object object2)
+        /// <summary>
+        /// 放送開始時間を比較
+        /// </summary>
+        class ChannelTimsComparer : IComparer
         {
-            return ((Channel)object1).Cln - ((Channel)object2).Cln;
-        }
-    }
+            public int Compare(object object1, object object2)
+            {
+                Channel channel1 = (Channel)object1;
+                Channel channel2 = (Channel)object2;
 
-    /// <summary>
-    /// 述べリスナ数を比較
-    /// </summary>
-    public class ChannelClnsComparer : IComparer
-    {
-        public int Compare(object object1, object object2)
-        {
-            return ((Channel)object1).Clns - ((Channel)object2).Clns;
+                if (channel1.Tims > channel2.Tims)
+                {
+                    return 1;
+                }
+                if (channel1.Tims == channel2.Tims)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
         }
-    }
 
-    /// <summary>
-    /// ビットレートを比較
-    /// </summary>
-    public class ChannelBitComparer : IComparer
-    {
-        public int Compare(object object1, object object2)
+        /// <summary>
+        /// 現リスナ数を比較
+        /// </summary>
+        class ChannelClnComparer : IComparer
         {
-            return ((Channel)object1).Bit - ((Channel)object2).Bit;
+            public int Compare(object object1, object object2)
+            {
+                return ((Channel)object1).Cln - ((Channel)object2).Cln;
+            }
         }
+
+        /// <summary>
+        /// 述べリスナ数を比較
+        /// </summary>
+        class ChannelClnsComparer : IComparer
+        {
+            public int Compare(object object1, object object2)
+            {
+                return ((Channel)object1).Clns - ((Channel)object2).Clns;
+            }
+        }
+
+        /// <summary>
+        /// ビットレートを比較
+        /// </summary>
+        class ChannelBitComparer : IComparer
+        {
+            public int Compare(object object1, object object2)
+            {
+                return ((Channel)object1).Bit - ((Channel)object2).Bit;
+            }
+        }
+
+        #endregion
     }
 }

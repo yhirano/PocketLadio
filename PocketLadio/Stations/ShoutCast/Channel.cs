@@ -82,12 +82,12 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// リスナ数
         /// </summary>
-        private string listener = "";
+        private int listener = -1;
 
         /// <summary>
         /// リスナ数
         /// </summary>
-        public string Listener
+        public int Listener
         {
             get { return listener; }
             set { listener = value; }
@@ -110,12 +110,12 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ビットレート
         /// </summary>
-        private string bitRate = "";
+        private int bitRate = -1;
 
         /// <summary>
         /// ビットレート
         /// </summary>
-        public string BitRate
+        public int BitRate
         {
             get { return bitRate; }
             set { bitRate = value; }
@@ -180,9 +180,9 @@ namespace PocketLadio.Stations.ShoutCast
                 view = view.Replace("[[RANK]]", Rank)
                     .Replace("[[TITLE]]", Title)
                     .Replace("[[PLAYING]]", Playing)
-                    .Replace("[[LISTENER]]", Listener)
+                    .Replace("[[LISTENER]]", ((Listener > 0) ? Listener.ToString() : "na"))
                     .Replace("[[CATEGORY]]", Category)
-                    .Replace("[[BIT]]", BitRate);
+                    .Replace("[[BIT]]", ((BitRate > 0) ? BitRate.ToString() : "na"));
             }
 
             return view;

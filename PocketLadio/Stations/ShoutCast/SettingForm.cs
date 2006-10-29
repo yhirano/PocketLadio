@@ -6,6 +6,7 @@ using System.Collections;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Diagnostics;
 using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
@@ -48,6 +49,18 @@ namespace PocketLadio.Stations.ShoutCast
         private MenuItem cutAddWordMenuItem;
         private MenuItem copyAddWordMenuItem;
         private MenuItem pasteAddWordMenuItem;
+        private TabPage filter2TabPage;
+        private Panel sortScendingPanel;
+        private ComboBox sortKindComboBox;
+        private Label sortLabel;
+        private Label filterBelowBitRateLabel;
+        private CheckBox filterBelowBitRateUseCheckBox;
+        private TextBox filterBelowBitRateTextBox;
+        private Label filterAboveBitRateLabel;
+        private CheckBox filterAboveBitRateUseCheckBox;
+        private TextBox filterAboveBitRateTextBox;
+        private RadioButton sortDescendingRadioButton;
+        private RadioButton sortAscendingRadioButton;
 
         /// <summary>
         /// 設定
@@ -103,14 +116,26 @@ namespace PocketLadio.Stations.ShoutCast
             this.addFilterLabel = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
             this.filterListBox = new System.Windows.Forms.ListBox();
-            this.addWordButton = new System.Windows.Forms.Button();
-            this.addWordTextBox = new System.Windows.Forms.TextBox();
             this.filterListBoxContextMenu = new System.Windows.Forms.ContextMenu();
             this.deleteFilterListMenuItem = new System.Windows.Forms.MenuItem();
+            this.addWordButton = new System.Windows.Forms.Button();
+            this.addWordTextBox = new System.Windows.Forms.TextBox();
             this.addWordContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutAddWordMenuItem = new System.Windows.Forms.MenuItem();
             this.copyAddWordMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteAddWordMenuItem = new System.Windows.Forms.MenuItem();
+            this.filter2TabPage = new System.Windows.Forms.TabPage();
+            this.sortScendingPanel = new System.Windows.Forms.Panel();
+            this.sortDescendingRadioButton = new System.Windows.Forms.RadioButton();
+            this.sortAscendingRadioButton = new System.Windows.Forms.RadioButton();
+            this.sortKindComboBox = new System.Windows.Forms.ComboBox();
+            this.sortLabel = new System.Windows.Forms.Label();
+            this.filterBelowBitRateLabel = new System.Windows.Forms.Label();
+            this.filterBelowBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
+            this.filterBelowBitRateTextBox = new System.Windows.Forms.TextBox();
+            this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
+            this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
+            this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
             // 
             // mainMenu
             // 
@@ -125,6 +150,7 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             this.shoutCastSettingTabControl.Controls.Add(this.shoutCastTabPage);
             this.shoutCastSettingTabControl.Controls.Add(this.filterTabPage);
+            this.shoutCastSettingTabControl.Controls.Add(this.filter2TabPage);
             this.shoutCastSettingTabControl.Location = new System.Drawing.Point(0, 0);
             this.shoutCastSettingTabControl.SelectedIndex = 0;
             this.shoutCastSettingTabControl.Size = new System.Drawing.Size(240, 268);
@@ -231,7 +257,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterTabPage.Controls.Add(this.addWordButton);
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
-            this.filterTabPage.Size = new System.Drawing.Size(240, 245);
+            this.filterTabPage.Size = new System.Drawing.Size(232, 242);
             this.filterTabPage.Text = "フィルター設定";
             // 
             // filterListLabel
@@ -259,6 +285,16 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterListBox.Location = new System.Drawing.Point(3, 71);
             this.filterListBox.Size = new System.Drawing.Size(234, 142);
             // 
+            // filterListBoxContextMenu
+            // 
+            this.filterListBoxContextMenu.MenuItems.Add(this.deleteFilterListMenuItem);
+            this.filterListBoxContextMenu.Popup += new System.EventHandler(this.FilterListBoxContextMenu_Popup);
+            // 
+            // deleteFilterListMenuItem
+            // 
+            this.deleteFilterListMenuItem.Text = "削除(&D)";
+            this.deleteFilterListMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
+            // 
             // addWordButton
             // 
             this.addWordButton.Location = new System.Drawing.Point(165, 27);
@@ -274,16 +310,6 @@ namespace PocketLadio.Stations.ShoutCast
             this.addWordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyUp);
             this.addWordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddWordTextBox_KeyPress);
             this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
-            // 
-            // filterListBoxContextMenu
-            // 
-            this.filterListBoxContextMenu.MenuItems.Add(this.deleteFilterListMenuItem);
-            this.filterListBoxContextMenu.Popup += new System.EventHandler(this.FilterListBoxContextMenu_Popup);
-            // 
-            // deleteFilterListMenuItem
-            // 
-            this.deleteFilterListMenuItem.Text = "削除(&D)";
-            this.deleteFilterListMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
             // 
             // addWordContextMenu
             // 
@@ -305,6 +331,90 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             this.pasteAddWordMenuItem.Text = "貼り付け(&P)";
             this.pasteAddWordMenuItem.Click += new System.EventHandler(this.PasteAddWordMenuItem_Click);
+            // 
+            // filter2TabPage
+            // 
+            this.filter2TabPage.Controls.Add(this.sortScendingPanel);
+            this.filter2TabPage.Controls.Add(this.sortKindComboBox);
+            this.filter2TabPage.Controls.Add(this.sortLabel);
+            this.filter2TabPage.Controls.Add(this.filterBelowBitRateLabel);
+            this.filter2TabPage.Controls.Add(this.filterBelowBitRateUseCheckBox);
+            this.filter2TabPage.Controls.Add(this.filterBelowBitRateTextBox);
+            this.filter2TabPage.Controls.Add(this.filterAboveBitRateLabel);
+            this.filter2TabPage.Controls.Add(this.filterAboveBitRateUseCheckBox);
+            this.filter2TabPage.Controls.Add(this.filterAboveBitRateTextBox);
+            this.filter2TabPage.Location = new System.Drawing.Point(0, 0);
+            this.filter2TabPage.Size = new System.Drawing.Size(240, 245);
+            this.filter2TabPage.Text = "フィルター設定2";
+            // 
+            // sortScendingPanel
+            // 
+            this.sortScendingPanel.Controls.Add(this.sortDescendingRadioButton);
+            this.sortScendingPanel.Controls.Add(this.sortAscendingRadioButton);
+            this.sortScendingPanel.Location = new System.Drawing.Point(66, 149);
+            this.sortScendingPanel.Size = new System.Drawing.Size(171, 28);
+            // 
+            // sortDescendingRadioButton
+            // 
+            this.sortDescendingRadioButton.Location = new System.Drawing.Point(88, 3);
+            this.sortDescendingRadioButton.Size = new System.Drawing.Size(79, 20);
+            this.sortDescendingRadioButton.Text = "降順";
+            // 
+            // sortAscendingRadioButton
+            // 
+            this.sortAscendingRadioButton.Checked = true;
+            this.sortAscendingRadioButton.Location = new System.Drawing.Point(3, 3);
+            this.sortAscendingRadioButton.Size = new System.Drawing.Size(79, 20);
+            this.sortAscendingRadioButton.Text = "昇順";
+            // 
+            // sortKindComboBox
+            // 
+            this.sortKindComboBox.Items.Add("並び替えしない");
+            this.sortKindComboBox.Items.Add("タイトル");
+            this.sortKindComboBox.Items.Add("リスナ数");
+            this.sortKindComboBox.Items.Add("ビットレート");
+            this.sortKindComboBox.Location = new System.Drawing.Point(66, 121);
+            this.sortKindComboBox.Size = new System.Drawing.Size(171, 22);
+            // 
+            // sortLabel
+            // 
+            this.sortLabel.Location = new System.Drawing.Point(3, 121);
+            this.sortLabel.Size = new System.Drawing.Size(57, 20);
+            this.sortLabel.Text = "並び替え";
+            // 
+            // filterBelowBitRateLabel
+            // 
+            this.filterBelowBitRateLabel.Location = new System.Drawing.Point(66, 83);
+            this.filterBelowBitRateLabel.Size = new System.Drawing.Size(171, 20);
+            this.filterBelowBitRateLabel.Text = "Kbps以下";
+            // 
+            // filterBelowBitRateUseCheckBox
+            // 
+            this.filterBelowBitRateUseCheckBox.Location = new System.Drawing.Point(3, 56);
+            this.filterBelowBitRateUseCheckBox.Size = new System.Drawing.Size(234, 20);
+            this.filterBelowBitRateUseCheckBox.Text = "最大ビットレートを設定する";
+            // 
+            // filterBelowBitRateTextBox
+            // 
+            this.filterBelowBitRateTextBox.Location = new System.Drawing.Point(3, 82);
+            this.filterBelowBitRateTextBox.Size = new System.Drawing.Size(57, 21);
+            // 
+            // filterAboveBitRateLabel
+            // 
+            this.filterAboveBitRateLabel.Location = new System.Drawing.Point(66, 30);
+            this.filterAboveBitRateLabel.Size = new System.Drawing.Size(171, 20);
+            this.filterAboveBitRateLabel.Text = "Kbps以上";
+            // 
+            // filterAboveBitRateUseCheckBox
+            // 
+            this.filterAboveBitRateUseCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.filterAboveBitRateUseCheckBox.Size = new System.Drawing.Size(234, 20);
+            this.filterAboveBitRateUseCheckBox.Text = "最低ビットレートを設定する";
+            // 
+            // filterAboveBitRateTextBox
+            // 
+            this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
+            this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
             // SettingForm
             // 
@@ -350,18 +460,63 @@ namespace PocketLadio.Stations.ShoutCast
             //ヘッドライン表示方法の読み込み
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
-            // フィルターリストにフィルタの内容を追加する
+            // フィルターリストに単語フィルタの内容を追加する
             foreach (string word in setting.GetFilterWords())
             {
                 filterListBox.Items.Add(word);
             }
 
+            // ビットレートフィルターを読み込む
+            filterAboveBitRateUseCheckBox.Checked = setting.FilterAboveBitRateUse;
+            filterAboveBitRateTextBox.Text = setting.FilterAboveBitRate.ToString();
+            filterBelowBitRateUseCheckBox.Checked = setting.FilterBelowBitRateUse;
+            filterBelowBitRateTextBox.Text = setting.FilterBelowBitRate.ToString();
+
+            // ソート種類を読み込む
+            if (setting.SortKind == Headline.SortKind.None)
+            {
+                sortKindComboBox.SelectedIndex = 0;
+            }
+            else if (setting.SortKind == Headline.SortKind.Title)
+            {
+                sortKindComboBox.SelectedIndex = 1;
+            }
+            else if (setting.SortKind == Headline.SortKind.Listener)
+            {
+                sortKindComboBox.SelectedIndex = 2;
+            }
+            else if (setting.SortKind == Headline.SortKind.BitRate)
+            {
+                sortKindComboBox.SelectedIndex = 3;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+
+            if (setting.SortScending == Headline.SortScending.Ascending)
+            {
+                sortDescendingRadioButton.Checked = false;
+                sortAscendingRadioButton.Checked = true;
+            }
+            else if (setting.SortScending == Headline.SortScending.Descending)
+            {
+                sortAscendingRadioButton.Checked = false;
+                sortDescendingRadioButton.Checked = true;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+            
             #endregion
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // フィルターを追加し忘れていると思われる場合
+            // 単語フィルターを追加し忘れていると思われる場合
             if (addWordTextBox.Text.Trim().Length != 0)
             {
                 // 追加するかを聞く
@@ -375,11 +530,14 @@ namespace PocketLadio.Stations.ShoutCast
                 }
             }
 
-            // 設定の書き込み
+            #region 設定の書き込み
+
             setting.SearchWord = searchWordTextBox.Text.Trim();
             setting.PerView = perViewComboBox.SelectedItem.ToString().Trim();
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
 
+            #region 単語フィルターの書き込み
+            
             ArrayList alFilterWord = new ArrayList();
             IEnumerator filterEnumerator = filterListBox.Items.GetEnumerator();
             while (filterEnumerator.MoveNext())
@@ -387,6 +545,89 @@ namespace PocketLadio.Stations.ShoutCast
                 alFilterWord.Add(((string)filterEnumerator.Current).Trim());
             }
             setting.SetFilterWords((string[])alFilterWord.ToArray(typeof(string)));
+
+
+            #endregion
+
+            #region ビットレートフィルターの有効・無効設定書き込み
+
+            setting.FilterAboveBitRateUse = filterAboveBitRateUseCheckBox.Checked;
+            try
+            {
+                setting.FilterAboveBitRate = int.Parse(filterAboveBitRateTextBox.Text.Trim());
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
+
+            setting.FilterBelowBitRateUse = filterBelowBitRateUseCheckBox.Checked;
+            try
+            {
+                setting.FilterBelowBitRate = int.Parse(filterBelowBitRateTextBox.Text.Trim());
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
+
+            #endregion
+
+            #region ソート種類を書き込み
+
+            if (sortKindComboBox.Text.Trim() == "並び替えしない")
+            {
+                setting.SortKind = Headline.SortKind.None;
+            }
+            else if (sortKindComboBox.Text.Trim() == "タイトル")
+            {
+                setting.SortKind = Headline.SortKind.Title;
+            }
+            else if (sortKindComboBox.Text.Trim() == "リスナ数")
+            {
+                setting.SortKind = Headline.SortKind.Listener;
+            }
+            else if (sortKindComboBox.Text.Trim() == "ビットレート")
+            {
+                setting.SortKind = Headline.SortKind.BitRate;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+
+            if (sortAscendingRadioButton.Checked == true)
+            {
+                setting.SortScending = Headline.SortScending.Ascending;
+            }
+            else if (sortDescendingRadioButton.Checked == true)
+            {
+                setting.SortScending = Headline.SortScending.Descending;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+
+            #endregion
 
             try
             {
@@ -396,6 +637,8 @@ namespace PocketLadio.Stations.ShoutCast
             {
                 MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }
+
+            #endregion
         }
 
         private void OkMenuItem_Click(object sender, System.EventArgs e)
