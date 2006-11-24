@@ -12,5 +12,5 @@ using System.Resources;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Guid("ab5740c4-e08f-4f7c-b01a-8622ad5243da")]
-[assembly: AssemblyVersion("0.22.0.0")]
+[assembly: AssemblyVersion("0.23.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("ja")]

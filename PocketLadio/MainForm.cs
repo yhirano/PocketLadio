@@ -460,12 +460,28 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSize()
         {
+            // 水平モードVGAの場合
+            if ((this.Size.Width > this.Size.Height) 
+                && this.Size.Width > PocketLadioInfo.VgaWindowWidthBoundaryConditionHorizon)
+            {
+                // 横長のウィンドウVGA
+                FixWindowSizeHorizonVga();
+            }
+            // 垂直モードVGAの場合
+            else if ((this.Size.Width < this.Size.Height) 
+                && this.Size.Width > PocketLadioInfo.VgaWindowWidthBoundaryConditionVertical)
+            {
+                // 縦長のウィンドウVGA
+                FixWindowSizeVerticalVga();
+            }
             // 水平モードの場合
-            if (this.Size.Width > this.Size.Height)
+            if ((this.Size.Width > this.Size.Height)
+                && this.Size.Width <= PocketLadioInfo.VgaWindowWidthBoundaryConditionHorizon)
             {
                 // 横長のウィンドウ
                 FixWindowSizeHorizon();
             }
+            // 垂直モードの場合
             else
             {
                 // 縦長のウィンドウ
@@ -478,15 +494,18 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeVertical()
         {
-            this.updateButton.Location = new System.Drawing.Point(3, 3);
             this.playButton.Location = new System.Drawing.Point(81, 3);
-            this.filterCheckBox.Location = new System.Drawing.Point(181, 3);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
             this.headlineListBox.Location = new System.Drawing.Point(3, 60);
-            this.headlineListBox.Size = new System.Drawing.Size(234, 184);
-            this.stationListComboBox.Location = new System.Drawing.Point(3, 29);
-            this.stationListComboBox.Size = new System.Drawing.Size(234, 22);
+            this.headlineListBox.Size = new System.Drawing.Size(234, 170);
+            this.updateButton.Location = new System.Drawing.Point(3, 3);
+            this.updateButton.Size = new System.Drawing.Size(72, 20);
+            this.filterCheckBox.Location = new System.Drawing.Point(181, 3);
+            this.filterCheckBox.Size = new System.Drawing.Size(56, 20);
             this.infomationLabel.Location = new System.Drawing.Point(3, 247);
             this.infomationLabel.Size = new System.Drawing.Size(234, 16);
+            this.stationListComboBox.Location = new System.Drawing.Point(3, 29);
+            this.stationListComboBox.Size = new System.Drawing.Size(234, 22);
         }
 
         /// <summary>
@@ -494,15 +513,56 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSizeHorizon()
         {
-            this.updateButton.Location = new System.Drawing.Point(3, 3);
             this.playButton.Location = new System.Drawing.Point(81, 3);
-            this.filterCheckBox.Location = new System.Drawing.Point(261, 3);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
             this.headlineListBox.Location = new System.Drawing.Point(3, 60);
             this.headlineListBox.Size = new System.Drawing.Size(314, 100);
-            this.stationListComboBox.Location = new System.Drawing.Point(3, 29);
-            this.stationListComboBox.Size = new System.Drawing.Size(314, 22);
+            this.updateButton.Location = new System.Drawing.Point(3, 3);
+            this.updateButton.Size = new System.Drawing.Size(72, 20);
+            this.filterCheckBox.Location = new System.Drawing.Point(261, 3);
+            this.filterCheckBox.Size = new System.Drawing.Size(56, 20);
             this.infomationLabel.Location = new System.Drawing.Point(3, 163);
             this.infomationLabel.Size = new System.Drawing.Size(314, 16);
+            this.stationListComboBox.Location = new System.Drawing.Point(3, 29);
+            this.stationListComboBox.Size = new System.Drawing.Size(314, 22);
+        }
+
+        /// <summary>
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（VGA垂直）
+        /// </summary>
+        private void FixWindowSizeVerticalVga()
+        {
+            this.playButton.Location = new System.Drawing.Point(81, 3);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
+            this.headlineListBox.Location = new System.Drawing.Point(3, 60);
+            this.headlineListBox.Size = new System.Drawing.Size(474, 450);
+            this.updateButton.Location = new System.Drawing.Point(3, 3);
+            this.updateButton.Size = new System.Drawing.Size(72, 20);
+            this.filterCheckBox.Location = new System.Drawing.Point(421, 3);
+            this.filterCheckBox.Size = new System.Drawing.Size(56, 20);
+            this.infomationLabel.Location = new System.Drawing.Point(243, 513);
+            this.infomationLabel.Size = new System.Drawing.Size(234, 16);
+            this.stationListComboBox.Location = new System.Drawing.Point(3, 29);
+            this.stationListComboBox.Size = new System.Drawing.Size(474, 22);
+        }
+
+        /// <summary>
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（VGA水平）
+        /// </summary>
+        private void FixWindowSizeHorizonVga()
+        {
+            this.playButton.Location = new System.Drawing.Point(81, 3);
+            this.playButton.Size = new System.Drawing.Size(72, 20);
+            this.headlineListBox.Location = new System.Drawing.Point(3, 60);
+            this.headlineListBox.Size = new System.Drawing.Size(634, 296);
+            this.updateButton.Location = new System.Drawing.Point(3, 3);
+            this.updateButton.Size = new System.Drawing.Size(72, 20);
+            this.filterCheckBox.Location = new System.Drawing.Point(581, 3);
+            this.filterCheckBox.Size = new System.Drawing.Size(56, 20);
+            this.infomationLabel.Location = new System.Drawing.Point(323, 360);
+            this.infomationLabel.Size = new System.Drawing.Size(314, 16);
+            this.stationListComboBox.Location = new System.Drawing.Point(3, 29);
+            this.stationListComboBox.Size = new System.Drawing.Size(634, 22);
         }
 
         /// <summary>

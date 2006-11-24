@@ -354,93 +354,46 @@ namespace PocketLadio.Stations.Netladio
                         Channel channel = new Channel(this);
                         string[] channelCsv = channelsCvs[count].Split(',');
 
-                        // Url取得
-                        try
+                        // CVS列が11列以上の場合のみ番組とみなす
+                        if (channelCsv.Length >= 11)
                         {
-                            channel.Url = new Uri(channelCsv[0]);
-                        }
-                        catch (UriFormatException)
-                        {
-                            ;
-                        }
-                        // PC上で起きることを確認したが、対処するべきか分からないのでとりあえず無視
-                        catch (IndexOutOfRangeException)
-                        {
-                            ;
-                        }
-
-                        // Gnl取得
-                        channel.Gnl = channelCsv[1];
-
-                        // Nam取得
-                        channel.Nam = channelCsv[2];
-
-                        // Tit取得
-                        channel.Tit = channelCsv[3];
-
-                        // Mnt取得
-                        channel.Mnt = channelCsv[4];
-
-                        // Tim取得
-                        channel.SetTim(channelCsv[5]);
-
-                        // Tims取得
-                        channel.SetTims(channelCsv[6]);
-
-                        try
-                        {
-                            // Cln取得
-                            channel.Cln = int.Parse(channelCsv[7]);
-                        }
-                        catch (ArgumentException)
-                        {
-                            ;
-                        }
-                        catch (FormatException)
-                        {
-                            ;
-                        }
-                        catch (OverflowException)
-                        {
-                            ;
-                        }
-
-                        try
-                        {
-                            // Clns取得
-                            channel.Clns = int.Parse(channelCsv[8]);
-                        }
-                        catch (ArgumentException)
-                        {
-                            ;
-                        }
-                        catch (FormatException)
-                        {
-                            ;
-                        }
-                        catch (OverflowException)
-                        {
-                            ;
-                        }
-
-                        // Srv取得
-                        channel.Srv = channelCsv[9];
-
-                        // Prt取得
-                        channel.Prt = channelCsv[10];
-
-                        if (channelCsv.Length >= 12)
-                        {
-                            // Typ取得
-                            channel.Typ = channelCsv[11];
-                        }
-
-                        if (channelCsv.Length >= 13)
-                        {
+                            // Url取得
                             try
                             {
-                                // Bit取得
-                                channel.Bit = int.Parse(channelCsv[12]);
+                                channel.Url = new Uri(channelCsv[0]);
+                            }
+                            catch (UriFormatException)
+                            {
+                                ;
+                            }
+                            // PC上で起きることを確認したが、対処するべきか分からないのでとりあえず無視
+                            catch (IndexOutOfRangeException)
+                            {
+                                ;
+                            }
+
+                            // Gnl取得
+                            channel.Gnl = channelCsv[1];
+
+                            // Nam取得
+                            channel.Nam = channelCsv[2];
+
+                            // Tit取得
+                            channel.Tit = channelCsv[3];
+
+                            // Mnt取得
+                            channel.Mnt = channelCsv[4];
+
+                            // Tim取得
+                            channel.SetTim(channelCsv[5]);
+
+                            // Tims取得
+                            channel.SetTims(channelCsv[6]);
+
+                            try
+                            {
+                                // Cln取得
+                                channel.Cln = int.Parse(channelCsv[7]);
                             }
                             catch (ArgumentException)
                             {
@@ -454,9 +407,60 @@ namespace PocketLadio.Stations.Netladio
                             {
                                 ;
                             }
-                        }
 
-                        alChannels.Add(channel);
+                            try
+                            {
+                                // Clns取得
+                                channel.Clns = int.Parse(channelCsv[8]);
+                            }
+                            catch (ArgumentException)
+                            {
+                                ;
+                            }
+                            catch (FormatException)
+                            {
+                                ;
+                            }
+                            catch (OverflowException)
+                            {
+                                ;
+                            }
+
+                            // Srv取得
+                            channel.Srv = channelCsv[9];
+
+                            // Prt取得
+                            channel.Prt = channelCsv[10];
+
+                            if (channelCsv.Length >= 12)
+                            {
+                                // Typ取得
+                                channel.Typ = channelCsv[11];
+                            }
+
+                            if (channelCsv.Length >= 13)
+                            {
+                                try
+                                {
+                                    // Bit取得
+                                    channel.Bit = int.Parse(channelCsv[12]);
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                                catch (OverflowException)
+                                {
+                                    ;
+                                }
+                            }
+
+                            alChannels.Add(channel);
+                        }
                     }
                 }
 

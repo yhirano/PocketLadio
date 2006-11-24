@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.22";
+        private const string VERSION_NUMBER = "0.23";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -80,6 +80,36 @@ namespace PocketLadio
         public static int HeadlineCheckTimerMinimumMillSec
         {
             get { return HEADLINE_CHECK_TIMER_MINIMUM_MILL_SEC; }
+        }
+
+        /// <summary>
+        /// 水平モード時のVGAとQVGAのサイズの境界条件値。
+        /// この値より大きいとVGAと見なす。
+        /// </summary>
+        private const int VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_HORIZON = 320;
+
+        /// <summary>
+        /// 水平モード時のVGAとQVGAのサイズの境界条件値。
+        /// この値より大きいとVGAと見なす。
+        /// </summary>
+        public static int VgaWindowWidthBoundaryConditionHorizon
+        {
+            get { return VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_HORIZON; }
+        } 
+
+        /// <summary>
+        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
+        /// この値より大きいとVGAと見なす。
+        /// </summary>
+        private const int VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_VERTICAL = 240;
+
+        /// <summary>
+        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
+        /// この値より大きいとVGAと見なす。
+        /// </summary>
+        public static int VgaWindowWidthBoundaryConditionVertical
+        {
+            get { return VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_VERTICAL; }
         }
 
         /// <summary>

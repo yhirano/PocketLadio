@@ -89,7 +89,18 @@ namespace PocketLadio
         public static Stream GetWebStream(Uri url)
         {
             WebStream ws = new WebStream(url);
-            ws.ProxyUse = PocketLadio.UserSetting.ProxyUse;
+            if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+            }
+            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+            }
+            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+            }
             ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
@@ -107,7 +118,18 @@ namespace PocketLadio
         public static void FetchFile(Uri url, string fileName)
         {
             WebStream ws = new WebStream(url);
-            ws.ProxyUse = PocketLadio.UserSetting.ProxyUse;
+            if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+            }
+            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+            }
+            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+            }
             ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
@@ -129,7 +151,18 @@ namespace PocketLadio
             WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
         {
             WebStream ws = new WebStream(url);
-            ws.ProxyUse = PocketLadio.UserSetting.ProxyUse;
+            if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+            }
+            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+            }
+            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+            }
             ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
