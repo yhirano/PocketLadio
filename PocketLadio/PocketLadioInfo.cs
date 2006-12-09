@@ -230,8 +230,20 @@ namespace PocketLadio
         public static string SettingFile
         {
             get { return SETTING_FILE; }
-        } 
+        }
 
+        /// <summary>
+        /// 例外に出力するログファイル
+        /// </summary>
+        private const string EXCEPTION_LOG_FILE = "PocketLadioExceptionLog.log";
+
+        /// <summary>
+        /// 例外に出力するログファイル
+        /// </summary>
+        public static string ExceptionLogFile
+        {
+            get { return EXCEPTION_LOG_FILE; }
+        } 
 
         #endregion
 

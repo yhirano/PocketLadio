@@ -9,7 +9,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Xml;
+using System.Diagnostics;
 using PocketLadio.Stations;
+using MiscPocketCompactLibrary.Reflection;
+using MiscPocketCompactLibrary.Diagnostics;
 
 #endregion
 
@@ -257,7 +260,18 @@ namespace PocketLadio
 
         static void Main()
         {
-            Application.Run(new MainForm());
+            try
+            {
+                Application.Run(new MainForm());
+            }
+            catch (Exception ex) {
+                // ログに例外情報を書き込む
+                Log exceptionLog = new Log(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.ExceptionLogFile);
+                exceptionLog.LogThis(ex.Message, Log.LogPrefix.date);
+                exceptionLog.LogThis(ex.ToString(), Log.LogPrefix.date);
+
+                Trace.Assert(false, "予期しないエラーが発生したため、終了します");
+            }
         }
 
         /// <summary>
