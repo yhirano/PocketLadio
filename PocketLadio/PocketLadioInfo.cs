@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.24";
+        private const string VERSION_NUMBER = "0.25";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -179,34 +179,6 @@ namespace PocketLadio
         } 
 
         /// <summary>
-        /// SHOUTcastのMax Bit Rate設定の設定表示と実際値を示すファイル
-        /// </summary>
-        private const string SHOUTCAST_MAX_BIT_RATE_SETTING_FILE
-            = "PocketLadio.Resource.ShoutCastMaxBitRateSetting.txt";
-
-        /// <summary>
-        /// SHOUTcastのMax Bit Rate設定の設定表示と実際値を示すファイル
-        /// </summary>
-        public static string ShoutcastMaxBitRateSettingFile
-        {
-            get { return SHOUTCAST_MAX_BIT_RATE_SETTING_FILE; }
-        } 
-
-        /// <summary>
-        /// SHOUTcastのヘッドライン表示数の規定値ファイル
-        /// </summary>
-        private const string SHOUTCAST_PER_VIEW_SETTING_FILE
-            = "PocketLadio.Resource.ShoutCastPerViewSetting.txt";
-
-        /// <summary>
-        /// SHOUTcastのヘッドライン表示数の規定値ファイル
-        /// </summary>
-        public static string ShoutcastPerViewSettingFile
-        {
-            get { return SHOUTCAST_PER_VIEW_SETTING_FILE; }
-        } 
-
-        /// <summary>
         /// SHOUTcastのURL
         /// </summary>
         private const string SHOUTCAST_URL = "http://www.shoutcast.com";
@@ -217,7 +189,22 @@ namespace PocketLadio
         public static string ShoutcastUrl
         {
             get { return SHOUTCAST_URL; }
-        } 
+        }
+
+        /// <summary>
+        /// SHOUTcastの番組表取得数のリスト
+        /// </summary>
+        private static string[] shoutcastPerViewNums = { "5", "10", "25", "30", "50", "100" };
+
+        /// <summary>
+        /// SHOUTcastの番組表取得数のリスト
+        /// </summary>
+        public static string[] ShoutcastPerViewNums
+        {
+            get { return PocketLadioInfo.shoutcastPerViewNums; }
+        }
+
+
 
         /// <summary>
         /// アプリケーションの設定ファイル

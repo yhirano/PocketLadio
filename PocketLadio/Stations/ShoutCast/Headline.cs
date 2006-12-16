@@ -177,51 +177,11 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
-        /// 起動時の初期化メソッド。Max bit rate設定のハッシュの初期化を行う
+        /// 起動時の初期化メソッド。
         /// </summary>
         public static void StartUpInitialize()
         {
-            StreamReader srMaxBitRate = null;
-            StreamReader srPerView = null;
-
-            try
-            {
-                #region ヘッドライン取得数の設定可能値を読み込む
-
-                // 現在のコードを実行しているAssemblyを取得
-                System.Reflection.Assembly thisAssembly
-                    = System.Reflection.Assembly.GetExecutingAssembly();
-
-                // 指定されたマニフェストリソースを読み込む
-                srPerView =
-                    new StreamReader(thisAssembly.GetManifestResourceStream(PocketLadioInfo.ShoutcastPerViewSettingFile),
-                    Encoding.GetEncoding("shift-jis"));
-
-                // 内容を読み込む
-                UserSetting.PerViewArray = srPerView.ReadToEnd().Split('\n');
-                for (int count = 0; count < UserSetting.PerViewArray.Length; count++)
-                {
-                    UserSetting.PerViewArray[count] = UserSetting.PerViewArray[count].Trim();
-                }
-
-                #endregion
-            }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
-            finally
-            {
-                if (srMaxBitRate != null)
-                {
-                    srMaxBitRate.Close();
-                }
-                if (srPerView != null)
-                {
-                    srPerView.Close();
-                }
-            }
-
+            ;
         }
 
         /// <summary>

@@ -46,20 +46,6 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
-        /// ヘッドライン取得数の設定可能値の配列
-        /// </summary>
-        private static string[] perViewArray = new string[0];
-
-        /// <summary>
-        /// ヘッドライン取得数の設定可能値の配列
-        /// </summary>
-        public static string[] PerViewArray
-        {
-            get { return UserSetting.perViewArray; }
-            set { UserSetting.perViewArray = value; }
-        }
-       
-        /// <summary>
         /// HTML解析時に、HTMLの解析をしない先頭からの行数。
         /// 200を指定した場合には、0～200行目は解析しない。
         /// （高速化のために使用する。）

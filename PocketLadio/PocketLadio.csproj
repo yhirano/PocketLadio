@@ -136,7 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PocketLadioIcon.ico" />
-    <EmbeddedResource Include="Resource\ShoutCastPerViewSetting.txt" />
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
     <EmbeddedResource Include="Stations\Netladio\ChannelPropertyForm.resx">
       <DependentUpon>ChannelPropertyForm.cs</DependentUpon>

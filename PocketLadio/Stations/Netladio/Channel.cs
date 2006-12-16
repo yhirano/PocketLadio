@@ -260,7 +260,7 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>”Ô‘g‚Ì•ú‘—URL</returns>
         public virtual Uri GetPlayUrl()
         {
-            return new Uri("http://" + srv + ":" + prt + mnt + ".m3u");
+            return new Uri("http://" + srv + ":" + prt + mnt);
         }
 
         /// <summary>

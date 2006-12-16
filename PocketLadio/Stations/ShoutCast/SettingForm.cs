@@ -434,7 +434,7 @@ namespace PocketLadio.Stations.ShoutCast
             #region コンボボックスの初期化
 
             // Per Viewコンボボックスの初期化
-            foreach (string perViewKey in UserSetting.PerViewArray)
+            foreach (string perViewKey in PocketLadioInfo.ShoutcastPerViewNums)
             {
                 perViewComboBox.Items.Add(perViewKey);
             }
