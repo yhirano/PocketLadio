@@ -60,6 +60,21 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// プレイリストは一端ローカルに保存するか
+        /// </summary>
+        private static bool playListSave = true;
+
+        /// <summary>
+        /// プレイリストは一端ローカルに保存するか
+        /// </summary>
+        public static bool PlayListSave
+        {
+            get { return UserSetting.playListSave; }
+            set { UserSetting.playListSave = value; }
+        }
+
+
+        /// <summary>
         /// タイマーのチェック時間
         /// </summary>
         private static int headlineTimerMillSecond = 60000;
@@ -203,7 +218,8 @@ namespace PocketLadio
                     {
                         if (reader.NodeType == XmlNodeType.Element)
                         {
-                            if (reader.LocalName == "StationList") {
+                            if (reader.LocalName == "StationList")
+                            {
                                 inStationListFlag = true;
                             } // End of StationList
                             // StationListタグの中にいる場合
@@ -250,6 +266,19 @@ namespace PocketLadio
                             {
                                 BrowserPath = reader.GetAttribute("path");
                             } // End of BrowserPath
+                            else if (reader.LocalName == "PlayListSave")
+                            {
+                                string save;
+                                save = reader.GetAttribute("save");
+                                if (save == bool.TrueString)
+                                {
+                                    PlayListSave = true;
+                                }
+                                else if (save == bool.FalseString)
+                                {
+                                    PlayListSave = false;
+                                }
+                            } // End of PlayListSave
                             else if (reader.LocalName == "Proxy")
                             {
                                 if (reader.MoveToFirstAttribute())
@@ -400,6 +429,10 @@ namespace PocketLadio
                 writer.WriteStartElement("BrowserPath");
                 writer.WriteAttributeString("path", BrowserPath);
                 writer.WriteEndElement(); // End of BrowserPath
+
+                writer.WriteStartElement("PlayListSave");
+                writer.WriteAttributeString("save", PlayListSave.ToString());
+                writer.WriteEndElement(); // End of PlayListSave
 
                 writer.WriteStartElement("Proxy");
                 writer.WriteAttributeString("use", ProxyUse.ToString());

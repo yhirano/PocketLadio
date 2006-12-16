@@ -302,7 +302,50 @@ namespace PocketLadio
             {
                 if (headlineListBox.SelectedIndex != -1)
                 {
-                    PocketLadioUtility.PlayStreaming(StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl());
+                    Uri playUrl = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl();
+
+                    if (UserSetting.PlayListSave == false)
+                    {
+                        PocketLadioUtility.PlayStreaming(playUrl);
+                    }
+                    // 番組がプレイリストだった場合に、一端ローカルに保存する
+                    else {
+                        bool playListFlag = false;
+                        string playListExtension = ".m3u";
+
+                        // 既存のプレイリストを削除
+                        foreach (string extension in PocketLadioInfo.PlayListExtensions)
+                        {
+                            if (File.Exists(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + extension))
+                            {
+                                File.Delete(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + extension);
+                            }
+                        }
+
+                        // プレイリスト化を判定
+                        foreach (string extension in PocketLadioInfo.PlayListExtensions)
+                        {
+                            if (Path.GetExtension(playUrl.AbsolutePath) == extension)
+                            {
+                                playListFlag = true;
+                                // プレイリストの拡張子を格納
+                                playListExtension = extension;
+                                break;
+                            }
+                        }
+
+                        // プレイリストだった場合は、一端プレイリストをローカルに保存して、
+                        // それをプレーヤーに渡す。
+                        if(playListFlag == true)
+                        {
+                            PocketLadioUtility.FetchFile(playUrl,
+                                AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + playListExtension);
+                            PocketLadioUtility.PlayStreaming(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + playListExtension);
+                        }
+                        else {
+                            PocketLadioUtility.PlayStreaming(playUrl);
+                        }
+                    }
                 }
             }
             catch (FileNotFoundException)

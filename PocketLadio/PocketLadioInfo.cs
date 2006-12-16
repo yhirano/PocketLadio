@@ -204,7 +204,31 @@ namespace PocketLadio
             get { return PocketLadioInfo.shoutcastPerViewNums; }
         }
 
+        /// <summary>
+        /// 番組がプレイリストだった場合に作成するファイル名（拡張子はつけない）
+        /// </summary>
+        private const string GENERATE_PLAYLIST_FILE_NAME = "PocketLadio_playlist";
 
+        /// <summary>
+        /// 番組がプレイリストだった場合に作成するファイル名（拡張子はつけない）
+        /// </summary>
+        public static string GeneratePlayListFileName
+        {
+            get { return GENERATE_PLAYLIST_FILE_NAME; }
+        }
+
+        /// <summary>
+        /// プレイリストと見なす拡張子
+        /// </summary>
+        private static string[] playListExtensions = { ".m3u", ".pls" };
+
+        /// <summary>
+        /// プレイリストと見なす拡張子
+        /// </summary>
+        public static string[] PlayListExtensions
+        {
+            get { return PocketLadioInfo.playListExtensions; }
+        }
 
         /// <summary>
         /// アプリケーションの設定ファイル
