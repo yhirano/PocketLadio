@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.25";
+        private const string VERSION_NUMBER = "0.26";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -84,13 +84,13 @@ namespace PocketLadio
 
         /// <summary>
         /// 水平モード時のVGAとQVGAのサイズの境界条件値。
-        /// この値より大きいとVGAと見なす。
+        /// メインフォームの幅がこの値より大きいとVGAと見なす。
         /// </summary>
         private const int VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_HORIZON = 320;
 
         /// <summary>
         /// 水平モード時のVGAとQVGAのサイズの境界条件値。
-        /// この値より大きいとVGAと見なす。
+        /// メインフォームの幅がこの値より大きいとVGAと見なす。
         /// </summary>
         public static int VgaWindowWidthBoundaryConditionHorizon
         {
@@ -99,17 +99,32 @@ namespace PocketLadio
 
         /// <summary>
         /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
-        /// この値より大きいとVGAと見なす。
+        /// メインフォームの幅がこの値より大きいとVGAと見なす。
         /// </summary>
         private const int VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_VERTICAL = 240;
 
         /// <summary>
         /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
-        /// この値より大きいとVGAと見なす。
+        /// メインフォームの幅がこの値より大きいとVGAと見なす。
         /// </summary>
         public static int VgaWindowWidthBoundaryConditionVertical
         {
             get { return VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_VERTICAL; }
+        }
+
+        /// <summary>
+        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
+        /// メインフォームの高さがこの値より小さいとSQVGAと見なす。
+        /// </summary>
+        private const int SQVGA_WINDOW_HEIGHT_BOUNDARY_CONDITION = 190;
+
+        /// <summary>
+        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
+        /// メインフォームの高さがこの値より小さいとSQVGAと見なす。
+        /// </summary>
+        public static int SqvgaWindowWidthBoundaryCondition
+        {
+            get { return SQVGA_WINDOW_HEIGHT_BOUNDARY_CONDITION; }
         }
 
         /// <summary>

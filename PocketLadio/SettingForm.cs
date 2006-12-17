@@ -51,7 +51,7 @@ namespace PocketLadio
         private MenuItem pasteProxyPortMenuItem;
         private Button browserPathReferenceButton;
         private Button mediaPlayerPathReferenceButton;
-        private Panel panel1;
+        private Panel proxySettingPanel;
         private RadioButton proxyUseOriginalSettingRadioButton;
         private RadioButton proxyUseOsSettingRadioButton;
         private RadioButton proxyUnuseRadioButton;
@@ -92,6 +92,7 @@ namespace PocketLadio
             this.copyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.pocketLadioTabPage = new System.Windows.Forms.TabPage();
+            this.playlistSaveLocalCheckBox = new System.Windows.Forms.CheckBox();
             this.browserPathReferenceButton = new System.Windows.Forms.Button();
             this.mediaPlayerPathReferenceButton = new System.Windows.Forms.Button();
             this.browserPathTextBox = new System.Windows.Forms.TextBox();
@@ -102,7 +103,7 @@ namespace PocketLadio
             this.headlineTimerSecondLabel = new System.Windows.Forms.Label();
             this.settingTabControl = new System.Windows.Forms.TabControl();
             this.networkTabPage = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.proxySettingPanel = new System.Windows.Forms.Panel();
             this.proxyUseOriginalSettingRadioButton = new System.Windows.Forms.RadioButton();
             this.proxyPortTextBox = new System.Windows.Forms.TextBox();
             this.proxyPortContextMenu = new System.Windows.Forms.ContextMenu();
@@ -118,7 +119,6 @@ namespace PocketLadio
             this.proxyUnuseRadioButton = new System.Windows.Forms.RadioButton();
             this.proxyPortLabel = new System.Windows.Forms.Label();
             this.proxyServerLabel = new System.Windows.Forms.Label();
-            this.playlistSaveLocalCheckBox = new System.Windows.Forms.CheckBox();
             // 
             // mainMenu
             // 
@@ -185,6 +185,12 @@ namespace PocketLadio
             this.pocketLadioTabPage.Location = new System.Drawing.Point(0, 0);
             this.pocketLadioTabPage.Size = new System.Drawing.Size(240, 245);
             this.pocketLadioTabPage.Text = "PocketLadio設定";
+            // 
+            // playlistSaveLocalCheckBox
+            // 
+            this.playlistSaveLocalCheckBox.Location = new System.Drawing.Point(3, 154);
+            this.playlistSaveLocalCheckBox.Size = new System.Drawing.Size(234, 20);
+            this.playlistSaveLocalCheckBox.Text = "プレイリストは一端ローカルに保存する";
             // 
             // browserPathReferenceButton
             // 
@@ -255,22 +261,22 @@ namespace PocketLadio
             // 
             // networkTabPage
             // 
-            this.networkTabPage.Controls.Add(this.panel1);
+            this.networkTabPage.Controls.Add(this.proxySettingPanel);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
             this.networkTabPage.Size = new System.Drawing.Size(240, 245);
             this.networkTabPage.Text = "ネットワーク設定";
             // 
-            // panel1
+            // proxySettingPanel
             // 
-            this.panel1.Controls.Add(this.proxyUseOriginalSettingRadioButton);
-            this.panel1.Controls.Add(this.proxyPortTextBox);
-            this.panel1.Controls.Add(this.proxyUseOsSettingRadioButton);
-            this.panel1.Controls.Add(this.proxyServerTextBox);
-            this.panel1.Controls.Add(this.proxyUnuseRadioButton);
-            this.panel1.Controls.Add(this.proxyPortLabel);
-            this.panel1.Controls.Add(this.proxyServerLabel);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Size = new System.Drawing.Size(240, 169);
+            this.proxySettingPanel.Controls.Add(this.proxyUseOriginalSettingRadioButton);
+            this.proxySettingPanel.Controls.Add(this.proxyPortTextBox);
+            this.proxySettingPanel.Controls.Add(this.proxyUseOsSettingRadioButton);
+            this.proxySettingPanel.Controls.Add(this.proxyServerTextBox);
+            this.proxySettingPanel.Controls.Add(this.proxyUnuseRadioButton);
+            this.proxySettingPanel.Controls.Add(this.proxyPortLabel);
+            this.proxySettingPanel.Controls.Add(this.proxyServerLabel);
+            this.proxySettingPanel.Location = new System.Drawing.Point(0, 0);
+            this.proxySettingPanel.Size = new System.Drawing.Size(240, 169);
             // 
             // proxyUseOriginalSettingRadioButton
             // 
@@ -360,12 +366,6 @@ namespace PocketLadio
             this.proxyServerLabel.Location = new System.Drawing.Point(3, 78);
             this.proxyServerLabel.Size = new System.Drawing.Size(234, 16);
             this.proxyServerLabel.Text = "プロキシサーバ （例：proxy.example.com）";
-            // 
-            // playlistSaveLocalCheckBox
-            // 
-            this.playlistSaveLocalCheckBox.Location = new System.Drawing.Point(3, 154);
-            this.playlistSaveLocalCheckBox.Size = new System.Drawing.Size(234, 20);
-            this.playlistSaveLocalCheckBox.Text = "プレイリストは一端ローカルに保存する";
             // 
             // SettingForm
             // 
