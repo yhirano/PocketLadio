@@ -29,7 +29,7 @@ namespace PocketLadio
         private MenuItem cutBrowserPathMenuItem;
         private MenuItem copyBrowserPathMenuItem;
         private MenuItem pasteBrowserPathMenuItem;
-        private TabPage pocketLadioTabPage;
+        private TabPage basicTabPage;
         private TextBox browserPathTextBox;
         private TextBox mediaPlayerPathTextBox;
         private Label browserPathLabel;
@@ -56,6 +56,9 @@ namespace PocketLadio
         private RadioButton proxyUseOsSettingRadioButton;
         private RadioButton proxyUnuseRadioButton;
         private CheckBox playlistSaveLocalCheckBox;
+        private TabPage viewTabPage;
+        private NumericUpDown headlineListBoxFontSizeNumericUpDown;
+        private CheckBox headlineListBoxFontSizeCheckBox;
         private TabControl settingTabControl;
 
         public SettingForm()
@@ -91,7 +94,7 @@ namespace PocketLadio
             this.cutMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.copyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.pocketLadioTabPage = new System.Windows.Forms.TabPage();
+            this.basicTabPage = new System.Windows.Forms.TabPage();
             this.playlistSaveLocalCheckBox = new System.Windows.Forms.CheckBox();
             this.browserPathReferenceButton = new System.Windows.Forms.Button();
             this.mediaPlayerPathReferenceButton = new System.Windows.Forms.Button();
@@ -102,6 +105,9 @@ namespace PocketLadio
             this.headlineTimerSecondNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.headlineTimerSecondLabel = new System.Windows.Forms.Label();
             this.settingTabControl = new System.Windows.Forms.TabControl();
+            this.viewTabPage = new System.Windows.Forms.TabPage();
+            this.headlineListBoxFontSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.headlineListBoxFontSizeCheckBox = new System.Windows.Forms.CheckBox();
             this.networkTabPage = new System.Windows.Forms.TabPage();
             this.proxySettingPanel = new System.Windows.Forms.Panel();
             this.proxyUseOriginalSettingRadioButton = new System.Windows.Forms.RadioButton();
@@ -171,20 +177,20 @@ namespace PocketLadio
             this.pasteMediaPlayeraPathMenuItem.Text = "貼り付け(&P)";
             this.pasteMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.PasteMediaPlayeraPathMenuItem_Click);
             // 
-            // pocketLadioTabPage
+            // basicTabPage
             // 
-            this.pocketLadioTabPage.Controls.Add(this.playlistSaveLocalCheckBox);
-            this.pocketLadioTabPage.Controls.Add(this.browserPathReferenceButton);
-            this.pocketLadioTabPage.Controls.Add(this.mediaPlayerPathReferenceButton);
-            this.pocketLadioTabPage.Controls.Add(this.browserPathTextBox);
-            this.pocketLadioTabPage.Controls.Add(this.mediaPlayerPathTextBox);
-            this.pocketLadioTabPage.Controls.Add(this.browserPathLabel);
-            this.pocketLadioTabPage.Controls.Add(this.mediaPlayerPathLabel);
-            this.pocketLadioTabPage.Controls.Add(this.headlineTimerSecondNumericUpDown);
-            this.pocketLadioTabPage.Controls.Add(this.headlineTimerSecondLabel);
-            this.pocketLadioTabPage.Location = new System.Drawing.Point(0, 0);
-            this.pocketLadioTabPage.Size = new System.Drawing.Size(240, 245);
-            this.pocketLadioTabPage.Text = "PocketLadio設定";
+            this.basicTabPage.Controls.Add(this.playlistSaveLocalCheckBox);
+            this.basicTabPage.Controls.Add(this.browserPathReferenceButton);
+            this.basicTabPage.Controls.Add(this.mediaPlayerPathReferenceButton);
+            this.basicTabPage.Controls.Add(this.browserPathTextBox);
+            this.basicTabPage.Controls.Add(this.mediaPlayerPathTextBox);
+            this.basicTabPage.Controls.Add(this.browserPathLabel);
+            this.basicTabPage.Controls.Add(this.mediaPlayerPathLabel);
+            this.basicTabPage.Controls.Add(this.headlineTimerSecondNumericUpDown);
+            this.basicTabPage.Controls.Add(this.headlineTimerSecondLabel);
+            this.basicTabPage.Location = new System.Drawing.Point(0, 0);
+            this.basicTabPage.Size = new System.Drawing.Size(240, 245);
+            this.basicTabPage.Text = "基本";
             // 
             // playlistSaveLocalCheckBox
             // 
@@ -225,13 +231,13 @@ namespace PocketLadio
             // browserPathLabel
             // 
             this.browserPathLabel.Location = new System.Drawing.Point(3, 95);
-            this.browserPathLabel.Size = new System.Drawing.Size(79, 16);
+            this.browserPathLabel.Size = new System.Drawing.Size(234, 16);
             this.browserPathLabel.Text = "ブラウザのパス";
             // 
             // mediaPlayerPathLabel
             // 
             this.mediaPlayerPathLabel.Location = new System.Drawing.Point(3, 52);
-            this.mediaPlayerPathLabel.Size = new System.Drawing.Size(132, 16);
+            this.mediaPlayerPathLabel.Size = new System.Drawing.Size(234, 16);
             this.mediaPlayerPathLabel.Text = "メディアプレーヤーのパス";
             // 
             // headlineTimerSecondNumericUpDown
@@ -248,23 +254,49 @@ namespace PocketLadio
             // headlineTimerSecondLabel
             // 
             this.headlineTimerSecondLabel.Location = new System.Drawing.Point(3, 4);
-            this.headlineTimerSecondLabel.Size = new System.Drawing.Size(188, 20);
+            this.headlineTimerSecondLabel.Size = new System.Drawing.Size(234, 20);
             this.headlineTimerSecondLabel.Text = "ヘッドラインの自動チェック間隔(秒)";
             // 
             // settingTabControl
             // 
-            this.settingTabControl.Controls.Add(this.pocketLadioTabPage);
+            this.settingTabControl.Controls.Add(this.basicTabPage);
+            this.settingTabControl.Controls.Add(this.viewTabPage);
             this.settingTabControl.Controls.Add(this.networkTabPage);
             this.settingTabControl.Location = new System.Drawing.Point(0, 0);
             this.settingTabControl.SelectedIndex = 0;
             this.settingTabControl.Size = new System.Drawing.Size(240, 268);
             // 
+            // viewTabPage
+            // 
+            this.viewTabPage.Controls.Add(this.headlineListBoxFontSizeNumericUpDown);
+            this.viewTabPage.Controls.Add(this.headlineListBoxFontSizeCheckBox);
+            this.viewTabPage.Location = new System.Drawing.Point(0, 0);
+            this.viewTabPage.Size = new System.Drawing.Size(240, 245);
+            this.viewTabPage.Text = "表示";
+            // 
+            // headlineListBoxFontSizeNumericUpDown
+            // 
+            this.headlineListBoxFontSizeNumericUpDown.Location = new System.Drawing.Point(182, 29);
+            this.headlineListBoxFontSizeNumericUpDown.ReadOnly = true;
+            this.headlineListBoxFontSizeNumericUpDown.Size = new System.Drawing.Size(55, 22);
+            this.headlineListBoxFontSizeNumericUpDown.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            // 
+            // headlineListBoxFontSizeCheckBox
+            // 
+            this.headlineListBoxFontSizeCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.headlineListBoxFontSizeCheckBox.Size = new System.Drawing.Size(234, 20);
+            this.headlineListBoxFontSizeCheckBox.Text = "番組表のフォントサイズを変更する（pt）";
+            // 
             // networkTabPage
             // 
             this.networkTabPage.Controls.Add(this.proxySettingPanel);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.networkTabPage.Size = new System.Drawing.Size(240, 245);
-            this.networkTabPage.Text = "ネットワーク設定";
+            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
+            this.networkTabPage.Text = "ネットワーク";
             // 
             // proxySettingPanel
             // 
@@ -386,6 +418,10 @@ namespace PocketLadio
             headlineTimerSecondNumericUpDown.Minimum = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec / 1000;
             headlineTimerSecondNumericUpDown.Maximum = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec / 1000;
 
+            // 番組表のフォントサイズ上限との下限
+            headlineListBoxFontSizeNumericUpDown.Minimum = PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt;
+            headlineListBoxFontSizeNumericUpDown.Maximum = PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt;
+
             // 設定の読み込み
             mediaPlayerPathTextBox.Text = UserSetting.MediaPlayerPath;
             browserPathTextBox.Text = UserSetting.BrowserPath;
@@ -423,6 +459,8 @@ namespace PocketLadio
             proxyServerTextBox.Text = UserSetting.ProxyServer;
             proxyPortTextBox.Text = UserSetting.ProxyPort.ToString();
             headlineTimerSecondNumericUpDown.Text = (UserSetting.HeadlineTimerMillSecond / 1000).ToString();
+            headlineListBoxFontSizeCheckBox.Checked = UserSetting.HeadlineListBoxFontSizeChange;
+            headlineListBoxFontSizeNumericUpDown.Text = UserSetting.HeadlineListBoxFontSize.ToString();
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -430,6 +468,7 @@ namespace PocketLadio
             // 設定の書き込み
             UserSetting.MediaPlayerPath = mediaPlayerPathTextBox.Text.Trim();
             UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
+
             if (playlistSaveLocalCheckBox.Checked == true)
             {
                 UserSetting.PlayListSave = true;
@@ -438,6 +477,7 @@ namespace PocketLadio
             {
                 UserSetting.PlayListSave = false;
             }
+
             if (proxyUnuseRadioButton.Checked == true)
             {
                 UserSetting.ProxyUse = UserSetting.ProxyConnect.Unuse;
@@ -475,6 +515,31 @@ namespace PocketLadio
             try
             {
                 UserSetting.HeadlineTimerMillSecond = Convert.ToInt32(headlineTimerSecondNumericUpDown.Text) * 1000;
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
+
+            if (headlineListBoxFontSizeCheckBox.Checked == true)
+            {
+                UserSetting.HeadlineListBoxFontSizeChange = true;
+            }
+            else if (headlineListBoxFontSizeCheckBox.Checked == false)
+            {
+                UserSetting.HeadlineListBoxFontSizeChange = false;
+            }
+            try
+            {
+                UserSetting.HeadlineListBoxFontSize = Convert.ToInt32(headlineListBoxFontSizeNumericUpDown.Text);
             }
             catch (ArgumentException)
             {

@@ -245,6 +245,7 @@ namespace PocketLadio
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "PocketLadio";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
@@ -264,7 +265,8 @@ namespace PocketLadio
             {
                 Application.Run(new MainForm());
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 // ログに例外情報を書き込む
                 Log exceptionLog = new Log(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.ExceptionLogFile);
                 exceptionLog.LogThis(ex.Message, Log.LogPrefix.date);
@@ -309,7 +311,8 @@ namespace PocketLadio
                         PocketLadioUtility.PlayStreaming(playUrl);
                     }
                     // 番組がプレイリストだった場合に、一端ローカルに保存する
-                    else {
+                    else
+                    {
                         bool playListFlag = false;
                         string playListExtension = ".m3u";
 
@@ -336,13 +339,14 @@ namespace PocketLadio
 
                         // プレイリストだった場合は、一端プレイリストをローカルに保存して、
                         // それをプレーヤーに渡す。
-                        if(playListFlag == true)
+                        if (playListFlag == true)
                         {
                             PocketLadioUtility.FetchFile(playUrl,
                                 AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + playListExtension);
                             PocketLadioUtility.PlayStreaming(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + playListExtension);
                         }
-                        else {
+                        else
+                        {
                             PocketLadioUtility.PlayStreaming(playUrl);
                         }
                     }
@@ -518,14 +522,14 @@ namespace PocketLadio
         private void FixWindowSize()
         {
             // 水平モードVGAの場合
-            if ((this.Size.Width > this.Size.Height) 
+            if ((this.Size.Width > this.Size.Height)
                 && this.Size.Width > PocketLadioInfo.VgaWindowWidthBoundaryConditionHorizon)
             {
                 // 横長のウィンドウVGA
                 FixWindowSizeHorizonVga();
             }
             // 垂直モードVGAの場合
-            else if ((this.Size.Width < this.Size.Height) 
+            else if ((this.Size.Width < this.Size.Height)
                 && this.Size.Width > PocketLadioInfo.VgaWindowWidthBoundaryConditionVertical)
             {
                 // 縦長のウィンドウVGA
@@ -627,7 +631,7 @@ namespace PocketLadio
             this.stationListComboBox.Location = new System.Drawing.Point(3, 29);
             this.stationListComboBox.Size = new System.Drawing.Size(634, 22);
         }
-        
+
         /// <summary>
         /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（SQVGA）
         /// </summary>
@@ -995,6 +999,17 @@ namespace PocketLadio
             StationsSettingForm stationSettingForm = new StationsSettingForm();
             stationSettingForm.ShowDialog();
             stationSettingForm.Dispose();
+        }
+
+        private void MainForm_Paint(object sender, PaintEventArgs e)
+        {
+            if (UserSetting.HeadlineListBoxFontSizeChange == true)
+            {
+                headlineListBox.Font = new Font(headlineListBox.Font.Name, UserSetting.HeadlineListBoxFontSize, headlineListBox.Font.Style);
+            }
+            else {
+                headlineListBox.Font = new Font(headlineListBox.Font.Name, PocketLadioInfo.HeadlineListBoxDefaultFontSize, headlineListBox.Font.Style);
+            }
         }
     }
 }

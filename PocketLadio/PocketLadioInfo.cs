@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.26";
+        private const string VERSION_NUMBER = "0.27";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -80,6 +80,45 @@ namespace PocketLadio
         public static int HeadlineCheckTimerMinimumMillSec
         {
             get { return HEADLINE_CHECK_TIMER_MINIMUM_MILL_SEC; }
+        }
+
+        /// <summary>
+        /// 番組表のフォントサイズの上限
+        /// </summary>
+        private const int HEADLINE_LIST_BOX_FONT_SIZE_MAXIMUM_PT = 18;
+
+        /// <summary>
+        /// 番組表のフォントサイズの上限
+        /// </summary>
+        public static int HeadlineListBoxFontSizeMaximumPt
+        {
+            get { return HEADLINE_LIST_BOX_FONT_SIZE_MAXIMUM_PT; }
+        }
+
+        /// <summary>
+        /// 番組表のフォントサイズの下限
+        /// </summary>
+        private const int HEADLINE_LIST_BOX_FONT_SIZE_MINIMUM_PT = 6;
+
+        /// <summary>
+        /// 番組表のフォントサイズの下限
+        /// </summary>
+        public static int HeadlineListBoxFontSizeMinimumPt
+        {
+            get { return HEADLINE_LIST_BOX_FONT_SIZE_MINIMUM_PT; }
+        }
+
+        /// <summary>
+        /// 番組表のデフォルトフォントサイズ
+        /// </summary>
+        private const int HEADLINE_LIST_BOX_DEFAULT_FONT_SIZE = 9;
+
+        /// <summary>
+        /// 番組表のデフォルトフォントサイズ
+        /// </summary>
+        public static int HeadlineListBoxDefaultFontSize
+        {
+            get { return HEADLINE_LIST_BOX_DEFAULT_FONT_SIZE; }
         }
 
         /// <summary>

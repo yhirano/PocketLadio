@@ -60,19 +60,49 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// プレイリストは一端ローカルに保存するか
+        /// 番組表のフォントサイズを変更するか
         /// </summary>
-        private static bool playListSave = true;
+        private static bool headlineListBoxFontSizeChange;
 
         /// <summary>
-        /// プレイリストは一端ローカルに保存するか
+        /// 番組表のフォントサイズを変更するか
         /// </summary>
-        public static bool PlayListSave
+        public static bool HeadlineListBoxFontSizeChange
         {
-            get { return UserSetting.playListSave; }
-            set { UserSetting.playListSave = value; }
+            get { return UserSetting.headlineListBoxFontSizeChange; }
+            set { UserSetting.headlineListBoxFontSizeChange = value; }
         }
 
+        /// <summary>
+        /// 番組表のフォントサイズ
+        /// </summary>
+        private static int headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxDefaultFontSize;
+
+        /// <summary>
+        /// 番組表のフォントサイズ
+        /// </summary>
+        public static int HeadlineListBoxFontSize
+        {
+            get { return UserSetting.headlineListBoxFontSize; }
+            set
+            {
+                // 規定に収まる場合
+                if (PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt <= value && value <= PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt)
+                {
+                    UserSetting.headlineListBoxFontSize = value;
+                }
+                // 規定よりも短い場合
+                else if (value < PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt)
+                {
+                    UserSetting.headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt;
+                }
+                // 規定よりも長い場合
+                else if (value > PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt)
+                {
+                    UserSetting.headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt;
+                }
+            }
+        }
 
         /// <summary>
         /// タイマーのチェック時間
@@ -103,6 +133,20 @@ namespace PocketLadio
                     UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
                 }
             }
+        }
+
+        /// <summary>
+        /// プレイリストは一端ローカルに保存するか
+        /// </summary>
+        private static bool playListSave = true;
+
+        /// <summary>
+        /// プレイリストは一端ローカルに保存するか
+        /// </summary>
+        public static bool PlayListSave
+        {
+            get { return UserSetting.playListSave; }
+            set { UserSetting.playListSave = value; }
         }
 
         /// <summary>
@@ -318,6 +362,37 @@ namespace PocketLadio
                                     }
                                 }
                             } // End of Proxy
+                            else if (reader.LocalName.Equals("HeadlineListBoxFont"))
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string check = reader.GetAttribute("change");
+                                    if (check == bool.TrueString)
+                                    {
+                                        HeadlineListBoxFontSizeChange = true;
+                                    }
+                                    else if (check == bool.FalseString)
+                                    {
+                                        HeadlineListBoxFontSizeChange = false;
+                                    }
+                                    try
+                                    {
+                                        HeadlineListBoxFontSize = Convert.ToInt32(reader.GetAttribute("size"));
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of HeadlineListBoxFont
                             else if (reader.LocalName.Equals("HeadlineTimer"))
                             {
                                 if (reader.MoveToFirstAttribute())
@@ -439,6 +514,11 @@ namespace PocketLadio
                 writer.WriteAttributeString("server", ProxyServer);
                 writer.WriteAttributeString("port", ProxyPort.ToString());
                 writer.WriteEndElement(); // End of Porxy
+
+                writer.WriteStartElement("HeadlineListBoxFont");
+                writer.WriteAttributeString("change", HeadlineListBoxFontSizeChange.ToString());
+                writer.WriteAttributeString("size", HeadlineListBoxFontSize.ToString());
+                writer.WriteEndElement(); // End of HeadlineListBoxFont
 
                 writer.WriteStartElement("HeadlineTimer");
                 writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
