@@ -300,12 +300,12 @@ namespace PocketLadio
         /// </summary>
         private void PlayStreaming()
         {
-            try
+            if (headlineListBox.SelectedIndex != -1)
             {
-                if (headlineListBox.SelectedIndex != -1)
-                {
-                    Uri playUrl = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl();
+                Uri playUrl = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl();
 
+                try
+                {
                     if (UserSetting.PlayListSave == false)
                     {
                         PocketLadioUtility.PlayStreaming(playUrl);
@@ -313,37 +313,24 @@ namespace PocketLadio
                     // 番組がプレイリストだった場合に、一端ローカルに保存する
                     else
                     {
-                        bool playListFlag = false;
-                        string playListExtension = ".m3u";
+                        string playListExtension = Path.GetExtension(playUrl.AbsolutePath);
 
-                        // 既存のプレイリストを削除
-                        foreach (string extension in PocketLadioInfo.PlayListExtensions)
+                        if (IsPlayListExtension(playListExtension) == true)
                         {
-                            if (File.Exists(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + extension))
+                            // 既存のプレイリストを削除
+                            foreach (string extension in PocketLadioInfo.PlayListExtensions)
                             {
-                                File.Delete(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + extension);
+                                if (File.Exists(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + extension))
+                                {
+                                    File.Delete(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + extension);
+                                }
                             }
-                        }
 
-                        // プレイリスト化を判定
-                        foreach (string extension in PocketLadioInfo.PlayListExtensions)
-                        {
-                            if (Path.GetExtension(playUrl.AbsolutePath) == extension)
-                            {
-                                playListFlag = true;
-                                // プレイリストの拡張子を格納
-                                playListExtension = extension;
-                                break;
-                            }
-                        }
-
-                        // プレイリストだった場合は、一端プレイリストをローカルに保存して、
-                        // それをプレーヤーに渡す。
-                        if (playListFlag == true)
-                        {
-                            PocketLadioUtility.FetchFile(playUrl,
-                                AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + playListExtension);
-                            PocketLadioUtility.PlayStreaming(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + playListExtension);
+                            // 一端プレイリストをローカルに保存して、それをプレーヤーに渡す。
+                            string playListPath
+                                = AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.GeneratePlayListFileName + playListExtension;
+                            PocketLadioUtility.FetchFile(playUrl, playListPath);
+                            PocketLadioUtility.PlayStreaming(playListPath);
                         }
                         else
                         {
@@ -351,11 +338,34 @@ namespace PocketLadio
                         }
                     }
                 }
+                catch (FileNotFoundException)
+                {
+                    MessageBox.Show("メディアプレイヤーが見つかりません", "警告");
+                }
+                catch (WebException)
+                {
+                    MessageBox.Show(playUrl + " が見つかりません", "警告");
+                }
             }
-            catch (FileNotFoundException)
+        }
+
+        /// <summary>
+        /// 拡張子がプレイリストかを判定する
+        /// </summary>
+        /// <param name="extension">拡張子</param>
+        /// <returns>プレイリストだった場合はtrue、そうでない場合はfalse</returns>
+        private bool IsPlayListExtension(string extension)
+        {
+            // プレイリストかを判定
+            foreach (string playListExtension in PocketLadioInfo.PlayListExtensions)
             {
-                MessageBox.Show("メディアプレイヤーが見つかりません", "警告");
+                if (playListExtension == extension)
+                {
+                    return true;
+                }
             }
+
+            return false;
         }
 
         /// <summary>
@@ -1007,7 +1017,8 @@ namespace PocketLadio
             {
                 headlineListBox.Font = new Font(headlineListBox.Font.Name, UserSetting.HeadlineListBoxFontSize, headlineListBox.Font.Style);
             }
-            else {
+            else
+            {
                 headlineListBox.Font = new Font(headlineListBox.Font.Name, PocketLadioInfo.HeadlineListBoxDefaultFontSize, headlineListBox.Font.Style);
             }
         }
