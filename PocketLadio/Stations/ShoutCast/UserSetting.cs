@@ -453,6 +453,10 @@ namespace PocketLadio.Stations.ShoutCast
                                     {
                                         SortKind = Headline.SortKind.Listener;
                                     }
+                                    else if (kind == Headline.SortKind.ListenerTotal.ToString())
+                                    {
+                                        SortKind = Headline.SortKind.ListenerTotal;
+                                    }
                                     else if (kind == Headline.SortKind.BitRate.ToString())
                                     {
                                         SortKind = Headline.SortKind.BitRate;

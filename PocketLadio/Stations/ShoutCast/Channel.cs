@@ -94,6 +94,20 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
+        /// 述べリスナ数
+        /// </summary>
+        private int listenerTotal = -1;
+
+        /// <summary>
+        /// 述べリスナ数
+        /// </summary>
+        public int ListenerTotal
+        {
+            get { return listenerTotal; }
+            set { listenerTotal = value; }
+        }
+
+        /// <summary>
         /// カテゴリ
         /// </summary>
         private string category = "";
@@ -181,6 +195,7 @@ namespace PocketLadio.Stations.ShoutCast
                     .Replace("[[TITLE]]", Title)
                     .Replace("[[PLAYING]]", Playing)
                     .Replace("[[LISTENER]]", ((Listener > 0) ? Listener.ToString() : "na"))
+                    .Replace("[[LISTENERTOTAL]]", ((Listener > 0) ? ListenerTotal.ToString() : "na"))
                     .Replace("[[CATEGORY]]", Category)
                     .Replace("[[BIT]]", ((BitRate > 0) ? BitRate.ToString() : "na"));
             }

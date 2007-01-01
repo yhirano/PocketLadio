@@ -18,9 +18,23 @@ namespace PocketLadio
     public sealed class UserSetting
     {
         /// <summary>
+        /// フィルター設定
+        /// </summary>
+        private static bool filterEnable;
+
+        /// <summary>
+        /// フィルター設定
+        /// </summary>
+        public static bool FilterEnable
+        {
+            get { return UserSetting.filterEnable; }
+            set { UserSetting.filterEnable = value; }
+        }
+
+        /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
         /// </summary>
-        private static string mediaPlayerPath = @"\Program Files\TCPMP\player.exe";
+        private static string mediaPlayerPath = PocketLadioInfo.DefaultMediaPlayerPath;
 
         /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
@@ -34,7 +48,7 @@ namespace PocketLadio
         /// <summary>
         /// Webブラウザのファイルパス
         /// </summary>
-        private static string browserPath = @"\Windows\iexplore.exe";
+        private static string browserPath = PocketLadioInfo.DefaultBrowserPath;
 
         /// <summary>
         /// Webブラウザのファイルパス
@@ -302,6 +316,19 @@ namespace PocketLadio
                                     }
                                 } // End of Station
                             } // End of StationListタグの中にいる場合
+                            else if (reader.LocalName == "FilterEnable")
+                            {
+                                string enable;
+                                enable = reader.GetAttribute("enable");
+                                if (enable == bool.TrueString)
+                                {
+                                    FilterEnable = true;
+                                }
+                                else if (enable == bool.FalseString)
+                                {
+                                    FilterEnable = false;
+                                }
+                            } // End of FilterEnable
                             else if (reader.LocalName == "MediaPlayerPath")
                             {
                                 MediaPlayerPath = reader.GetAttribute("path");
@@ -496,6 +523,10 @@ namespace PocketLadio
                     writer.WriteEndElement(); // End of Station
                 }
                 writer.WriteEndElement(); // End of StationList
+
+                writer.WriteStartElement("FilterEnable");
+                writer.WriteAttributeString("enable", FilterEnable.ToString());
+                writer.WriteEndElement(); // End of FilterEnable
 
                 writer.WriteStartElement("MediaPlayerPath");
                 writer.WriteAttributeString("path", MediaPlayerPath);

@@ -57,6 +57,32 @@ namespace PocketLadio
         #region アプリケーションの設定
 
         /// <summary>
+        /// メディアプレーヤーのパスのデフォルト設定
+        /// </summary>
+        private const string DEFAULT_MEDIA_PLAYER_PATH = @"\Program Files\TCPMP\player.exe";
+
+        /// <summary>
+        /// メディアプレーヤーのパスのデフォルト設定
+        /// </summary>
+        public static string DefaultMediaPlayerPath
+        {
+            get { return DEFAULT_MEDIA_PLAYER_PATH; }
+        }
+
+        /// <summary>
+        /// ブラウザのパスのデフォルト設定
+        /// </summary>
+        private const string DEFAULT_BROWSER_PATH = @"\Windows\iexplore.exe";
+
+        /// <summary>
+        /// ブラウザのパスのデフォルト設定
+        /// </summary>
+        public static string DefaultBrowserPath
+        {
+            get { return DEFAULT_BROWSER_PATH; }
+        }
+
+        /// <summary>
         /// ヘッドラインチェックタイマーの上限
         /// </summary>
         private const int HEADLINE_CHECK_TIMER_MAXIMUM_MILL_SEC = 600000;
@@ -152,16 +178,31 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
+        /// SQVGAとQVGAのサイズの境界条件値。
+        /// メインフォームの幅がこの値より小さいとSQVGAと見なす。
+        /// </summary>
+        private const int SQVGA_WINDOW_WIDTH_BOUNDARY_CONDITION = 250;
+
+        /// <summary>
+        /// SQVGAとQVGAのサイズの境界条件値。
+        /// メインフォームの幅がこの値より小さいとSQVGAと見なす。
+        /// </summary>
+        public static int SqvgaWindowWidthBoundaryCondition
+        {
+            get { return SQVGA_WINDOW_WIDTH_BOUNDARY_CONDITION; }
+        }
+
+        /// <summary>
+        /// SQVGAとQVGAのサイズの境界条件値。
         /// メインフォームの高さがこの値より小さいとSQVGAと見なす。
         /// </summary>
         private const int SQVGA_WINDOW_HEIGHT_BOUNDARY_CONDITION = 190;
 
         /// <summary>
-        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
+        /// SQVGAとQVGAのサイズの境界条件値。
         /// メインフォームの高さがこの値より小さいとSQVGAと見なす。
         /// </summary>
-        public static int SqvgaWindowWidthBoundaryCondition
+        public static int SqvgaWindowHeightBoundaryCondition
         {
             get { return SQVGA_WINDOW_HEIGHT_BOUNDARY_CONDITION; }
         }

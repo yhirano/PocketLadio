@@ -294,6 +294,10 @@ namespace PocketLadio.Stations.ShoutCast
             {
                 listenerLabel.Text = channel.Listener.ToString();
             }
+            if (channel.ListenerTotal >= 0)
+            {
+                listenerLabel.Text += " / " + channel.ListenerTotal.ToString();
+            }
             if (channel.BitRate > 0)
             {
                 bitRateLabel.Text = channel.BitRate.ToString() + " Kbps";

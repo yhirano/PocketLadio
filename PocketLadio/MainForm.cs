@@ -248,10 +248,8 @@ namespace PocketLadio
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.Activated += new System.EventHandler(this.MainForm_Activated);
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             this.Load += new System.EventHandler(this.MainForm_Load);
-
         }
         #endregion
 
@@ -264,6 +262,17 @@ namespace PocketLadio
             try
             {
                 Application.Run(new MainForm());
+
+                // 終了処理
+                try
+                {
+                    // 終了時処理
+                    PocketLadioSpecificProcess.ExitDisable();
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+                }
             }
             catch (Exception ex)
             {
@@ -546,7 +555,8 @@ namespace PocketLadio
                 FixWindowSizeVerticalVga();
             }
             // SQVGAモードの場合
-            else if (this.Size.Height < PocketLadioInfo.SqvgaWindowWidthBoundaryCondition)
+            else if (this.Size.Width < PocketLadioInfo.SqvgaWindowWidthBoundaryCondition
+                && this.Size.Height < PocketLadioInfo.SqvgaWindowHeightBoundaryCondition)
             {
                 // 四角のウィンドウ
                 FixWindowSizeSqvga();
@@ -819,10 +829,14 @@ namespace PocketLadio
             if (filterCheckBox.Checked == true)
             {
                 StationList.FilterEnable = true;
+                // フィルターの有効無効設定をオンにする
+                UserSetting.FilterEnable = true;
             }
             else
             {
                 StationList.FilterEnable = false;
+                // フィルターの有効無効設定をオフにする
+                UserSetting.FilterEnable = false;
             }
             DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
 
@@ -864,7 +878,7 @@ namespace PocketLadio
                 // 起動時の初期化
                 PocketLadioSpecificProcess.StartUpInitialize();
 
-                // ヘッドラインが有効な場合、ヘッドラインを動作させる
+                // ヘッドラインタイマーが有効な場合、ヘッドラインを動作させる
                 if (UserSetting.HeadlineTimerCheck == true)
                 {
                     HeadlineCheckTimerStart();
@@ -881,6 +895,16 @@ namespace PocketLadio
                 {
                     DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
                 }
+
+                // フィルターの有効無効設定が有効な場合、フィルターを動作させる
+                if (UserSetting.FilterEnable == true)
+                {
+                    filterCheckBox.Checked = true;
+                }
+                else
+                {
+                    filterCheckBox.Checked = false;
+                }
             }
             catch (XmlException)
             {
@@ -896,19 +920,6 @@ namespace PocketLadio
             }
 
             FixWindowSize();
-        }
-
-        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            try
-            {
-                // 終了時処理
-                PocketLadioSpecificProcess.ExitDisable();
-            }
-            catch (IOException)
-            {
-                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
-            }
         }
 
         private void PlayMenuItem_Click(object sender, System.EventArgs e)

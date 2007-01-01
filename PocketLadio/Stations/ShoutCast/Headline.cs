@@ -59,7 +59,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         public enum SortKind
         {
-            None, Title, Listener, BitRate
+            None, Title, Listener, ListenerTotal, BitRate
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace PocketLadio.Stations.ShoutCast
 		/// HTML解析用正規表現。
 		/// Listener解析用。
 		/// </summary>
-		private readonly static Regex listenerRegex = new Regex(@">(\d+/\d+)</font>", RegexOptions.None);
+		private readonly static Regex listenerRegex = new Regex(@">(\d+)/(\d+)</font>", RegexOptions.None);
 
 		/// <summary>
 		/// HTML解析用正規表現。
@@ -307,6 +307,10 @@ namespace PocketLadio.Stations.ShoutCast
             {
                 alChannels.Sort((IComparer)new ChannelListenerComparer());
             }
+            else if (setting.SortKind == SortKind.ListenerTotal)
+            {
+                alChannels.Sort((IComparer)new ChannelListenerTotalComparer());
+            }
             else if (setting.SortKind == SortKind.BitRate)
             {
                 alChannels.Sort((IComparer)new ChannelBitRateComparer());
@@ -470,6 +474,7 @@ namespace PocketLadio.Stations.ShoutCast
                         try
                         {
                             channel.Listener = int.Parse(listenerMatch.Groups[1].Value);
+                            channel.ListenerTotal = int.Parse(listenerMatch.Groups[2].Value);
                         }
                         catch (ArgumentException)
                         {
@@ -621,6 +626,18 @@ namespace PocketLadio.Stations.ShoutCast
                 return ((Channel)object1).Listener - ((Channel)object2).Listener;
             }
         }
+
+        /// <summary>
+        /// 述べリスナ数を比較
+        /// </summary>
+        class ChannelListenerTotalComparer : IComparer
+        {
+            public int Compare(object object1, object object2)
+            {
+                return ((Channel)object1).ListenerTotal - ((Channel)object2).ListenerTotal;
+            }
+        }
+
         /// <summary>
         /// ビットレートを比較
         /// </summary>

@@ -372,6 +372,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.sortKindComboBox.Items.Add("並び替えしない");
             this.sortKindComboBox.Items.Add("タイトル");
             this.sortKindComboBox.Items.Add("リスナ数");
+            this.sortKindComboBox.Items.Add("述べリスナ数");
             this.sortKindComboBox.Items.Add("ビットレート");
             this.sortKindComboBox.Location = new System.Drawing.Point(66, 121);
             this.sortKindComboBox.Size = new System.Drawing.Size(171, 22);
@@ -485,9 +486,13 @@ namespace PocketLadio.Stations.ShoutCast
             {
                 sortKindComboBox.SelectedIndex = 2;
             }
-            else if (setting.SortKind == Headline.SortKind.BitRate)
+            else if (setting.SortKind == Headline.SortKind.ListenerTotal)
             {
                 sortKindComboBox.SelectedIndex = 3;
+            }
+            else if (setting.SortKind == Headline.SortKind.BitRate)
+            {
+                sortKindComboBox.SelectedIndex = 4;
             }
             else
             {
@@ -602,6 +607,10 @@ namespace PocketLadio.Stations.ShoutCast
             else if (sortKindComboBox.Text.Trim() == "リスナ数")
             {
                 setting.SortKind = Headline.SortKind.Listener;
+            }
+            else if (sortKindComboBox.Text.Trim() == "述べリスナ数")
+            {
+                setting.SortKind = Headline.SortKind.ListenerTotal;
             }
             else if (sortKindComboBox.Text.Trim() == "ビットレート")
             {
