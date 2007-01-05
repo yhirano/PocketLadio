@@ -13,6 +13,7 @@ using System.Diagnostics;
 using PocketLadio.Stations;
 using MiscPocketCompactLibrary.Reflection;
 using MiscPocketCompactLibrary.Diagnostics;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 
@@ -540,46 +541,37 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSize()
         {
-            // 水平モードVGAの場合
-            if ((this.Size.Width > this.Size.Height)
-                && this.Size.Width > PocketLadioInfo.VgaWindowWidthBoundaryConditionHorizon)
+            // 横長VGA
+            if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.VgaLandscape)
             {
-                // 横長のウィンドウVGA
-                FixWindowSizeHorizonVga();
+                FixWindowSizeVgaLandscape();
             }
-            // 垂直モードVGAの場合
-            else if ((this.Size.Width < this.Size.Height)
-                && this.Size.Width > PocketLadioInfo.VgaWindowWidthBoundaryConditionVertical)
+            // 縦長VGA
+            else if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.VgaPortrait)
             {
-                // 縦長のウィンドウVGA
-                FixWindowSizeVerticalVga();
+                FixWindowSizeVgaPortrait();
             }
-            // SQVGAモードの場合
-            else if (this.Size.Width < PocketLadioInfo.SqvgaWindowWidthBoundaryCondition
-                && this.Size.Height < PocketLadioInfo.SqvgaWindowHeightBoundaryCondition)
+            // 四角QVGA
+            else if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.SquareQvga)
             {
-                // 四角のウィンドウ
-                FixWindowSizeSqvga();
+                FixWindowSizeSquareQvga();
             }
-            // 水平モードの場合
-            else if ((this.Size.Width > this.Size.Height)
-                && this.Size.Width <= PocketLadioInfo.VgaWindowWidthBoundaryConditionHorizon)
+            // 横長QVGA
+            else if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.QvgaLandscape)
             {
-                // 横長のウィンドウ
-                FixWindowSizeHorizon();
+                FixWindowSizeQvgaLandscape();
             }
-            // 垂直モードの場合
+            // 縦長QVGA
             else
             {
-                // 縦長のウィンドウ
-                FixWindowSizeVertical();
+                FixWindowSizeQvgaPortrait();
             }
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（垂直）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長QVGA）
         /// </summary>
-        private void FixWindowSizeVertical()
+        private void FixWindowSizeQvgaPortrait()
         {
             this.playButton.Location = new System.Drawing.Point(81, 3);
             this.playButton.Size = new System.Drawing.Size(72, 20);
@@ -596,9 +588,9 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（水平）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長QVGA）
         /// </summary>
-        private void FixWindowSizeHorizon()
+        private void FixWindowSizeQvgaLandscape()
         {
             this.playButton.Location = new System.Drawing.Point(81, 3);
             this.playButton.Size = new System.Drawing.Size(72, 20);
@@ -615,9 +607,9 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（VGA垂直）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長VGA）
         /// </summary>
-        private void FixWindowSizeVerticalVga()
+        private void FixWindowSizeVgaPortrait()
         {
             this.playButton.Location = new System.Drawing.Point(81, 3);
             this.playButton.Size = new System.Drawing.Size(72, 20);
@@ -634,9 +626,9 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（VGA水平）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長VGA）
         /// </summary>
-        private void FixWindowSizeHorizonVga()
+        private void FixWindowSizeVgaLandscape()
         {
             this.playButton.Location = new System.Drawing.Point(81, 3);
             this.playButton.Size = new System.Drawing.Size(72, 20);
@@ -653,9 +645,9 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（SQVGA）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（四角QVGA）
         /// </summary>
-        private void FixWindowSizeSqvga()
+        private void FixWindowSizeSquareQvga()
         {
             this.playButton.Location = new System.Drawing.Point(81, 3);
             this.playButton.Size = new System.Drawing.Size(72, 20);

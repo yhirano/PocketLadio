@@ -201,23 +201,22 @@ namespace PocketLadio
         /// </summary>
         private void FixWindowSize()
         {
-            // 水平モードの場合
-            if (this.Size.Width > this.Size.Height)
+            // 横長QVGA
+            if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.QvgaLandscape)
             {
-                // 横長のウィンドウ
-                FixWindowSizeHorizon();
+                FixWindowSizeQvgaLandscape();
             }
+            // 縦長QVGA
             else
             {
-                // 縦長のウィンドウ
-                FixWindowSizeVertical();
+                FixWindowSizeQvgaPortrait();
             }
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（垂直）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長QVGA）
         /// </summary>
-        private void FixWindowSizeVertical()
+        private void FixWindowSizeQvgaPortrait()
         {
             this.stationListLabel.Location = new System.Drawing.Point(3, 77);
             this.stationListLabel.Size = new System.Drawing.Size(84, 20);
@@ -236,9 +235,9 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（水平）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長QVGA）
         /// </summary>
-        private void FixWindowSizeHorizon()
+        private void FixWindowSizeQvgaLandscape()
         {
             this.stationListLabel.Location = new System.Drawing.Point(3, 77);
             this.stationListLabel.Size = new System.Drawing.Size(84, 20);

@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.28";
+        private const string VERSION_NUMBER = "0.29";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -145,66 +145,6 @@ namespace PocketLadio
         public static int HeadlineListBoxDefaultFontSize
         {
             get { return HEADLINE_LIST_BOX_DEFAULT_FONT_SIZE; }
-        }
-
-        /// <summary>
-        /// 水平モード時のVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの幅がこの値より大きいとVGAと見なす。
-        /// </summary>
-        private const int VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_HORIZON = 320;
-
-        /// <summary>
-        /// 水平モード時のVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの幅がこの値より大きいとVGAと見なす。
-        /// </summary>
-        public static int VgaWindowWidthBoundaryConditionHorizon
-        {
-            get { return VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_HORIZON; }
-        } 
-
-        /// <summary>
-        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの幅がこの値より大きいとVGAと見なす。
-        /// </summary>
-        private const int VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_VERTICAL = 240;
-
-        /// <summary>
-        /// 垂直モード時のVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの幅がこの値より大きいとVGAと見なす。
-        /// </summary>
-        public static int VgaWindowWidthBoundaryConditionVertical
-        {
-            get { return VGA_WINDOW_WIDTH_BOUNDARY_CONDITION_VERTICAL; }
-        }
-
-        /// <summary>
-        /// SQVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの幅がこの値より小さいとSQVGAと見なす。
-        /// </summary>
-        private const int SQVGA_WINDOW_WIDTH_BOUNDARY_CONDITION = 250;
-
-        /// <summary>
-        /// SQVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの幅がこの値より小さいとSQVGAと見なす。
-        /// </summary>
-        public static int SqvgaWindowWidthBoundaryCondition
-        {
-            get { return SQVGA_WINDOW_WIDTH_BOUNDARY_CONDITION; }
-        }
-
-        /// <summary>
-        /// SQVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの高さがこの値より小さいとSQVGAと見なす。
-        /// </summary>
-        private const int SQVGA_WINDOW_HEIGHT_BOUNDARY_CONDITION = 190;
-
-        /// <summary>
-        /// SQVGAとQVGAのサイズの境界条件値。
-        /// メインフォームの高さがこの値より小さいとSQVGAと見なす。
-        /// </summary>
-        public static int SqvgaWindowHeightBoundaryCondition
-        {
-            get { return SQVGA_WINDOW_HEIGHT_BOUNDARY_CONDITION; }
         }
 
         /// <summary>
