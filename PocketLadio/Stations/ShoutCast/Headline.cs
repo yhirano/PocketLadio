@@ -11,6 +11,7 @@ using System.Xml;
 using System.Diagnostics;
 using PocketLadio.Stations;
 using MiscPocketCompactLibrary.Net;
+using MiscPocketCompactLibrary.Reflection;
 
 #endregion
 
@@ -70,73 +71,81 @@ namespace PocketLadio.Stations.ShoutCast
             Ascending, Descending
         }
 
-		#region HTML解析用正規表現
+        #region HTML解析用正規表現
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Path解析用。
-		/// </summary>
-		private readonly static Regex pathRegex = new Regex(
-            @"<a\s+[^>]*href=""(.*playlist\.pls[^""]*)""[^>]*>",
-			RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Path解析用。
+        /// </summary>
+        private readonly static Regex pathRegex =
+            new Regex(@"<a\s+[^>]*href=""(.*playlist\.pls[^""]*)""[^>]*>", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Rank解析用。
-		/// </summary>
-		private readonly static Regex rankRegex = new Regex(@"(\d+)</b>", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Rank解析用。
+        /// </summary>
+        private readonly static Regex rankRegex =
+            new Regex(@"(\d+)</b>", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Category解析用。
-		/// </summary>
-		private readonly static Regex categoryRegex = new Regex(@"^.*(\[.+?\])", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Category解析用。
+        /// </summary>
+        private readonly static Regex categoryRegex =
+            new Regex(@"^.*(\[.+?\])", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// ClusterUrl解析用。
-		/// </summary>
-		private readonly static Regex clusterUrlRegex = new Regex(
-            @"<a\s+[^>]*href=""([^""]*)""[^>]*>",
-			RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// ClusterUrl解析用。
+        /// </summary>
+        private readonly static Regex clusterUrlRegex =
+            new Regex(@"<a\s+[^>]*href=""([^""]*)""[^>]*>", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Title解析用。
-		/// </summary>
-		private readonly static Regex titleRegex = new Regex(@"<a[^>]*>(.+?)</a>", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Title解析用。
+        /// Willcom高速化サービス用。
+        /// </summary>
+        private readonly static Regex titleRegex =
+            new Regex(@"(.+?)</a>", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Listener解析用。
-		/// </summary>
-		private readonly static Regex listenerRegex = new Regex(@">(\d+)/(\d+)</font>", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Listener解析用。
+        /// </summary>
+        private readonly static Regex listenerRegex =
+            new Regex(@"(\d+)/(\d+)</font>", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Playing解析用1。
-		/// </summary>
-		private readonly static Regex playingNowRegex = new Regex(@"Now Playing:</font>(.*)", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Playing解析用1。
+        /// </summary>
+        private readonly static Regex playingNowRegex =
+            new Regex(@"Now Playing:</font>(.*)", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Playing解析用2。
-		/// </summary>
-		private readonly static Regex playingRegex = new Regex(@"\s*(.+?)</font.*$", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Playing解析用2。
+        /// </summary>
+        private readonly static Regex playingRegex =
+            new Regex(@"\s*(.+?)</font.*$", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// BitRate解析用。
-		/// </summary>
-		private readonly static Regex bitRateRegex = new Regex(@">(\d+)</font>", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// BitRate解析用。
+        /// Willcom高速化サービス用。
+        /// </summary>
+        private readonly static Regex bitRateRegex =
+            new Regex(@"(\d+)</font>", RegexOptions.None);
 
-		/// <summary>
-		/// HTML解析用正規表現。
-		/// Rankらしき行の解析用。
-		/// </summary>
-		private readonly static Regex maybeRankLineRegex = new Regex(@"^.*</b>", RegexOptions.None);
+        /// <summary>
+        /// HTML解析用正規表現。
+        /// Rankらしき行の解析用。
+        /// </summary>
+        private readonly static Regex maybeRankLineRegex =
+            new Regex(@"^.*</b>", RegexOptions.None);
 
-		#endregion
+        #endregion
 
         /// <summary>
         /// 親放送局
@@ -360,12 +369,39 @@ namespace PocketLadio.Stations.ShoutCast
 
                 sr = new StreamReader(st, Encoding.GetEncoding("Windows-1252"));
                 string httpString = sr.ReadToEnd();
+
+#if DEBUG
+                // ShoutcastのHTTPのログを書き出す
+                StreamWriter sw = null;
+                try
+                {
+                    sw = new StreamWriter(
+                            AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.ShoutcastHttpLog,
+                            false,
+                            Encoding.GetEncoding("Windows-1252"));
+                    sw.Write(httpString);
+                }
+                catch (IOException)
+                {
+                    throw;
+                }
+                finally
+                {
+                    if (sw != null)
+                    {
+                        sw.Close();
+                    }
+                }
+#endif
+                // タグの後に改行を入れる（Willcom高速化サービス対応のため）
+                httpString = httpString.Replace(">", ">\n");
+
                 string[] lines = httpString.Split('\n');
 
                 #region HTML解析
 
                 // 順位らしき行
-                string maybeRankLine = "";
+                string maybeRankLine = string.Empty;
 
                 // 1～指定行目まではHTMLを解析しない
                 int analyzeHtmlFirstTo = setting.IgnoreHtmlAnalyzeFirstTo;
@@ -373,7 +409,7 @@ namespace PocketLadio.Stations.ShoutCast
                 int analyzeHtmlLast = lines.Length - setting.IgnoreHtmlAnalyzeEndFrom;
 
                 // HTML解析
-                for (int lineNumber = analyzeHtmlFirstTo; lineNumber < analyzeHtmlLast; ++lineNumber)
+                for (int lineNumber = analyzeHtmlFirstTo; lineNumber < analyzeHtmlLast && lineNumber < lines.Length; ++lineNumber)
                 {
                     /*** playlist.plsを検索 ***/
                     Match pathMatch = pathRegex.Match(lines[lineNumber]);
@@ -454,6 +490,7 @@ namespace PocketLadio.Stations.ShoutCast
                         for (; lineNumber < analyzeHtmlLast; ++lineNumber)
                         {
                             listenerMatch = listenerRegex.Match(lines[lineNumber]);
+
                             if (listenerMatch.Success)
                             {
                                 break;

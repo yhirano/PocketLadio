@@ -184,7 +184,7 @@ namespace PocketLadio
         public static string NetladioHeadlineCsvUrl
         {
             get { return NETLADIO_HEADLINE_CVS_URL; }
-        } 
+        }
 
         /// <summary>
         /// ねとらじのヘッドラインのURL XML
@@ -197,7 +197,7 @@ namespace PocketLadio
         public static string NetladioHeadlineXmlUrl
         {
             get { return NETLADIO_HEADLINE_XML_URL; }
-        } 
+        }
 
         /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
@@ -211,7 +211,7 @@ namespace PocketLadio
         public static string RssPodcastMimePriorityFile
         {
             get { return RSS_PODCAST_MIME_PRIORITY_FILE; }
-        } 
+        }
 
         /// <summary>
         /// SHOUTcastのURL
@@ -289,7 +289,23 @@ namespace PocketLadio
         public static string ExceptionLogFile
         {
             get { return EXCEPTION_LOG_FILE; }
-        } 
+        }
+
+#if DEBUG
+        /// <summary>
+        /// ShoutcastのHttp通信内容のログファイル
+        /// </summary>
+        private const string SHOUTCAST_HTTP_LOG = "ShoutcastHttpLog.log";
+
+        /// <summary>
+        /// ShoutcastのHttp通信内容のログファイル
+        /// </summary>
+        public static string ShoutcastHttpLog
+        {
+            get { return SHOUTCAST_HTTP_LOG; }
+        }
+#endif
+
 
         #endregion
 

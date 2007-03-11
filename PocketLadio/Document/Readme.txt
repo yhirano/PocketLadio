@@ -125,6 +125,10 @@ PocketLadioの設定を行うことができます。
 
 
 【バージョン履歴】
+Version 0.29
+・SHOUTcastヘッドライン解析方法の変更。Willcom高速化サービス利用時にSHOUTcastの
+　ヘッドラインが取得できなかったのを修正。
+
 Version 0.28
 ・SHOUTcastでリスナ数が表示できていなかったのを修正
 ・SHOUTcastで述べリスナ数の表示機能を追加
