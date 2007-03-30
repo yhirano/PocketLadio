@@ -287,7 +287,8 @@ namespace PocketLadio.Stations.Netladio
                     .Replace("[[CLNS]]", ((Clns >= 0) ? Clns.ToString() : "na"))
                     .Replace("[[TITLE]]", Tit)
                     .Replace("[[TIMES]]", Tims.ToString())
-                    .Replace("[[BIT]]", ((Bit > 0) ? Bit.ToString() : "na"));
+                    .Replace("[[BIT]]", ((Bit > 0) ? Bit.ToString() : "na"))
+                    .Replace("[[PLAYURL]]", GetPlayUrl().ToString());
             }
 
             return view;
@@ -300,7 +301,7 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>フィルタリング対象のワード</returns>
         public virtual string GetFilteredWord()
         {
-            return Nam + " " + Gnl;
+            return Nam + " " + Gnl + " " + GetPlayUrl().ToString();
         }
 
         /// <summary>
