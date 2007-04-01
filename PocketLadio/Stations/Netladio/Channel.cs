@@ -260,7 +260,14 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>番組の放送URL</returns>
         public virtual Uri GetPlayUrl()
         {
-            return new Uri("http://" + srv + ":" + prt + mnt);
+            try
+            {
+                return new Uri("http://" + srv + ":" + prt + mnt);
+            }
+            catch (UriFormatException)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -287,8 +294,16 @@ namespace PocketLadio.Stations.Netladio
                     .Replace("[[CLNS]]", ((Clns >= 0) ? Clns.ToString() : "na"))
                     .Replace("[[TITLE]]", Tit)
                     .Replace("[[TIMES]]", Tims.ToString())
-                    .Replace("[[BIT]]", ((Bit > 0) ? Bit.ToString() : "na"))
-                    .Replace("[[PLAYURL]]", GetPlayUrl().ToString());
+                    .Replace("[[BIT]]", ((Bit > 0) ? Bit.ToString() : "na"));
+
+                if (GetPlayUrl() != null)
+                {
+                    view = view.Replace("[[PLAYURL]]", GetPlayUrl().ToString());
+                }
+                else
+                {
+                    view = view.Replace("[[PLAYURL]]", "");
+                }
             }
 
             return view;
@@ -301,7 +316,13 @@ namespace PocketLadio.Stations.Netladio
         /// <returns>フィルタリング対象のワード</returns>
         public virtual string GetFilteredWord()
         {
-            return Nam + " " + Gnl + " " + GetPlayUrl().ToString();
+            string filteredWord = Nam + " " + Gnl;
+            if (GetPlayUrl() != null)
+            {
+                filteredWord += " " + GetPlayUrl().ToString();
+            }
+
+            return filteredWord;
         }
 
         /// <summary>
