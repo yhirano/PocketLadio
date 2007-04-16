@@ -914,15 +914,5 @@ namespace PocketLadio.Stations.Netladio
                 ClipboardTextBox.Copy(addWordTextBox);
             }
         }
-
-        private void ProxyPortTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void ProxyPortTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
     }
 }
