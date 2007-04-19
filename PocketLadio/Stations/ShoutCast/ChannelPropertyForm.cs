@@ -6,6 +6,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
@@ -17,27 +18,23 @@ namespace PocketLadio.Stations.ShoutCast
     /// </summary>
     public class ChannelPropertyForm : System.Windows.Forms.Form
     {
-        private Label titleCaptionLabel;
-        private Label categoryCaptionLabel;
-        private Label clusterUrlCaptionLabel;
-        private Label playingCaptionLabel;
-        private Label listenerCaptionLabel;
-        private Label bitRateCaptionLabel;
-        private Label titleLabel;
-        private Label categoryLabel;
-        private Label clusterUrlLabel;
-        private Label playingLabel;
-        private Label listenerLabel;
-        private Label bitRateLabel;
         private Button accessButton;
         private MenuItem okMenuItem;
         private Button playButton;
         private MainMenu mainMenu;
+        private ListView propertyListView;
+        private ColumnHeader infomationColumnHeader;
+        private ColumnHeader discriptionColumnHeader;
 
         /// <summary>
         /// チャンネル
         /// </summary>
         private Channel channel;
+
+        /// <summary>
+        /// アンカーコントロールのリスト
+        /// </summary>
+        private ArrayList anchorControlList = new ArrayList();
 
         public ChannelPropertyForm(Channel channel)
         {
@@ -64,92 +61,17 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         private void InitializeComponent()
         {
-            this.titleCaptionLabel = new System.Windows.Forms.Label();
-            this.titleLabel = new System.Windows.Forms.Label();
-            this.categoryCaptionLabel = new System.Windows.Forms.Label();
-            this.categoryLabel = new System.Windows.Forms.Label();
-            this.clusterUrlCaptionLabel = new System.Windows.Forms.Label();
-            this.clusterUrlLabel = new System.Windows.Forms.Label();
-            this.playingCaptionLabel = new System.Windows.Forms.Label();
-            this.playingLabel = new System.Windows.Forms.Label();
-            this.listenerCaptionLabel = new System.Windows.Forms.Label();
-            this.listenerLabel = new System.Windows.Forms.Label();
-            this.bitRateCaptionLabel = new System.Windows.Forms.Label();
-            this.bitRateLabel = new System.Windows.Forms.Label();
             this.accessButton = new System.Windows.Forms.Button();
             this.mainMenu = new System.Windows.Forms.MainMenu();
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.playButton = new System.Windows.Forms.Button();
-            // 
-            // titleCaptionLabel
-            // 
-            this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.titleCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.titleCaptionLabel.Text = "Title";
-            // 
-            // titleLabel
-            // 
-            this.titleLabel.Location = new System.Drawing.Point(3, 19);
-            this.titleLabel.Size = new System.Drawing.Size(234, 16);
-            // 
-            // categoryCaptionLabel
-            // 
-            this.categoryCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.categoryCaptionLabel.Size = new System.Drawing.Size(62, 16);
-            this.categoryCaptionLabel.Text = "Category";
-            // 
-            // categoryLabel
-            // 
-            this.categoryLabel.Location = new System.Drawing.Point(3, 51);
-            this.categoryLabel.Size = new System.Drawing.Size(234, 16);
-            // 
-            // clusterUrlCaptionLabel
-            // 
-            this.clusterUrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.clusterUrlCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.clusterUrlCaptionLabel.Text = "Cluster URL";
-            // 
-            // clusterUrlLabel
-            // 
-            this.clusterUrlLabel.Location = new System.Drawing.Point(3, 109);
-            this.clusterUrlLabel.Size = new System.Drawing.Size(234, 16);
-            // 
-            // playingCaptionLabel
-            // 
-            this.playingCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.playingCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.playingCaptionLabel.Text = "Playing Now";
-            // 
-            // playingLabel
-            // 
-            this.playingLabel.Location = new System.Drawing.Point(3, 167);
-            this.playingLabel.Size = new System.Drawing.Size(234, 16);
-            // 
-            // listenerCaptionLabel
-            // 
-            this.listenerCaptionLabel.Location = new System.Drawing.Point(3, 183);
-            this.listenerCaptionLabel.Size = new System.Drawing.Size(120, 16);
-            this.listenerCaptionLabel.Text = "Listener";
-            // 
-            // listenerLabel
-            // 
-            this.listenerLabel.Location = new System.Drawing.Point(3, 199);
-            this.listenerLabel.Size = new System.Drawing.Size(120, 16);
-            // 
-            // bitRateCaptionLabel
-            // 
-            this.bitRateCaptionLabel.Location = new System.Drawing.Point(129, 183);
-            this.bitRateCaptionLabel.Size = new System.Drawing.Size(64, 16);
-            this.bitRateCaptionLabel.Text = "Bit rate";
-            // 
-            // bitRateLabel
-            // 
-            this.bitRateLabel.Location = new System.Drawing.Point(129, 199);
-            this.bitRateLabel.Size = new System.Drawing.Size(108, 16);
+            this.propertyListView = new System.Windows.Forms.ListView();
+            this.infomationColumnHeader = new System.Windows.Forms.ColumnHeader();
+            this.discriptionColumnHeader = new System.Windows.Forms.ColumnHeader();
             // 
             // accessButton
             // 
-            this.accessButton.Location = new System.Drawing.Point(165, 128);
+            this.accessButton.Location = new System.Drawing.Point(165, 245);
             this.accessButton.Size = new System.Drawing.Size(72, 20);
             this.accessButton.Text = "&Access";
             this.accessButton.Click += new System.EventHandler(this.AccessButton_Click);
@@ -165,28 +87,35 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // playButton
             // 
-            this.playButton.Location = new System.Drawing.Point(165, 70);
+            this.playButton.Location = new System.Drawing.Point(87, 245);
             this.playButton.Size = new System.Drawing.Size(72, 20);
             this.playButton.Text = "&Play";
             this.playButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
-            // channelPropertyForm
+            // propertyListView
+            // 
+            this.propertyListView.Columns.Add(this.infomationColumnHeader);
+            this.propertyListView.Columns.Add(this.discriptionColumnHeader);
+            this.propertyListView.Location = new System.Drawing.Point(3, 3);
+            this.propertyListView.Size = new System.Drawing.Size(234, 236);
+            this.propertyListView.View = System.Windows.Forms.View.Details;
+            // 
+            // infomationColumnHeader
+            // 
+            this.infomationColumnHeader.Text = "情報";
+            this.infomationColumnHeader.Width = 60;
+            // 
+            // discriptionColumnHeader
+            // 
+            this.discriptionColumnHeader.Text = "詳細";
+            this.discriptionColumnHeader.Width = 150;
+            // 
+            // ChannelPropertyForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
+            this.Controls.Add(this.propertyListView);
             this.Controls.Add(this.playButton);
             this.Controls.Add(this.accessButton);
-            this.Controls.Add(this.bitRateLabel);
-            this.Controls.Add(this.bitRateCaptionLabel);
-            this.Controls.Add(this.listenerLabel);
-            this.Controls.Add(this.listenerCaptionLabel);
-            this.Controls.Add(this.playingLabel);
-            this.Controls.Add(this.playingCaptionLabel);
-            this.Controls.Add(this.clusterUrlLabel);
-            this.Controls.Add(this.clusterUrlCaptionLabel);
-            this.Controls.Add(this.categoryLabel);
-            this.Controls.Add(this.categoryCaptionLabel);
-            this.Controls.Add(this.titleLabel);
-            this.Controls.Add(this.titleCaptionLabel);
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "番組の詳細";
@@ -197,111 +126,62 @@ namespace PocketLadio.Stations.ShoutCast
         #endregion
 
         /// <summary>
+        /// コントロールにアンカーをセットする
+        /// </summary>
+        private void SetAnchorControl()
+        {
+            anchorControlList.Add(new AnchorLayout(propertyListView, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom));
+            anchorControlList.Add(new AnchorLayout(playButton, AnchorStyles.Right | AnchorStyles.Bottom));
+            anchorControlList.Add(new AnchorLayout(accessButton, AnchorStyles.Right | AnchorStyles.Bottom));
+        }
+
+        /// <summary>
         /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する
         /// </summary>
         private void FixWindowSize()
         {
-            // 横長QVGA
-            if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.QvgaLandscape)
+            foreach (AnchorLayout anchorLayout in anchorControlList)
             {
-                FixWindowSizeQvgaLandscape();
+                anchorLayout.LayoutControl();
             }
-            // 縦長QVGA
-            else
-            {
-                FixWindowSizeQvgaPortrait();
-            }
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長QVGA）
-        /// </summary>
-        private void FixWindowSizeQvgaPortrait()
-        {
-            this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.titleCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.titleLabel.Location = new System.Drawing.Point(3, 19);
-            this.titleLabel.Size = new System.Drawing.Size(234, 16);
-            this.categoryCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.categoryCaptionLabel.Size = new System.Drawing.Size(62, 16);
-            this.categoryLabel.Location = new System.Drawing.Point(3, 51);
-            this.categoryLabel.Size = new System.Drawing.Size(234, 16);
-            this.clusterUrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.clusterUrlCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.clusterUrlLabel.Location = new System.Drawing.Point(3, 109);
-            this.clusterUrlLabel.Size = new System.Drawing.Size(234, 16);
-            this.playingCaptionLabel.Location = new System.Drawing.Point(3, 151);
-            this.playingCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.playingLabel.Location = new System.Drawing.Point(3, 167);
-            this.playingLabel.Size = new System.Drawing.Size(234, 16);
-            this.listenerCaptionLabel.Location = new System.Drawing.Point(3, 183);
-            this.listenerCaptionLabel.Size = new System.Drawing.Size(120, 16);
-            this.listenerLabel.Location = new System.Drawing.Point(3, 199);
-            this.listenerLabel.Size = new System.Drawing.Size(120, 16);
-            this.bitRateCaptionLabel.Location = new System.Drawing.Point(129, 183);
-            this.bitRateCaptionLabel.Size = new System.Drawing.Size(64, 16);
-            this.bitRateLabel.Location = new System.Drawing.Point(129, 199);
-            this.bitRateLabel.Size = new System.Drawing.Size(108, 16);
-            this.accessButton.Location = new System.Drawing.Point(165, 128);
-            this.accessButton.Size = new System.Drawing.Size(72, 20);
-            this.playButton.Location = new System.Drawing.Point(165, 70);
-            this.playButton.Size = new System.Drawing.Size(72, 20);
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長QVGA）
-        /// </summary>
-        private void FixWindowSizeQvgaLandscape()
-        {
-            this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
-            this.titleCaptionLabel.Size = new System.Drawing.Size(32, 16);
-            this.titleLabel.Location = new System.Drawing.Point(3, 19);
-            this.titleLabel.Size = new System.Drawing.Size(314, 16);
-            this.categoryCaptionLabel.Location = new System.Drawing.Point(3, 35);
-            this.categoryCaptionLabel.Size = new System.Drawing.Size(62, 16);
-            this.categoryLabel.Location = new System.Drawing.Point(3, 51);
-            this.categoryLabel.Size = new System.Drawing.Size(314, 16);
-            this.clusterUrlCaptionLabel.Location = new System.Drawing.Point(3, 93);
-            this.clusterUrlCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.clusterUrlLabel.Location = new System.Drawing.Point(3, 109);
-            this.clusterUrlLabel.Size = new System.Drawing.Size(236, 16);
-            this.playingCaptionLabel.Location = new System.Drawing.Point(3, 132);
-            this.playingCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.playingLabel.Location = new System.Drawing.Point(86, 132);
-            this.playingLabel.Size = new System.Drawing.Size(231, 16);
-            this.listenerCaptionLabel.Location = new System.Drawing.Point(3, 148);
-            this.listenerCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.listenerLabel.Location = new System.Drawing.Point(86, 148);
-            this.listenerLabel.Size = new System.Drawing.Size(120, 16);
-            this.bitRateCaptionLabel.Location = new System.Drawing.Point(3, 164);
-            this.bitRateCaptionLabel.Size = new System.Drawing.Size(77, 16);
-            this.bitRateLabel.Location = new System.Drawing.Point(86, 164);
-            this.bitRateLabel.Size = new System.Drawing.Size(108, 16);
-            this.accessButton.Location = new System.Drawing.Point(245, 109);
-            this.accessButton.Size = new System.Drawing.Size(72, 20);
-            this.playButton.Location = new System.Drawing.Point(245, 70);
-            this.playButton.Size = new System.Drawing.Size(72, 20);
         }
 
         private void ChannelPropertyForm_Load(object sender, System.EventArgs e)
         {
+            SetAnchorControl();
             FixWindowSize();
-            titleLabel.Text = channel.Title.Trim();
-            categoryLabel.Text = channel.Category.Trim();
-            clusterUrlLabel.Text = ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "");
-            playingLabel.Text = channel.Playing.Trim();
+
+            string[] titleProperty = { "Title", channel.Title.Trim() };
+            string[] categoryProperty = { "Category", channel.Category.Trim() };
+            string[] clusterProperty = { "Cluster", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "") };
+            string[] playingProperty = { "Playing", channel.Playing.Trim() };
+
+            // リスナ数表示格納文字列
+            string listener = string.Empty;
             if (channel.Listener >= 0)
             {
-                listenerLabel.Text = channel.Listener.ToString();
+                listener = channel.Listener.ToString();
             }
             if (channel.ListenerTotal >= 0)
             {
-                listenerLabel.Text += " / " + channel.ListenerTotal.ToString();
+                listener += " / " + channel.ListenerTotal.ToString();
             }
+            string[] listenerProperty = { "Listener", listener };
+
+            // ビットレート表示格納文字列
+            string bitRate = string.Empty;
             if (channel.BitRate > 0)
             {
-                bitRateLabel.Text = channel.BitRate.ToString() + " Kbps";
+                bitRate = channel.BitRate.ToString() + " Kbps";
             }
+            string[] bitRateProperty = { "Bit rate", bitRate };
+
+            propertyListView.Items.Add(new ListViewItem(titleProperty));
+            propertyListView.Items.Add(new ListViewItem(categoryProperty));
+            propertyListView.Items.Add(new ListViewItem(clusterProperty));
+            propertyListView.Items.Add(new ListViewItem(playingProperty));
+            propertyListView.Items.Add(new ListViewItem(listenerProperty));
+            propertyListView.Items.Add(new ListViewItem(bitRateProperty));
         }
 
         private void PlayButton_Click(object sender, System.EventArgs e)
@@ -320,7 +200,7 @@ namespace PocketLadio.Stations.ShoutCast
         {
             try
             {
-                if (clusterUrlLabel.Text.Trim().Length != 0)
+                if (channel.GetWebsiteUrl() != null)
                 {
                     PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
                 }

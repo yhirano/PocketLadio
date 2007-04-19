@@ -40,9 +40,14 @@ namespace PocketLadio
         private ArrayList alStationList = new ArrayList();
 
         /// <summary>
-        /// フォームのメイン メニューです。
+        /// フォームのメインメニュー
         /// </summary>
         private System.Windows.Forms.MainMenu mainMenu;
+
+        /// <summary>
+        /// アンカーコントロールのリスト
+        /// </summary>
+        private ArrayList anchorControlList = new ArrayList();
 
         public StationsSettingForm()
         {
@@ -197,62 +202,28 @@ namespace PocketLadio
         #endregion
 
         /// <summary>
+        /// コントロールにアンカーをセットする
+        /// </summary>
+        private void SetAnchorControl()
+        {
+            anchorControlList.Add(new AnchorLayout(addStationLabel, AnchorStyles.Top | AnchorStyles.Left));
+            anchorControlList.Add(new AnchorLayout(stationNameTextBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right));
+            anchorControlList.Add(new AnchorLayout(stationKindComboBox, AnchorStyles.Top | AnchorStyles.Right));
+            anchorControlList.Add(new AnchorLayout(addButton, AnchorStyles.Top | AnchorStyles.Right));
+            anchorControlList.Add(new AnchorLayout(stationListLabel, AnchorStyles.Top | AnchorStyles.Left));
+            anchorControlList.Add(new AnchorLayout(stationListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom));
+            anchorControlList.Add(new AnchorLayout(deleteButton, AnchorStyles.Right | AnchorStyles.Bottom));
+        }
+
+        /// <summary>
         /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する
         /// </summary>
         private void FixWindowSize()
         {
-            // 横長QVGA
-            if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.QvgaLandscape)
+            foreach (AnchorLayout anchorLayout in anchorControlList)
             {
-                FixWindowSizeQvgaLandscape();
+                anchorLayout.LayoutControl();
             }
-            // 縦長QVGA
-            else
-            {
-                FixWindowSizeQvgaPortrait();
-            }
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長QVGA）
-        /// </summary>
-        private void FixWindowSizeQvgaPortrait()
-        {
-            this.stationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
-            this.addStationLabel.Location = new System.Drawing.Point(3, 4);
-            this.addStationLabel.Size = new System.Drawing.Size(84, 20);
-            this.stationListBox.Location = new System.Drawing.Point(3, 99);
-            this.stationListBox.Size = new System.Drawing.Size(234, 142);
-            this.deleteButton.Location = new System.Drawing.Point(165, 245);
-            this.deleteButton.Size = new System.Drawing.Size(72, 20);
-            this.addButton.Location = new System.Drawing.Point(165, 54);
-            this.addButton.Size = new System.Drawing.Size(72, 20);
-            this.stationKindComboBox.Location = new System.Drawing.Point(137, 27);
-            this.stationKindComboBox.Size = new System.Drawing.Size(100, 22);
-            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
-            this.stationNameTextBox.Size = new System.Drawing.Size(128, 21);
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長QVGA）
-        /// </summary>
-        private void FixWindowSizeQvgaLandscape()
-        {
-            this.stationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
-            this.addStationLabel.Location = new System.Drawing.Point(3, 4);
-            this.addStationLabel.Size = new System.Drawing.Size(84, 20);
-            this.stationListBox.Location = new System.Drawing.Point(3, 99);
-            this.stationListBox.Size = new System.Drawing.Size(314, 58);
-            this.deleteButton.Location = new System.Drawing.Point(245, 165);
-            this.deleteButton.Size = new System.Drawing.Size(72, 20);
-            this.addButton.Location = new System.Drawing.Point(245, 55);
-            this.addButton.Size = new System.Drawing.Size(72, 20);
-            this.stationKindComboBox.Location = new System.Drawing.Point(217, 27);
-            this.stationKindComboBox.Size = new System.Drawing.Size(100, 22);
-            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
-            this.stationNameTextBox.Size = new System.Drawing.Size(208, 21);
         }
 
         /// <summary>
@@ -294,7 +265,7 @@ namespace PocketLadio
 
         private void StationsSettingForm_Load(object sender, EventArgs e)
         {
-            // フォーム内の中身のサイズを適正に変更する
+            SetAnchorControl();
             FixWindowSize();
 
             // 放送局情報の読み込み

@@ -276,7 +276,7 @@ namespace PocketLadio
             // 
             // headlineListBoxFontSizeNumericUpDown
             // 
-            this.headlineListBoxFontSizeNumericUpDown.Location = new System.Drawing.Point(182, 29);
+            this.headlineListBoxFontSizeNumericUpDown.Location = new System.Drawing.Point(182, 30);
             this.headlineListBoxFontSizeNumericUpDown.ReadOnly = true;
             this.headlineListBoxFontSizeNumericUpDown.Size = new System.Drawing.Size(55, 22);
             this.headlineListBoxFontSizeNumericUpDown.Value = new decimal(new int[] {
@@ -287,7 +287,7 @@ namespace PocketLadio
             // 
             // headlineListBoxFontSizeCheckBox
             // 
-            this.headlineListBoxFontSizeCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.headlineListBoxFontSizeCheckBox.Location = new System.Drawing.Point(3, 7);
             this.headlineListBoxFontSizeCheckBox.Size = new System.Drawing.Size(234, 20);
             this.headlineListBoxFontSizeCheckBox.Text = "番組表のフォントサイズを変更する（pt）";
             // 
@@ -295,7 +295,7 @@ namespace PocketLadio
             // 
             this.networkTabPage.Controls.Add(this.proxySettingPanel);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
+            this.networkTabPage.Size = new System.Drawing.Size(240, 245);
             this.networkTabPage.Text = "ネットワーク";
             // 
             // proxySettingPanel
@@ -423,52 +423,55 @@ namespace PocketLadio
             headlineListBoxFontSizeNumericUpDown.Maximum = PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt;
 
             // 設定の読み込み
-            mediaPlayerPathTextBox.Text = UserSetting.MediaPlayerPath;
-            browserPathTextBox.Text = UserSetting.BrowserPath;
-            if (UserSetting.PlayListSave == true) 
             {
-                playlistSaveLocalCheckBox.Checked = true;
+                headlineTimerSecondNumericUpDown.Text = (UserSetting.HeadlineTimerMillSecond / 1000).ToString();
+                mediaPlayerPathTextBox.Text = UserSetting.MediaPlayerPath;
+                browserPathTextBox.Text = UserSetting.BrowserPath;
+
+                if (UserSetting.PlayListSave == true)
+                {
+                    playlistSaveLocalCheckBox.Checked = true;
+                }
+                else if (UserSetting.PlayListSave == false)
+                {
+                    playlistSaveLocalCheckBox.Checked = false;
+                }
+
+                headlineListBoxFontSizeCheckBox.Checked = UserSetting.HeadlineListBoxFontSizeChange;
+                headlineListBoxFontSizeNumericUpDown.Text = UserSetting.HeadlineListBoxFontSize.ToString();
+
+                if (UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+                {
+                    proxyUnuseRadioButton.Checked = true;
+                    proxyUseOsSettingRadioButton.Checked = false;
+                    proxyUseOriginalSettingRadioButton.Checked = false;
+                }
+                else if (UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+                {
+                    proxyUnuseRadioButton.Checked = false;
+                    proxyUseOsSettingRadioButton.Checked = true;
+                    proxyUseOriginalSettingRadioButton.Checked = false;
+                }
+                else if (UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+                {
+                    proxyUnuseRadioButton.Checked = false;
+                    proxyUseOsSettingRadioButton.Checked = false;
+                    proxyUseOriginalSettingRadioButton.Checked = true;
+                }
+                else
+                {
+                    // ここに到達することはあり得ない
+                    Trace.Assert(false, "想定外の動作のため、終了します");
+                }
+
+                proxyServerTextBox.Text = UserSetting.ProxyServer;
+                proxyPortTextBox.Text = UserSetting.ProxyPort.ToString();
             }
-            else if (UserSetting.PlayListSave == false)
-            {
-                playlistSaveLocalCheckBox.Checked = false;
-            }
-            if (UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
-            {
-                proxyUnuseRadioButton.Checked = true;
-                proxyUseOsSettingRadioButton.Checked =false;
-                proxyUseOriginalSettingRadioButton.Checked = false;
-            }
-            else if (UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
-            {
-                proxyUnuseRadioButton.Checked = false;
-                proxyUseOsSettingRadioButton.Checked = true;
-                proxyUseOriginalSettingRadioButton.Checked = false;
-            }
-            else if (UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
-            {
-                proxyUnuseRadioButton.Checked = false;
-                proxyUseOsSettingRadioButton.Checked = false;
-                proxyUseOriginalSettingRadioButton.Checked = true;
-            }
-            else
-            {
-                // ここに到達することはあり得ない
-                Trace.Assert(false, "想定外の動作のため、終了します");
-            }
-            proxyServerTextBox.Text = UserSetting.ProxyServer;
-            proxyPortTextBox.Text = UserSetting.ProxyPort.ToString();
-            headlineTimerSecondNumericUpDown.Text = (UserSetting.HeadlineTimerMillSecond / 1000).ToString();
-            headlineListBoxFontSizeCheckBox.Checked = UserSetting.HeadlineListBoxFontSizeChange;
-            headlineListBoxFontSizeNumericUpDown.Text = UserSetting.HeadlineListBoxFontSize.ToString();
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 設定の書き込み
-            UserSetting.MediaPlayerPath = mediaPlayerPathTextBox.Text.Trim();
-            UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
-
             if (playlistSaveLocalCheckBox.Checked == true)
             {
                 UserSetting.PlayListSave = true;
@@ -478,39 +481,8 @@ namespace PocketLadio
                 UserSetting.PlayListSave = false;
             }
 
-            if (proxyUnuseRadioButton.Checked == true)
-            {
-                UserSetting.ProxyUse = UserSetting.ProxyConnect.Unuse;
-            }
-            else if (proxyUseOsSettingRadioButton.Checked == true)
-            {
-                UserSetting.ProxyUse = UserSetting.ProxyConnect.OsSetting;
-            }
-            else if (proxyUseOriginalSettingRadioButton.Checked == true)
-            {
-                UserSetting.ProxyUse = UserSetting.ProxyConnect.OriginalSetting;
-            }
-            else {
-                // ここに到達することはあり得ない
-                Trace.Assert(false, "想定外の動作のため、終了します");
-            }
-            UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
-            try
-            {
-                UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
-            }
-            catch (ArgumentException)
-            {
-                ;
-            }
-            catch (FormatException)
-            {
-                ;
-            }
-            catch (OverflowException)
-            {
-                ;
-            }
+            UserSetting.MediaPlayerPath = mediaPlayerPathTextBox.Text.Trim();
+            UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
 
             try
             {
@@ -540,6 +512,41 @@ namespace PocketLadio
             try
             {
                 UserSetting.HeadlineListBoxFontSize = Convert.ToInt32(headlineListBoxFontSizeNumericUpDown.Text);
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
+
+            if (proxyUnuseRadioButton.Checked == true)
+            {
+                UserSetting.ProxyUse = UserSetting.ProxyConnect.Unuse;
+            }
+            else if (proxyUseOsSettingRadioButton.Checked == true)
+            {
+                UserSetting.ProxyUse = UserSetting.ProxyConnect.OsSetting;
+            }
+            else if (proxyUseOriginalSettingRadioButton.Checked == true)
+            {
+                UserSetting.ProxyUse = UserSetting.ProxyConnect.OriginalSetting;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+            UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
+            try
+            {
+                UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
             }
             catch (ArgumentException)
             {

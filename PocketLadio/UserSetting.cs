@@ -7,6 +7,7 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using MiscPocketCompactLibrary.Reflection;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 
@@ -29,6 +30,51 @@ namespace PocketLadio
         {
             get { return UserSetting.filterEnable; }
             set { UserSetting.filterEnable = value; }
+        }
+
+        /// <summary>
+        /// タイマーのチェック時間
+        /// </summary>
+        private static int headlineTimerMillSecond = 60000;
+
+        /// <summary>
+        /// タイマーのチェック時間
+        /// </summary>
+        public static int HeadlineTimerMillSecond
+        {
+            get { return UserSetting.headlineTimerMillSecond; }
+            set
+            {
+                // 規定に収まる場合
+                if (PocketLadioInfo.HeadlineCheckTimerMinimumMillSec <= value && value <= PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
+                {
+                    UserSetting.headlineTimerMillSecond = value;
+                }
+                // 規定よりも短い場合
+                else if (value < PocketLadioInfo.HeadlineCheckTimerMinimumMillSec)
+                {
+                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec;
+                }
+                // 規定よりも長い場合
+                else if (value > PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
+                {
+                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
+                }
+            }
+        }
+
+        /// <summary>
+        /// プレイリストは一端ローカルに保存するか
+        /// </summary>
+        private static bool playListSave = true;
+
+        /// <summary>
+        /// プレイリストは一端ローカルに保存するか
+        /// </summary>
+        public static bool PlayListSave
+        {
+            get { return UserSetting.playListSave; }
+            set { UserSetting.playListSave = value; }
         }
 
         /// <summary>
@@ -116,51 +162,6 @@ namespace PocketLadio
                     UserSetting.headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt;
                 }
             }
-        }
-
-        /// <summary>
-        /// タイマーのチェック時間
-        /// </summary>
-        private static int headlineTimerMillSecond = 60000;
-
-        /// <summary>
-        /// タイマーのチェック時間
-        /// </summary>
-        public static int HeadlineTimerMillSecond
-        {
-            get { return UserSetting.headlineTimerMillSecond; }
-            set
-            {
-                // 規定に収まる場合
-                if (PocketLadioInfo.HeadlineCheckTimerMinimumMillSec <= value && value <= PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
-                {
-                    UserSetting.headlineTimerMillSecond = value;
-                }
-                // 規定よりも短い場合
-                else if (value < PocketLadioInfo.HeadlineCheckTimerMinimumMillSec)
-                {
-                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec;
-                }
-                // 規定よりも長い場合
-                else if (value > PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
-                {
-                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
-                }
-            }
-        }
-
-        /// <summary>
-        /// プレイリストは一端ローカルに保存するか
-        /// </summary>
-        private static bool playListSave = true;
-
-        /// <summary>
-        /// プレイリストは一端ローカルに保存するか
-        /// </summary>
-        public static bool PlayListSave
-        {
-            get { return UserSetting.playListSave; }
-            set { UserSetting.playListSave = value; }
         }
 
         /// <summary>
@@ -329,6 +330,37 @@ namespace PocketLadio
                                     FilterEnable = false;
                                 }
                             } // End of FilterEnable
+                            else if (reader.LocalName.Equals("HeadlineTimer"))
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string check = reader.GetAttribute("check");
+                                    if (check == bool.TrueString)
+                                    {
+                                        HeadlineTimerCheck = true;
+                                    }
+                                    else if (check == bool.FalseString)
+                                    {
+                                        HeadlineTimerCheck = false;
+                                    }
+                                    try
+                                    {
+                                        HeadlineTimerMillSecond = Convert.ToInt32(reader.GetAttribute("millsecond"));
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of HeadlineTimer
                             else if (reader.LocalName == "MediaPlayerPath")
                             {
                                 MediaPlayerPath = reader.GetAttribute("path");
@@ -350,6 +382,37 @@ namespace PocketLadio
                                     PlayListSave = false;
                                 }
                             } // End of PlayListSave
+                            else if (reader.LocalName.Equals("HeadlineListBoxFont"))
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string check = reader.GetAttribute("change");
+                                    if (check == bool.TrueString)
+                                    {
+                                        HeadlineListBoxFontSizeChange = true;
+                                    }
+                                    else if (check == bool.FalseString)
+                                    {
+                                        HeadlineListBoxFontSizeChange = false;
+                                    }
+                                    try
+                                    {
+                                        HeadlineListBoxFontSize = Convert.ToInt32(reader.GetAttribute("size"));
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of HeadlineListBoxFont
                             else if (reader.LocalName == "Proxy")
                             {
                                 if (reader.MoveToFirstAttribute())
@@ -389,68 +452,6 @@ namespace PocketLadio
                                     }
                                 }
                             } // End of Proxy
-                            else if (reader.LocalName.Equals("HeadlineListBoxFont"))
-                            {
-                                if (reader.MoveToFirstAttribute())
-                                {
-                                    string check = reader.GetAttribute("change");
-                                    if (check == bool.TrueString)
-                                    {
-                                        HeadlineListBoxFontSizeChange = true;
-                                    }
-                                    else if (check == bool.FalseString)
-                                    {
-                                        HeadlineListBoxFontSizeChange = false;
-                                    }
-                                    try
-                                    {
-                                        HeadlineListBoxFontSize = Convert.ToInt32(reader.GetAttribute("size"));
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                        ;
-                                    }
-                                    catch (FormatException)
-                                    {
-                                        ;
-                                    }
-                                    catch (OverflowException)
-                                    {
-                                        ;
-                                    }
-                                }
-                            } // End of HeadlineListBoxFont
-                            else if (reader.LocalName.Equals("HeadlineTimer"))
-                            {
-                                if (reader.MoveToFirstAttribute())
-                                {
-                                    string check = reader.GetAttribute("check");
-                                    if (check == bool.TrueString)
-                                    {
-                                        HeadlineTimerCheck = true;
-                                    }
-                                    else if (check == bool.FalseString)
-                                    {
-                                        HeadlineTimerCheck = false;
-                                    }
-                                    try
-                                    {
-                                        HeadlineTimerMillSecond = Convert.ToInt32(reader.GetAttribute("millsecond"));
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                        ;
-                                    }
-                                    catch (FormatException)
-                                    {
-                                        ;
-                                    }
-                                    catch (OverflowException)
-                                    {
-                                        ;
-                                    }
-                                }
-                            } // End of HeadlineTimer
                         }
                         else if (reader.NodeType == XmlNodeType.EndElement)
                         {
@@ -528,6 +529,11 @@ namespace PocketLadio
                 writer.WriteAttributeString("enable", FilterEnable.ToString());
                 writer.WriteEndElement(); // End of FilterEnable
 
+                writer.WriteStartElement("HeadlineTimer");
+                writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
+                writer.WriteAttributeString("millsecond", HeadlineTimerMillSecond.ToString());
+                writer.WriteEndElement(); // End of HeadlineTimer
+
                 writer.WriteStartElement("MediaPlayerPath");
                 writer.WriteAttributeString("path", MediaPlayerPath);
                 writer.WriteEndElement(); // End of MediaPlayerPath
@@ -540,21 +546,16 @@ namespace PocketLadio
                 writer.WriteAttributeString("save", PlayListSave.ToString());
                 writer.WriteEndElement(); // End of PlayListSave
 
-                writer.WriteStartElement("Proxy");
-                writer.WriteAttributeString("use", ProxyUse.ToString());
-                writer.WriteAttributeString("server", ProxyServer);
-                writer.WriteAttributeString("port", ProxyPort.ToString());
-                writer.WriteEndElement(); // End of Porxy
-
                 writer.WriteStartElement("HeadlineListBoxFont");
                 writer.WriteAttributeString("change", HeadlineListBoxFontSizeChange.ToString());
                 writer.WriteAttributeString("size", HeadlineListBoxFontSize.ToString());
                 writer.WriteEndElement(); // End of HeadlineListBoxFont
 
-                writer.WriteStartElement("HeadlineTimer");
-                writer.WriteAttributeString("check", HeadlineTimerCheck.ToString());
-                writer.WriteAttributeString("millsecond", HeadlineTimerMillSecond.ToString());
-                writer.WriteEndElement(); // End of HeadlineTimer
+                writer.WriteStartElement("Proxy");
+                writer.WriteAttributeString("use", ProxyUse.ToString());
+                writer.WriteAttributeString("server", ProxyServer);
+                writer.WriteAttributeString("port", ProxyPort.ToString());
+                writer.WriteEndElement(); // End of Porxy
 
                 writer.WriteEndElement(); // End of Content.
 
