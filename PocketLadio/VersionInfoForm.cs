@@ -106,9 +106,13 @@ namespace PocketLadio
         /// </summary>
         private void SetAnchorControl()
         {
-            anchorControlList.Add(new AnchorLayout(applicationNameLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right));
-            anchorControlList.Add(new AnchorLayout(versionNumberLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right));
-            anchorControlList.Add(new AnchorLayout(copyrightLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right));
+            // (240, 268)をベースにコントロールが配置されているため
+            const int PARENT_CONTROL_BASE_WIDRH = 240;
+            const int PARENT_CONTROL_BASE_HIGHT = 268;
+
+            anchorControlList.Add(new AnchorLayout(applicationNameLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
+            anchorControlList.Add(new AnchorLayout(versionNumberLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
+            anchorControlList.Add(new AnchorLayout(copyrightLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
         }
 
         /// <summary>
