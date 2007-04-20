@@ -370,7 +370,7 @@ namespace PocketLadio.Stations.ShoutCast
                 sr = new StreamReader(st, Encoding.GetEncoding("Windows-1252"));
                 string httpString = sr.ReadToEnd();
 
-#if DEBUG
+#if SHOUTCAST_HTTP_LOG
                 // ShoutcastのHTTPのログを書き出す
                 StreamWriter sw = null;
                 try
@@ -393,6 +393,7 @@ namespace PocketLadio.Stations.ShoutCast
                     }
                 }
 #endif
+
                 // タグの後に改行を入れる（Willcom高速化サービス対応のため）
                 httpString = httpString.Replace(">", ">\n");
 

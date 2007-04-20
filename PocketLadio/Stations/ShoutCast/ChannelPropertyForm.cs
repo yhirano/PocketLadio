@@ -130,13 +130,9 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         private void SetAnchorControl()
         {
-            // (240, 268)をベースにコントロールが配置されているため
-            const int PARENT_CONTROL_BASE_WIDRH = 240;
-            const int PARENT_CONTROL_BASE_HIGHT = 268;
-
-            anchorControlList.Add(new AnchorLayout(propertyListView, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(playButton, AnchorStyles.Right | AnchorStyles.Bottom, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(accessButton, AnchorStyles.Right | AnchorStyles.Bottom, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
+            anchorControlList.Add(new AnchorLayout(propertyListView, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(playButton, AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(accessButton, AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
         }
 
         /// <summary>
@@ -147,6 +143,18 @@ namespace PocketLadio.Stations.ShoutCast
             foreach (AnchorLayout anchorLayout in anchorControlList)
             {
                 anchorLayout.LayoutControl();
+            }
+        }
+
+        /// <summary>
+        /// ListViewのコラムサイズを自動で調整する
+        /// </summary>
+        /// <param name="listView">ListView</param>
+        private void AutoResizeColumnListView(ListView listView)
+        {
+            foreach (ColumnHeader ch in listView.Columns)
+            {
+                ch.Width = -2;
             }
         }
 
@@ -186,6 +194,8 @@ namespace PocketLadio.Stations.ShoutCast
             propertyListView.Items.Add(new ListViewItem(playingProperty));
             propertyListView.Items.Add(new ListViewItem(listenerProperty));
             propertyListView.Items.Add(new ListViewItem(bitRateProperty));
+
+            AutoResizeColumnListView(propertyListView);
         }
 
         private void PlayButton_Click(object sender, System.EventArgs e)
@@ -224,6 +234,5 @@ namespace PocketLadio.Stations.ShoutCast
         {
             FixWindowSize();
         }
-
     }
 }

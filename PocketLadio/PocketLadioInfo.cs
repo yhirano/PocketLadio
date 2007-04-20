@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.32 (Test Release 2)";
+        private const string VERSION_NUMBER = "0.32";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -279,6 +279,36 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// メインフォームの幅。
+        /// フォームデザインはこの幅をベースにControlを置いている。
+        /// </summary>
+        private const int FORM_BASE_WIDRH = 240;
+
+        /// <summary>
+        /// メインフォームの幅。
+        /// フォームデザインはこの幅をベースにControlを置いている。
+        /// </summary>
+        public static int FormBaseWidth
+        {
+            get { return FORM_BASE_WIDRH; }
+        }
+
+        /// <summary>
+        /// メインフォームの高さ。
+        /// フォームデザインはこの高さをベースにControlを置いている。
+        /// </summary>
+        private const int FORM_BASE_HIGHT = 268;
+
+        /// <summary>
+        /// メインフォームの高さ。
+        /// フォームデザインはこの高さをベースにControlを置いている。
+        /// </summary>
+        public static int FormBaseHight
+        {
+            get { return FORM_BASE_HIGHT; }
+        } 
+
+        /// <summary>
         /// 例外に出力するログファイル
         /// </summary>
         private const string EXCEPTION_LOG_FILE = "PocketLadioExceptionLog.log";
@@ -291,7 +321,7 @@ namespace PocketLadio
             get { return EXCEPTION_LOG_FILE; }
         }
 
-#if DEBUG
+#if SHOUTCAST_HTTP_LOG
         /// <summary>
         /// ShoutcastのHttp通信内容のログファイル
         /// </summary>
@@ -305,7 +335,6 @@ namespace PocketLadio
             get { return SHOUTCAST_HTTP_LOG; }
         }
 #endif
-
 
         #endregion
 

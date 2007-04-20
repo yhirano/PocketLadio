@@ -546,16 +546,12 @@ namespace PocketLadio
         /// </summary>
         private void SetAnchorControl()
         {
-            // (240, 268)をベースにコントロールが配置されているため
-            const int PARENT_CONTROL_BASE_WIDRH=240;
-            const int PARENT_CONTROL_BASE_HIGHT=268;
-
-            anchorControlList.Add(new AnchorLayout(updateButton, AnchorStyles.Top | AnchorStyles.Left, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(playButton, AnchorStyles.Top | AnchorStyles.Left, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(filterCheckBox, AnchorStyles.Top | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(stationListComboBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(headlineListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(infomationLabel, AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
+            anchorControlList.Add(new AnchorLayout(updateButton, AnchorStyles.Top | AnchorStyles.Left, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(playButton, AnchorStyles.Top | AnchorStyles.Left, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(filterCheckBox, AnchorStyles.Top | AnchorStyles.Right, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationListComboBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(headlineListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(infomationLabel, AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
         }
 
         /// <summary>

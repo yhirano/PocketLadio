@@ -206,17 +206,13 @@ namespace PocketLadio
         /// </summary>
         private void SetAnchorControl()
         {
-            // (240, 268)をベースにコントロールが配置されているため
-            const int PARENT_CONTROL_BASE_WIDRH = 240;
-            const int PARENT_CONTROL_BASE_HIGHT = 268;
-
-            anchorControlList.Add(new AnchorLayout(addStationLabel, AnchorStyles.Top | AnchorStyles.Left, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(stationNameTextBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(stationKindComboBox, AnchorStyles.Top | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(addButton, AnchorStyles.Top | AnchorStyles.Right, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(stationListLabel, AnchorStyles.Top | AnchorStyles.Left, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(stationListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
-            anchorControlList.Add(new AnchorLayout(deleteButton, AnchorStyles.Right | AnchorStyles.Bottom, PARENT_CONTROL_BASE_WIDRH, PARENT_CONTROL_BASE_HIGHT));
+            anchorControlList.Add(new AnchorLayout(addStationLabel, AnchorStyles.Top | AnchorStyles.Left, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationNameTextBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationKindComboBox, AnchorStyles.Top | AnchorStyles.Right, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(addButton, AnchorStyles.Top | AnchorStyles.Right, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationListLabel, AnchorStyles.Top | AnchorStyles.Left, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(deleteButton, AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
         }
 
         /// <summary>
