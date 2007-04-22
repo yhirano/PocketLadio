@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.32";
+        private const string VERSION_NUMBER = "0.33";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -266,19 +266,6 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// アプリケーションの設定ファイル
-        /// </summary>
-        private const string SETTING_FILE = "Setting.xml";
-
-        /// <summary>
-        /// アプリケーションの設定ファイル
-        /// </summary>
-        public static string SettingFile
-        {
-            get { return SETTING_FILE; }
-        }
-
-        /// <summary>
         /// メインフォームの幅。
         /// フォームデザインはこの幅をベースにControlを置いている。
         /// </summary>
@@ -306,7 +293,20 @@ namespace PocketLadio
         public static int FormBaseHight
         {
             get { return FORM_BASE_HIGHT; }
-        } 
+        }
+
+        /// <summary>
+        /// アプリケーションの設定ファイル
+        /// </summary>
+        private const string SETTING_FILE = "Setting.xml";
+
+        /// <summary>
+        /// アプリケーションの設定ファイル
+        /// </summary>
+        public static string SettingFile
+        {
+            get { return SETTING_FILE; }
+        }
 
         /// <summary>
         /// 例外に出力するログファイル
