@@ -349,7 +349,7 @@ namespace PocketLadio.Stations.ShoutCast
             // ‚ğƒZƒbƒg‚·‚é
             lastCheckTime = DateTime.Now;
 
-            Stream st = null;
+            WebStream st = null;
             StreamReader sr = null;
 
             try

@@ -9,6 +9,7 @@ using System.Collections;
 using System.Xml;
 using System.Diagnostics;
 using PocketLadio.Stations;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
@@ -332,7 +333,7 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         private void FetchHeadlineCvs()
         {
-            Stream st = null;
+            WebStream st = null;
             StreamReader sr = null;
 
             try
@@ -508,7 +509,7 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         private void FetchHeadlineXml()
         {
-            Stream st = null;
+            WebStream st = null;
             XmlTextReader reader = null;
 
             try

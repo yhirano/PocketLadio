@@ -86,7 +86,7 @@ namespace PocketLadio
         /// </summary>
         /// <param name="url">URL</param>
         /// <returns>Web上のストリーム</returns>
-        public static Stream GetWebStream(Uri url)
+        public static WebStream GetWebStream(Uri url)
         {
             WebStream ws = new WebStream(url);
             if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
@@ -105,9 +105,9 @@ namespace PocketLadio
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
             ws.UserAgent = PocketLadioInfo.UserAgent;
-            Stream st = ws.GetWebStream();
+            ws.CreateWebStream();
 
-            return st;
+            return ws;
         }
 
         /// <summary>
@@ -135,6 +135,7 @@ namespace PocketLadio
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
             ws.UserAgent = PocketLadioInfo.UserAgent;
             ws.FetchFile(fileName);
+            ws.Close();
         }
 
         /// <summary>
@@ -168,6 +169,7 @@ namespace PocketLadio
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
             ws.UserAgent = PocketLadioInfo.UserAgent;
             ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
+            ws.Close();
         }
     }
 }

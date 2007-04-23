@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections;
 using System.Xml;
 using PocketLadio.Stations;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
@@ -168,7 +169,7 @@ namespace PocketLadio.Stations.RssPodcast
             // 時刻をセットする
             lastCheckTime = DateTime.Now;
 
-            Stream st = null;
+            WebStream st = null;
             XmlTextReader reader = null;
 
             try
