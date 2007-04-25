@@ -21,10 +21,10 @@ namespace PocketLadio
     {
         private MainMenu mainMenu;
         private MenuItem okMenuItem;
-        private ContextMenu mediaPlayeraPathContextMenu;
-        private MenuItem cutMediaPlayeraPathMenuItem;
-        private MenuItem copyMediaPlayeraPathMenuItem;
-        private MenuItem pasteMediaPlayeraPathMenuItem;
+        private ContextMenu mediaPlayerPathContextMenu;
+        private MenuItem cutMediaPlayerPathMenuItem;
+        private MenuItem copyMediaPlayerPathMenuItem;
+        private MenuItem pasteMediaPlayerPathMenuItem;
         private ContextMenu browserPathContextMenu;
         private MenuItem cutBrowserPathMenuItem;
         private MenuItem copyBrowserPathMenuItem;
@@ -90,10 +90,10 @@ namespace PocketLadio
             this.cutBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
             this.copyBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteBrowserPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.mediaPlayeraPathContextMenu = new System.Windows.Forms.ContextMenu();
-            this.cutMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.copyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.pasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.mediaPlayerPathContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutMediaPlayerPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyMediaPlayerPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.pasteMediaPlayerPathMenuItem = new System.Windows.Forms.MenuItem();
             this.basicTabPage = new System.Windows.Forms.TabPage();
             this.playlistSaveLocalCheckBox = new System.Windows.Forms.CheckBox();
             this.browserPathReferenceButton = new System.Windows.Forms.Button();
@@ -156,26 +156,26 @@ namespace PocketLadio
             this.pasteBrowserPathMenuItem.Text = "貼り付け(&P)";
             this.pasteBrowserPathMenuItem.Click += new System.EventHandler(this.PasteBrowserPathMenuItem_Click);
             // 
-            // mediaPlayeraPathContextMenu
+            // mediaPlayerPathContextMenu
             // 
-            this.mediaPlayeraPathContextMenu.MenuItems.Add(this.cutMediaPlayeraPathMenuItem);
-            this.mediaPlayeraPathContextMenu.MenuItems.Add(this.copyMediaPlayeraPathMenuItem);
-            this.mediaPlayeraPathContextMenu.MenuItems.Add(this.pasteMediaPlayeraPathMenuItem);
+            this.mediaPlayerPathContextMenu.MenuItems.Add(this.cutMediaPlayerPathMenuItem);
+            this.mediaPlayerPathContextMenu.MenuItems.Add(this.copyMediaPlayerPathMenuItem);
+            this.mediaPlayerPathContextMenu.MenuItems.Add(this.pasteMediaPlayerPathMenuItem);
             // 
-            // cutMediaPlayeraPathMenuItem
+            // cutMediaPlayerPathMenuItem
             // 
-            this.cutMediaPlayeraPathMenuItem.Text = "切り取り(&T)";
-            this.cutMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.CutMediaPlayeraPathMenuItem_Click);
+            this.cutMediaPlayerPathMenuItem.Text = "切り取り(&T)";
+            this.cutMediaPlayerPathMenuItem.Click += new System.EventHandler(this.CutMediaPlayeraPathMenuItem_Click);
             // 
-            // copyMediaPlayeraPathMenuItem
+            // copyMediaPlayerPathMenuItem
             // 
-            this.copyMediaPlayeraPathMenuItem.Text = "コピー(&C)";
-            this.copyMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.CopyMediaPlayeraPathMenuItem_Click);
+            this.copyMediaPlayerPathMenuItem.Text = "コピー(&C)";
+            this.copyMediaPlayerPathMenuItem.Click += new System.EventHandler(this.CopyMediaPlayeraPathMenuItem_Click);
             // 
-            // pasteMediaPlayeraPathMenuItem
+            // pasteMediaPlayerPathMenuItem
             // 
-            this.pasteMediaPlayeraPathMenuItem.Text = "貼り付け(&P)";
-            this.pasteMediaPlayeraPathMenuItem.Click += new System.EventHandler(this.PasteMediaPlayeraPathMenuItem_Click);
+            this.pasteMediaPlayerPathMenuItem.Text = "貼り付け(&P)";
+            this.pasteMediaPlayerPathMenuItem.Click += new System.EventHandler(this.PasteMediaPlayeraPathMenuItem_Click);
             // 
             // basicTabPage
             // 
@@ -222,7 +222,7 @@ namespace PocketLadio
             // 
             // mediaPlayerPathTextBox
             // 
-            this.mediaPlayerPathTextBox.ContextMenu = this.mediaPlayeraPathContextMenu;
+            this.mediaPlayerPathTextBox.ContextMenu = this.mediaPlayerPathContextMenu;
             this.mediaPlayerPathTextBox.Location = new System.Drawing.Point(3, 71);
             this.mediaPlayerPathTextBox.Size = new System.Drawing.Size(180, 21);
             this.mediaPlayerPathTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MediaPlayerPathTextBox_KeyUp);
