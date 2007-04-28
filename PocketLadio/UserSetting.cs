@@ -28,8 +28,22 @@ namespace PocketLadio
         /// </summary>
         public static bool FilterEnable
         {
-            get { return UserSetting.filterEnable; }
-            set { UserSetting.filterEnable = value; }
+            get { return filterEnable; }
+            set { filterEnable = value; }
+        }
+
+        /// <summary>
+        /// タイマーでチェックするか
+        /// </summary>
+        private static bool headlineTimerCheck;
+
+        /// <summary>
+        /// タイマーでチェックするか
+        /// </summary>
+        public static bool HeadlineTimerCheck
+        {
+            get { return headlineTimerCheck; }
+            set { headlineTimerCheck = value; }
         }
 
         /// <summary>
@@ -42,23 +56,23 @@ namespace PocketLadio
         /// </summary>
         public static int HeadlineTimerMillSecond
         {
-            get { return UserSetting.headlineTimerMillSecond; }
+            get { return headlineTimerMillSecond; }
             set
             {
                 // 規定に収まる場合
                 if (PocketLadioInfo.HeadlineCheckTimerMinimumMillSec <= value && value <= PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
-                    UserSetting.headlineTimerMillSecond = value;
+                    headlineTimerMillSecond = value;
                 }
                 // 規定よりも短い場合
                 else if (value < PocketLadioInfo.HeadlineCheckTimerMinimumMillSec)
                 {
-                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec;
+                    headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec;
                 }
                 // 規定よりも長い場合
                 else if (value > PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
-                    UserSetting.headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
+                    headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
                 }
             }
         }
@@ -73,8 +87,8 @@ namespace PocketLadio
         /// </summary>
         public static bool PlayListSave
         {
-            get { return UserSetting.playListSave; }
-            set { UserSetting.playListSave = value; }
+            get { return playListSave; }
+            set { playListSave = value; }
         }
 
         /// <summary>
@@ -87,8 +101,8 @@ namespace PocketLadio
         /// </summary>
         public static string MediaPlayerPath
         {
-            get { return UserSetting.mediaPlayerPath; }
-            set { UserSetting.mediaPlayerPath = value; }
+            get { return mediaPlayerPath; }
+            set { mediaPlayerPath = value; }
         }
 
         /// <summary>
@@ -101,22 +115,8 @@ namespace PocketLadio
         /// </summary>
         public static string BrowserPath
         {
-            get { return UserSetting.browserPath; }
-            set { UserSetting.browserPath = value; }
-        }
-
-        /// <summary>
-        /// タイマーでチェックするか
-        /// </summary>
-        private static bool headlineTimerCheck;
-
-        /// <summary>
-        /// タイマーでチェックするか
-        /// </summary>
-        public static bool HeadlineTimerCheck
-        {
-            get { return UserSetting.headlineTimerCheck; }
-            set { UserSetting.headlineTimerCheck = value; }
+            get { return browserPath; }
+            set { browserPath = value; }
         }
 
         /// <summary>
@@ -129,8 +129,8 @@ namespace PocketLadio
         /// </summary>
         public static bool HeadlineListBoxFontSizeChange
         {
-            get { return UserSetting.headlineListBoxFontSizeChange; }
-            set { UserSetting.headlineListBoxFontSizeChange = value; }
+            get { return headlineListBoxFontSizeChange; }
+            set { headlineListBoxFontSizeChange = value; }
         }
 
         /// <summary>
@@ -143,23 +143,23 @@ namespace PocketLadio
         /// </summary>
         public static int HeadlineListBoxFontSize
         {
-            get { return UserSetting.headlineListBoxFontSize; }
+            get { return headlineListBoxFontSize; }
             set
             {
                 // 規定に収まる場合
                 if (PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt <= value && value <= PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt)
                 {
-                    UserSetting.headlineListBoxFontSize = value;
+                    headlineListBoxFontSize = value;
                 }
                 // 規定よりも短い場合
                 else if (value < PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt)
                 {
-                    UserSetting.headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt;
+                    headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxFontSizeMinimumPt;
                 }
                 // 規定よりも長い場合
                 else if (value > PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt)
                 {
-                    UserSetting.headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt;
+                    headlineListBoxFontSize = PocketLadioInfo.HeadlineListBoxFontSizeMaximumPt;
                 }
             }
         }
@@ -182,8 +182,8 @@ namespace PocketLadio
         /// </summary>
         public static ProxyConnect ProxyUse
         {
-            get { return UserSetting.proxyUse; }
-            set { UserSetting.proxyUse = value; }
+            get { return proxyUse; }
+            set { proxyUse = value; }
         }
 
         /// <summary>

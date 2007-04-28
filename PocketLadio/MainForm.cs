@@ -51,7 +51,7 @@ namespace PocketLadio
         /// <summary>
         /// 選択されていた放送局のID
         /// </summary>
-        private string selectedStationID = "";
+        private string selectedStationID = string.Empty;
 
         /// <summary>
         /// CheckHeadline()の動作排他処理のためのフラグ
@@ -256,6 +256,7 @@ namespace PocketLadio
             this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             this.Load += new System.EventHandler(this.MainForm_Load);
+
         }
         #endregion
 
@@ -418,15 +419,15 @@ namespace PocketLadio
             // 排他処理のためのフラグを立てる
             checkHeadlineNowFlag = true;
 
+            #region UI前処理
+
+            // フォームをいったん選択不可にする
+            this.Enabled = false;
+
+            #endregion
+
             try
             {
-                #region UI前処理
-
-                // フォームをいったん選択不可にする
-                this.Enabled = false;
-
-                #endregion
-
                 #region 番組取得処理
 
                 // 番組を取得する
@@ -496,9 +497,10 @@ namespace PocketLadio
                 // フォームを選択可能に回復する
                 this.Enabled = true;
 
+                #endregion
+
                 // 排他処理のためのフラグを下げる
                 checkHeadlineNowFlag = false;
-                #endregion
             }
         }
 
@@ -772,7 +774,7 @@ namespace PocketLadio
                 // 起動時の初期化
                 PocketLadioSpecificProcess.StartUpInitialize();
 
-                // ヘッドラインタイマーが有効な場合、ヘッドラインを動作させる
+                // ヘッドラインタイマーの設定が有効な場合、タイマーを動作させる
                 if (UserSetting.HeadlineTimerCheck == true)
                 {
                     HeadlineCheckTimerStart();
@@ -867,7 +869,7 @@ namespace PocketLadio
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            headlineCheckTimer.Interval = UserSetting.HeadlineTimerMillSecond;
+            HeadlineTimerIntervalChange(UserSetting.HeadlineTimerMillSecond);
 
             AddStationsSettingAndComboBoxItem();
         }

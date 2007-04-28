@@ -96,12 +96,12 @@ namespace PocketLadio
         }
 
         /// <summary>
-        ///ヘッドラインチェックタイマーの下限 
+        /// ヘッドラインチェックタイマーの下限 
         /// </summary>
         private const int HEADLINE_CHECK_TIMER_MINIMUM_MILL_SEC = 20000;
 
         /// <summary>
-        ///ヘッドラインチェックタイマーの下限 
+        /// ヘッドラインチェックタイマーの下限 
         /// </summary>
         public static int HeadlineCheckTimerMinimumMillSec
         {
