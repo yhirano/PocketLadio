@@ -285,8 +285,8 @@ namespace PocketLadio
             {
                 // ログに例外情報を書き込む
                 Log exceptionLog = new Log(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.ExceptionLogFile);
-                exceptionLog.LogThis(ex.Message, Log.LogPrefix.date);
-                exceptionLog.LogThis(ex.ToString(), Log.LogPrefix.date);
+                string logContents = PocketLadioInfo.VersionNumber + "\r\n" + ex.Message + "\r\n" + ex.ToString();
+                exceptionLog.LogThis(logContents, Log.LogPrefix.date);
 
                 Trace.Assert(false, "予期しないエラーが発生したため、終了します");
             }
