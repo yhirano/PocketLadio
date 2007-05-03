@@ -243,8 +243,8 @@ namespace PocketLadio.Stations.RssPodcast
                             else if (reader.LocalName == "enclosure")
                             {
                                 Uri enclosureUrl = null;
-                                string enclosureLength = "";
-                                string enclosureType = "";
+                                string enclosureLength = string.Empty;
+                                string enclosureType = string.Empty;
 
                                 try
                                 {
@@ -253,6 +253,15 @@ namespace PocketLadio.Stations.RssPodcast
                                         enclosureUrl = new Uri(reader.GetAttribute("url"));
                                         enclosureLength = reader.GetAttribute("length");
                                         enclosureType = reader.GetAttribute("type");
+                                    }
+
+                                    if (enclosureLength == null)
+                                    {
+                                        enclosureLength = string.Empty;
+                                    }
+                                    if (enclosureType == null)
+                                    {
+                                        enclosureType = string.Empty;
                                     }
 
                                     // エンクロージャー要素追加
