@@ -691,6 +691,7 @@ namespace PocketLadio
 
         private void ExitMenuItem_Click(object sender, System.EventArgs e)
         {
+            Close();
             Application.Exit();
         }
 
