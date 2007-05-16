@@ -167,7 +167,7 @@ namespace PocketLadio.Stations.RssPodcast
             // headlineViewTypeLabel
             // 
             this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 47);
-            this.headlineViewTypeLabel.Size = new System.Drawing.Size(130, 20);
+            this.headlineViewTypeLabel.Size = new System.Drawing.Size(234, 20);
             this.headlineViewTypeLabel.Text = "ヘッドラインの表示方法";
             // 
             // rssUrlTextBox
@@ -202,8 +202,8 @@ namespace PocketLadio.Stations.RssPodcast
             // rssUrlLabel
             // 
             this.rssUrlLabel.Location = new System.Drawing.Point(3, 4);
-            this.rssUrlLabel.Size = new System.Drawing.Size(109, 16);
-            this.rssUrlLabel.Text = "PodcastのRSS URL";
+            this.rssUrlLabel.Size = new System.Drawing.Size(234, 16);
+            this.rssUrlLabel.Text = "PodcastのRSS URL (RSS 2.0のみ)";
             // 
             // filterTabPage
             // 
@@ -214,7 +214,7 @@ namespace PocketLadio.Stations.RssPodcast
             this.filterTabPage.Controls.Add(this.addWordButton);
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
-            this.filterTabPage.Size = new System.Drawing.Size(240, 245);
+            this.filterTabPage.Size = new System.Drawing.Size(232, 242);
             this.filterTabPage.Text = "フィルター設定";
             // 
             // filterListLabel
