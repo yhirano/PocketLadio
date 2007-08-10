@@ -134,6 +134,7 @@ namespace PocketLadio
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
             ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
             ws.UserAgent = PocketLadioInfo.UserAgent;
+            ws.CreateWebStream();
             ws.FetchFile(fileName);
             ws.Close();
         }

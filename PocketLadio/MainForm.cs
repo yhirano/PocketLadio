@@ -320,6 +320,13 @@ namespace PocketLadio
             {
                 Uri playUrl = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl();
 
+                // URLが空の場合は、警告を出して終了
+                if (playUrl == null)
+                {
+                    MessageBox.Show("番組のURLがありません", "再生エラー");
+                    return;
+                }
+
                 try
                 {
                     if (UserSetting.PlayListSave == false)
