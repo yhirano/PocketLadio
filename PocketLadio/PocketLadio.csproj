@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Station.cs" />
     <Compile Include="StationList.cs" />
+    <Compile Include="Stations\HeadlineAnalyzeEventArgs.cs" />
     <Compile Include="Stations\IChannel.cs" />
     <Compile Include="Stations\IHeadline.cs" />
     <Compile Include="Stations\Netladio\Channel.cs" />

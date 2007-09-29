@@ -195,6 +195,15 @@ namespace PocketLadio.Stations.ShoutCast
             propertyListView.Items.Add(new ListViewItem(listenerProperty));
             propertyListView.Items.Add(new ListViewItem(bitRateProperty));
 
+            if (channel.GetPlayUrl() == null)
+            {
+                playButton.Enabled = false;
+            }
+            if (channel.GetWebsiteUrl() == null)
+            {
+                accessButton.Enabled = false;
+            }
+
             AutoResizeColumnListView(propertyListView);
         }
 
@@ -214,10 +223,7 @@ namespace PocketLadio.Stations.ShoutCast
         {
             try
             {
-                if (channel.GetWebsiteUrl() != null)
-                {
-                    PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
-                }
+                PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
             }
             catch (FileNotFoundException)
             {

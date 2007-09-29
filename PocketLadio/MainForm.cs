@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using PocketLadio.Stations;
+using MiscPocketCompactLibrary.Net;
 using MiscPocketCompactLibrary.Reflection;
 using MiscPocketCompactLibrary.Diagnostics;
 using MiscPocketCompactLibrary.Windows.Forms;
@@ -34,7 +35,6 @@ namespace PocketLadio
         private ListBox headlineListBox;
         private Button updateButton;
         private CheckBox filterCheckBox;
-        private Label infomationLabel;
         private MainMenu mainMenu;
         private ContextMenu headlineContextMenu;
         private MenuItem playMenuItem;
@@ -57,6 +57,7 @@ namespace PocketLadio
         /// CheckHeadline()の動作排他処理のためのフラグ
         /// </summary>
         private bool checkHeadlineNowFlag;
+        private StatusBar mainStatusBar;
 
         /// <summary>
         /// アンカーコントロールのリスト
@@ -105,9 +106,9 @@ namespace PocketLadio
             this.channelPropertyMenuItem = new System.Windows.Forms.MenuItem();
             this.updateButton = new System.Windows.Forms.Button();
             this.filterCheckBox = new System.Windows.Forms.CheckBox();
-            this.infomationLabel = new System.Windows.Forms.Label();
             this.headlineCheckTimer = new System.Windows.Forms.Timer();
             this.stationListComboBox = new System.Windows.Forms.ComboBox();
+            this.mainStatusBar = new System.Windows.Forms.StatusBar();
             // 
             // mainMenu
             // 
@@ -183,7 +184,7 @@ namespace PocketLadio
             // 
             this.headlineListBox.ContextMenu = this.headlineContextMenu;
             this.headlineListBox.Location = new System.Drawing.Point(3, 60);
-            this.headlineListBox.Size = new System.Drawing.Size(234, 170);
+            this.headlineListBox.Size = new System.Drawing.Size(234, 184);
             this.headlineListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             // 
             // headlineContextMenu
@@ -200,7 +201,7 @@ namespace PocketLadio
             // 
             // browserMenuItem
             // 
-            this.browserMenuItem.Text = "ブラウザでアクセス(&A)";
+            this.browserMenuItem.Text = "Webサイトにアクセス(&A)";
             this.browserMenuItem.Click += new System.EventHandler(this.BrowserMenuItem_Click);
             // 
             // channelPropertyMenuItem
@@ -222,13 +223,6 @@ namespace PocketLadio
             this.filterCheckBox.Text = "&Filter";
             this.filterCheckBox.CheckStateChanged += new System.EventHandler(this.FilterCheckBox_CheckStateChanged);
             // 
-            // infomationLabel
-            // 
-            this.infomationLabel.Location = new System.Drawing.Point(3, 247);
-            this.infomationLabel.Size = new System.Drawing.Size(234, 16);
-            this.infomationLabel.Text = "No check - 0 CHs";
-            this.infomationLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // headlineCheckTimer
             // 
             this.headlineCheckTimer.Tick += new System.EventHandler(this.HeadlineCheckTimer_Tick);
@@ -239,11 +233,17 @@ namespace PocketLadio
             this.stationListComboBox.Size = new System.Drawing.Size(234, 22);
             this.stationListComboBox.SelectedIndexChanged += new System.EventHandler(this.StationListComboBox_SelectedIndexChanged);
             // 
+            // mainStatusBar
+            // 
+            this.mainStatusBar.Location = new System.Drawing.Point(0, 246);
+            this.mainStatusBar.Size = new System.Drawing.Size(240, 22);
+            this.mainStatusBar.Text = "No check - 0 CHs";
+            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
+            this.Controls.Add(this.mainStatusBar);
             this.Controls.Add(this.stationListComboBox);
-            this.Controls.Add(this.infomationLabel);
             this.Controls.Add(this.filterCheckBox);
             this.Controls.Add(this.updateButton);
             this.Controls.Add(this.headlineListBox);
@@ -428,10 +428,17 @@ namespace PocketLadio
 
             #region UI前処理
 
-            // フォームをいったん選択不可にする
-            this.Enabled = false;
+            // フォーム内コントロールをいったん選択不可にする
+            updateButton.Enabled = false;
+            playButton.Enabled = false;
+            filterCheckBox.Enabled = false;
+            stationListComboBox.Enabled = false;
+            headlineListBox.Enabled = false;
 
             #endregion
+
+            mainStatusBar.Text = string.Format("接続中...");
+            mainStatusBar.Refresh();
 
             try
             {
@@ -443,12 +450,12 @@ namespace PocketLadio
                 // 番組が取得できなかった場合
                 if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
                 {
-                    infomationLabel.Text = "No Check - 0 CHs";
+                    mainStatusBar.Text = "No Check - 0 CHs";
                 }
                 // 番組が取得できた場合
                 else
                 {
-                    infomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString()
+                    mainStatusBar.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString()
                         + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
                 }
 
@@ -501,8 +508,12 @@ namespace PocketLadio
             {
                 #region  UI後処理
 
-                // フォームを選択可能に回復する
-                this.Enabled = true;
+                // フォーム内コントロールを選択可能に回復する
+                updateButton.Enabled = true;
+                playButton.Enabled = true;
+                filterCheckBox.Enabled = true;
+                stationListComboBox.Enabled = true;
+                headlineListBox.Enabled = true;
 
                 #endregion
 
@@ -560,7 +571,6 @@ namespace PocketLadio
             anchorControlList.Add(new AnchorLayout(filterCheckBox, AnchorStyles.Top | AnchorStyles.Right, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
             anchorControlList.Add(new AnchorLayout(stationListComboBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
             anchorControlList.Add(new AnchorLayout(headlineListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
-            anchorControlList.Add(new AnchorLayout(infomationLabel, AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PocketLadioInfo.FormBaseWidth, PocketLadioInfo.FormBaseHight));
         }
 
         /// <summary>
@@ -612,9 +622,23 @@ namespace PocketLadio
             }
             else
             {
-                channelPropertyMenuItem.Enabled = true;
+                if (StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl() != null)
+                {
+                    channelPropertyMenuItem.Enabled = true;
+                }
+                else
+                {
+                    channelPropertyMenuItem.Enabled = false;
+                }
                 playMenuItem.Enabled = true;
-                browserMenuItem.Enabled = true;
+                if (StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetWebsiteUrl() != null)
+                {
+                    browserMenuItem.Enabled = true;
+                }
+                else
+                {
+                    browserMenuItem.Enabled = false;
+                }
             }
         }
 
@@ -809,6 +833,9 @@ namespace PocketLadio
                 {
                     filterCheckBox.Checked = false;
                 }
+
+                StationList.HeadlineFetching += new FetchEventHandler(StationList_HeadlineFetching);
+                StationList.HeadlineAnalyzing += new HeadlineAnalyzeEventHandler(StationList_HeadlineAnalyzing);
             }
             catch (XmlException)
             {
@@ -825,6 +852,32 @@ namespace PocketLadio
 
             SetAnchorControl();
             FixWindowSize();
+        }
+
+        void StationList_HeadlineFetching(object sender, FetchEventArgs e)
+        {
+            if (e.IsUnknownContentSize == false)
+            {
+                mainStatusBar.Text = string.Format("ヘッドライン取得 {0}KB / {1}KB", e.FetchedSize / 1024, e.ContentSize / 1024);
+            }
+            else
+            {
+                mainStatusBar.Text = string.Format("ヘッドライン取得 {0}KB", e.FetchedSize / 1024);
+            }
+            mainStatusBar.Refresh();
+        }
+
+        void StationList_HeadlineAnalyzing(object sender, HeadlineAnalyzeEventArgs e)
+        {
+            if (e.IsUnknownWholeCount == false)
+            {
+                mainStatusBar.Text = string.Format("番組解析中 {0} / {1}", e.AnalyzedCount, e.WholeCount);
+            }
+            else
+            {
+                mainStatusBar.Text = string.Format("番組解析中 {0}", e.AnalyzedCount);
+            }
+            mainStatusBar.Refresh();
         }
 
         private void PlayMenuItem_Click(object sender, System.EventArgs e)
@@ -886,8 +939,12 @@ namespace PocketLadio
         {
             #region UI前処理
 
-            // フォームをいったん選択不可にする
-            this.Enabled = false;
+            // フォーム内コントロールをいったん選択不可にする
+            updateButton.Enabled = false;
+            playButton.Enabled = false;
+            filterCheckBox.Enabled = false;
+            stationListComboBox.Enabled = false;
+            headlineListBox.Enabled = false;
 
             #endregion
 
@@ -896,11 +953,11 @@ namespace PocketLadio
             StationList.ChangeCurrentStationAt(stationListComboBox.SelectedIndex);
             if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
             {
-                infomationLabel.Text = "No Check - 0 CHs";
+                mainStatusBar.Text = "No Check - 0 CHs";
             }
             else
             {
-                infomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString() + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
+                mainStatusBar.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString() + " - " + StationList.GetChannelsOfCurrentStation().Length.ToString() + " CHs";
             }
             DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
 
@@ -914,8 +971,12 @@ namespace PocketLadio
 
             #region UI後処理
 
-            // フォームを選択可能に回復する
-            this.Enabled = true;
+            // フォーム内コントロールを選択可能に回復する
+            updateButton.Enabled = true;
+            playButton.Enabled = true;
+            filterCheckBox.Enabled = true;
+            stationListComboBox.Enabled = true;
+            headlineListBox.Enabled = true;
 
             #endregion
         }

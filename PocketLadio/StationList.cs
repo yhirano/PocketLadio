@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using PocketLadio.Stations;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
@@ -141,7 +142,57 @@ namespace PocketLadio
         {
             if (currentStation != null)
             {
+                if (HeadlineFetch != null)
+                {
+                    currentStation.Headline.HeadlineFetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    currentStation.Headline.HeadlineFetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    currentStation.Headline.HeadlineFetched += HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    currentStation.Headline.HeadlineAnalyze += HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    currentStation.Headline.HeadlineAnalyzing += HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    currentStation.Headline.HeadlineAnalyzed += HeadlineAnalyzed;
+                }
+
                 currentStation.Headline.FetchHeadline();
+
+                if (HeadlineFetch != null)
+                {
+                    currentStation.Headline.HeadlineFetch -= HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    currentStation.Headline.HeadlineFetching -= HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    currentStation.Headline.HeadlineFetched -= HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    currentStation.Headline.HeadlineAnalyze -= HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    currentStation.Headline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    currentStation.Headline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                }
             }
         }
 
@@ -167,5 +218,35 @@ namespace PocketLadio
                 channel.ShowPropertyForm();
             }
         }
+
+        /// <summary>
+        /// ヘッドラインをネットから取得する前に発生するイベント
+        /// </summary>
+        public static event FetchEventHandler HeadlineFetch;
+
+        /// <summary>
+        /// ヘッドラインをネットから取得している最中に発生するイベント
+        /// </summary>
+        public static event FetchEventHandler HeadlineFetching;
+
+        /// <summary>
+        /// ヘッドラインをネットから取得した後に発生するイベント
+        /// </summary>
+        public static event FetchEventHandler HeadlineFetched;
+
+        /// <summary>
+        /// ヘッドラインを解析する前に発生するイベント
+        /// </summary>
+        public static event HeadlineAnalyzeEventHandler HeadlineAnalyze;
+
+        /// <summary>
+        /// ヘッドラインを解析している最中に発生するイベント
+        /// </summary>
+        public static event HeadlineAnalyzeEventHandler HeadlineAnalyzing;
+
+        /// <summary>
+        /// ヘッドラインを解析した後に発生するイベント
+        /// </summary>
+        public static event HeadlineAnalyzeEventHandler HeadlineAnalyzed;
     }
 }

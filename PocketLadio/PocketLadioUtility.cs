@@ -33,7 +33,7 @@ namespace PocketLadio
             {
                 throw new FileNotFoundException("Not found media player.");
             }
-            if (filePath == "")
+            if (filePath == string.Empty)
             {
                 return;
             }
@@ -89,17 +89,17 @@ namespace PocketLadio
         public static WebStream GetWebStream(Uri url)
         {
             WebStream ws = new WebStream(url);
-            if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            switch (PocketLadio.UserSetting.ProxyUse)
             {
-                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
-            }
-            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
-            }
-            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                case UserSetting.ProxyConnect.Unuse:
+                    ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                    break;
+                case UserSetting.ProxyConnect.OsSetting:
+                    ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                    break;
+                case UserSetting.ProxyConnect.OriginalSetting:
+                    ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                    break;
             }
             ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
@@ -117,18 +117,51 @@ namespace PocketLadio
         /// <param name="fileName">保存するファイル名</param>
         public static void FetchFile(Uri url, string fileName)
         {
+            FetchFile(url, fileName, null, null, null);
+        }
+
+        /// <summary>
+        /// Web上のストリームをダウンロードする
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <param name="fileName">保存するファイル名</param>
+        /// <param name="doDownloadProgressMinimum">ファイルサイズの最小値（0）をセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressMaximum">ファイルサイズをセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressValue">ダウンロード済みのファイルサイズをセットするデリゲート</param>
+        public static void FetchFile(Uri url, string fileName,
+            FetchEventHandler fetchEventHandler,
+            FetchEventHandler fetchingEventHandler,
+            FetchEventHandler fetchedEventHandler)
+        {
+
             WebStream ws = new WebStream(url);
-            if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+
+            if (fetchEventHandler != null)
             {
-                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                ws.Fetch += fetchEventHandler;
             }
-            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            if (fetchingEventHandler != null)
             {
-                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                ws.Fetching += fetchingEventHandler;
+
             }
-            else if (PocketLadio.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            if (fetchedEventHandler != null)
             {
-                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                ws.Fetched += fetchedEventHandler;
+
+            }
+
+            switch (PocketLadio.UserSetting.ProxyUse)
+            {
+                case UserSetting.ProxyConnect.Unuse:
+                    ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                    break;
+                case UserSetting.ProxyConnect.OsSetting:
+                    ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                    break;
+                case UserSetting.ProxyConnect.OriginalSetting:
+                    ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                    break;
             }
             ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
             ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;

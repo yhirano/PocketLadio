@@ -366,6 +366,18 @@ namespace PocketLadio.Stations.ShoutCast
                 Uri url = new Uri(PocketLadioInfo.ShoutcastUrl + "/?" + searchWord + perView);
 
                 st = PocketLadioUtility.GetWebStream(url);
+                if (HeadlineFetch != null)
+                {
+                    st.Fetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    st.Fetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    st.Fetched += HeadlineFetched;
+                }
 
                 sr = new StreamReader(st, Encoding.GetEncoding("Windows-1252"));
                 string httpString = sr.ReadToEnd();
@@ -408,6 +420,11 @@ namespace PocketLadio.Stations.ShoutCast
                 int analyzeHtmlFirstTo = setting.IgnoreHtmlAnalyzeFirstTo;
                 // 指定行目から行末まではHTMLを解析しない
                 int analyzeHtmlLast = lines.Length - setting.IgnoreHtmlAnalyzeEndFrom;
+
+                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, -1));
+
+                // 解析したヘッドラインの個数
+                int analyzedCount = 0;
 
                 // HTML解析
                 for (int lineNumber = analyzeHtmlFirstTo; lineNumber < analyzeHtmlLast && lineNumber < lines.Length; ++lineNumber)
@@ -558,6 +575,7 @@ namespace PocketLadio.Stations.ShoutCast
                             }
                         }
                         alChannels.Add(channel);
+                        OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++analyzedCount, -1));
                     }
 
                     /*** Rankらしき行を保存する ***/
@@ -569,6 +587,8 @@ namespace PocketLadio.Stations.ShoutCast
 
                     }
                 }
+
+                OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(analyzedCount, analyzedCount));
 
                 channels = (Channel[])alChannels.ToArray(typeof(Channel));
 
@@ -609,6 +629,108 @@ namespace PocketLadio.Stations.ShoutCast
                 {
                     sr.Close();
                 }
+            }
+        }
+
+        /// <summary>
+        /// ヘッドラインをネットから取得する前に発生するイベント
+        /// </summary>
+        public event FetchEventHandler HeadlineFetch;
+
+        /// <summary>
+        /// HeadlineFetchイベントの実行
+        /// </summary>
+        /// <param name="e">イベント</param>
+        private void OnHeadlineFetch(FetchEventArgs e)
+        {
+            if (HeadlineFetch != null)
+            {
+                HeadlineFetch(this, e);
+            }
+        }
+
+        /// <summary>
+        /// ヘッドラインをネットから取得している最中に発生するイベント
+        /// </summary>
+        public event FetchEventHandler HeadlineFetching;
+
+        /// <summary>
+        /// HeadlineFetchingイベントの実行
+        /// </summary>
+        /// <param name="e">イベント</param>
+        private void OnHeadlineFetching(FetchEventArgs e)
+        {
+            if (HeadlineFetching != null)
+            {
+                HeadlineFetching(this, e);
+            }
+        }
+
+        /// <summary>
+        /// ヘッドラインをネットから取得した後に発生するイベント
+        /// </summary>
+        public event FetchEventHandler HeadlineFetched;
+
+        /// <summary>
+        /// HeadlineFetchedイベントの実行
+        /// </summary>
+        /// <param name="e">イベント</param>
+        private void OnHeadlineFetched(FetchEventArgs e)
+        {
+            if (HeadlineFetched != null)
+            {
+                HeadlineFetched(this, e);
+            }
+        }
+
+        /// <summary>
+        /// ヘッドラインを解析する前に発生するイベント
+        /// </summary>
+        public event HeadlineAnalyzeEventHandler HeadlineAnalyze;
+
+        /// <summary>
+        /// HeadlineAnalyzeイベントの実行
+        /// </summary>
+        /// <param name="e">イベント</param>
+        private void OnHeadlineAnalyze(HeadlineAnalyzeEventArgs e)
+        {
+            if (HeadlineAnalyze != null)
+            {
+                HeadlineAnalyze(this, e);
+            }
+        }
+
+        /// <summary>
+        /// ヘッドラインを解析している最中に発生するイベント
+        /// </summary>
+        public event HeadlineAnalyzeEventHandler HeadlineAnalyzing;
+
+        /// <summary>
+        /// HeadlineAnalyzingイベントの実行
+        /// </summary>
+        /// <param name="e">イベント</param>
+        private void OnHeadlineAnalyzing(HeadlineAnalyzeEventArgs e)
+        {
+            if (HeadlineAnalyzing != null)
+            {
+                HeadlineAnalyzing(this, e);
+            }
+        }
+
+        /// <summary>
+        /// ヘッドラインを解析した後に発生するイベント
+        /// </summary>
+        public event HeadlineAnalyzeEventHandler HeadlineAnalyzed;
+
+        /// <summary>
+        /// HeadlineAnalyzedイベントの実行
+        /// </summary>
+        /// <param name="e">イベント</param>
+        private void OnHeadlineAnalyzed(HeadlineAnalyzeEventArgs e)
+        {
+            if (HeadlineAnalyzed != null)
+            {
+                HeadlineAnalyzed(this, e);
             }
         }
 

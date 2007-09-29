@@ -179,6 +179,15 @@ namespace PocketLadio.Stations.RssPodcast
             propertyListView.Items.Add(new ListViewItem(lengthProperty));
             propertyListView.Items.Add(new ListViewItem(typeProperty));
 
+            if (channel.GetPlayUrl() == null)
+            {
+                playButton.Enabled = false;
+            }
+            if (channel.GetWebsiteUrl() == null)
+            {
+                accessButton.Enabled = false;
+            }
+
             AutoResizeColumnListView(propertyListView);
         }
 
@@ -198,10 +207,7 @@ namespace PocketLadio.Stations.RssPodcast
         {
             try
             {
-                if (channel.GetWebsiteUrl() != null)
-                {
-                    PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
-                }
+                PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
             }
             catch (FileNotFoundException)
             {

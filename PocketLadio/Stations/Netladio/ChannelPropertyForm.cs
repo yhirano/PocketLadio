@@ -194,6 +194,15 @@ namespace PocketLadio.Stations.Netladio
             propertyListView.Items.Add(new ListViewItem(clnPorperty));
             propertyListView.Items.Add(new ListViewItem(bitPorperty));
 
+            if (channel.GetPlayUrl() == null)
+            {
+                playButton.Enabled = false;
+            }
+            if (channel.GetWebsiteUrl() == null)
+            {
+                accessButton.Enabled = false;
+            }
+
             AutoResizeColumnListView(propertyListView);
         }
 
@@ -213,10 +222,7 @@ namespace PocketLadio.Stations.Netladio
         {
             try
             {
-                if (channel.GetWebsiteUrl() != null)
-                {
-                    PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
-                }
+                PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
             }
             catch (FileNotFoundException)
             {
