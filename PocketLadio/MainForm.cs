@@ -185,6 +185,7 @@ namespace PocketLadio
             this.headlineListBox.ContextMenu = this.headlineContextMenu;
             this.headlineListBox.Location = new System.Drawing.Point(3, 60);
             this.headlineListBox.Size = new System.Drawing.Size(234, 184);
+            this.headlineListBox.SelectedIndexChanged += new System.EventHandler(this.headlineListBox_SelectedIndexChanged);
             this.headlineListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             // 
             // headlineContextMenu
@@ -434,7 +435,7 @@ namespace PocketLadio
 
             // フォーム内コントロールをいったん選択不可にする
             updateButton.Enabled = false;
-            playButton.Enabled = false;
+            PlayButtonEnable(false);
             filterCheckBox.Enabled = false;
             stationListComboBox.Enabled = false;
             headlineListBox.Enabled = false;
@@ -514,7 +515,7 @@ namespace PocketLadio
 
                 // フォーム内コントロールを選択可能に回復する
                 updateButton.Enabled = true;
-                playButton.Enabled = true;
+                PlayButtonEnable(true);
                 filterCheckBox.Enabled = true;
                 stationListComboBox.Enabled = true;
                 headlineListBox.Enabled = true;
@@ -523,6 +524,42 @@ namespace PocketLadio
 
                 // 排他処理のためのフラグを下げる
                 checkHeadlineNowFlag = false;
+            }
+        }
+
+        /// <summary>
+        /// PlayButtonの有効にする。
+        /// PlayButtonが有効の指定でも、リストボックスに洗濯がない場合と、選択したリストボックスのコンテンツが
+        /// 再生内容を持っていないときにはPlayButtonを無効にする。
+        /// </summary>
+        private void PlayButtonEnable()
+        {
+            PlayButtonEnable(true);
+        }
+
+        /// <summary>
+        /// PlayButtonの有効無効を切り替える。
+        /// PlayButtonが有効の指定でも、リストボックスに洗濯がない場合と、選択したリストボックスのコンテンツが
+        /// 再生内容を持っていないときにはPlayButtonを無効にする。
+        /// </summary>
+        /// <param name="enable">PlayButtonを有効にするか</param>
+        private void PlayButtonEnable(bool enable)
+        {
+            if (enable == false)
+            {
+                playButton.Enabled = false;
+            }
+            else
+            {
+                if (headlineListBox.SelectedIndex == -1 ||
+                    StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl() == null)
+                {
+                    playButton.Enabled = false;
+                }
+                else
+                {
+                    playButton.Enabled = true;
+                }
             }
         }
 
@@ -856,6 +893,7 @@ namespace PocketLadio
 
             SetAnchorControl();
             FixWindowSize();
+            PlayButtonEnable();
         }
 
         void StationList_HeadlineFetching(object sender, FetchEventArgs e)
@@ -945,7 +983,7 @@ namespace PocketLadio
 
             // フォーム内コントロールをいったん選択不可にする
             updateButton.Enabled = false;
-            playButton.Enabled = false;
+            PlayButtonEnable(false);
             filterCheckBox.Enabled = false;
             stationListComboBox.Enabled = false;
             headlineListBox.Enabled = false;
@@ -977,7 +1015,7 @@ namespace PocketLadio
 
             // フォーム内コントロールを選択可能に回復する
             updateButton.Enabled = true;
-            playButton.Enabled = true;
+            PlayButtonEnable(true);
             filterCheckBox.Enabled = true;
             stationListComboBox.Enabled = true;
             headlineListBox.Enabled = true;
@@ -1002,6 +1040,11 @@ namespace PocketLadio
             {
                 headlineListBox.Font = new Font(headlineListBox.Font.Name, PocketLadioInfo.HeadlineListBoxDefaultFontSize, headlineListBox.Font.Style);
             }
+        }
+
+        private void headlineListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PlayButtonEnable();
         }
     }
 }
