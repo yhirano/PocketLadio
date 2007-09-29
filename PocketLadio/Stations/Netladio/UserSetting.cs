@@ -466,14 +466,6 @@ namespace PocketLadio.Stations.Netladio
                     }
                 }
             }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
             finally
             {
                 reader.Close();
@@ -564,10 +556,6 @@ namespace PocketLadio.Stations.Netladio
                 writer.WriteEndElement(); // End of Setting.
 
                 writer.WriteEndDocument();
-            }
-            catch (IOException)
-            {
-                throw;
             }
             finally
             {

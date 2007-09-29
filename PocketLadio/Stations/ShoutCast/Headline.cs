@@ -170,19 +170,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.id = id;
             this.parentStation = parentStation;
             setting = new UserSetting(this);
-
-            try
-            {
-                setting.LoadSetting();
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
+            setting.LoadSetting();
         }
 
         /// <summary>
@@ -350,7 +338,6 @@ namespace PocketLadio.Stations.ShoutCast
             lastCheckTime = DateTime.Now;
 
             WebStream st = null;
-            StreamReader sr = null;
 
             try
             {
@@ -366,21 +353,20 @@ namespace PocketLadio.Stations.ShoutCast
                 Uri url = new Uri(PocketLadioInfo.ShoutcastUrl + "/?" + searchWord + perView);
 
                 st = PocketLadioUtility.GetWebStream(url);
+                WebTextFetch fetch = new WebTextFetch(st, Encoding.GetEncoding("Windows-1252"));
                 if (HeadlineFetch != null)
                 {
-                    st.Fetch += HeadlineFetch;
+                    fetch.Fetch += HeadlineFetch;
                 }
                 if (HeadlineFetching != null)
                 {
-                    st.Fetching += HeadlineFetching;
+                    fetch.Fetching += HeadlineFetching;
                 }
                 if (HeadlineFetched != null)
                 {
-                    st.Fetched += HeadlineFetched;
+                    fetch.Fetched += HeadlineFetched;
                 }
-
-                sr = new StreamReader(st, Encoding.GetEncoding("Windows-1252"));
-                string httpString = sr.ReadToEnd();
+                string httpString = fetch.ReadToEnd();
 
 #if SHOUTCAST_HTTP_LOG
                 // ShoutcastÇÃHTTPÇÃÉçÉOÇèëÇ´èoÇ∑
@@ -392,10 +378,6 @@ namespace PocketLadio.Stations.ShoutCast
                             false,
                             Encoding.GetEncoding("Windows-1252"));
                     sw.Write(httpString);
-                }
-                catch (IOException)
-                {
-                    throw;
                 }
                 finally
                 {
@@ -595,39 +577,11 @@ namespace PocketLadio.Stations.ShoutCast
                 #endregion
 
             }
-            catch (WebException)
-            {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (NotSupportedException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
             finally
             {
                 if (st != null)
                 {
                     st.Close();
-                }
-                if (sr != null)
-                {
-                    sr.Close();
                 }
             }
         }

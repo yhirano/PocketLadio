@@ -165,14 +165,6 @@ namespace PocketLadio.Stations.RssPodcast
                     }
                 }
             }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
             finally
             {
                 reader.Close();
@@ -237,10 +229,6 @@ namespace PocketLadio.Stations.RssPodcast
                 writer.WriteEndElement(); // End of Setting.
 
                 writer.WriteEndDocument();
-            }
-            catch (IOException)
-            {
-                throw;
             }
             finally
             {

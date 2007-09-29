@@ -92,19 +92,7 @@ namespace PocketLadio.Stations.Netladio
             this.id = id;
             this.parentStation = parentStation;
             setting = new UserSetting(this);
-
-            try
-            {
-                setting.LoadSetting();
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
+            setting.LoadSetting();
         }
 
         /// <summary>
@@ -274,48 +262,13 @@ namespace PocketLadio.Stations.Netladio
             // éûçèÇÉZÉbÉgÇ∑ÇÈ
             lastCheckTime = DateTime.Now;
 
-            try
+            if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
             {
-                if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
-                {
-                    FetchHeadlineCvs();
-                }
-                else if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
-                {
-                    FetchHeadlineXml();
-                }
+                FetchHeadlineCvs();
             }
-            catch (WebException)
+            else if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
             {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (NotSupportedException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
+                FetchHeadlineXml();
             }
         }
 
@@ -335,7 +288,6 @@ namespace PocketLadio.Stations.Netladio
         private void FetchHeadlineCvs()
         {
             WebStream st = null;
-            StreamReader sr = null;
 
             try
             {
@@ -343,21 +295,20 @@ namespace PocketLadio.Stations.Netladio
                 ArrayList alChannels = new ArrayList();
 
                 st = PocketLadioUtility.GetWebStream(setting.HeadlineCsvUrl);
+                WebTextFetch fetch = new WebTextFetch(st, Encoding.GetEncoding("shift-jis"));
                 if (HeadlineFetch != null)
                 {
-                    st.Fetch += HeadlineFetch;
+                    fetch.Fetch += HeadlineFetch;
                 }
                 if (HeadlineFetching != null)
                 {
-                    st.Fetching += HeadlineFetching;
+                    fetch.Fetching += HeadlineFetching;
                 }
                 if (HeadlineFetched != null)
                 {
-                    st.Fetched += HeadlineFetched;
+                    fetch.Fetched += HeadlineFetched;
                 }
-
-                sr = new StreamReader(st, Encoding.GetEncoding("shift-jis"));
-                string httpString = sr.ReadToEnd();
+                string httpString = fetch.ReadToEnd();
                 string[] channelsCvs = httpString.Split('\n');
 
                 OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, channelsCvs.Length - 1));
@@ -486,39 +437,11 @@ namespace PocketLadio.Stations.Netladio
 
                 channels = (Channel[])alChannels.ToArray(typeof(Channel));
             }
-            catch (WebException)
-            {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (NotSupportedException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
             finally
             {
                 if (st != null)
                 {
                     st.Close();
-                }
-                if (sr != null)
-                {
-                    sr.Close();
                 }
             }
         }
@@ -537,18 +460,6 @@ namespace PocketLadio.Stations.Netladio
                 ArrayList alChannels = new ArrayList();
 
                 st = PocketLadioUtility.GetWebStream(setting.HeadlineXmlUrl);
-                if (HeadlineFetch != null)
-                {
-                    st.Fetch += HeadlineFetch;
-                }
-                if (HeadlineFetching != null)
-                {
-                    st.Fetching += HeadlineFetching;
-                }
-                if (HeadlineFetched != null)
-                {
-                    st.Fetched += HeadlineFetched;
-                }
 
                 reader = new XmlTextReader(st);
 
@@ -694,34 +605,6 @@ namespace PocketLadio.Stations.Netladio
                 OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(analyzedCount, analyzedCount));
 
                 channels = (Channel[])alChannels.ToArray(typeof(Channel));
-            }
-            catch (WebException)
-            {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
             }
             finally
             {

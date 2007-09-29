@@ -62,10 +62,6 @@ namespace PocketLadio.Stations.RssPodcast
                     }
                 }
             }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
             finally {
                 if (sr != null)
                 {

@@ -133,43 +133,53 @@ namespace PocketLadio
             FetchEventHandler fetchingEventHandler,
             FetchEventHandler fetchedEventHandler)
         {
+            WebStream ws = null;
 
-            WebStream ws = new WebStream(url);
-
-            if (fetchEventHandler != null)
+            try
             {
-                ws.Fetch += fetchEventHandler;
-            }
-            if (fetchingEventHandler != null)
-            {
-                ws.Fetching += fetchingEventHandler;
+                ws = new WebStream(url);
 
-            }
-            if (fetchedEventHandler != null)
-            {
-                ws.Fetched += fetchedEventHandler;
+                switch (PocketLadio.UserSetting.ProxyUse)
+                {
+                    case UserSetting.ProxyConnect.Unuse:
+                        ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                        break;
+                    case UserSetting.ProxyConnect.OsSetting:
+                        ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                        break;
+                    case UserSetting.ProxyConnect.OriginalSetting:
+                        ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                        break;
+                }
+                ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
+                ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
+                ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
+                ws.UserAgent = PocketLadioInfo.UserAgent;
+                ws.CreateWebStream();
 
-            }
+                WebFileFetch fetch = new WebFileFetch(ws);
+                if (fetchEventHandler != null)
+                {
+                    fetch.Fetch += fetchEventHandler;
+                }
+                if (fetchingEventHandler != null)
+                {
+                    fetch.Fetching += fetchingEventHandler;
+                }
+                if (fetchedEventHandler != null)
+                {
+                    fetch.Fetched += fetchedEventHandler;
+                }
 
-            switch (PocketLadio.UserSetting.ProxyUse)
-            {
-                case UserSetting.ProxyConnect.Unuse:
-                    ws.ProxyUse = WebStream.ProxyConnect.Unuse;
-                    break;
-                case UserSetting.ProxyConnect.OsSetting:
-                    ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
-                    break;
-                case UserSetting.ProxyConnect.OriginalSetting:
-                    ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
-                    break;
+                fetch.FetchFile(fileName);
             }
-            ws.ProxyServer = PocketLadio.UserSetting.ProxyServer;
-            ws.ProxyPort = PocketLadio.UserSetting.ProxyPort;
-            ws.TimeOut = PocketLadioInfo.WebRequestTimeoutMillSec;
-            ws.UserAgent = PocketLadioInfo.UserAgent;
-            ws.CreateWebStream();
-            ws.FetchFile(fileName);
-            ws.Close();
+            finally
+            {
+                if (ws != null)
+                {
+                    ws.Close();
+                }
+            }
         }
     }
 }

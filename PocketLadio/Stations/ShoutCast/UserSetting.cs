@@ -490,14 +490,6 @@ namespace PocketLadio.Stations.ShoutCast
                     }
                 }
             }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
             finally
             {
                 reader.Close();
@@ -589,10 +581,6 @@ namespace PocketLadio.Stations.ShoutCast
                 writer.WriteEndElement(); // End of Setting.
 
                 writer.WriteEndDocument();
-            }
-            catch (IOException)
-            {
-                throw;
             }
             finally
             {

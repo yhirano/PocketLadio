@@ -72,19 +72,7 @@ namespace PocketLadio.Stations.RssPodcast
             this.id = id;
             this.parentStation = parentStation;
             setting = new UserSetting(this);
-
-            try
-            {
-                setting.LoadSetting();
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
+            setting.LoadSetting();
         }
 
         /// <summary>
@@ -93,13 +81,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public static void StartUpInitialize()
         {
-            try
-            {
-                RssPodcastMimePriority.Initialize();
-            }
-            catch (ArgumentNullException) {
-                throw;
-            }
+            RssPodcastMimePriority.Initialize();
         }
 
         /// <summary>
@@ -186,18 +168,6 @@ namespace PocketLadio.Stations.RssPodcast
                 ArrayList alTempEnclosure = new ArrayList();
 
                 st = PocketLadioUtility.GetWebStream(setting.RssUrl);
-                if (HeadlineFetch != null)
-                {
-                    st.Fetch += HeadlineFetch;
-                }
-                if (HeadlineFetching != null)
-                {
-                    st.Fetching += HeadlineFetching;
-                }
-                if (HeadlineFetched != null)
-                {
-                    st.Fetched += HeadlineFetched;
-                }
 
                 reader = new XmlTextReader(st);
 
@@ -326,34 +296,6 @@ namespace PocketLadio.Stations.RssPodcast
                 OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(analyzedCount, analyzedCount));
 
                 channels = (Channel[])alChannels.ToArray(typeof(Channel));
-            }
-            catch (WebException)
-            {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
             }
             finally
             {
