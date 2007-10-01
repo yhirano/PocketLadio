@@ -38,12 +38,17 @@ namespace MiscPocketCompactLibrary.Net
         }
 
         /// <summary>
-        /// ファイルサイズは不明かを取得する
+        /// 全ヘッドラインが不明かを取得する
         /// </summary>
         public bool IsUnknownWholeCount
         {
             get { return (wholeCount < 0); }
         }
+
+        /// <summary>
+        /// 全ヘッドラインが不明
+        /// </summary>
+        public const int UNKNOWN_WHOLE_COUNT = -1;
 
         /// <summary>
         /// コンストラクタ

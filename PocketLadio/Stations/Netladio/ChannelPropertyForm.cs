@@ -170,18 +170,18 @@ namespace PocketLadio.Stations.Netladio
 
             // リスナ数表示格納文字列
             string cln = string.Empty;
-            if (channel.Cln >= 0)
+            if (channel.Cln != Channel.UNKNOWN_LISTENER_NUM)
             {
                 cln = channel.Cln.ToString();
             }
-            if (channel.Clns >= 0)
+            if (channel.Clns != Channel.UNKNOWN_LISTENER_NUM)
             {
                 cln += " / " + channel.Clns.ToString();
             }
             string[] clnPorperty = { "リスナ数（現在/述べ）", cln };
 
             string bit = string.Empty;
-            if (channel.Bit > 0)
+            if (channel.Bit != Channel.UNKNOWN_BITRATE)
             {
                 bit = channel.Bit.ToString() + " Kbps";
             }

@@ -14,12 +14,20 @@ using MiscPocketCompactLibrary.Net;
 
 namespace PocketLadio.Stations.Icecast
 {
+    /// <summary>
+    /// Icecastのヘッドライン
+    /// </summary>
     public class Headline : PocketLadio.Stations.IHeadline
     {
         /// <summary>
         /// ヘッドラインの種類
         /// </summary>
         private const string KIND_NAME = "Icecast";
+
+        /// <summary>
+        /// IcecastのURL
+        /// </summary>
+        public const string ICECAST_URL = "http://dir.xiph.org/yp.xml";
 
         /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
@@ -164,14 +172,14 @@ namespace PocketLadio.Stations.Icecast
                 // itemタグの中にいるか
                 bool inEntry = false;
 
-                st = PocketLadioUtility.GetWebStream(new Uri(PocketLadioInfo.IcecastUrl));
+                st = PocketLadioUtility.GetWebStream(new Uri(Headline.ICECAST_URL));
 
                 reader = new XmlTextReader(st);
 
                 // 解析したヘッドラインの個数
                 int analyzedCount = 0;
 
-                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, -1));
+                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, HeadlineAnalyzeEventArgs.UNKNOWN_WHOLE_COUNT));
 
                 while (reader.Read())
                 {
@@ -248,12 +256,17 @@ namespace PocketLadio.Stations.Icecast
                         {
                             inEntry = false;
                             alChannels.Add(channel);
-                            OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++analyzedCount, -1));
+                            OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++analyzedCount, HeadlineAnalyzeEventArgs.UNKNOWN_WHOLE_COUNT));
+                            // 指定の数のヘッドラインを取得し終わったら終了
+                            if (setting.FetchChannelNum != Icecast.UserSetting.ALL_CHANNEL_FETCH && analyzedCount >= setting.FetchChannelNum)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
 
-                OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(analyzedCount, -1));
+                OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(analyzedCount, HeadlineAnalyzeEventArgs.UNKNOWN_WHOLE_COUNT));
 
                 channels = (Channel[])alChannels.ToArray(typeof(Channel));
             }

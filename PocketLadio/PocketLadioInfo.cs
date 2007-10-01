@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.36 Test Release 1";
+        private const string VERSION_NUMBER = "0.36 Test Release 2";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -174,32 +174,6 @@ namespace PocketLadio
         }
 
         /// <summary>
-        /// ねとらじのヘッドラインのURL CSV
-        /// </summary>
-        private const string NETLADIO_HEADLINE_CVS_URL = "http://yp.ladio.livedoor.jp/stats/list.csv";
-
-        /// <summary>
-        /// ねとらじのヘッドラインのURL CSV
-        /// </summary>
-        public static string NetladioHeadlineCsvUrl
-        {
-            get { return NETLADIO_HEADLINE_CVS_URL; }
-        }
-
-        /// <summary>
-        /// ねとらじのヘッドラインのURL XML
-        /// </summary>
-        private const string NETLADIO_HEADLINE_XML_URL = "http://yp.ladio.livedoor.jp/stats/list.xml";
-
-        /// <summary>
-        /// ねとらじのヘッドラインのURL XML
-        /// </summary>
-        public static string NetladioHeadlineXmlUrl
-        {
-            get { return NETLADIO_HEADLINE_XML_URL; }
-        }
-
-        /// <summary>
         /// PodcastのMIMEタイプの優先度ファイル
         /// </summary>
         private const string RSS_PODCAST_MIME_PRIORITY_FILE
@@ -211,45 +185,6 @@ namespace PocketLadio
         public static string RssPodcastMimePriorityFile
         {
             get { return RSS_PODCAST_MIME_PRIORITY_FILE; }
-        }
-
-        /// <summary>
-        /// SHOUTcastのURL
-        /// </summary>
-        private const string SHOUTCAST_URL = "http://www.shoutcast.com";
-
-        /// <summary>
-        /// SHOUTcastのURL
-        /// </summary>
-        public static string ShoutcastUrl
-        {
-            get { return SHOUTCAST_URL; }
-        }
-
-        /// <summary>
-        /// SHOUTcastの番組表取得数のリスト
-        /// </summary>
-        private static string[] shoutcastPerViewNums = { "5", "10", "25", "30", "50", "100" };
-
-        /// <summary>
-        /// SHOUTcastの番組表取得数のリスト
-        /// </summary>
-        public static string[] ShoutcastPerViewNums
-        {
-            get { return PocketLadioInfo.shoutcastPerViewNums; }
-        }
-
-        /// <summary>
-        /// IcecastのURL
-        /// </summary>
-        private const string ICECAST_URL = "http://dir.xiph.org/yp.xml";
-
-        /// <summary>
-        /// IcecastのURL
-        /// </summary>
-        public static string IcecastUrl
-        {
-            get { return ICECAST_URL; }
         }
 
         /// <summary>

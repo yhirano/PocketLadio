@@ -67,6 +67,10 @@ namespace PocketLadio.Stations.ShoutCast
         /// </summary>
         private UserSetting setting;
 
+        /// <summary>
+        /// SHOUTcastの番組表取得数のリスト
+        /// </summary>
+        private static readonly string[] shoutcastPerViewNums = { "5", "10", "25", "30", "50", "100" };
 
         public SettingForm(UserSetting setting)
         {
@@ -435,7 +439,7 @@ namespace PocketLadio.Stations.ShoutCast
             #region コンボボックスの初期化
 
             // Per Viewコンボボックスの初期化
-            foreach (string perViewKey in PocketLadioInfo.ShoutcastPerViewNums)
+            foreach (string perViewKey in shoutcastPerViewNums)
             {
                 perViewComboBox.Items.Add(perViewKey);
             }
@@ -515,7 +519,7 @@ namespace PocketLadio.Stations.ShoutCast
                 // ここに到達することはあり得ない
                 Trace.Assert(false, "想定外の動作のため、終了します");
             }
-            
+
             #endregion
         }
 
@@ -542,7 +546,7 @@ namespace PocketLadio.Stations.ShoutCast
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
 
             #region 単語フィルターの書き込み
-            
+
             ArrayList alFilterWord = new ArrayList();
             IEnumerator filterEnumerator = filterListBox.Items.GetEnumerator();
             while (filterEnumerator.MoveNext())

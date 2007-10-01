@@ -12,17 +12,51 @@ using MiscPocketCompactLibrary.Reflection;
 namespace PocketLadio.Stations.Icecast
 {
     /// <summary>
-    /// Podcastの設定を保持するクラス
+    /// Icecastの設定を保持するクラス
     /// </summary>
     public class UserSetting
     {
         /// <summary>
-        /// PodcastのRSSの表示方法
+        /// 番組を取得する数のデフォルト
+        /// </summary>
+        private const int DEFAULT_FETCH_CHANNEL_NUM = 100;
+
+        /// <summary>
+        /// 番組を取得する数
+        /// </summary>
+        private int fetchChannelNum = DEFAULT_FETCH_CHANNEL_NUM;
+
+        /// <summary>
+        /// 番組を取得する数
+        /// </summary>
+        public int FetchChannelNum
+        {
+            get { return fetchChannelNum; }
+            set
+            {
+                if (value > 0)
+                {
+                    fetchChannelNum = value;
+                }
+                else
+                {
+                    fetchChannelNum = DEFAULT_FETCH_CHANNEL_NUM;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 全ての番組を取得する場合は、FetchChannelNumはALL_CHANNEL_FETCHになる。
+        /// </summary>
+        public const int ALL_CHANNEL_FETCH = -1;
+
+        /// <summary>
+        /// Icecastの表示方法
         /// </summary>
         private string headlineViewType = "[[SREVERNAME]]";
 
         /// <summary>
-        /// PodcastのRSSの表示方法
+        /// Icecastの表示方法
         /// </summary>
         public string HeadlineViewType
         {
@@ -47,6 +81,14 @@ namespace PocketLadio.Stations.Icecast
         public UserSetting(Headline parentHeadline)
         {
             this.parentHeadline = parentHeadline;
+        }
+
+        /// <summary>
+        /// 全ての番組を取得するように設定する
+        /// </summary>
+        public void FetchNumAllChannel()
+        {
+            fetchChannelNum = ALL_CHANNEL_FETCH;
         }
 
         /// <summary>
@@ -105,9 +147,32 @@ namespace PocketLadio.Stations.Icecast
                 {
                     if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.LocalName == "Filter") {
-                                inFilterFlag = true;
+                        if (reader.LocalName == "Filter")
+                        {
+                            inFilterFlag = true;
                         }
+                        else if (reader.LocalName == "FetchChannelNum")
+                        {
+                            if (reader.MoveToFirstAttribute())
+                            {
+                                try
+                                {
+                                    fetchChannelNum = int.Parse(reader.GetAttribute("num"));
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                                catch (OverflowException)
+                                {
+                                    ;
+                                }
+                            }
+                        }// End of FetchChannelNum
                         else if (reader.LocalName == "HeadlineViewType")
                         {
                             if (reader.MoveToFirstAttribute())
@@ -178,6 +243,10 @@ namespace PocketLadio.Stations.Icecast
                 writer.WriteEndElement(); // End of Header.
 
                 writer.WriteStartElement("Content");
+
+                writer.WriteStartElement("FetchChannelNum");
+                writer.WriteAttributeString("num", FetchChannelNum.ToString());
+                writer.WriteEndElement(); // End of FetchChannelNum
 
                 writer.WriteStartElement("HeadlineViewType");
                 writer.WriteAttributeString("type", HeadlineViewType);

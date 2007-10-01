@@ -13,7 +13,7 @@ using MiscPocketCompactLibrary.Windows.Forms;
 namespace PocketLadio.Stations.Icecast
 {
     /// <summary>
-    /// Podcastの設定フォーム
+    /// Icecastの設定フォーム
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
@@ -41,7 +41,18 @@ namespace PocketLadio.Stations.Icecast
         /// 設定
         /// </summary>
         private UserSetting setting;
+        private ComboBox fetchChannelComboBox;
+        private Label fetchChannelLabel;
 
+        /// <summary>
+        /// Icecastの番組表取得数のリスト
+        /// </summary>
+        private static readonly string[] icecastFetchChannelNums = { "10", "20", "50", "100", "200", "500", "1000", FETCH_ALL_CHANNEL };
+
+        /// <summary>
+        /// 全ての番組を取得する
+        /// </summary>
+        private const string FETCH_ALL_CHANNEL = "All";
 
         public SettingForm(UserSetting setting)
         {
@@ -72,6 +83,8 @@ namespace PocketLadio.Stations.Icecast
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.icecastTabControl = new System.Windows.Forms.TabControl();
             this.icecastTabPage = new System.Windows.Forms.TabPage();
+            this.fetchChannelComboBox = new System.Windows.Forms.ComboBox();
+            this.fetchChannelLabel = new System.Windows.Forms.Label();
             this.headlineViewTypeTextBox = new System.Windows.Forms.TextBox();
             this.headlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
@@ -107,16 +120,29 @@ namespace PocketLadio.Stations.Icecast
             // 
             // icecastTabPage
             // 
+            this.icecastTabPage.Controls.Add(this.fetchChannelComboBox);
+            this.icecastTabPage.Controls.Add(this.fetchChannelLabel);
             this.icecastTabPage.Controls.Add(this.headlineViewTypeTextBox);
             this.icecastTabPage.Controls.Add(this.headlineViewTypeLabel);
             this.icecastTabPage.Location = new System.Drawing.Point(0, 0);
             this.icecastTabPage.Size = new System.Drawing.Size(240, 245);
             this.icecastTabPage.Text = "Icecast設定";
             // 
+            // fetchChannelComboBox
+            // 
+            this.fetchChannelComboBox.Location = new System.Drawing.Point(3, 23);
+            this.fetchChannelComboBox.Size = new System.Drawing.Size(122, 22);
+            // 
+            // fetchChannelLabel
+            // 
+            this.fetchChannelLabel.Location = new System.Drawing.Point(3, 4);
+            this.fetchChannelLabel.Size = new System.Drawing.Size(86, 16);
+            this.fetchChannelLabel.Text = "番組取得数";
+            // 
             // headlineViewTypeTextBox
             // 
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
-            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 27);
+            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 71);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
             this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
             this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
@@ -144,7 +170,7 @@ namespace PocketLadio.Stations.Icecast
             // 
             // headlineViewTypeLabel
             // 
-            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 4);
+            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 48);
             this.headlineViewTypeLabel.Size = new System.Drawing.Size(234, 20);
             this.headlineViewTypeLabel.Text = "ヘッドラインの表示方法";
             // 
@@ -157,7 +183,7 @@ namespace PocketLadio.Stations.Icecast
             this.filterTabPage.Controls.Add(this.addWordButton);
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
-            this.filterTabPage.Size = new System.Drawing.Size(240, 245);
+            this.filterTabPage.Size = new System.Drawing.Size(232, 242);
             this.filterTabPage.Text = "フィルター設定";
             // 
             // filterListLabel
@@ -225,7 +251,26 @@ namespace PocketLadio.Stations.Icecast
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
+            // コンボボックスの初期化
+            foreach (string fetchChannelKey in icecastFetchChannelNums)
+            {
+                fetchChannelComboBox.Items.Add(fetchChannelKey);
+            }
+
             #region 設定の読み込み
+
+            // fetchChannelComboBoxの位置あわせ
+            fetchChannelComboBox.SelectedIndex = 0;
+            string fetchChannelString =
+                (setting.FetchChannelNum == UserSetting.ALL_CHANNEL_FETCH ? FETCH_ALL_CHANNEL : setting.FetchChannelNum.ToString());
+            for (int count = 0; count < fetchChannelComboBox.Items.Count; ++count)
+            {
+                fetchChannelComboBox.SelectedIndex = count;
+                if (fetchChannelComboBox.SelectedItem.ToString() == fetchChannelString)
+                {
+                    break;
+                }
+            }
 
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
@@ -250,11 +295,36 @@ namespace PocketLadio.Stations.Icecast
                 if (result == DialogResult.Yes)
                 {
                     filterListBox.Items.Add(addWordTextBox.Text.Trim());
-                    addWordTextBox.Text = "";
+                    addWordTextBox.Text = string.Empty;
                 }
             }
 
             #region 設定の書き込み
+
+            if (fetchChannelComboBox.SelectedItem.ToString() == FETCH_ALL_CHANNEL)
+            {
+                setting.FetchNumAllChannel();
+            }
+            else
+            {
+                try
+                {
+                    int fetchNum = int.Parse(fetchChannelComboBox.SelectedItem.ToString());
+                    setting.FetchChannelNum = fetchNum;
+                }
+                catch (ArgumentException)
+                {
+                    ;
+                }
+                catch (FormatException)
+                {
+                    ;
+                }
+                catch (OverflowException)
+                {
+                    ;
+                }
+            }
 
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
 
@@ -303,7 +373,7 @@ namespace PocketLadio.Stations.Icecast
             if (addWordTextBox.Text.Trim().Length != 0)
             {
                 filterListBox.Items.Add(addWordTextBox.Text.Trim());
-                addWordTextBox.Text = "";
+                addWordTextBox.Text = string.Empty;
             }
         }
 

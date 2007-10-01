@@ -6,6 +6,9 @@ using System;
 
 namespace PocketLadio.Stations.Icecast
 {
+    /// <summary>
+    /// Icecastの番組
+    /// </summary>
     public class Channel : PocketLadio.Stations.IChannel
     {
         /// <summary>
@@ -81,7 +84,7 @@ namespace PocketLadio.Stations.Icecast
         /// <summary>
         /// サンプリングレート
         /// </summary>
-        private int sampleRate = -1;
+        private int sampleRate = UNKNOWN_SAMPLE_RATE;
 
         /// <summary>
         /// サンプリングレート
@@ -91,6 +94,11 @@ namespace PocketLadio.Stations.Icecast
             get { return sampleRate; }
             set { sampleRate = value; }
         }
+
+        /// <summary>
+        /// サンプリングレートが不明
+        /// </summary>
+        public const int UNKNOWN_SAMPLE_RATE = -1;
 
         /// <summary>
         /// ジャンル

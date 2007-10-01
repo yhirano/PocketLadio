@@ -182,7 +182,7 @@ namespace PocketLadio.Stations.ShoutCast
 
             // ビットレート表示格納文字列
             string bitRate = string.Empty;
-            if (channel.BitRate > 0)
+            if (channel.BitRate != Channel.UNKNOWN_LISTENER_NUM)
             {
                 bitRate = channel.BitRate.ToString() + " Kbps";
             }

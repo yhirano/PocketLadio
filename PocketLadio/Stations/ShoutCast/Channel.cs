@@ -82,7 +82,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// リスナ数
         /// </summary>
-        private int listener = -1;
+        private int listener = UNKNOWN_LISTENER_NUM;
 
         /// <summary>
         /// リスナ数
@@ -94,9 +94,14 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
+        /// リスナ数が不明
+        /// </summary>
+        public const int UNKNOWN_LISTENER_NUM = -1;
+
+        /// <summary>
         /// 述べリスナ数
         /// </summary>
-        private int listenerTotal = -1;
+        private int listenerTotal = UNKNOWN_LISTENER_NUM;
 
         /// <summary>
         /// 述べリスナ数
@@ -124,7 +129,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ビットレート
         /// </summary>
-        private int bitRate = -1;
+        private int bitRate = UNKNOWN_BITRATE;
 
         /// <summary>
         /// ビットレート
@@ -134,6 +139,11 @@ namespace PocketLadio.Stations.ShoutCast
             get { return bitRate; }
             set { bitRate = value; }
         }
+
+        /// <summary>
+        /// ビットレートが不明
+        /// </summary>
+        public const int UNKNOWN_BITRATE = -1;
 
         /// <summary>
         /// 親ヘッドライン
@@ -165,7 +175,7 @@ namespace PocketLadio.Stations.ShoutCast
         {
             try
             {
-                return new Uri(PocketLadioInfo.ShoutcastUrl + path);
+                return new Uri(Headline.SHOUTCAST_URL + path);
             }
             catch (UriFormatException)
             {
@@ -194,10 +204,10 @@ namespace PocketLadio.Stations.ShoutCast
                 view = view.Replace("[[RANK]]", Rank)
                     .Replace("[[TITLE]]", Title)
                     .Replace("[[PLAYING]]", Playing)
-                    .Replace("[[LISTENER]]", ((Listener > 0) ? Listener.ToString() : "na"))
-                    .Replace("[[LISTENERTOTAL]]", ((Listener > 0) ? ListenerTotal.ToString() : "na"))
+                    .Replace("[[LISTENER]]", ((Listener != Channel.UNKNOWN_LISTENER_NUM) ? Listener.ToString() : "na"))
+                    .Replace("[[LISTENERTOTAL]]", ((ListenerTotal != Channel.UNKNOWN_LISTENER_NUM) ? ListenerTotal.ToString() : "na"))
                     .Replace("[[CATEGORY]]", Category)
-                    .Replace("[[BIT]]", ((BitRate > 0) ? BitRate.ToString() : "na"));
+                    .Replace("[[BIT]]", ((BitRate!=Channel.UNKNOWN_BITRATE) ? BitRate.ToString() : "na"));
             }
 
             return view;

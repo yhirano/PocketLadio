@@ -26,6 +26,16 @@ namespace PocketLadio.Stations.Netladio
         private const string KIND_NAME = "ねとらじ";
 
         /// <summary>
+        /// ねとらじのヘッドラインのURL CSV
+        /// </summary>
+        public const string NETLADIO_HEADLINE_CVS_URL = "http://yp.ladio.livedoor.jp/stats/list.csv";
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL XML
+        /// </summary>
+        public const string NETLADIO_HEADLINE_XML_URL = "http://yp.ladio.livedoor.jp/stats/list.xml";
+
+        /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
         /// </summary>
         private readonly string id;
@@ -471,7 +481,7 @@ namespace PocketLadio.Stations.Netladio
                 // 解析したヘッドラインの個数
                 int analyzedCount = 0;
 
-                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, -1));
+                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, HeadlineAnalyzeEventArgs.UNKNOWN_WHOLE_COUNT));
 
                 while (reader.Read())
                 {
@@ -597,7 +607,7 @@ namespace PocketLadio.Stations.Netladio
                         {
                             inSourceFlag = false;
                             alChannels.Add(channel);
-                            OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++analyzedCount, -1));
+                            OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++analyzedCount, HeadlineAnalyzeEventArgs.UNKNOWN_WHOLE_COUNT));
                         }
                     }
                 }

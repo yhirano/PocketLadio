@@ -156,7 +156,7 @@ namespace PocketLadio.Stations.Icecast
             string[] genreProperty = { "ジャンル", channel.Genre.Trim() };
             string[] currentSongProperty = { "現在の音楽", channel.CurrentSong.Trim() };
             string[] bitrateProperty = { "ビットレート", channel.Bitrate.Trim() };
-            string[] sampleRateProperty = { "サンプリングレート", ((channel.SampleRate != -1) ? channel.SampleRate.ToString().Trim() : string.Empty) };
+            string[] sampleRateProperty = { "サンプリングレート", ((channel.SampleRate != Channel.UNKNOWN_SAMPLE_RATE) ? channel.SampleRate.ToString().Trim() : string.Empty) };
             string[] channelsProperty = { "チャンネル数", channel.Channels.Trim() };
 
             propertyListView.Items.Add(new ListViewItem(serverNameProperty));

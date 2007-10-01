@@ -109,7 +109,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 現リスナ数
         /// </summary>
-        private int cln = -1;
+        private int cln = UNKNOWN_LISTENER_NUM;
 
         /// <summary>
         /// 現リスナ数
@@ -121,9 +121,14 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
+        /// リスナ数が不明
+        /// </summary>
+        public const int UNKNOWN_LISTENER_NUM = -1;
+
+        /// <summary>
         /// 延べリスナ数
         /// </summary>
-        private int clns = -1;
+        private int clns = UNKNOWN_LISTENER_NUM;
 
         /// <summary>
         /// 延べリスナ数
@@ -177,7 +182,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ビットレート
         /// </summary>
-        private int bit = -1;
+        private int bit = UNKNOWN_BITRATE;
 
         /// <summary>
         /// ビットレート
@@ -187,6 +192,11 @@ namespace PocketLadio.Stations.Netladio
             get { return bit; }
             set { bit = value; }
         }
+
+        /// <summary>
+        /// ビットレートが不明
+        /// </summary>
+        public const int UNKNOWN_BITRATE = -1;
 
         /// <summary>
         /// 親ヘッドライン

@@ -174,7 +174,7 @@ namespace PocketLadio.Stations.RssPodcast
                 // 解析したヘッドラインの個数
                 int analyzedCount = 0;
 
-                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, -1));
+                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, HeadlineAnalyzeEventArgs.UNKNOWN_WHOLE_COUNT));
 
                 while (reader.Read())
                 {
@@ -283,7 +283,7 @@ namespace PocketLadio.Stations.RssPodcast
                                     clonedChannel.Length = enclosure.Length;
                                     clonedChannel.Type = enclosure.Type;
                                     alChannels.Add(clonedChannel);
-                                    OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++analyzedCount, -1));
+                                    OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++analyzedCount, HeadlineAnalyzeEventArgs.UNKNOWN_WHOLE_COUNT));
                                 }
                             }
 

@@ -28,6 +28,11 @@ namespace PocketLadio.Stations.ShoutCast
         private const string KIND_NAME = "SHOUTcast";
 
         /// <summary>
+        /// SHOUTcastのURL
+        /// </summary>
+        public const string SHOUTCAST_URL = "http://www.shoutcast.com";
+
+        /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
         /// </summary>
         private readonly string id;
@@ -350,7 +355,7 @@ namespace PocketLadio.Stations.ShoutCast
                 searchWord = searchWord.Replace(' ', '+').Replace("　", "+");
 
                 string perView = ((setting.PerView.ToString().Length != 0) ? "&numresult=" + setting.PerView : "");
-                Uri url = new Uri(PocketLadioInfo.ShoutcastUrl + "/?" + searchWord + perView);
+                Uri url = new Uri(Headline.SHOUTCAST_URL + "/?" + searchWord + perView);
 
                 st = PocketLadioUtility.GetWebStream(url);
                 WebTextFetch fetch = new WebTextFetch(st, Encoding.GetEncoding("Windows-1252"));
