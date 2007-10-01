@@ -148,6 +148,7 @@ namespace PocketLadio
             this.stationKindComboBox.Items.Add("ねとらじ");
             this.stationKindComboBox.Items.Add("Podcast");
             this.stationKindComboBox.Items.Add("SHOUTcast");
+            this.stationKindComboBox.Items.Add("Icecast");
             this.stationKindComboBox.Location = new System.Drawing.Point(137, 27);
             this.stationKindComboBox.Size = new System.Drawing.Size(100, 22);
             // 
@@ -247,6 +248,13 @@ namespace PocketLadio
             else if (stationKind == "SHOUTcast")
             {
                 station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.ShoutCast);
+
+                // 設定画面を呼び出す
+                station.Headline.ShowSettingForm();
+            }
+            else if (stationKind == "Icecast")
+            {
+                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.Icecast);
 
                 // 設定画面を呼び出す
                 station.Headline.ShowSettingForm();

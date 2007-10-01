@@ -54,6 +54,7 @@ namespace PocketLadio
             PocketLadio.Stations.Netladio.Headline.StartUpInitialize();
             PocketLadio.Stations.RssPodcast.Headline.StartUpInitialize();
             PocketLadio.Stations.ShoutCast.Headline.StartUpInitialize();
+            PocketLadio.Stations.Icecast.Headline.StartUpInitialize();
         }
 
         /// <summary>

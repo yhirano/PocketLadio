@@ -307,6 +307,10 @@ namespace PocketLadio
                                         {
                                             stationKind = Station.StationKind.ShoutCast;
                                         }
+                                        else if (kind == Station.StationKind.Icecast.ToString())
+                                        {
+                                            stationKind = Station.StationKind.Icecast;
+                                        }
                                         else
                                         {
                                             // ‚±‚±‚É“ž’B‚·‚é‚±‚Æ‚Í‚ ‚è“¾‚È‚¢

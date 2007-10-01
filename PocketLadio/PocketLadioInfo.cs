@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.35";
+        private const string VERSION_NUMBER = "0.36 Test Release 1";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -237,6 +237,19 @@ namespace PocketLadio
         public static string[] ShoutcastPerViewNums
         {
             get { return PocketLadioInfo.shoutcastPerViewNums; }
+        }
+
+        /// <summary>
+        /// IcecastのURL
+        /// </summary>
+        private const string ICECAST_URL = "http://dir.xiph.org/yp.xml";
+
+        /// <summary>
+        /// IcecastのURL
+        /// </summary>
+        public static string IcecastUrl
+        {
+            get { return ICECAST_URL; }
         }
 
         /// <summary>

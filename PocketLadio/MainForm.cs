@@ -289,11 +289,12 @@ namespace PocketLadio
                 string logContents = PocketLadioInfo.VersionNumber + "\r\n" + ex.Message + "\r\n" + ex.ToString();
                 exceptionLog.LogThis(logContents, Log.LogPrefix.date);
 
-                Trace.Assert(false, "予期しないエラーが発生したため、終了します");
 #if DEBUG
                 // デバッガで例外内容を確認するため、例外をアプリケーションの外に出す
                 throw ex;
-#endif // DEBUG
+#else
+                Trace.Assert(false, "予期しないエラーが発生したため、終了します");
+#endif
             }
         }
 
