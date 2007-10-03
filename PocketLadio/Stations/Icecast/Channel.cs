@@ -56,16 +56,21 @@ namespace PocketLadio.Stations.Icecast
         /// <summary>
         /// ビットレート
         /// </summary>
-        private string bitrate = string.Empty;
+        private int bitRate = UNKNOWN_BITRATE;
 
         /// <summary>
         /// ビットレート
         /// </summary>
-        public string Bitrate
+        public int BitRate
         {
-            get { return bitrate; }
-            set { bitrate = value; }
+            get { return bitRate; }
+            set { bitRate = value; }
         }
+
+        /// <summary>
+        /// ビットレートが不明
+        /// </summary>
+        public const int UNKNOWN_BITRATE = -1;
 
         /// <summary>
         /// チャンネル数

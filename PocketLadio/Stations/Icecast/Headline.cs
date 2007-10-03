@@ -125,11 +125,13 @@ namespace PocketLadio.Stations.Icecast
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
+            ArrayList alChannels = new ArrayList();
+
+            #region 単語フィルタ処理
+
             // 単語フィルタが存在する場合
             if (setting.GetFilterWords().Length > 0)
             {
-                ArrayList alChannels = new ArrayList();
-
                 foreach (IChannel channel in GetChannels())
                 {
                     foreach (string filter in setting.GetFilterWords())
@@ -147,8 +149,59 @@ namespace PocketLadio.Stations.Icecast
             // 単語フィルタが存在しない場合
             else
             {
-                return GetChannels();
+                alChannels.AddRange(GetChannels());
             }
+
+            #endregion
+
+            #region 最低ビットレートフィルタ処理
+
+            ArrayList alDeleteChannels = new ArrayList();
+
+            // 最低ビットレートフィルタが存在する場合
+            if (setting.FilterAboveBitRateUse == true)
+            {
+                // 削除する番組のリストを作成
+                foreach (Channel channel in alChannels)
+                {
+                    if (0 < channel.BitRate && channel.BitRate < setting.FilterAboveBitRate)
+                    {
+                        alDeleteChannels.Add(channel);
+                    }
+                }
+                // 番組を削除
+                foreach (Channel deleteChannel in alDeleteChannels)
+                {
+                    alChannels.Remove(deleteChannel);
+                }
+            }
+
+            #endregion
+
+            #region 最大ビットレートフィルタ処理
+
+            alDeleteChannels.Clear();
+
+            // 最大ビットレートフィルタが存在する場合
+            if (setting.FilterBelowBitRateUse == true)
+            {
+                foreach (Channel channel in alChannels)
+                {
+                    if (channel.BitRate > setting.FilterBelowBitRate)
+                    {
+                        alDeleteChannels.Add(channel);
+                    }
+                }
+                // 番組を削除
+                foreach (Channel deleteChannel in alDeleteChannels)
+                {
+                    alChannels.Remove(deleteChannel);
+                }
+            }
+
+            #endregion
+
+            return (IChannel[])alChannels.ToArray(typeof(IChannel));
         }
 
         /// <summary>
@@ -214,7 +267,22 @@ namespace PocketLadio.Stations.Icecast
                             } // End of server_type
                             else if (reader.LocalName == "bitrate")
                             {
-                                channel.Bitrate = reader.ReadString();
+                                try
+                                {
+                                    channel.BitRate = int.Parse(reader.ReadString());
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                                catch (OverflowException)
+                                {
+                                    ;
+                                }
                             } // End of bitrate
                             else if (reader.LocalName == "channels")
                             {

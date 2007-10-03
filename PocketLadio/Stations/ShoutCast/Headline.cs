@@ -270,7 +270,6 @@ namespace PocketLadio.Stations.ShoutCast
 
             #endregion
 
-
             #region 最大ビットレートフィルタ処理
 
             alDeleteChannels.Clear();

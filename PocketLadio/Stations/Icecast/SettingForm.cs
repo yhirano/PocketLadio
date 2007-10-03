@@ -48,6 +48,16 @@ namespace PocketLadio.Stations.Icecast
         /// Icecastの番組表取得数のリスト
         /// </summary>
         private static readonly string[] icecastFetchChannelNums = { "10", "20", "50", "100", "200", "500", "1000", FETCH_ALL_CHANNEL };
+        private TabPage stationTabPage;
+        private TextBox stationNameTextBox;
+        private Label stationNameLabel;
+        private TabPage filter2TabPage;
+        private Label filterBelowBitRateLabel;
+        private CheckBox filterBelowBitRateUseCheckBox;
+        private TextBox filterBelowBitRateTextBox;
+        private Label filterAboveBitRateLabel;
+        private CheckBox filterAboveBitRateUseCheckBox;
+        private TextBox filterAboveBitRateTextBox;
 
         /// <summary>
         /// 全ての番組を取得する
@@ -82,6 +92,9 @@ namespace PocketLadio.Stations.Icecast
             this.mainMenu = new System.Windows.Forms.MainMenu();
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.icecastTabControl = new System.Windows.Forms.TabControl();
+            this.stationTabPage = new System.Windows.Forms.TabPage();
+            this.stationNameTextBox = new System.Windows.Forms.TextBox();
+            this.stationNameLabel = new System.Windows.Forms.Label();
             this.icecastTabPage = new System.Windows.Forms.TabPage();
             this.fetchChannelComboBox = new System.Windows.Forms.ComboBox();
             this.fetchChannelLabel = new System.Windows.Forms.Label();
@@ -100,6 +113,13 @@ namespace PocketLadio.Stations.Icecast
             this.deleteFilterListMenuItem = new System.Windows.Forms.MenuItem();
             this.addWordButton = new System.Windows.Forms.Button();
             this.addWordTextBox = new System.Windows.Forms.TextBox();
+            this.filter2TabPage = new System.Windows.Forms.TabPage();
+            this.filterBelowBitRateLabel = new System.Windows.Forms.Label();
+            this.filterBelowBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
+            this.filterBelowBitRateTextBox = new System.Windows.Forms.TextBox();
+            this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
+            this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
+            this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
             // 
             // mainMenu
             // 
@@ -112,11 +132,32 @@ namespace PocketLadio.Stations.Icecast
             // 
             // icecastTabControl
             // 
+            this.icecastTabControl.Controls.Add(this.stationTabPage);
             this.icecastTabControl.Controls.Add(this.icecastTabPage);
             this.icecastTabControl.Controls.Add(this.filterTabPage);
+            this.icecastTabControl.Controls.Add(this.filter2TabPage);
             this.icecastTabControl.Location = new System.Drawing.Point(0, 0);
             this.icecastTabControl.SelectedIndex = 0;
             this.icecastTabControl.Size = new System.Drawing.Size(240, 268);
+            // 
+            // stationTabPage
+            // 
+            this.stationTabPage.Controls.Add(this.stationNameTextBox);
+            this.stationTabPage.Controls.Add(this.stationNameLabel);
+            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
+            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
+            this.stationTabPage.Text = "放送局";
+            // 
+            // stationNameTextBox
+            // 
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // stationNameLabel
+            // 
+            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
+            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
+            this.stationNameLabel.Text = "放送局名";
             // 
             // icecastTabPage
             // 
@@ -125,8 +166,8 @@ namespace PocketLadio.Stations.Icecast
             this.icecastTabPage.Controls.Add(this.headlineViewTypeTextBox);
             this.icecastTabPage.Controls.Add(this.headlineViewTypeLabel);
             this.icecastTabPage.Location = new System.Drawing.Point(0, 0);
-            this.icecastTabPage.Size = new System.Drawing.Size(240, 245);
-            this.icecastTabPage.Text = "Icecast設定";
+            this.icecastTabPage.Size = new System.Drawing.Size(232, 242);
+            this.icecastTabPage.Text = "Icecast";
             // 
             // fetchChannelComboBox
             // 
@@ -184,7 +225,7 @@ namespace PocketLadio.Stations.Icecast
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
             this.filterTabPage.Size = new System.Drawing.Size(232, 242);
-            this.filterTabPage.Text = "フィルター設定";
+            this.filterTabPage.Text = "フィルター";
             // 
             // filterListLabel
             // 
@@ -236,13 +277,59 @@ namespace PocketLadio.Stations.Icecast
             this.addWordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddWordTextBox_KeyPress);
             this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
             // 
+            // filter2TabPage
+            // 
+            this.filter2TabPage.Controls.Add(this.filterBelowBitRateLabel);
+            this.filter2TabPage.Controls.Add(this.filterBelowBitRateUseCheckBox);
+            this.filter2TabPage.Controls.Add(this.filterBelowBitRateTextBox);
+            this.filter2TabPage.Controls.Add(this.filterAboveBitRateLabel);
+            this.filter2TabPage.Controls.Add(this.filterAboveBitRateUseCheckBox);
+            this.filter2TabPage.Controls.Add(this.filterAboveBitRateTextBox);
+            this.filter2TabPage.Location = new System.Drawing.Point(0, 0);
+            this.filter2TabPage.Size = new System.Drawing.Size(240, 245);
+            this.filter2TabPage.Text = "フィルター2";
+            // 
+            // filterBelowBitRateLabel
+            // 
+            this.filterBelowBitRateLabel.Location = new System.Drawing.Point(66, 83);
+            this.filterBelowBitRateLabel.Size = new System.Drawing.Size(171, 20);
+            this.filterBelowBitRateLabel.Text = "Kbps以下";
+            // 
+            // filterBelowBitRateUseCheckBox
+            // 
+            this.filterBelowBitRateUseCheckBox.Location = new System.Drawing.Point(3, 56);
+            this.filterBelowBitRateUseCheckBox.Size = new System.Drawing.Size(234, 20);
+            this.filterBelowBitRateUseCheckBox.Text = "最大ビットレートを設定する";
+            // 
+            // filterBelowBitRateTextBox
+            // 
+            this.filterBelowBitRateTextBox.Location = new System.Drawing.Point(3, 82);
+            this.filterBelowBitRateTextBox.Size = new System.Drawing.Size(57, 21);
+            // 
+            // filterAboveBitRateLabel
+            // 
+            this.filterAboveBitRateLabel.Location = new System.Drawing.Point(66, 30);
+            this.filterAboveBitRateLabel.Size = new System.Drawing.Size(171, 20);
+            this.filterAboveBitRateLabel.Text = "Kbps以上";
+            // 
+            // filterAboveBitRateUseCheckBox
+            // 
+            this.filterAboveBitRateUseCheckBox.Location = new System.Drawing.Point(3, 3);
+            this.filterAboveBitRateUseCheckBox.Size = new System.Drawing.Size(234, 20);
+            this.filterAboveBitRateUseCheckBox.Text = "最低ビットレートを設定する";
+            // 
+            // filterAboveBitRateTextBox
+            // 
+            this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
+            this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
+            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.icecastTabControl);
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
-            this.Text = "Podcast設定";
+            this.Text = "Icecast設定";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
             this.Load += new System.EventHandler(this.SettingForm_Load);
 
@@ -258,6 +345,8 @@ namespace PocketLadio.Stations.Icecast
             }
 
             #region 設定の読み込み
+
+            stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
 
             // fetchChannelComboBoxの位置あわせ
             fetchChannelComboBox.SelectedIndex = 0;
@@ -280,6 +369,12 @@ namespace PocketLadio.Stations.Icecast
                 filterListBox.Items.Add(word);
             }
 
+            // ビットレートフィルターを読み込む
+            filterAboveBitRateUseCheckBox.Checked = setting.FilterAboveBitRateUse;
+            filterAboveBitRateTextBox.Text = setting.FilterAboveBitRate.ToString();
+            filterBelowBitRateUseCheckBox.Checked = setting.FilterBelowBitRateUse;
+            filterBelowBitRateTextBox.Text = setting.FilterBelowBitRate.ToString();
+
             #endregion
         }
 
@@ -300,6 +395,8 @@ namespace PocketLadio.Stations.Icecast
             }
 
             #region 設定の書き込み
+
+            setting.ParentHeadline.ParentStation.Name = stationNameTextBox.Text.Trim();
 
             if (fetchChannelComboBox.SelectedItem.ToString() == FETCH_ALL_CHANNEL)
             {
@@ -335,6 +432,46 @@ namespace PocketLadio.Stations.Icecast
                 alFilterWord.Add(((string)filterEnumerator.Current).Trim());
             }
             setting.SetFilterWords((string[])alFilterWord.ToArray(typeof(string)));
+
+            #region ビットレートフィルターの有効・無効設定書き込み
+
+            setting.FilterAboveBitRateUse = filterAboveBitRateUseCheckBox.Checked;
+            try
+            {
+                setting.FilterAboveBitRate = int.Parse(filterAboveBitRateTextBox.Text.Trim());
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
+
+            setting.FilterBelowBitRateUse = filterBelowBitRateUseCheckBox.Checked;
+            try
+            {
+                setting.FilterBelowBitRate = int.Parse(filterBelowBitRateTextBox.Text.Trim());
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
+
+            #endregion
 
             try
             {

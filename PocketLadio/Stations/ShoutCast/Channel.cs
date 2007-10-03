@@ -14,7 +14,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// 再生URLへのパス
         /// </summary>
-        private string path = "";
+        private string path = string.Empty;
 
         /// <summary>
         /// 再生URLへのパス
@@ -27,7 +27,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ランク
         /// </summary>
-        private string rank = "";
+        private string rank = string.Empty;
 
         /// <summary>
         /// ランク
@@ -54,7 +54,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// タイトル
         /// </summary>
-        private string title = "";
+        private string title = string.Empty;
 
         /// <summary>
         /// タイトル
@@ -68,7 +68,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// 現在演奏中の曲
         /// </summary>
-        private string playing = "";
+        private string playing = string.Empty;
 
         /// <summary>
         /// 現在演奏中の曲
@@ -115,7 +115,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// カテゴリ
         /// </summary>
-        private string category = "";
+        private string category = string.Empty;
 
         /// <summary>
         /// カテゴリ

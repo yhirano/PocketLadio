@@ -55,6 +55,15 @@ namespace PocketLadio.Stations.RssPodcast
         private readonly Headline parentHeadline;
 
         /// <summary>
+        /// 親ヘッドライン
+        /// </summary>
+        public Headline ParentHeadline
+        {
+            get { return parentHeadline; }
+        } 
+
+
+        /// <summary>
         /// 設定のコンストラクタ
         /// </summary>
         /// <param name="ParentHeadline">親ヘッドライン</param>

@@ -65,6 +65,9 @@ namespace PocketLadio.Stations.Netladio
         private Panel sortScendingPanel;
         private RadioButton sortDescendingRadioButton;
         private RadioButton sortAscendingRadioButton;
+        private TabPage stationTabPage;
+        private TextBox stationNameTextBox;
+        private Label stationNameLabel;
 
         /// <summary>
         /// 設定
@@ -144,6 +147,9 @@ namespace PocketLadio.Stations.Netladio
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
+            this.stationTabPage = new System.Windows.Forms.TabPage();
+            this.stationNameTextBox = new System.Windows.Forms.TextBox();
+            this.stationNameLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
             // 
@@ -156,6 +162,7 @@ namespace PocketLadio.Stations.Netladio
             // 
             // netladioTabControl
             // 
+            this.netladioTabControl.Controls.Add(this.stationTabPage);
             this.netladioTabControl.Controls.Add(this.netladioTabPage);
             this.netladioTabControl.Controls.Add(this.filterTabPage);
             this.netladioTabControl.Controls.Add(this.filter2TabPage);
@@ -173,8 +180,8 @@ namespace PocketLadio.Stations.Netladio
             this.netladioTabPage.Controls.Add(this.headlineXmlUrlLabel);
             this.netladioTabPage.Controls.Add(this.headlineCvsUrlLabel);
             this.netladioTabPage.Location = new System.Drawing.Point(0, 0);
-            this.netladioTabPage.Size = new System.Drawing.Size(240, 245);
-            this.netladioTabPage.Text = "ねとらじ設定";
+            this.netladioTabPage.Size = new System.Drawing.Size(232, 242);
+            this.netladioTabPage.Text = "ねとらじ";
             // 
             // headlineViewTypeTextBox
             // 
@@ -298,7 +305,7 @@ namespace PocketLadio.Stations.Netladio
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
             this.filterTabPage.Size = new System.Drawing.Size(232, 242);
-            this.filterTabPage.Text = "フィルター設定";
+            this.filterTabPage.Text = "フィルター";
             // 
             // filterListLabel
             // 
@@ -384,8 +391,8 @@ namespace PocketLadio.Stations.Netladio
             this.filter2TabPage.Controls.Add(this.filterAboveBitRateUseCheckBox);
             this.filter2TabPage.Controls.Add(this.filterAboveBitRateTextBox);
             this.filter2TabPage.Location = new System.Drawing.Point(0, 0);
-            this.filter2TabPage.Size = new System.Drawing.Size(240, 245);
-            this.filter2TabPage.Text = "フィルター設定2";
+            this.filter2TabPage.Size = new System.Drawing.Size(232, 242);
+            this.filter2TabPage.Text = "フィルター2";
             // 
             // sortScendingPanel
             // 
@@ -458,6 +465,25 @@ namespace PocketLadio.Stations.Netladio
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
+            // stationTabPage
+            // 
+            this.stationTabPage.Controls.Add(this.stationNameTextBox);
+            this.stationTabPage.Controls.Add(this.stationNameLabel);
+            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
+            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
+            this.stationTabPage.Text = "放送局";
+            // 
+            // stationNameTextBox
+            // 
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // stationNameLabel
+            // 
+            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
+            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
+            this.stationNameLabel.Text = "放送局名";
+            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -475,8 +501,10 @@ namespace PocketLadio.Stations.Netladio
         {
             #region 設定の読み込み
 
-            headlineCsvUrlTextBox.Text = ((setting.HeadlineCsvUrl != null) ? setting.HeadlineCsvUrl.ToString() : "");
-            headlineXmlUrlTextBox.Text = ((setting.HeadlineXmlUrl != null) ? setting.HeadlineXmlUrl.ToString() : "");
+            stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
+
+            headlineCsvUrlTextBox.Text = ((setting.HeadlineCsvUrl != null) ? setting.HeadlineCsvUrl.ToString() : string.Empty);
+            headlineXmlUrlTextBox.Text = ((setting.HeadlineXmlUrl != null) ? setting.HeadlineXmlUrl.ToString() : string.Empty);
             if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
             {
                 headlineGetWayCvsRadioButton.Checked = true;
@@ -568,6 +596,8 @@ namespace PocketLadio.Stations.Netladio
             }
 
             #region 設定の書き込み
+
+            setting.ParentHeadline.ParentStation.Name = stationNameTextBox.Text.Trim();
 
             #region ヘッドライン取得URLの書き込み
 

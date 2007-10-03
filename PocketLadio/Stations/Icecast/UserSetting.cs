@@ -70,9 +70,114 @@ namespace PocketLadio.Stations.Icecast
         private String[] filterWords = new String[0];
 
         /// <summary>
+        /// ビットレート（～以下）フィルターを使用するか
+        /// </summary>
+        private bool filterBelowBitRateUse = false;
+
+        /// <summary>
+        /// ビットレート（～以下）フィルターを使用するか
+        /// </summary>
+        public bool FilterBelowBitRateUse
+        {
+            get { return filterBelowBitRateUse; }
+            set { filterBelowBitRateUse = value; }
+        }
+
+        /// <summary>
+        /// ビットレート（～以下）フィルター
+        /// </summary>
+        private int filterBelowBitRate = 320;
+
+        /// <summary>
+        /// ビットレート（～以下）フィルター
+        /// </summary>
+        public int FilterBelowBitRate
+        {
+            get
+            {
+                if (filterBelowBitRate >= 0)
+                {
+                    return filterBelowBitRate;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            set
+            {
+                if (value >= 0)
+                {
+                    filterBelowBitRate = value;
+                }
+                else
+                {
+                    ;
+                }
+            }
+        }
+
+        /// <summary>
+        /// ビットレート（～以上）フィルターを使用するか
+        /// </summary>
+        private bool filterAboveBitRateUse = false;
+
+        /// <summary>
+        /// ビットレート（～以上）フィルターを使用するか
+        /// </summary>
+        public bool FilterAboveBitRateUse
+        {
+            get { return filterAboveBitRateUse; }
+            set { filterAboveBitRateUse = value; }
+        }
+
+        /// <summary>
+        /// ビットレート（～以上）フィルター
+        /// </summary>
+        private int filterAboveBitRate = 0;
+
+        /// <summary>
+        /// ビットレート（～以上）フィルター
+        /// </summary>
+        public int FilterAboveBitRate
+        {
+            get
+            {
+                if (filterAboveBitRate >= 0)
+                {
+                    return filterAboveBitRate;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            set
+            {
+                if (value >= 0)
+                {
+                    filterAboveBitRate = value;
+                }
+                else
+                {
+                    ;
+                }
+            }
+        }
+
+        /// <summary>
         /// 親ヘッドライン
         /// </summary>
         private readonly Headline parentHeadline;
+
+        /// <summary>
+        /// 親ヘッドライン
+        /// </summary>
+        public Headline ParentHeadline
+        {
+            get { return parentHeadline; }
+        } 
+
 
         /// <summary>
         /// 設定のコンストラクタ
@@ -190,6 +295,72 @@ namespace PocketLadio.Stations.Icecast
                                     alFilterWords.Add(reader.GetAttribute("word"));
                                 }
                             } // End of Word
+                            else if (reader.LocalName == "AboveBitRate")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string use = reader.GetAttribute("use");
+                                    if (use == bool.TrueString)
+                                    {
+                                        FilterAboveBitRateUse = true;
+                                    }
+                                    else if (use == bool.FalseString)
+                                    {
+                                        FilterAboveBitRateUse = false;
+                                    }
+
+                                    try
+                                    {
+                                        string bitRate = reader.GetAttribute("bitrate");
+                                        FilterAboveBitRate = int.Parse(bitRate);
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of AboveBitRate
+                            else if (reader.LocalName == "BelowBitRate")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    string use = reader.GetAttribute("use");
+                                    if (use == bool.TrueString)
+                                    {
+                                        FilterBelowBitRateUse = true;
+                                    }
+                                    else if (use == bool.FalseString)
+                                    {
+                                        FilterBelowBitRateUse = false;
+                                    }
+
+                                    try
+                                    {
+                                        string bitRate = reader.GetAttribute("bitrate");
+                                        FilterBelowBitRate = int.Parse(bitRate);
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of BelowBitRate
                         } // End of Filterタグの中にいる場合
                     }
                     else if (reader.NodeType == XmlNodeType.EndElement)
@@ -254,11 +425,23 @@ namespace PocketLadio.Stations.Icecast
 
                 writer.WriteStartElement("Filter");
                 foreach (string filterWord in GetFilterWords())
+                
                 {
                     writer.WriteStartElement("Word");
                     writer.WriteAttributeString("word", filterWord);
                     writer.WriteEndElement(); // End of Word
                 }
+
+                writer.WriteStartElement("AboveBitRate");
+                writer.WriteAttributeString("use", FilterAboveBitRateUse.ToString());
+                writer.WriteAttributeString("bitrate", FilterAboveBitRate.ToString());
+                writer.WriteEndElement(); // End of AboveBitRate
+
+                writer.WriteStartElement("BelowBitRate");
+                writer.WriteAttributeString("use", FilterBelowBitRateUse.ToString());
+                writer.WriteAttributeString("bitrate", FilterBelowBitRate.ToString());
+                writer.WriteEndElement(); // End of BelowBitRate
+
                 writer.WriteEndElement(); // End of Filter
 
                 writer.WriteEndElement(); // End of Content.

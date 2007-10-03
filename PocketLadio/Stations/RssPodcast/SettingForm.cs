@@ -46,6 +46,9 @@ namespace PocketLadio.Stations.RssPodcast
         private MenuItem pasteAddWordMenuItem;
         private ContextMenu filterListBoxContextMenu;
         private MenuItem deleteFilterListMenuItem;
+        private TabPage stationTabPage;
+        private TextBox stationNameTextBox;
+        private Label stationNameLabel;
 
         /// <summary>
         /// 設定
@@ -107,6 +110,9 @@ namespace PocketLadio.Stations.RssPodcast
             this.cutAddWordMenuItem = new System.Windows.Forms.MenuItem();
             this.copyAddWordMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteAddWordMenuItem = new System.Windows.Forms.MenuItem();
+            this.stationTabPage = new System.Windows.Forms.TabPage();
+            this.stationNameTextBox = new System.Windows.Forms.TextBox();
+            this.stationNameLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
             // 
@@ -119,6 +125,7 @@ namespace PocketLadio.Stations.RssPodcast
             // 
             // podcastTabControl
             // 
+            this.podcastTabControl.Controls.Add(this.stationTabPage);
             this.podcastTabControl.Controls.Add(this.podcastTabPage);
             this.podcastTabControl.Controls.Add(this.filterTabPage);
             this.podcastTabControl.Location = new System.Drawing.Point(0, 0);
@@ -132,8 +139,8 @@ namespace PocketLadio.Stations.RssPodcast
             this.podcastTabPage.Controls.Add(this.rssUrlTextBox);
             this.podcastTabPage.Controls.Add(this.rssUrlLabel);
             this.podcastTabPage.Location = new System.Drawing.Point(0, 0);
-            this.podcastTabPage.Size = new System.Drawing.Size(240, 245);
-            this.podcastTabPage.Text = "Podcast設定";
+            this.podcastTabPage.Size = new System.Drawing.Size(232, 242);
+            this.podcastTabPage.Text = "Podcast";
             // 
             // headlineViewTypeTextBox
             // 
@@ -215,7 +222,7 @@ namespace PocketLadio.Stations.RssPodcast
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
             this.filterTabPage.Size = new System.Drawing.Size(232, 242);
-            this.filterTabPage.Text = "フィルター設定";
+            this.filterTabPage.Text = "フィルター";
             // 
             // filterListLabel
             // 
@@ -289,6 +296,25 @@ namespace PocketLadio.Stations.RssPodcast
             this.pasteAddWordMenuItem.Text = "貼り付け(&P)";
             this.pasteAddWordMenuItem.Click += new System.EventHandler(this.PasteAddWordMenuItem_Click);
             // 
+            // stationTabPage
+            // 
+            this.stationTabPage.Controls.Add(this.stationNameTextBox);
+            this.stationTabPage.Controls.Add(this.stationNameLabel);
+            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
+            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
+            this.stationTabPage.Text = "放送局";
+            // 
+            // stationNameTextBox
+            // 
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // stationNameLabel
+            // 
+            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
+            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
+            this.stationNameLabel.Text = "放送局名";
+            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -305,6 +331,8 @@ namespace PocketLadio.Stations.RssPodcast
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
             #region 設定の読み込み
+
+            stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
 
             rssUrlTextBox.Text = ((setting.RssUrl != null) ? setting.RssUrl.ToString() : "");
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
@@ -335,6 +363,8 @@ namespace PocketLadio.Stations.RssPodcast
             }
 
             #region 設定の書き込み
+
+            setting.ParentHeadline.ParentStation.Name = stationNameTextBox.Text.Trim();
 
             try
             {

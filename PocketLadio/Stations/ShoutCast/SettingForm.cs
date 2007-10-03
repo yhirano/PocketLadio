@@ -66,6 +66,9 @@ namespace PocketLadio.Stations.ShoutCast
         /// 設定
         /// </summary>
         private UserSetting setting;
+        private TabPage stationTabPage;
+        private TextBox stationNameTextBox;
+        private Label stationNameLabel;
 
         /// <summary>
         /// SHOUTcastの番組表取得数のリスト
@@ -140,6 +143,9 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
+            this.stationTabPage = new System.Windows.Forms.TabPage();
+            this.stationNameTextBox = new System.Windows.Forms.TextBox();
+            this.stationNameLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
             // 
@@ -152,6 +158,7 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // shoutCastSettingTabControl
             // 
+            this.shoutCastSettingTabControl.Controls.Add(this.stationTabPage);
             this.shoutCastSettingTabControl.Controls.Add(this.shoutCastTabPage);
             this.shoutCastSettingTabControl.Controls.Add(this.filterTabPage);
             this.shoutCastSettingTabControl.Controls.Add(this.filter2TabPage);
@@ -169,7 +176,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.shoutCastTabPage.Controls.Add(this.searchWordLabel);
             this.shoutCastTabPage.Location = new System.Drawing.Point(0, 0);
             this.shoutCastTabPage.Size = new System.Drawing.Size(240, 245);
-            this.shoutCastTabPage.Text = "SHOUTcast設定";
+            this.shoutCastTabPage.Text = "SHOUTcast";
             // 
             // perViewComboBox
             // 
@@ -262,7 +269,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
             this.filterTabPage.Size = new System.Drawing.Size(232, 242);
-            this.filterTabPage.Text = "フィルター設定";
+            this.filterTabPage.Text = "フィルター";
             // 
             // filterListLabel
             // 
@@ -348,8 +355,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.filter2TabPage.Controls.Add(this.filterAboveBitRateUseCheckBox);
             this.filter2TabPage.Controls.Add(this.filterAboveBitRateTextBox);
             this.filter2TabPage.Location = new System.Drawing.Point(0, 0);
-            this.filter2TabPage.Size = new System.Drawing.Size(240, 245);
-            this.filter2TabPage.Text = "フィルター設定2";
+            this.filter2TabPage.Size = new System.Drawing.Size(232, 242);
+            this.filter2TabPage.Text = "フィルター2";
             // 
             // sortScendingPanel
             // 
@@ -421,6 +428,25 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
+            // stationTabPage
+            // 
+            this.stationTabPage.Controls.Add(this.stationNameTextBox);
+            this.stationTabPage.Controls.Add(this.stationNameLabel);
+            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
+            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
+            this.stationTabPage.Text = "放送局";
+            // 
+            // stationNameTextBox
+            // 
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // stationNameLabel
+            // 
+            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
+            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
+            this.stationNameLabel.Text = "放送局名";
+            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -447,6 +473,8 @@ namespace PocketLadio.Stations.ShoutCast
             #endregion
 
             #region 設定の読み込み
+
+            stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
 
             // 検索対象の読み込み
             searchWordTextBox.Text = setting.SearchWord.Trim();
@@ -540,6 +568,8 @@ namespace PocketLadio.Stations.ShoutCast
             }
 
             #region 設定の書き込み
+
+            setting.ParentHeadline.ParentStation.Name = stationNameTextBox.Text.Trim();
 
             setting.SearchWord = searchWordTextBox.Text.Trim();
             setting.PerView = perViewComboBox.SelectedItem.ToString().Trim();
