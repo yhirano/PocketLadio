@@ -196,7 +196,7 @@ namespace PocketLadio
             // 
             this.playlistSaveLocalCheckBox.Location = new System.Drawing.Point(3, 154);
             this.playlistSaveLocalCheckBox.Size = new System.Drawing.Size(234, 20);
-            this.playlistSaveLocalCheckBox.Text = "プレイリストは一端ローカルに保存する";
+            this.playlistSaveLocalCheckBox.Text = "プレイリストは一度ローカルに保存する";
             // 
             // browserPathReferenceButton
             // 
@@ -271,7 +271,7 @@ namespace PocketLadio
             this.viewTabPage.Controls.Add(this.headlineListBoxFontSizeNumericUpDown);
             this.viewTabPage.Controls.Add(this.headlineListBoxFontSizeCheckBox);
             this.viewTabPage.Location = new System.Drawing.Point(0, 0);
-            this.viewTabPage.Size = new System.Drawing.Size(240, 245);
+            this.viewTabPage.Size = new System.Drawing.Size(232, 242);
             this.viewTabPage.Text = "表示";
             // 
             // headlineListBoxFontSizeNumericUpDown
@@ -295,7 +295,7 @@ namespace PocketLadio
             // 
             this.networkTabPage.Controls.Add(this.proxySettingPanel);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.networkTabPage.Size = new System.Drawing.Size(240, 245);
+            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
             this.networkTabPage.Text = "ネットワーク";
             // 
             // proxySettingPanel
