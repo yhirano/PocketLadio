@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Diagnostics;
 using PocketLadio.Stations;
@@ -34,6 +35,11 @@ namespace PocketLadio.Stations.Netladio
         /// ねとらじのヘッドラインのURL XML
         /// </summary>
         public const string NETLADIO_HEADLINE_XML_URL = "http://yp.ladio.livedoor.jp/stats/list.xml";
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL DAT v2(gzip)
+        /// </summary>
+        public const string NETLADIO_HEADLINE_DAT_V2_URL = "http://yp.ladio.livedoor.jp/stats/list.v2.dat";
 
         /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
@@ -272,13 +278,21 @@ namespace PocketLadio.Stations.Netladio
             // 時刻をセットする
             lastCheckTime = DateTime.Now;
 
-            if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
+            switch (setting.HeadlineGetWay)
             {
-                FetchHeadlineCvs();
-            }
-            else if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
-            {
-                FetchHeadlineXml();
+                case UserSetting.HeadlineGetType.Cvs:
+                    FetchHeadlineCvs();
+                    break;
+                case UserSetting.HeadlineGetType.Xml:
+                    FetchHeadlineXml();
+                    break;
+                case UserSetting.HeadlineGetType.DatV2:
+                    FetchHeadlineDatV2();
+                    break;
+                default:
+                    // ここに到達することはあり得ない
+                    Trace.Assert(false, "想定外の動作のため、終了します");
+                    break;
             }
         }
 
@@ -299,11 +313,12 @@ namespace PocketLadio.Stations.Netladio
         {
             WebStream st = null;
 
+            string[] channelsCvs;
+            // チャンネルのリスト
+            ArrayList alChannels = new ArrayList();
+
             try
             {
-                // チャンネルのリスト
-                ArrayList alChannels = new ArrayList();
-
                 st = PocketLadioUtility.GetWebStream(setting.HeadlineCsvUrl);
                 WebTextFetch fetch = new WebTextFetch(st, Encoding.GetEncoding("shift-jis"));
                 if (HeadlineFetch != null)
@@ -319,133 +334,7 @@ namespace PocketLadio.Stations.Netladio
                     fetch.Fetched += HeadlineFetched;
                 }
                 string httpString = fetch.ReadToEnd();
-                string[] channelsCvs = httpString.Split('\n');
-
-                OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, channelsCvs.Length - 1));
-
-                // 1行目はヘッダなので無視
-                for (int count = 1; count < channelsCvs.Length; ++count)
-                {
-                    if (channelsCvs[count].Length > 0)
-                    {
-                        Channel channel = new Channel(this);
-                        string[] channelCsv = channelsCvs[count].Split(',');
-
-                        // CVS列が11列以上の場合のみ番組とみなす
-                        if (channelCsv.Length >= 11)
-                        {
-                            // Url取得
-                            try
-                            {
-                                channel.Url = new Uri(channelCsv[0]);
-                            }
-                            catch (UriFormatException)
-                            {
-                                ;
-                            }
-                            // PC上で起きることを確認したが、対処するべきか分からないのでとりあえず無視
-                            catch (IndexOutOfRangeException)
-                            {
-                                ;
-                            }
-
-                            // Gnl取得
-                            channel.Gnl = channelCsv[1];
-
-                            // Nam取得
-                            channel.Nam = channelCsv[2];
-
-                            // Tit取得
-                            channel.Tit = channelCsv[3];
-
-                            // Mnt取得
-                            channel.Mnt = channelCsv[4];
-
-                            // Tim取得
-                            channel.SetTim(channelCsv[5]);
-
-                            // Tims取得
-                            channel.SetTims(channelCsv[6]);
-
-                            try
-                            {
-                                // Cln取得
-                                channel.Cln = int.Parse(channelCsv[7]);
-                            }
-                            catch (ArgumentException)
-                            {
-                                ;
-                            }
-                            catch (FormatException)
-                            {
-                                ;
-                            }
-                            catch (OverflowException)
-                            {
-                                ;
-                            }
-
-                            try
-                            {
-                                // Clns取得
-                                channel.Clns = int.Parse(channelCsv[8]);
-                            }
-                            catch (ArgumentException)
-                            {
-                                ;
-                            }
-                            catch (FormatException)
-                            {
-                                ;
-                            }
-                            catch (OverflowException)
-                            {
-                                ;
-                            }
-
-                            // Srv取得
-                            channel.Srv = channelCsv[9];
-
-                            // Prt取得
-                            channel.Prt = channelCsv[10];
-
-                            if (channelCsv.Length >= 12)
-                            {
-                                // Typ取得
-                                channel.Typ = channelCsv[11];
-                            }
-
-                            if (channelCsv.Length >= 13)
-                            {
-                                try
-                                {
-                                    // Bit取得
-                                    channel.Bit = int.Parse(channelCsv[12]);
-                                }
-                                catch (ArgumentException)
-                                {
-                                    ;
-                                }
-                                catch (FormatException)
-                                {
-                                    ;
-                                }
-                                catch (OverflowException)
-                                {
-                                    ;
-                                }
-                            }
-
-                            alChannels.Add(channel);
-                        }
-                    }
-
-                    OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(count, channelsCvs.Length - 1));
-                }
-
-                OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(channelsCvs.Length - 1, channelsCvs.Length - 1));
-
-                channels = (Channel[])alChannels.ToArray(typeof(Channel));
+                channelsCvs = httpString.Split('\n');
             }
             finally
             {
@@ -454,6 +343,135 @@ namespace PocketLadio.Stations.Netladio
                     st.Close();
                 }
             }
+
+            OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, channelsCvs.Length - 1));
+
+            // 1行目はヘッダなので無視
+            for (int count = 1; count < channelsCvs.Length; ++count)
+            {
+                if (channelsCvs[count].Length > 0)
+                {
+                    Channel channel = new Channel(this);
+                    string[] channelCsv = channelsCvs[count].Split(',');
+
+                    // CVS列が11列以上の場合のみ番組とみなす
+                    if (channelCsv.Length >= 11)
+                    {
+                        // Url取得
+                        try
+                        {
+                            if (channelCsv[0] != string.Empty)
+                            {
+                                channel.Url = new Uri(channelCsv[0]);
+                            }
+                        }
+                        catch (UriFormatException)
+                        {
+                            ;
+                        }
+                        // PC上で起きることを確認したが、対処するべきか分からないのでとりあえず無視
+                        catch (IndexOutOfRangeException)
+                        {
+                            ;
+                        }
+
+                        // Gnl取得
+                        channel.Gnl = channelCsv[1];
+
+                        // Nam取得
+                        channel.Nam = channelCsv[2];
+
+                        // Tit取得
+                        channel.Tit = channelCsv[3];
+
+                        // Mnt取得
+                        channel.Mnt = channelCsv[4];
+
+                        // Tim取得
+                        channel.SetTim(channelCsv[5]);
+
+                        // Tims取得
+                        channel.SetTims(channelCsv[6]);
+
+                        try
+                        {
+                            // Cln取得
+                            channel.Cln = int.Parse(channelCsv[7]);
+                        }
+                        catch (ArgumentException)
+                        {
+                            ;
+                        }
+                        catch (FormatException)
+                        {
+                            ;
+                        }
+                        catch (OverflowException)
+                        {
+                            ;
+                        }
+
+                        try
+                        {
+                            // Clns取得
+                            channel.Clns = int.Parse(channelCsv[8]);
+                        }
+                        catch (ArgumentException)
+                        {
+                            ;
+                        }
+                        catch (FormatException)
+                        {
+                            ;
+                        }
+                        catch (OverflowException)
+                        {
+                            ;
+                        }
+
+                        // Srv取得
+                        channel.Srv = channelCsv[9];
+
+                        // Prt取得
+                        channel.Prt = channelCsv[10];
+
+                        if (channelCsv.Length >= 12)
+                        {
+                            // Typ取得
+                            channel.Typ = channelCsv[11];
+                        }
+
+                        if (channelCsv.Length >= 13)
+                        {
+                            try
+                            {
+                                // Bit取得
+                                channel.Bit = int.Parse(channelCsv[12]);
+                            }
+                            catch (ArgumentException)
+                            {
+                                ;
+                            }
+                            catch (FormatException)
+                            {
+                                ;
+                            }
+                            catch (OverflowException)
+                            {
+                                ;
+                            }
+                        }
+
+                        alChannels.Add(channel);
+                    }
+                }
+
+                OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(count, channelsCvs.Length - 1));
+            }
+
+            OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(channelsCvs.Length - 1, channelsCvs.Length - 1));
+
+            channels = (Channel[])alChannels.ToArray(typeof(Channel));
         }
 
         /// <summary>
@@ -499,7 +517,11 @@ namespace PocketLadio.Stations.Netladio
                             {
                                 try
                                 {
-                                    channel.Url = new Uri(reader.ReadString());
+                                    string url = reader.ReadString();
+                                    if (url != string.Empty)
+                                    {
+                                        channel.Url = new Uri(url);
+                                    }
                                 }
                                 catch (UriFormatException)
                                 {
@@ -627,6 +649,319 @@ namespace PocketLadio.Stations.Netladio
                     reader.Close();
                 }
             }
+        }
+
+        #region dat v2解析用正規表現
+
+        private static readonly Regex urlRegex = new Regex("^URL=(.*)", RegexOptions.None);
+
+        private static readonly Regex gnlRegex = new Regex("^GNL=(.*)", RegexOptions.None);
+
+        private static readonly Regex namRegex = new Regex("^NAM=(.*)", RegexOptions.None);
+
+        private static readonly Regex mntRegex = new Regex("^MNT=(.*)", RegexOptions.None);
+
+        private static readonly Regex timsRegex = new Regex("^TIMS=(.*)", RegexOptions.None);
+
+        private static readonly Regex clnRegex = new Regex(@"^CLN=(\d+)", RegexOptions.None);
+
+        private static readonly Regex clnsRegex = new Regex(@"^CLNS=(\d+)", RegexOptions.None);
+
+        private static readonly Regex maxRegex = new Regex(@"^MNT=(\d+)", RegexOptions.None);
+
+        private static readonly Regex srvRegex = new Regex("^SRV=(.*)", RegexOptions.None);
+
+        private static readonly Regex prtRegex = new Regex("^PRT=(.*)", RegexOptions.None);
+
+        private static readonly Regex bitRegex = new Regex(@"^BIT=(\d+)", RegexOptions.None);
+
+        private static readonly Regex songRegex = new Regex("^SONG=(.*)", RegexOptions.None);
+
+        #endregion // dat v2解析用正規表現
+
+        /// <summary>
+        /// ヘッドラインをネットから取得する（DAT v2使用）
+        /// </summary>
+        private void FetchHeadlineDatV2()
+        {
+            WebStream st = null;
+
+            string[] channelsDat;
+            // チャンネルのリスト
+            ArrayList alChannels = new ArrayList();
+
+            try
+            {
+                st = PocketLadioUtility.GetWebStream(setting.HeadlineDatV2Url);
+                WebTextFetch fetch = new WebTextFetch(st, Encoding.GetEncoding("shift-jis"));
+                if (HeadlineFetch != null)
+                {
+                    fetch.Fetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    fetch.Fetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    fetch.Fetched += HeadlineFetched;
+                }
+                string httpString = fetch.ReadToEnd();
+                channelsDat = httpString.Split('\n');
+            }
+            finally
+            {
+                if (st != null)
+                {
+                    st.Close();
+                }
+            }
+
+            // 番組の総数を数える
+            int channelLength = 0;
+            for (int i = 0; i < channelsDat.Length; ++i)
+            {
+                // 空行の場合
+                if (channelsDat[i] == string.Empty)
+                {
+                    ++channelLength;
+                }
+            }
+
+            OnHeadlineAnalyze(new HeadlineAnalyzeEventArgs(0, channelLength));
+
+            Channel channel = null;
+            // 解析済みの番組数
+            int channelAnalyzed = 0;
+
+            for (int count = 0; count < channelsDat.Length; ++count)
+            {
+                // Url取得
+                Match urlMatch = urlRegex.Match(channelsDat[count]);
+                if (urlMatch.Success)
+                {
+                    try
+                    {
+                        if (urlMatch.Groups[1].Value != string.Empty)
+                        {
+                            if (channel == null)
+                            {
+                                channel = new Channel(this);
+                            }
+                            channel.Url = new Uri(urlMatch.Groups[1].Value);
+                        }
+                    }
+                    catch (UriFormatException)
+                    {
+                        ;
+                    }
+
+                    continue;
+                }
+
+                // Gnl取得
+                Match gnlMatch = gnlRegex.Match(channelsDat[count]);
+                if (gnlMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    channel.Gnl = gnlMatch.Groups[1].Value;
+
+                    continue;
+                }
+
+                Match namMatch = namRegex.Match(channelsDat[count]);
+                if (namMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    channel.Nam = namMatch.Groups[1].Value;
+
+                    continue;
+                }
+
+                Match mntMatch = mntRegex.Match(channelsDat[count]);
+                if (mntMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    channel.Mnt = mntMatch.Groups[1].Value;
+
+                    continue;
+                }
+
+                Match timsMatch = timsRegex.Match(channelsDat[count]);
+                if (timsMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    channel.SetTims(timsMatch.Groups[1].Value);
+
+                    continue;
+                }
+
+                // Cln取得
+                Match clnMatch = clnRegex.Match(channelsDat[count]);
+                if (clnMatch.Success)
+                {
+                    try
+                    {
+                        if (channel == null)
+                        {
+                            channel = new Channel(this);
+                        }
+
+                        channel.Cln = int.Parse(clnMatch.Groups[1].Value);
+                    }
+                    catch (ArgumentException)
+                    {
+                        ;
+                    }
+                    catch (FormatException)
+                    {
+                        ;
+                    }
+                    catch (OverflowException)
+                    {
+                        ;
+                    }
+
+                    continue;
+                }
+
+                // Clns取得
+                Match clnsMatch = clnsRegex.Match(channelsDat[count]);
+                if (clnsMatch.Success)
+                {
+                    try
+                    {
+                        if (channel == null)
+                        {
+                            channel = new Channel(this);
+                        }
+
+                        channel.Clns = int.Parse(clnsMatch.Groups[1].Value);
+                    }
+                    catch (ArgumentException)
+                    {
+                        ;
+                    }
+                    catch (FormatException)
+                    {
+                        ;
+                    }
+                    catch (OverflowException)
+                    {
+                        ;
+                    }
+
+                    continue;
+                }
+
+                Match maxMatch = maxRegex.Match(channelsDat[count]);
+                if (maxMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    continue;
+                }
+
+                Match srvMatch = srvRegex.Match(channelsDat[count]);
+                if (srvMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    channel.Srv = srvMatch.Groups[1].Value;
+
+                    continue;
+                }
+
+                Match prtMatch = prtRegex.Match(channelsDat[count]);
+                if (prtMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    channel.Prt = prtMatch.Groups[1].Value;
+
+                    continue;
+                }
+
+                Match bitMatch = bitRegex.Match(channelsDat[count]);
+                if (bitMatch.Success)
+                {
+                    try
+                    {
+                        if (channel == null)
+                        {
+                            channel = new Channel(this);
+                        }
+
+                        channel.Bit = int.Parse(bitMatch.Groups[1].Value);
+                    }
+                    catch (ArgumentException)
+                    {
+                        ;
+                    }
+                    catch (FormatException)
+                    {
+                        ;
+                    }
+                    catch (OverflowException)
+                    {
+                        ;
+                    }
+
+                    continue;
+                }
+
+                Match songMatch = songRegex.Match(channelsDat[count]);
+                if (prtMatch.Success)
+                {
+                    if (channel == null)
+                    {
+                        channel = new Channel(this);
+                    }
+
+                    channel.Tit = songMatch.Groups[1].Value;
+
+                    continue;
+                }
+
+                if (channelsDat[count] == string.Empty)
+                {
+                    if (channel != null)
+                    {
+                        alChannels.Add(channel);
+                        OnHeadlineAnalyzing(new HeadlineAnalyzeEventArgs(++channelAnalyzed, channelLength));
+                        channel = null;
+                    }
+                }
+            }
+
+            OnHeadlineAnalyzed(new HeadlineAnalyzeEventArgs(channelLength, channelLength));
+
+            channels = (Channel[])alChannels.ToArray(typeof(Channel));
         }
 
         /// <summary>

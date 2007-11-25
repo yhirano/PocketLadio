@@ -46,9 +46,23 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
+        /// ねとらじのヘッドラインのURL DAT v2
+        /// </summary>
+        private Uri headlineDatV2Url = new Uri(Headline.NETLADIO_HEADLINE_DAT_V2_URL);
+
+        /// <summary>
+        /// ねとらじのヘッドラインのURL DAT v2
+        /// </summary>
+        public Uri HeadlineDatV2Url
+        {
+            get { return headlineDatV2Url; }
+            set { headlineDatV2Url = value; }
+        }
+
+        /// <summary>
         /// ヘッドラインの取得方法
         /// </summary>
-        private HeadlineGetType headlineGetWay = HeadlineGetType.Cvs;
+        private HeadlineGetType headlineGetWay = HeadlineGetType.DatV2;
 
         /// <summary>
         /// ヘッドラインの取得方法
@@ -64,7 +78,7 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public enum HeadlineGetType
         {
-            Cvs, Xml
+            Cvs, Xml, DatV2
         };
 
         /// <summary>
@@ -318,6 +332,20 @@ namespace PocketLadio.Stations.Netladio
                                 }
                             }
                         } // End of HeadlineXmlUrl
+                        else if (reader.LocalName == "HeadlineDatV2Url")
+                        {
+                            if (reader.MoveToFirstAttribute())
+                            {
+                                try
+                                {
+                                    HeadlineDatV2Url = new Uri(reader.GetAttribute("url"));
+                                }
+                                catch (UriFormatException)
+                                {
+                                    ;
+                                }
+                            }
+                        } // End of HeadlineXmlUrl
                         else if (reader.LocalName == "HeadlineGetType")
                         {
                             if (reader.MoveToFirstAttribute())
@@ -330,6 +358,10 @@ namespace PocketLadio.Stations.Netladio
                                 else if (type == HeadlineGetType.Xml.ToString())
                                 {
                                     HeadlineGetWay = HeadlineGetType.Xml;
+                                }
+                                else if (type == HeadlineGetType.DatV2.ToString())
+                                {
+                                    HeadlineGetWay = HeadlineGetType.DatV2;
                                 }
                             }
                         } // End of HeadlineGetType
@@ -518,12 +550,16 @@ namespace PocketLadio.Stations.Netladio
                 writer.WriteStartElement("Content");
 
                 writer.WriteStartElement("HeadlineCsvUrl");
-                writer.WriteAttributeString("url", ((HeadlineCsvUrl != null) ? HeadlineCsvUrl.ToString() : ""));
+                writer.WriteAttributeString("url", ((HeadlineCsvUrl != null) ? HeadlineCsvUrl.ToString() : string.Empty));
                 writer.WriteEndElement(); // End of HeadlineCsvUrl
 
                 writer.WriteStartElement("HeadlineXmlUrl");
-                writer.WriteAttributeString("url", ((HeadlineXmlUrl != null) ? HeadlineXmlUrl.ToString() : ""));
+                writer.WriteAttributeString("url", ((HeadlineXmlUrl != null) ? HeadlineXmlUrl.ToString() : string.Empty));
                 writer.WriteEndElement(); // End of HeadlineXmlUrl
+
+                writer.WriteStartElement("HeadlineDatV2Url");
+                writer.WriteAttributeString("url", ((HeadlineDatV2Url != null) ? HeadlineDatV2Url.ToString() : string.Empty));
+                writer.WriteEndElement(); // End of HeadlineDatV2Url
 
                 writer.WriteStartElement("HeadlineGetType");
                 writer.WriteAttributeString("type", HeadlineGetWay.ToString());

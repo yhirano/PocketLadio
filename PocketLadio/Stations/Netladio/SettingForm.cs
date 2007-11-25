@@ -68,6 +68,13 @@ namespace PocketLadio.Stations.Netladio
         private TabPage stationTabPage;
         private TextBox stationNameTextBox;
         private Label stationNameLabel;
+        private TextBox headlineDatV2TextBox;
+        private Label headlineDatV2Label;
+        private ContextMenu headlineDatV2UrlContextMenu;
+        private MenuItem cutHeadlineDatV2UrlMenuItem;
+        private MenuItem copyHeadlineDatV2UrlMenuItem;
+        private MenuItem pasteHeadlineDatV2UrlMenuItem;
+        private RadioButton headlineGetWayDatV2RadioButton;
 
         /// <summary>
         /// 設定
@@ -103,7 +110,16 @@ namespace PocketLadio.Stations.Netladio
             this.mainMenu = new System.Windows.Forms.MainMenu();
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.netladioTabControl = new System.Windows.Forms.TabControl();
+            this.stationTabPage = new System.Windows.Forms.TabPage();
+            this.stationNameTextBox = new System.Windows.Forms.TextBox();
+            this.stationNameLabel = new System.Windows.Forms.Label();
             this.netladioTabPage = new System.Windows.Forms.TabPage();
+            this.headlineDatV2TextBox = new System.Windows.Forms.TextBox();
+            this.headlineDatV2UrlContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutHeadlineDatV2UrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyHeadlineDatV2UrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.pasteHeadlineDatV2UrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.headlineDatV2Label = new System.Windows.Forms.Label();
             this.headlineViewTypeTextBox = new System.Windows.Forms.TextBox();
             this.headlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
@@ -111,6 +127,7 @@ namespace PocketLadio.Stations.Netladio
             this.pasteHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.headlineViewTypeLabel = new System.Windows.Forms.Label();
             this.headlineGetWayPanel = new System.Windows.Forms.Panel();
+            this.headlineGetWayDatV2RadioButton = new System.Windows.Forms.RadioButton();
             this.headlineGetWayLabel = new System.Windows.Forms.Label();
             this.headlineGetWayXmlRadioButton = new System.Windows.Forms.RadioButton();
             this.headlineGetWayCvsRadioButton = new System.Windows.Forms.RadioButton();
@@ -147,9 +164,6 @@ namespace PocketLadio.Stations.Netladio
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
-            this.stationTabPage = new System.Windows.Forms.TabPage();
-            this.stationNameTextBox = new System.Windows.Forms.TextBox();
-            this.stationNameLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
             // 
@@ -170,8 +184,29 @@ namespace PocketLadio.Stations.Netladio
             this.netladioTabControl.SelectedIndex = 0;
             this.netladioTabControl.Size = new System.Drawing.Size(240, 268);
             // 
+            // stationTabPage
+            // 
+            this.stationTabPage.Controls.Add(this.stationNameTextBox);
+            this.stationTabPage.Controls.Add(this.stationNameLabel);
+            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
+            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
+            this.stationTabPage.Text = "放送局";
+            // 
+            // stationNameTextBox
+            // 
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // stationNameLabel
+            // 
+            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
+            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
+            this.stationNameLabel.Text = "放送局名";
+            // 
             // netladioTabPage
             // 
+            this.netladioTabPage.Controls.Add(this.headlineDatV2TextBox);
+            this.netladioTabPage.Controls.Add(this.headlineDatV2Label);
             this.netladioTabPage.Controls.Add(this.headlineViewTypeTextBox);
             this.netladioTabPage.Controls.Add(this.headlineViewTypeLabel);
             this.netladioTabPage.Controls.Add(this.headlineGetWayPanel);
@@ -180,13 +215,48 @@ namespace PocketLadio.Stations.Netladio
             this.netladioTabPage.Controls.Add(this.headlineXmlUrlLabel);
             this.netladioTabPage.Controls.Add(this.headlineCvsUrlLabel);
             this.netladioTabPage.Location = new System.Drawing.Point(0, 0);
-            this.netladioTabPage.Size = new System.Drawing.Size(232, 242);
+            this.netladioTabPage.Size = new System.Drawing.Size(240, 245);
             this.netladioTabPage.Text = "ねとらじ";
+            // 
+            // headlineDatV2TextBox
+            // 
+            this.headlineDatV2TextBox.ContextMenu = this.headlineDatV2UrlContextMenu;
+            this.headlineDatV2TextBox.Location = new System.Drawing.Point(3, 23);
+            this.headlineDatV2TextBox.Size = new System.Drawing.Size(234, 21);
+            this.headlineDatV2TextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.headlineDatV2TextBox_KeyUp);
+            this.headlineDatV2TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.headlineDatV2TextBox_KeyDown);
+            // 
+            // headlineDatV2UrlContextMenu
+            // 
+            this.headlineDatV2UrlContextMenu.MenuItems.Add(this.cutHeadlineDatV2UrlMenuItem);
+            this.headlineDatV2UrlContextMenu.MenuItems.Add(this.copyHeadlineDatV2UrlMenuItem);
+            this.headlineDatV2UrlContextMenu.MenuItems.Add(this.pasteHeadlineDatV2UrlMenuItem);
+            // 
+            // cutHeadlineDatV2UrlMenuItem
+            // 
+            this.cutHeadlineDatV2UrlMenuItem.Text = "切り取り(&T)";
+            this.cutHeadlineDatV2UrlMenuItem.Click += new System.EventHandler(this.cutHeadlineDatV2UrlMenuItem_Click);
+            // 
+            // copyHeadlineDatV2UrlMenuItem
+            // 
+            this.copyHeadlineDatV2UrlMenuItem.Text = "コピー(&C)";
+            this.copyHeadlineDatV2UrlMenuItem.Click += new System.EventHandler(this.copyHeadlineDatV2UrlMenuItem_Click);
+            // 
+            // pasteHeadlineDatV2UrlMenuItem
+            // 
+            this.pasteHeadlineDatV2UrlMenuItem.Text = "貼り付け(&P)";
+            this.pasteHeadlineDatV2UrlMenuItem.Click += new System.EventHandler(this.pasteHeadlineDatV2UrlMenuItem_Click);
+            // 
+            // headlineDatV2Label
+            // 
+            this.headlineDatV2Label.Location = new System.Drawing.Point(3, 4);
+            this.headlineDatV2Label.Size = new System.Drawing.Size(144, 16);
+            this.headlineDatV2Label.Text = "ヘッドラインのURL Dat V2";
             // 
             // headlineViewTypeTextBox
             // 
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
-            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 162);
+            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 205);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
             this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
             this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
@@ -214,17 +284,25 @@ namespace PocketLadio.Stations.Netladio
             // 
             // headlineViewTypeLabel
             // 
-            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 139);
+            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 182);
             this.headlineViewTypeLabel.Size = new System.Drawing.Size(135, 20);
             this.headlineViewTypeLabel.Text = "ヘッドラインの表示方法";
             // 
             // headlineGetWayPanel
             // 
+            this.headlineGetWayPanel.Controls.Add(this.headlineGetWayDatV2RadioButton);
             this.headlineGetWayPanel.Controls.Add(this.headlineGetWayLabel);
             this.headlineGetWayPanel.Controls.Add(this.headlineGetWayXmlRadioButton);
             this.headlineGetWayPanel.Controls.Add(this.headlineGetWayCvsRadioButton);
-            this.headlineGetWayPanel.Location = new System.Drawing.Point(0, 91);
+            this.headlineGetWayPanel.Location = new System.Drawing.Point(0, 134);
             this.headlineGetWayPanel.Size = new System.Drawing.Size(240, 45);
+            // 
+            // headlineGetWayDatV2RadioButton
+            // 
+            this.headlineGetWayDatV2RadioButton.Checked = true;
+            this.headlineGetWayDatV2RadioButton.Location = new System.Drawing.Point(3, 23);
+            this.headlineGetWayDatV2RadioButton.Size = new System.Drawing.Size(68, 20);
+            this.headlineGetWayDatV2RadioButton.Text = "Dat V2";
             // 
             // headlineGetWayLabel
             // 
@@ -235,29 +313,26 @@ namespace PocketLadio.Stations.Netladio
             // headlineGetWayXmlRadioButton
             // 
             this.headlineGetWayXmlRadioButton.Enabled = false;
-            this.headlineGetWayXmlRadioButton.Location = new System.Drawing.Point(57, 23);
+            this.headlineGetWayXmlRadioButton.Location = new System.Drawing.Point(131, 23);
             this.headlineGetWayXmlRadioButton.Size = new System.Drawing.Size(48, 20);
             this.headlineGetWayXmlRadioButton.Text = "XML";
             // 
             // headlineGetWayCvsRadioButton
             // 
-            this.headlineGetWayCvsRadioButton.Checked = true;
-            this.headlineGetWayCvsRadioButton.Location = new System.Drawing.Point(3, 22);
+            this.headlineGetWayCvsRadioButton.Location = new System.Drawing.Point(77, 23);
             this.headlineGetWayCvsRadioButton.Size = new System.Drawing.Size(48, 20);
             this.headlineGetWayCvsRadioButton.Text = "CVS";
             // 
             // headlineXmlUrlTextBox
             // 
             this.headlineXmlUrlTextBox.Enabled = false;
-            this.headlineXmlUrlTextBox.Location = new System.Drawing.Point(3, 64);
+            this.headlineXmlUrlTextBox.Location = new System.Drawing.Point(3, 107);
             this.headlineXmlUrlTextBox.Size = new System.Drawing.Size(234, 21);
-            this.headlineXmlUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineXmlUrlTextBox_KeyUp);
-            this.headlineXmlUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineXmlUrlTextBox_KeyDown);
             // 
             // headlineCsvUrlTextBox
             // 
             this.headlineCsvUrlTextBox.ContextMenu = this.headlineCvsUrlContextMenu;
-            this.headlineCsvUrlTextBox.Location = new System.Drawing.Point(3, 23);
+            this.headlineCsvUrlTextBox.Location = new System.Drawing.Point(3, 66);
             this.headlineCsvUrlTextBox.Size = new System.Drawing.Size(234, 21);
             this.headlineCsvUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineCsvUrlTextBox_KeyUp);
             this.headlineCsvUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineCsvUrlTextBox_KeyDown);
@@ -285,13 +360,13 @@ namespace PocketLadio.Stations.Netladio
             // 
             // headlineXmlUrlLabel
             // 
-            this.headlineXmlUrlLabel.Location = new System.Drawing.Point(3, 47);
+            this.headlineXmlUrlLabel.Location = new System.Drawing.Point(3, 90);
             this.headlineXmlUrlLabel.Size = new System.Drawing.Size(124, 16);
             this.headlineXmlUrlLabel.Text = "ヘッドラインのURL XML";
             // 
             // headlineCvsUrlLabel
             // 
-            this.headlineCvsUrlLabel.Location = new System.Drawing.Point(3, 4);
+            this.headlineCvsUrlLabel.Location = new System.Drawing.Point(3, 47);
             this.headlineCvsUrlLabel.Size = new System.Drawing.Size(124, 16);
             this.headlineCvsUrlLabel.Text = "ヘッドラインのURL CSV";
             // 
@@ -465,25 +540,6 @@ namespace PocketLadio.Stations.Netladio
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
-            // stationTabPage
-            // 
-            this.stationTabPage.Controls.Add(this.stationNameTextBox);
-            this.stationTabPage.Controls.Add(this.stationNameLabel);
-            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
-            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
-            this.stationTabPage.Text = "放送局";
-            // 
-            // stationNameTextBox
-            // 
-            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
-            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
-            // 
-            // stationNameLabel
-            // 
-            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
-            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
-            this.stationNameLabel.Text = "放送局名";
-            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -503,17 +559,31 @@ namespace PocketLadio.Stations.Netladio
 
             stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
 
+            headlineDatV2TextBox.Text = ((setting.HeadlineDatV2Url != null) ? setting.HeadlineDatV2Url.ToString() : string.Empty);
             headlineCsvUrlTextBox.Text = ((setting.HeadlineCsvUrl != null) ? setting.HeadlineCsvUrl.ToString() : string.Empty);
             headlineXmlUrlTextBox.Text = ((setting.HeadlineXmlUrl != null) ? setting.HeadlineXmlUrl.ToString() : string.Empty);
-            if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Cvs)
+            switch (setting.HeadlineGetWay)
             {
-                headlineGetWayCvsRadioButton.Checked = true;
-                headlineGetWayXmlRadioButton.Checked = false;
-            }
-            else if (setting.HeadlineGetWay == UserSetting.HeadlineGetType.Xml)
-            {
-                headlineGetWayCvsRadioButton.Checked = false;
-                headlineGetWayXmlRadioButton.Checked = true;
+                case UserSetting.HeadlineGetType.Cvs:
+                    headlineGetWayCvsRadioButton.Checked = true;
+                    headlineGetWayXmlRadioButton.Checked = false;
+                    headlineGetWayDatV2RadioButton.Checked = false;
+                    break;
+                case UserSetting.HeadlineGetType.Xml:
+                    headlineGetWayCvsRadioButton.Checked = false;
+                    headlineGetWayXmlRadioButton.Checked = true;
+                    headlineGetWayDatV2RadioButton.Checked = false;
+                    break;
+                case UserSetting.HeadlineGetType.DatV2:
+                    headlineGetWayCvsRadioButton.Checked = false;
+                    headlineGetWayXmlRadioButton.Checked = false;
+                    headlineGetWayDatV2RadioButton.Checked = true;
+                    break;
+                default:
+                    headlineGetWayCvsRadioButton.Checked = false;
+                    headlineGetWayXmlRadioButton.Checked = false;
+                    headlineGetWayDatV2RadioButton.Checked = false;
+                    break;
             }
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
@@ -591,7 +661,7 @@ namespace PocketLadio.Stations.Netladio
                 if (result == DialogResult.Yes)
                 {
                     filterListBox.Items.Add(addWordTextBox.Text.Trim());
-                    addWordTextBox.Text = "";
+                    addWordTextBox.Text = string.Empty;
                 }
             }
 
@@ -600,6 +670,15 @@ namespace PocketLadio.Stations.Netladio
             setting.ParentHeadline.ParentStation.Name = stationNameTextBox.Text.Trim();
 
             #region ヘッドライン取得URLの書き込み
+
+            try
+            {
+                setting.HeadlineDatV2Url = new Uri(headlineDatV2TextBox.Text.Trim());
+            }
+            catch (UriFormatException)
+            {
+                ;
+            }
 
             try
             {
@@ -623,7 +702,11 @@ namespace PocketLadio.Stations.Netladio
 
             #region ヘッドライン取得方法の書き込み
 
-            if (headlineGetWayCvsRadioButton.Checked)
+            if (headlineGetWayDatV2RadioButton.Checked)
+            {
+                setting.HeadlineGetWay = UserSetting.HeadlineGetType.DatV2;
+            }
+            else if (headlineGetWayCvsRadioButton.Checked)
             {
                 setting.HeadlineGetWay = UserSetting.HeadlineGetType.Cvs;
             }
@@ -772,6 +855,21 @@ namespace PocketLadio.Stations.Netladio
             ClipboardTextBox.Paste(headlineViewTypeTextBox);
         }
 
+        private void cutHeadlineDatV2UrlMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Cut(headlineDatV2TextBox);
+        }
+
+        private void copyHeadlineDatV2UrlMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Copy(headlineDatV2TextBox);
+        }
+
+        private void pasteHeadlineDatV2UrlMenuItem_Click(object sender, EventArgs e)
+        {
+            ClipboardTextBox.Paste(headlineDatV2TextBox);
+        }
+
         private void CutHeadlineCvsUrlMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Cut(headlineCsvUrlTextBox);
@@ -785,6 +883,29 @@ namespace PocketLadio.Stations.Netladio
         private void PasteHeadlineCvsUrlMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Paste(headlineCsvUrlTextBox);
+        }
+
+        private void headlineDatV2TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(headlineDatV2TextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(headlineDatV2TextBox);
+            }
+        }
+
+        private void headlineDatV2TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(headlineDatV2TextBox);
+            }
         }
 
         private void HeadlineCsvUrlTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -807,29 +928,6 @@ namespace PocketLadio.Stations.Netladio
             if (e.KeyCode == Keys.C && e.Control)
             {
                 ClipboardTextBox.Copy(headlineCsvUrlTextBox);
-            }
-        }
-
-        private void HeadlineXmlUrlTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            // 切り取りショートカット
-            if (e.KeyCode == Keys.X && e.Control)
-            {
-                ClipboardTextBox.Cut(headlineXmlUrlTextBox);
-            }
-            // 貼り付けショートカット
-            else if (e.KeyCode == Keys.V && e.Control)
-            {
-                ClipboardTextBox.Paste(headlineXmlUrlTextBox);
-            }
-        }
-
-        private void HeadlineXmlUrlTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            // コピーショートカット
-            if (e.KeyCode == Keys.C && e.Control)
-            {
-                ClipboardTextBox.Copy(headlineXmlUrlTextBox);
             }
         }
 
