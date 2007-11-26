@@ -1,6 +1,7 @@
 #region ディレクティブを使用する
 
 using System;
+using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
@@ -286,8 +287,35 @@ namespace PocketLadio
             {
                 // ログに例外情報を書き込む
                 Log exceptionLog = new Log(AssemblyUtility.GetExecutablePath() + @"\" + PocketLadioInfo.ExceptionLogFile);
-                string logContents = PocketLadioInfo.VersionNumber + "\r\n" + ex.Message + "\r\n" + ex.ToString();
-                exceptionLog.LogThis(logContents, Log.LogPrefix.date);
+                StringBuilder error = new StringBuilder();
+
+                error.Append("Application:       " +
+                    PocketLadioInfo.ApplicationName + " " + PocketLadioInfo.VersionNumber + "\r\n");
+                error.Append("Date:              " +
+                    System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "\r\n");
+                error.Append("OS:                " +
+                    Environment.OSVersion.ToString() + "\r\n");
+                error.Append("Culture:           " +
+                    System.Globalization.CultureInfo.CurrentCulture.Name + "\r\n");
+                error.Append("Exception class:   " +
+                    ex.GetType().ToString() + "\r\n");
+                error.Append("ToString:   " +
+                    ex.ToString() + "\r\n");
+                error.Append("Exception message: "
+                     + "\r\n");
+                error.Append(ex.Message);
+
+                Exception innnerEx = ex.InnerException;
+                while (innnerEx.InnerException != null)
+                {
+                    error.Append(innnerEx.Message);
+                    error.Append("\r\n");
+                }
+
+                error.Append("\r\n");
+                error.Append("\r\n");
+
+                exceptionLog.LogThis(error.ToString(), Log.LogPrefix.date);
 
 #if DEBUG
                 // デバッガで例外内容を確認するため、例外をアプリケーションの外に出す
