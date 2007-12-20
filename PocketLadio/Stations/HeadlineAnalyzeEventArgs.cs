@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace MiscPocketCompactLibrary.Net
+namespace PocketLadio.Stations
 {
     /// <summary>
     /// ヘッドラインの解析イベント
