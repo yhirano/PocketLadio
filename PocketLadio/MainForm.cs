@@ -472,7 +472,7 @@ namespace PocketLadio
 
             #endregion
 
-            mainStatusBar.Text = string.Format("接続中...");
+            mainStatusBar.Text = "接続中...";
             mainStatusBar.Refresh();
 
             try
@@ -904,9 +904,6 @@ namespace PocketLadio
                 {
                     filterCheckBox.Checked = false;
                 }
-
-                StationList.HeadlineFetching += new FetchEventHandler(StationList_HeadlineFetching);
-                StationList.HeadlineAnalyzing += new HeadlineAnalyzeEventHandler(StationList_HeadlineAnalyzing);
             }
             catch (XmlException)
             {
@@ -920,6 +917,9 @@ namespace PocketLadio
             {
                 MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
             }
+
+            StationList.HeadlineFetching += new FetchEventHandler(StationList_HeadlineFetching);
+            StationList.HeadlineAnalyzing += new HeadlineAnalyzeEventHandler(StationList_HeadlineAnalyzing);
 
             SetAnchorControl();
             FixWindowSize();
