@@ -100,6 +100,29 @@
   <data name="mainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </data>
+  <data name="iconPictureBox.Image" type="System.Drawing.Bitmap, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAA8BJREFUaEPlmTuO
+        1EAQhucCEHASiDgLJFwFJE6BkLgAiJBNlwQhEQEZGwLhEk448Fl8o9pytx9tj4cVlqwZe7q76q/669E9
+        u93/cj18cP9wq7Heu3vncGtBoDgAbi0IAHA/efyoA7EFlZS5iiyV3+/3HZAtQOjxVQEc/lxv37zuAOCN
+        ocUFqiXnxM/qlGXB58+eov8BL6D8+8vL7plPrRU/o+J+z+NqoBiHvFcvXyz3tkJRunThEQEi8OLdxeHn
+        j+/FsbwHMHOMp1Ji4B1rcS2ibFRei2fNsJTeKWo98PLX9XU3N/OdZ+VhkKaY0zI1a6oXv3/6+GGu7jfG
+        X327OlpauilXALNAqDwLb3VJLwFEuTHORrOSyhOs57hqlBTEYDYzYGp8PwegKNN4qXrB9HVuRWvyCfpq
+        VvKHr18+/6v6d3pVa8M5rU+8Ybh4Y+3SxftiU4kHtsg6KAuXY4MYW4dczUmj+eo1lTZrcSDWMCNQOXEd
+        t+9YJLcLvuOTsbmG8KzwOJc1UZTkQU3BkDwLLK/TC+ZMn9h1lvqcuDfQnaVxAC9lkbHKnQHkuOzFAcJj
+        NWUBFdPyWIQx8pQxAPWGm/LWjtV+RhBan/eMZS6fWJh3ejAaowTWmtClUydl/sceRYohBBBDASa/USJ7
+        gHklCmks6YmxBFgKZAAfA1kulpQyDuR+7vFRRqExEI2BWjXHWHoSaw51sCUArNsDMKV1YAzCEZrbYcGU
+        mj/e1bzWWnRkzq7UPE1dVN4PgbebrO0npsqqptJSCm1dNM7LKROXr1nlj7VAD0yh0FRgKCpH+W5Wy1lp
+        6nqlcScFIG2sogIYy/9zAGn4YwysGWT2K1bjmP/nKDnUld7oh07RB8UspbC1jGRbfdwXAGDtTQwxZckH
+        QC6UFMTWvXRvox+PMVpcXEsAthSsH+vD0pgoNnOtedqDrtw25AMv1mcsQJZuXYvtNIuOHaHUvKNFWDg3
+        ZPGELbYbGfBUz8v/3uZ+6Y7M9iICiEryu6lvST2obinX3BPrkehRBS+pxlXrm47wQmssRArE/YQgarur
+        qdQZ3NDHc5alGUmFYgpV+Vbes+ao9QUhh1tzdN5Xu94S3k+2viC02FKhc+gxNJa4OfY+o4ejfwcIAgu2
+        ptc1APj/w+CZ6NhfRUxewt8WIJ4fFQ+xpnohUwpvrBEbUwCZipstXwIZabV28weoeLwy6w+NVo+4HcVa
+        UMxTtTm7O2oG82MFX9XqY+Dy8aLPHrcILh6jxCNKD7HG5Gz+ew1YbOhOSpPNETcK/A1zzGGtCIQZogAA
+        AABJRU5ErkJggg==
+</value>
+  </data>
   <data name="$this.FormFactorShadowProperty">
     <value xml:space="preserve">POCKET_PC_2003_PORTRAIT</value>
   </data>
