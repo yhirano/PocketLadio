@@ -318,6 +318,9 @@ namespace PocketLadio
             list[y] = tmp;
         }
 
+        /// <summary>
+        /// UPボタン、DOWNボタン、DELETEボタンの有効無効を切り替える
+        /// </summary>
         private void ButtonsEnable()
         {
             if (stationListBox.SelectedIndex == -1)
@@ -409,7 +412,7 @@ namespace PocketLadio
 
         private void downButton_Click(object sender, EventArgs e)
         {
-            if (stationListBox.SelectedIndex != -1 && stationListBox.SelectedIndex < stationListBox.Items.Count)
+            if (stationListBox.SelectedIndex != -1 && stationListBox.SelectedIndex < stationListBox.Items.Count - 1)
             {
                 int selectIndex = stationListBox.SelectedIndex;
                 Swap(alStationList, selectIndex, selectIndex + 1);

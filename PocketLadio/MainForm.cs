@@ -255,7 +255,6 @@ namespace PocketLadio
             this.Text = "PocketLadio";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
-            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             this.Load += new System.EventHandler(this.MainForm_Load);
 
@@ -887,6 +886,10 @@ namespace PocketLadio
                     HeadlineCheckTimerStop();
                 }
 
+                UserSetting.HeadlineTimerMillSecondChanged += new EventHandler(UserSetting_HeadlineTimerMillSecondChanged);
+
+                StationList.StationListChanged += new EventHandler(StationList_StationListChanged);
+
                 AddStationsSettingAndComboBoxItem();
 
                 // î‘ëgÉäÉXÉgÇ™Ç†ÇÈèÍçá
@@ -952,6 +955,16 @@ namespace PocketLadio
             mainStatusBar.Refresh();
         }
 
+        void StationList_StationListChanged(object sender, EventArgs e)
+        {
+            AddStationsSettingAndComboBoxItem();
+        }
+
+        void UserSetting_HeadlineTimerMillSecondChanged(object sender, EventArgs e)
+        {
+            HeadlineTimerIntervalChange(UserSetting.HeadlineTimerMillSecond);
+        }
+
         private void PlayMenuItem_Click(object sender, System.EventArgs e)
         {
             PlayStreaming();
@@ -998,13 +1011,6 @@ namespace PocketLadio
             {
                 PlayStreaming();
             }
-        }
-
-        private void MainForm_Activated(object sender, EventArgs e)
-        {
-            HeadlineTimerIntervalChange(UserSetting.HeadlineTimerMillSecond);
-
-            AddStationsSettingAndComboBoxItem();
         }
 
         private void StationListComboBox_SelectedIndexChanged(object sender, EventArgs e)

@@ -63,16 +63,19 @@ namespace PocketLadio
                 if (PocketLadioInfo.HeadlineCheckTimerMinimumMillSec <= value && value <= PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
                     headlineTimerMillSecond = value;
+                    OnHeadlineTimerMillSecondChanged(EventArgs.Empty);
                 }
                 // ‹K’è‚æ‚è‚à’Z‚¢ê‡
                 else if (value < PocketLadioInfo.HeadlineCheckTimerMinimumMillSec)
                 {
                     headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec;
+                    OnHeadlineTimerMillSecondChanged(EventArgs.Empty);
                 }
                 // ‹K’è‚æ‚è‚à’·‚¢ê‡
                 else if (value > PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
                     headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
+                    OnHeadlineTimerMillSecondChanged(EventArgs.Empty);
                 }
             }
         }
@@ -563,6 +566,19 @@ namespace PocketLadio
             {
                 writer.Close();
                 fs.Close();
+            }
+        }
+
+        /// <summary>
+        /// HeadlineTimerMillSecond‚É•Ï‰»‚ª‚ ‚Á‚½ê‡‚É”­¶‚·‚éƒCƒxƒ“ƒg
+        /// </summary>
+        public static event EventHandler HeadlineTimerMillSecondChanged;
+
+        private static void OnHeadlineTimerMillSecondChanged(EventArgs e)
+        {
+            if (HeadlineTimerMillSecondChanged != null)
+            {
+                HeadlineTimerMillSecondChanged(null, e);
             }
         }
     }
