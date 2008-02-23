@@ -53,7 +53,7 @@ namespace PocketLadio.Stations.Icecast
         /// <summary>
         /// Icecastの表示方法
         /// </summary>
-        private string headlineViewType = "[[SREVERNAME]]";
+        private string headlineViewType = "[[SERVERNAME]]";
 
         /// <summary>
         /// Icecastの表示方法

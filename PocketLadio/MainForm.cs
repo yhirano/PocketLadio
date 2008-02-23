@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using PocketLadio.Stations;
 using MiscPocketCompactLibrary.Net;
 using MiscPocketCompactLibrary.Reflection;
@@ -66,6 +67,9 @@ namespace PocketLadio
         private Label headlineInfomationLabel;
         private MenuItem separateMenuItem5;
         private MenuItem updateMenuItem;
+        private MenuItem separateMenuItem6;
+        private MenuItem selectStationMenuItem;
+        private MenuItem selectChannelMenuItem;
 
         /// <summary>
         /// アンカーコントロールのリスト
@@ -106,6 +110,12 @@ namespace PocketLadio
             this.versionInfoMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem4 = new System.Windows.Forms.MenuItem();
             this.exitMenuItem = new System.Windows.Forms.MenuItem();
+            this.channelMenuItem = new System.Windows.Forms.MenuItem();
+            this.playOfChannelMenuItem = new System.Windows.Forms.MenuItem();
+            this.browserOfChannelMenuItem = new System.Windows.Forms.MenuItem();
+            this.channelPropertyOfChannelMenuItem = new System.Windows.Forms.MenuItem();
+            this.separateMenuItem5 = new System.Windows.Forms.MenuItem();
+            this.updateMenuItem = new System.Windows.Forms.MenuItem();
             this.playButton = new System.Windows.Forms.Button();
             this.headlineListBox = new System.Windows.Forms.ListBox();
             this.headlineContextMenu = new System.Windows.Forms.ContextMenu();
@@ -117,13 +127,10 @@ namespace PocketLadio
             this.headlineCheckTimer = new System.Windows.Forms.Timer();
             this.stationListComboBox = new System.Windows.Forms.ComboBox();
             this.mainStatusBar = new System.Windows.Forms.StatusBar();
-            this.channelMenuItem = new System.Windows.Forms.MenuItem();
-            this.playOfChannelMenuItem = new System.Windows.Forms.MenuItem();
-            this.browserOfChannelMenuItem = new System.Windows.Forms.MenuItem();
-            this.channelPropertyOfChannelMenuItem = new System.Windows.Forms.MenuItem();
             this.headlineInfomationLabel = new System.Windows.Forms.Label();
-            this.separateMenuItem5 = new System.Windows.Forms.MenuItem();
-            this.updateMenuItem = new System.Windows.Forms.MenuItem();
+            this.separateMenuItem6 = new System.Windows.Forms.MenuItem();
+            this.selectStationMenuItem = new System.Windows.Forms.MenuItem();
+            this.selectChannelMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // mainMenu
             // 
@@ -188,6 +195,43 @@ namespace PocketLadio
             // 
             this.exitMenuItem.Text = "終了(&X)";
             this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
+            // 
+            // channelMenuItem
+            // 
+            this.channelMenuItem.MenuItems.Add(this.playOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.browserOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.channelPropertyOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.separateMenuItem5);
+            this.channelMenuItem.MenuItems.Add(this.updateMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.separateMenuItem6);
+            this.channelMenuItem.MenuItems.Add(this.selectStationMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.selectChannelMenuItem);
+            this.channelMenuItem.Text = "番組(&C)";
+            this.channelMenuItem.Popup += new System.EventHandler(this.channelMenuItem_Popup);
+            // 
+            // playOfChannelMenuItem
+            // 
+            this.playOfChannelMenuItem.Text = "再生(&P)";
+            this.playOfChannelMenuItem.Click += new System.EventHandler(this.playOfChannelMenuItem_Click);
+            // 
+            // browserOfChannelMenuItem
+            // 
+            this.browserOfChannelMenuItem.Text = "Webサイトにアクセス(&A)";
+            this.browserOfChannelMenuItem.Click += new System.EventHandler(this.browserOfChannelMenuItem_Click);
+            // 
+            // channelPropertyOfChannelMenuItem
+            // 
+            this.channelPropertyOfChannelMenuItem.Text = "番組の詳細(&P)";
+            this.channelPropertyOfChannelMenuItem.Click += new System.EventHandler(this.channelPropertyOfChannelMenuItem_Click);
+            // 
+            // separateMenuItem5
+            // 
+            this.separateMenuItem5.Text = "-";
+            // 
+            // updateMenuItem
+            // 
+            this.updateMenuItem.Text = "ヘッドライン更新(&U)";
+            this.updateMenuItem.Click += new System.EventHandler(this.updateMenuItem_Click);
             // 
             // playButton
             // 
@@ -256,44 +300,24 @@ namespace PocketLadio
             this.mainStatusBar.Size = new System.Drawing.Size(240, 22);
             this.mainStatusBar.Text = "No check - 0 CHs";
             // 
-            // channelMenuItem
-            // 
-            this.channelMenuItem.MenuItems.Add(this.playOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.browserOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.channelPropertyOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.separateMenuItem5);
-            this.channelMenuItem.MenuItems.Add(this.updateMenuItem);
-            this.channelMenuItem.Text = "番組(&C)";
-            this.channelMenuItem.Popup += new System.EventHandler(this.channelMenuItem_Popup);
-            // 
-            // playOfChannelMenuItem
-            // 
-            this.playOfChannelMenuItem.Text = "再生(&P)";
-            this.playOfChannelMenuItem.Click += new System.EventHandler(this.playOfChannelMenuItem_Click);
-            // 
-            // browserOfChannelMenuItem
-            // 
-            this.browserOfChannelMenuItem.Text = "Webサイトにアクセス(&A)";
-            this.browserOfChannelMenuItem.Click += new System.EventHandler(this.browserOfChannelMenuItem_Click);
-            // 
-            // channelPropertyOfChannelMenuItem
-            // 
-            this.channelPropertyOfChannelMenuItem.Text = "番組の詳細(&P)";
-            this.channelPropertyOfChannelMenuItem.Click += new System.EventHandler(this.channelPropertyOfChannelMenuItem_Click);
-            // 
             // headlineInfomationLabel
             // 
             this.headlineInfomationLabel.Location = new System.Drawing.Point(3, 202);
             this.headlineInfomationLabel.Size = new System.Drawing.Size(234, 41);
             // 
-            // separateMenuItem5
+            // separateMenuItem6
             // 
-            this.separateMenuItem5.Text = "-";
+            this.separateMenuItem6.Text = "-";
             // 
-            // updateMenuItem
+            // selectStationMenuItem
             // 
-            this.updateMenuItem.Text = "ヘッドライン更新(&U)";
-            this.updateMenuItem.Click += new System.EventHandler(this.updateMenuItem_Click);
+            this.selectStationMenuItem.Text = "放送局の選択(&S)";
+            this.selectStationMenuItem.Click += new System.EventHandler(this.selectStationMenuItem_Click);
+            // 
+            // selectChannelMenuItem
+            // 
+            this.selectChannelMenuItem.Text = "番組の選択(&C)";
+            this.selectChannelMenuItem.Click += new System.EventHandler(this.selectChannelMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1096,7 +1120,6 @@ namespace PocketLadio
             updateButton.Enabled = false;
             PlayButtonEnable(false);
             filterCheckBox.Enabled = false;
-            stationListComboBox.Enabled = false;
             headlineListBox.Enabled = false;
             updateMenuItem.Enabled = false;
 
@@ -1129,7 +1152,6 @@ namespace PocketLadio
             updateButton.Enabled = true;
             PlayButtonEnable(true);
             filterCheckBox.Enabled = true;
-            stationListComboBox.Enabled = true;
             headlineListBox.Enabled = true;
             updateMenuItem.Enabled = true;
 
@@ -1159,9 +1181,9 @@ namespace PocketLadio
         {
             PlayButtonEnable();
 
-            if (headlineListBox.SelectedIndex != -1 && headlineListBox.SelectedIndex < StationList.GetChannelsFilteredOfCurrentStation().Length)
+            if (headlineListBox.SelectedIndex != -1 && headlineListBox.SelectedIndex < headlineListBox.Items.Count)
             {
-                headlineInfomationLabel.Text = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetChannelView();
+                headlineInfomationLabel.Text = (string)headlineListBox.Items[headlineListBox.SelectedIndex];
             }
             else
             {
@@ -1226,6 +1248,63 @@ namespace PocketLadio
         private void updateMenuItem_Click(object sender, EventArgs e)
         {
             CheckHeadline();
+        }
+
+        #region コンボボックスのドロップダウンを開く
+
+        [DllImport("coredll.dll")]
+        private static extern IntPtr GetCapture();
+
+        [DllImport("coredll.dll")]
+        static extern IntPtr SetCapture(IntPtr hWnd);
+
+        /// <summary>
+        /// ControlのWindow handleを返す
+        /// </summary>
+        /// <param name="control">Control</param>
+        /// <returns>ControlのWindow handle</returns>
+        private IntPtr GetHWnd(Control control)
+        {
+            IntPtr hOldWnd = GetCapture();
+            control.Capture = true;
+            IntPtr hWnd = GetCapture();
+            control.Capture = false;
+            SetCapture(hOldWnd);
+            return hWnd;
+        }
+
+        private const uint CB_SHOWDROPDOWN = 0x014f;
+        private const int TRUE = 1;
+        private const int FALSE = 0;
+
+        [DllImport("Coredll.dll", EntryPoint = "SendMessage", SetLastError = true)]
+        private static extern int SendMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
+
+        /// <summary>
+        /// コンボボックスのドロップダウンを開く
+        /// </summary>
+        /// <param name="comboBox">ドロップダウンを開くコンボボックス</param>
+        private void droppedDownCombobox(ComboBox comboBox)
+        {
+            SendMessage(GetHWnd(comboBox), CB_SHOWDROPDOWN, TRUE, 0); 
+        }
+
+        #endregion // コンボボックスのドロップダウンを開く
+
+        private void selectStationMenuItem_Click(object sender, EventArgs e)
+        {
+            stationListComboBox.Focus();
+            droppedDownCombobox(stationListComboBox);
+        }
+
+        private void selectChannelMenuItem_Click(object sender, EventArgs e)
+        {
+            headlineListBox.Focus();
+            // アイテムを選択する
+            if (headlineListBox.Items.Count > 0 && headlineListBox.SelectedIndex == -1)
+            {
+                headlineListBox.SelectedIndex = 0;
+            }
         }
     }
 }

@@ -182,10 +182,13 @@ namespace PocketLadio.Stations.Icecast
             string view = parentHeadline.HeadlineViewType;
             if (view.Length != 0)
             {
-                view = view.Replace("[[SREVERNAME]]", ServerName)
+                view = view.Replace("[[SERVERNAME]]", ServerName)
                     .Replace("[[SERVERTYPE]]", ServerType)
                     .Replace("[[GENRE]]", Genre)
                     .Replace("[[CURRENTSONG]]", CurrentSong);
+
+                // ～0.37までのバグ回避
+                view = view.Replace("[[SREVERNAME]]", ServerName);
             }
 
             return view;
