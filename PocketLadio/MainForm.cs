@@ -116,6 +116,9 @@ namespace PocketLadio
             this.channelPropertyOfChannelMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem5 = new System.Windows.Forms.MenuItem();
             this.updateMenuItem = new System.Windows.Forms.MenuItem();
+            this.separateMenuItem6 = new System.Windows.Forms.MenuItem();
+            this.selectStationMenuItem = new System.Windows.Forms.MenuItem();
+            this.selectChannelMenuItem = new System.Windows.Forms.MenuItem();
             this.playButton = new System.Windows.Forms.Button();
             this.headlineListBox = new System.Windows.Forms.ListBox();
             this.headlineContextMenu = new System.Windows.Forms.ContextMenu();
@@ -128,9 +131,6 @@ namespace PocketLadio
             this.stationListComboBox = new System.Windows.Forms.ComboBox();
             this.mainStatusBar = new System.Windows.Forms.StatusBar();
             this.headlineInfomationLabel = new System.Windows.Forms.Label();
-            this.separateMenuItem6 = new System.Windows.Forms.MenuItem();
-            this.selectStationMenuItem = new System.Windows.Forms.MenuItem();
-            this.selectChannelMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // mainMenu
             // 
@@ -233,6 +233,20 @@ namespace PocketLadio
             this.updateMenuItem.Text = "ヘッドライン更新(&U)";
             this.updateMenuItem.Click += new System.EventHandler(this.updateMenuItem_Click);
             // 
+            // separateMenuItem6
+            // 
+            this.separateMenuItem6.Text = "-";
+            // 
+            // selectStationMenuItem
+            // 
+            this.selectStationMenuItem.Text = "放送局の選択(&S)";
+            this.selectStationMenuItem.Click += new System.EventHandler(this.selectStationMenuItem_Click);
+            // 
+            // selectChannelMenuItem
+            // 
+            this.selectChannelMenuItem.Text = "番組の選択(&C)";
+            this.selectChannelMenuItem.Click += new System.EventHandler(this.selectChannelMenuItem_Click);
+            // 
             // playButton
             // 
             this.playButton.Location = new System.Drawing.Point(81, 3);
@@ -305,20 +319,6 @@ namespace PocketLadio
             this.headlineInfomationLabel.Location = new System.Drawing.Point(3, 202);
             this.headlineInfomationLabel.Size = new System.Drawing.Size(234, 41);
             // 
-            // separateMenuItem6
-            // 
-            this.separateMenuItem6.Text = "-";
-            // 
-            // selectStationMenuItem
-            // 
-            this.selectStationMenuItem.Text = "放送局の選択(&S)";
-            this.selectStationMenuItem.Click += new System.EventHandler(this.selectStationMenuItem_Click);
-            // 
-            // selectChannelMenuItem
-            // 
-            this.selectChannelMenuItem.Text = "番組の選択(&C)";
-            this.selectChannelMenuItem.Click += new System.EventHandler(this.selectChannelMenuItem_Click);
-            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -334,7 +334,6 @@ namespace PocketLadio
             this.Text = "PocketLadio";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
             this.Load += new System.EventHandler(this.MainForm_Load);
 
         }
@@ -1105,10 +1104,12 @@ namespace PocketLadio
 
         private void HeadlineListBox_KeyDown(object sender, KeyEventArgs e)
         {
-            // 入力ボタンを押したとき
-            if ((e.KeyCode == System.Windows.Forms.Keys.Enter))
+            switch (e.KeyCode)
             {
-                PlayStreaming();
+                // 入力ボタンを押したとき
+                case Keys.Enter:
+                    PlayStreaming();
+                    break;
             }
         }
 
@@ -1248,6 +1249,13 @@ namespace PocketLadio
         private void updateMenuItem_Click(object sender, EventArgs e)
         {
             CheckHeadline();
+
+            // 番組リストが選択されていない場合は、先頭の項目を選択する
+            if (headlineListBox.SelectedIndex == -1 && headlineListBox.Items.Count > 0)
+            {
+                headlineListBox.SelectedIndex = 0;
+                headlineListBox.Focus();
+            }
         }
 
         #region コンボボックスのドロップダウンを開く
