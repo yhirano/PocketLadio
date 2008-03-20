@@ -80,7 +80,14 @@ namespace PocketLadio.Stations.Icecast
         public bool FilterBelowBitRateUse
         {
             get { return filterBelowBitRateUse; }
-            set { filterBelowBitRateUse = value; }
+            set
+            {
+                if (filterBelowBitRateUse != value)
+                {
+                    filterBelowBitRateUse = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -106,9 +113,10 @@ namespace PocketLadio.Stations.Icecast
             }
             set
             {
-                if (value >= 0)
+                if (value >= 0 && filterBelowBitRate != value)
                 {
                     filterBelowBitRate = value;
+                    OnFilterChanged();
                 }
                 else
                 {
@@ -128,7 +136,14 @@ namespace PocketLadio.Stations.Icecast
         public bool FilterAboveBitRateUse
         {
             get { return filterAboveBitRateUse; }
-            set { filterAboveBitRateUse = value; }
+            set
+            {
+                if (filterAboveBitRateUse != value)
+                {
+                    filterAboveBitRateUse = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -154,9 +169,10 @@ namespace PocketLadio.Stations.Icecast
             }
             set
             {
-                if (value >= 0)
+                if (value >= 0 && filterAboveBitRate != value)
                 {
                     filterAboveBitRate = value;
+                    OnFilterChanged();
                 }
                 else
                 {
@@ -176,7 +192,7 @@ namespace PocketLadio.Stations.Icecast
         public Headline ParentHeadline
         {
             get { return parentHeadline; }
-        } 
+        }
 
 
         /// <summary>
@@ -208,10 +224,32 @@ namespace PocketLadio.Stations.Icecast
         /// <summary>
         /// 単語フィルターをセットする
         /// </summary>
-        /// <param name="filterWord">単語フィルター</param>
-        public void SetFilterWords(string[] filterWord)
+        /// <param name="filterWords">単語フィルター</param>
+        public void SetFilterWords(string[] filterWords)
         {
-            filterWords = filterWord;
+            // フィルタの内容が変化したかを調べる
+            bool isChanged = false;
+            if (filterWords.Length != this.filterWords.Length)
+            {
+                isChanged = true;
+            }
+            else
+            {
+                for (int i = 0; i < filterWords.Length && i < this.filterWords.Length; ++i)
+                {
+                    if (filterWords[i] != this.filterWords[i])
+                    {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isChanged == true)
+            {
+                this.filterWords = filterWords;
+                OnFilterChanged();
+            }
         }
 
         /// <summary>
@@ -425,7 +463,6 @@ namespace PocketLadio.Stations.Icecast
 
                 writer.WriteStartElement("Filter");
                 foreach (string filterWord in GetFilterWords())
-                
                 {
                     writer.WriteStartElement("Word");
                     writer.WriteAttributeString("word", filterWord);
@@ -465,6 +502,19 @@ namespace PocketLadio.Stations.Icecast
             if (File.Exists(GetSettingPath()))
             {
                 File.Delete(GetSettingPath());
+            }
+        }
+
+        /// <summary>
+        /// フィルターが変更された場合に発生するイベント
+        /// </summary>
+        public event EventHandler FilterChanged;
+
+        private void OnFilterChanged()
+        {
+            if (FilterChanged != null)
+            {
+                FilterChanged(this, EventArgs.Empty);
             }
         }
     }

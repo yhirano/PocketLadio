@@ -11,7 +11,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組のタイトル
         /// </summary>
-        private string title = "";
+        private string title = string.Empty;
 
         /// <summary>
         /// 番組のタイトル
@@ -38,7 +38,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組の詳細
         /// </summary>
-        private string description = "";
+        private string description = string.Empty;
 
         /// <summary>
         /// 番組の詳細
@@ -65,7 +65,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組のカテゴリ
         /// </summary>
-        private string category = "";
+        private string category = string.Empty;
 
         /// <summary>
         /// 番組のカテゴリ
@@ -79,7 +79,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組の著者
         /// </summary>
-        private string author = "";
+        private string author = string.Empty;
 
         /// <summary>
         /// 番組の著者
@@ -106,7 +106,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組の長さ
         /// </summary>
-        private string length = "";
+        private string length = string.Empty;
 
         /// <summary>
         /// 番組の長さ
@@ -120,7 +120,7 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 番組のタイプ
         /// </summary>
-        private string type = "";
+        private string type = string.Empty;
 
         /// <summary>
         /// 番組のタイプ

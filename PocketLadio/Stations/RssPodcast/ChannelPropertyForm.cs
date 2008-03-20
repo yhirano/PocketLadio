@@ -165,7 +165,7 @@ namespace PocketLadio.Stations.RssPodcast
 
             string[] titleProperty = { "番組名", channel.Title.Trim() };
             string[] descriptionProperty = { "詳細", channel.Description.Trim() };
-            string[] linkProperty = { "リンク", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "") };
+            string[] linkProperty = { "リンク", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : string.Empty) };
             string[] authorProperty = { "著者", channel.Date.ToString().Trim() };
             string[] dateProperty = { "配信時刻", channel.Date.ToString().Trim() };
             string[] lengthProperty = { "長さ", channel.Length.Trim() };

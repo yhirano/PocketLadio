@@ -10,6 +10,14 @@ using MiscPocketCompactLibrary.Net;
 namespace PocketLadio
 {
     /// <summary>
+    /// 放送局の種類列挙
+    /// </summary>
+    public enum StationKinds
+    {
+        Netladio, RssPodcast, ShoutCast, Icecast
+    };
+
+    /// <summary>
     /// 放送局のリスト
     /// </summary>
     public sealed class StationList
@@ -43,7 +51,7 @@ namespace PocketLadio
         /// </summary>
         public static string StationIdOfCurrentStation
         {
-            get { return (currentStation != null ? currentStation.Id : ""); }
+            get { return (currentStation != null ? currentStation.Id : string.Empty); }
         }
 
         /// <summary>
@@ -51,7 +59,7 @@ namespace PocketLadio
         /// </summary>
         public static string StationNameOfCurrentStation
         {
-            get { return (currentStation != null ? currentStation.Name : ""); }
+            get { return (currentStation != null ? currentStation.Name : string.Empty); }
         }
 
         /// <summary>
@@ -89,6 +97,33 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// 放送局を生成して返す
+        /// </summary>
+        /// <param name="name">放送局の名前</param>
+        /// <param name="stationKind">放送局の種類</param>
+        /// <returns>生成した放送局</returns>
+        public static Station CreateStation(string name, StationKinds stationKind)
+        {
+            string id;
+            bool isExistId = false;
+
+            do {
+                id = DateTime.Now.ToString("yyyyMMddHHmmssff");
+                isExistId = false;
+                foreach (Station station in GetStationList())
+                {
+                    if (station.Id == id)
+                    {
+                        isExistId = true;
+                        break;
+                    }
+                }
+            } while (isExistId == true);
+
+            return new Station(id, name, stationKind);
+        }
+
+        /// <summary>
         /// 放送局のリストをセットする
         /// </summary>
         /// <param name="Stations">放送局のリスト</param>
@@ -122,7 +157,7 @@ namespace PocketLadio
                 // 現在の放送局をクリアする
                 currentStation = null;
                 
-                OnStationListChanged(EventArgs.Empty);
+                OnStationListChanged();
             }
         }
 
@@ -279,11 +314,11 @@ namespace PocketLadio
         /// </summary>
         public static event EventHandler StationListChanged;
 
-        private static void OnStationListChanged(EventArgs e)
+        private static void OnStationListChanged()
         {
             if (StationListChanged != null)
             {
-                StationListChanged(null, e);
+                StationListChanged(null, EventArgs.Empty);
             }
         }
     }

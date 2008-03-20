@@ -63,19 +63,19 @@ namespace PocketLadio
                 if (PocketLadioInfo.HeadlineCheckTimerMinimumMillSec <= value && value <= PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
                     headlineTimerMillSecond = value;
-                    OnHeadlineTimerMillSecondChanged(EventArgs.Empty);
+                    OnHeadlineTimerMillSecondChanged();
                 }
                 // 規定よりも短い場合
                 else if (value < PocketLadioInfo.HeadlineCheckTimerMinimumMillSec)
                 {
                     headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMinimumMillSec;
-                    OnHeadlineTimerMillSecondChanged(EventArgs.Empty);
+                    OnHeadlineTimerMillSecondChanged();
                 }
                 // 規定よりも長い場合
                 else if (value > PocketLadioInfo.HeadlineCheckTimerMaximumMillSec)
                 {
                     headlineTimerMillSecond = PocketLadioInfo.HeadlineCheckTimerMaximumMillSec;
-                    OnHeadlineTimerMillSecondChanged(EventArgs.Empty);
+                    OnHeadlineTimerMillSecondChanged();
                 }
             }
         }
@@ -192,7 +192,7 @@ namespace PocketLadio
         /// <summary>
         /// プロキシのサーバ名
         /// </summary>
-        private static string proxyServer = "";
+        private static string proxyServer = string.Empty;
 
         /// <summary>
         /// プロキシのサーバ名
@@ -289,30 +289,30 @@ namespace PocketLadio
                             {
                                 if (reader.LocalName == "Station")
                                 {
-                                    string id = "";
-                                    string name = "";
-                                    Station.StationKind stationKind = Station.StationKind.Netladio;
+                                    string id = string.Empty;
+                                    string name = string.Empty;
+                                    StationKinds stationKind = StationKinds.Netladio;
 
                                     if (reader.MoveToFirstAttribute())
                                     {
                                         id = reader.GetAttribute("id");
                                         name = reader.GetAttribute("name");
                                         string kind = reader.GetAttribute("kind");
-                                        if (kind == Station.StationKind.Netladio.ToString())
+                                        if (kind == StationKinds.Netladio.ToString())
                                         {
-                                            stationKind = Station.StationKind.Netladio;
+                                            stationKind = StationKinds.Netladio;
                                         }
-                                        else if (kind == Station.StationKind.RssPodcast.ToString())
+                                        else if (kind == StationKinds.RssPodcast.ToString())
                                         {
-                                            stationKind = Station.StationKind.RssPodcast;
+                                            stationKind = StationKinds.RssPodcast;
                                         }
-                                        else if (kind == Station.StationKind.ShoutCast.ToString())
+                                        else if (kind == StationKinds.ShoutCast.ToString())
                                         {
-                                            stationKind = Station.StationKind.ShoutCast;
+                                            stationKind = StationKinds.ShoutCast;
                                         }
-                                        else if (kind == Station.StationKind.Icecast.ToString())
+                                        else if (kind == StationKinds.Icecast.ToString())
                                         {
-                                            stationKind = Station.StationKind.Icecast;
+                                            stationKind = StationKinds.Icecast;
                                         }
                                         else
                                         {
@@ -574,11 +574,11 @@ namespace PocketLadio
         /// </summary>
         public static event EventHandler HeadlineTimerMillSecondChanged;
 
-        private static void OnHeadlineTimerMillSecondChanged(EventArgs e)
+        private static void OnHeadlineTimerMillSecondChanged()
         {
             if (HeadlineTimerMillSecondChanged != null)
             {
-                HeadlineTimerMillSecondChanged(null, e);
+                HeadlineTimerMillSecondChanged(null, EventArgs.Empty);
             }
         }
     }

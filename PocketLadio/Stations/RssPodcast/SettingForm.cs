@@ -334,7 +334,7 @@ namespace PocketLadio.Stations.RssPodcast
 
             stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
 
-            rssUrlTextBox.Text = ((setting.RssUrl != null) ? setting.RssUrl.ToString() : "");
+            rssUrlTextBox.Text = ((setting.RssUrl != null) ? setting.RssUrl.ToString() : string.Empty);
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
             // フィルターリストに単語フィルタの内容を追加する
@@ -358,7 +358,7 @@ namespace PocketLadio.Stations.RssPodcast
                 if (result == DialogResult.Yes)
                 {
                     filterListBox.Items.Add(addWordTextBox.Text.Trim());
-                    addWordTextBox.Text = "";
+                    addWordTextBox.Text = string.Empty;
                 }
             }
 
@@ -436,7 +436,7 @@ namespace PocketLadio.Stations.RssPodcast
             if (addWordTextBox.Text.Trim().Length != 0)
             {
                 filterListBox.Items.Add(addWordTextBox.Text.Trim());
-                addWordTextBox.Text = "";
+                addWordTextBox.Text = string.Empty;
             }
         }
 

@@ -111,7 +111,14 @@ namespace PocketLadio.Stations.Netladio
         public bool FilterBelowBitRateUse
         {
             get { return filterBelowBitRateUse; }
-            set { filterBelowBitRateUse = value; }
+            set
+            {
+                if (filterBelowBitRateUse != value)
+                {
+                    filterBelowBitRateUse = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -124,7 +131,8 @@ namespace PocketLadio.Stations.Netladio
         /// </summary>
         public int FilterBelowBitRate
         {
-            get {
+            get
+            {
                 if (filterBelowBitRate >= 0)
                 {
                     return filterBelowBitRate;
@@ -134,10 +142,12 @@ namespace PocketLadio.Stations.Netladio
                     return 0;
                 }
             }
-            set {
-                if (value >= 0)
+            set
+            {
+                if (value >= 0 && filterBelowBitRate != value)
                 {
                     filterBelowBitRate = value;
+                    OnFilterChanged();
                 }
                 else
                 {
@@ -157,7 +167,14 @@ namespace PocketLadio.Stations.Netladio
         public bool FilterAboveBitRateUse
         {
             get { return filterAboveBitRateUse; }
-            set { filterAboveBitRateUse = value; }
+            set
+            {
+                if (filterAboveBitRateUse != value)
+                {
+                    filterAboveBitRateUse = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -183,9 +200,10 @@ namespace PocketLadio.Stations.Netladio
             }
             set
             {
-                if (value >= 0)
+                if (value >= 0 && filterAboveBitRate != value)
                 {
                     filterAboveBitRate = value;
+                    OnFilterChanged();
                 }
                 else
                 {
@@ -197,29 +215,43 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// ソートフィルター
         /// </summary>
-        private Headline.SortKind sortKind = Headline.SortKind.None;
+        private Headline.SortKinds sortKind = Headline.SortKinds.None;
 
         /// <summary>
         /// ソートフィルター
         /// </summary>
-        public Headline.SortKind SortKind
+        public Headline.SortKinds SortKind
         {
             get { return sortKind; }
-            set { sortKind = value; }
+            set
+            {
+                if (sortKind != value)
+                {
+                    sortKind = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
         /// ソートの昇順・降順
         /// </summary>
-        private Headline.SortScending sortScending = Headline.SortScending.Ascending;
+        private Headline.SortScendings sortScending = Headline.SortScendings.Ascending;
 
         /// <summary>
         /// ソートの昇順・降順
         /// </summary>
-        public Headline.SortScending SortScending
+        public Headline.SortScendings SortScending
         {
             get { return sortScending; }
-            set { sortScending = value; }
+            set
+            {
+                if (sortScending != value)
+                {
+                    sortScending = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -233,7 +265,7 @@ namespace PocketLadio.Stations.Netladio
         public Headline ParentHeadline
         {
             get { return parentHeadline; }
-        } 
+        }
 
         /// <summary>
         /// 設定のコンストラクタ
@@ -256,10 +288,32 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 単語フィルターをセットする
         /// </summary>
-        /// <param name="filterWord">単語フィルター</param>
-        public void SetFilterWords(string[] filterWord)
+        /// <param name="filterWords">単語フィルター</param>
+        public void SetFilterWords(string[] filterWords)
         {
-            filterWords = filterWord;
+            // フィルタの内容が変化したかを調べる
+            bool isChanged = false;
+            if (filterWords.Length != this.filterWords.Length)
+            {
+                isChanged = true;
+            }
+            else
+            {
+                for (int i = 0; i < filterWords.Length && i < this.filterWords.Length; ++i)
+                {
+                    if (filterWords[i] != this.filterWords[i])
+                    {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isChanged == true)
+            {
+                this.filterWords = filterWords;
+                OnFilterChanged();
+            }
         }
 
         /// <summary>
@@ -453,29 +507,29 @@ namespace PocketLadio.Stations.Netladio
                                 if (reader.MoveToFirstAttribute())
                                 {
                                     string kind = reader.GetAttribute("kind");
-                                    if (kind == Headline.SortKind.None.ToString())
+                                    if (kind == Headline.SortKinds.None.ToString())
                                     {
-                                        SortKind = Headline.SortKind.None;
+                                        SortKind = Headline.SortKinds.None;
                                     }
-                                    else if (kind == Headline.SortKind.Nam.ToString())
+                                    else if (kind == Headline.SortKinds.Nam.ToString())
                                     {
-                                        SortKind = Headline.SortKind.Nam;
+                                        SortKind = Headline.SortKinds.Nam;
                                     }
-                                    else if (kind == Headline.SortKind.Tims.ToString())
+                                    else if (kind == Headline.SortKinds.Tims.ToString())
                                     {
-                                        SortKind = Headline.SortKind.Tims;
+                                        SortKind = Headline.SortKinds.Tims;
                                     }
-                                    else if (kind == Headline.SortKind.Cln.ToString())
+                                    else if (kind == Headline.SortKinds.Cln.ToString())
                                     {
-                                        SortKind = Headline.SortKind.Cln;
+                                        SortKind = Headline.SortKinds.Cln;
                                     }
-                                    else if (kind == Headline.SortKind.Clns.ToString())
+                                    else if (kind == Headline.SortKinds.Clns.ToString())
                                     {
-                                        SortKind = Headline.SortKind.Clns;
+                                        SortKind = Headline.SortKinds.Clns;
                                     }
-                                    else if (kind == Headline.SortKind.Bit.ToString())
+                                    else if (kind == Headline.SortKinds.Bit.ToString())
                                     {
-                                        SortKind = Headline.SortKind.Bit;
+                                        SortKind = Headline.SortKinds.Bit;
                                     }
                                     else
                                     {
@@ -484,13 +538,13 @@ namespace PocketLadio.Stations.Netladio
                                     }
 
                                     string scending = reader.GetAttribute("scending");
-                                    if (scending == Headline.SortScending.Ascending.ToString())
+                                    if (scending == Headline.SortScendings.Ascending.ToString())
                                     {
-                                        SortScending = Headline.SortScending.Ascending;
+                                        SortScending = Headline.SortScendings.Ascending;
                                     }
-                                    else if (scending == Headline.SortScending.Descending.ToString())
+                                    else if (scending == Headline.SortScendings.Descending.ToString())
                                     {
-                                        SortScending = Headline.SortScending.Descending;
+                                        SortScending = Headline.SortScendings.Descending;
                                     }
                                 }
                             } // End of Sort
@@ -570,7 +624,7 @@ namespace PocketLadio.Stations.Netladio
                 writer.WriteEndElement(); // End of HeadlineViewType
 
                 writer.WriteStartElement("Filter");
-                
+
                 foreach (string filterWord in GetFilterWords())
                 {
                     writer.WriteStartElement("Word");
@@ -616,6 +670,19 @@ namespace PocketLadio.Stations.Netladio
             if (File.Exists(GetSettingPath()))
             {
                 File.Delete(GetSettingPath());
+            }
+        }
+
+        /// <summary>
+        /// フィルターが変更された場合に発生するイベント
+        /// </summary>
+        public event EventHandler FilterChanged;
+
+        private void OnFilterChanged()
+        {
+            if (FilterChanged != null)
+            {
+                FilterChanged(this, EventArgs.Empty);
             }
         }
     }

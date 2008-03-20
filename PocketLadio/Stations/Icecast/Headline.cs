@@ -40,9 +40,27 @@ namespace PocketLadio.Stations.Icecast
         private UserSetting setting;
 
         /// <summary>
-        /// チャンネルのリスト
+        /// 番組のリスト
         /// </summary>
-        private Channel[] channels = new Channel[0];
+        private Channel[] _channels = new Channel[0];
+
+        /// <summary>
+        /// 番組のリスト
+        /// </summary>
+        private Channel[] channels
+        {
+            get { return _channels; }
+            set
+            {
+                filtedChannelsCache = null;
+                _channels = value;
+            }
+        }
+
+        /// <summary>
+        /// フィルタ済み番組のキャッシュ
+        /// </summary>
+        private Channel[] filtedChannelsCache;
 
         /// <summary>
         /// ヘッドラインを取得した時間
@@ -77,10 +95,30 @@ namespace PocketLadio.Stations.Icecast
         /// <param name="parentStation">親放送局</param>
         public Headline(string id, Station parentStation)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException("HeadlineのIDにNullは指定できません");
+            }
+            if (id == string.Empty)
+            {
+                throw new ArgumentException("HeadlineのIDに空文字は指定できません");
+            }
+            if (parentStation == null)
+            {
+                throw new ArgumentNullException("Headlineの親放送局にNullは指定できません");
+            }
+
             this.id = id;
             this.parentStation = parentStation;
             setting = new UserSetting(this);
             setting.LoadSetting();
+            setting.FilterChanged += new EventHandler(setting_FilterChanged);
+        }
+
+        private void setting_FilterChanged(object sender, EventArgs e)
+        {
+            // フィルター条件が変わった場合は、フィルター番組キャッシュを空にする
+            filtedChannelsCache = null;
         }
 
         /// <summary>
@@ -125,83 +163,91 @@ namespace PocketLadio.Stations.Icecast
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
-            ArrayList alChannels = new ArrayList();
-
-            #region 単語フィルタ処理
-
-            // 単語フィルタが存在する場合
-            if (setting.GetFilterWords().Length > 0)
+            // フィルター結果キャッシュが空の場合、フィルター結果をキャッシュに格納
+            if (filtedChannelsCache == null)
             {
-                foreach (IChannel channel in GetChannels())
+                ArrayList alChannels = new ArrayList();
+
+                #region 単語フィルタ処理
+
+                // 単語フィルタが存在する場合
+                if (setting.GetFilterWords().Length > 0)
                 {
-                    foreach (string filter in setting.GetFilterWords())
+                    foreach (IChannel channel in GetChannels())
                     {
-                        if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                        foreach (string filter in setting.GetFilterWords())
                         {
-                            alChannels.Add(channel);
-                            break;
+                            if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                            {
+                                alChannels.Add(channel);
+                                break;
+                            }
                         }
                     }
+
+                    return (IChannel[])alChannels.ToArray(typeof(IChannel));
+                }
+                // 単語フィルタが存在しない場合
+                else
+                {
+                    alChannels.AddRange(GetChannels());
                 }
 
-                return (IChannel[])alChannels.ToArray(typeof(IChannel));
-            }
-            // 単語フィルタが存在しない場合
-            else
-            {
-                alChannels.AddRange(GetChannels());
-            }
+                #endregion
 
-            #endregion
+                #region 最低ビットレートフィルタ処理
 
-            #region 最低ビットレートフィルタ処理
+                ArrayList alDeleteChannels = new ArrayList();
 
-            ArrayList alDeleteChannels = new ArrayList();
-
-            // 最低ビットレートフィルタが存在する場合
-            if (setting.FilterAboveBitRateUse == true)
-            {
-                // 削除する番組のリストを作成
-                foreach (Channel channel in alChannels)
+                // 最低ビットレートフィルタが存在する場合
+                if (setting.FilterAboveBitRateUse == true)
                 {
-                    if (0 < channel.BitRate && channel.BitRate < setting.FilterAboveBitRate)
+                    // 削除する番組のリストを作成
+                    foreach (Channel channel in alChannels)
                     {
-                        alDeleteChannels.Add(channel);
+                        if (0 < channel.BitRate && channel.BitRate < setting.FilterAboveBitRate)
+                        {
+                            alDeleteChannels.Add(channel);
+                        }
+                    }
+                    // 番組を削除
+                    foreach (Channel deleteChannel in alDeleteChannels)
+                    {
+                        alChannels.Remove(deleteChannel);
                     }
                 }
-                // 番組を削除
-                foreach (Channel deleteChannel in alDeleteChannels)
+
+                #endregion
+
+                #region 最大ビットレートフィルタ処理
+
+                alDeleteChannels.Clear();
+
+                // 最大ビットレートフィルタが存在する場合
+                if (setting.FilterBelowBitRateUse == true)
                 {
-                    alChannels.Remove(deleteChannel);
-                }
-            }
-
-            #endregion
-
-            #region 最大ビットレートフィルタ処理
-
-            alDeleteChannels.Clear();
-
-            // 最大ビットレートフィルタが存在する場合
-            if (setting.FilterBelowBitRateUse == true)
-            {
-                foreach (Channel channel in alChannels)
-                {
-                    if (channel.BitRate > setting.FilterBelowBitRate)
+                    foreach (Channel channel in alChannels)
                     {
-                        alDeleteChannels.Add(channel);
+                        if (channel.BitRate > setting.FilterBelowBitRate)
+                        {
+                            alDeleteChannels.Add(channel);
+                        }
+                    }
+                    // 番組を削除
+                    foreach (Channel deleteChannel in alDeleteChannels)
+                    {
+                        alChannels.Remove(deleteChannel);
                     }
                 }
-                // 番組を削除
-                foreach (Channel deleteChannel in alDeleteChannels)
-                {
-                    alChannels.Remove(deleteChannel);
-                }
+
+                #endregion
+
+                // フィルター結果をキャッシュに格納
+                filtedChannelsCache = (Channel[])alChannels.ToArray(typeof(Channel));
             }
 
-            #endregion
 
-            return (IChannel[])alChannels.ToArray(typeof(IChannel));
+            return filtedChannelsCache;
         }
 
         /// <summary>

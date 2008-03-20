@@ -32,9 +32,27 @@ namespace PocketLadio.Stations.RssPodcast
         private UserSetting setting;
 
         /// <summary>
-        /// チャンネルのリスト
+        /// 番組のリスト
         /// </summary>
-        private Channel[] channels = new Channel[0];
+        private Channel[] _channels = new Channel[0];
+
+        /// <summary>
+        /// 番組のリスト
+        /// </summary>
+        private Channel[] channels
+        {
+            get { return _channels; }
+            set
+            {
+                filtedChannelsCache = null;
+                _channels = value;
+            }
+        }
+
+        /// <summary>
+        /// フィルタ済み番組のキャッシュ
+        /// </summary>
+        private Channel[] filtedChannelsCache;
 
         /// <summary>
         /// ヘッドラインを取得した時間
@@ -69,10 +87,30 @@ namespace PocketLadio.Stations.RssPodcast
         /// <param name="parentStation">親放送局</param>
         public Headline(string id, Station parentStation)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException("HeadlineのIDにNullは指定できません");
+            }
+            if (id == string.Empty)
+            {
+                throw new ArgumentException("HeadlineのIDに空文字は指定できません");
+            }
+            if (parentStation == null)
+            {
+                throw new ArgumentNullException("Headlineの親放送局にNullは指定できません");
+            }
+
             this.id = id;
             this.parentStation = parentStation;
             setting = new UserSetting(this);
             setting.LoadSetting();
+            setting.FilterChanged += new EventHandler(setting_FilterChanged);
+        }
+
+        private void setting_FilterChanged(object sender, EventArgs e)
+        {
+            // フィルター条件が変わった場合は、フィルター番組キャッシュを空にする
+            filtedChannelsCache = null;
         }
 
         /// <summary>
@@ -117,30 +155,41 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
-            // 単語フィルタが存在する場合
-            if (setting.GetFilterWords().Length > 0)
+            // フィルター結果キャッシュが空の場合、フィルター結果をキャッシュに格納
+            if (filtedChannelsCache == null)
             {
+                #region 単語フィルタ処理
+
                 ArrayList alChannels = new ArrayList();
 
-                foreach (IChannel channel in GetChannels())
+                // 単語フィルタが存在する場合
+                if (setting.GetFilterWords().Length > 0)
                 {
-                    foreach (string filter in setting.GetFilterWords())
+                    foreach (IChannel channel in GetChannels())
                     {
-                        if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                        foreach (string filter in setting.GetFilterWords())
                         {
-                            alChannels.Add(channel);
-                            break;
+                            if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                            {
+                                alChannels.Add(channel);
+                                break;
+                            }
                         }
                     }
                 }
+                // 単語フィルタが存在しない場合
+                else
+                {
+                    alChannels.AddRange(GetChannels());
+                }
 
-                return (IChannel[])alChannels.ToArray(typeof(IChannel));
+                #endregion
+
+                // フィルター結果をキャッシュに格納
+                filtedChannelsCache = (Channel[])alChannels.ToArray(typeof(Channel));
             }
-            // 単語フィルタが存在しない場合
-            else
-            {
-                return GetChannels();
-            }
+
+            return filtedChannelsCache;
         }
 
         /// <summary>

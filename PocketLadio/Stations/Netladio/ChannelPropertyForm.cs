@@ -165,7 +165,7 @@ namespace PocketLadio.Stations.Netladio
 
             string[] namPorperty = { "番組名", channel.Nam.Trim() };
             string[] gnlPorperty = { "ジャンル", channel.Gnl.Trim() };
-            string[] urlPorperty = { "URL", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "") };
+            string[] urlPorperty = { "URL", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : string.Empty) };
             string[] timsPorperty = { "放送開始時刻", channel.Tims.ToString().Trim() };
 
             // リスナ数表示格納文字列

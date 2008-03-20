@@ -20,7 +20,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// 検索単語
         /// </summary>
-        private string searchWord = "";
+        private string searchWord = string.Empty;
 
         /// <summary>
         /// 検索単語
@@ -111,7 +111,14 @@ namespace PocketLadio.Stations.ShoutCast
         public bool FilterBelowBitRateUse
         {
             get { return filterBelowBitRateUse; }
-            set { filterBelowBitRateUse = value; }
+            set
+            {
+                if (filterBelowBitRateUse != value)
+                {
+                    filterBelowBitRateUse = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -137,9 +144,10 @@ namespace PocketLadio.Stations.ShoutCast
             }
             set
             {
-                if (value >= 0)
+                if (value >= 0 && filterBelowBitRate != value)
                 {
                     filterBelowBitRate = value;
+                    OnFilterChanged();
                 }
                 else
                 {
@@ -159,7 +167,14 @@ namespace PocketLadio.Stations.ShoutCast
         public bool FilterAboveBitRateUse
         {
             get { return filterAboveBitRateUse; }
-            set { filterAboveBitRateUse = value; }
+            set
+            {
+                if (filterAboveBitRateUse != value)
+                {
+                    filterAboveBitRateUse = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -185,9 +200,10 @@ namespace PocketLadio.Stations.ShoutCast
             }
             set
             {
-                if (value >= 0)
+                if (value >= 0 && filterAboveBitRate != value)
                 {
                     filterAboveBitRate = value;
+                    OnFilterChanged();
                 }
                 else
                 {
@@ -199,29 +215,43 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ソートフィルター
         /// </summary>
-        private Headline.SortKind sortKind = Headline.SortKind.None;
+        private Headline.SortKinds sortKind = Headline.SortKinds.None;
 
         /// <summary>
         /// ソートフィルター
         /// </summary>
-        public Headline.SortKind SortKind
+        public Headline.SortKinds SortKind
         {
             get { return sortKind; }
-            set { sortKind = value; }
+            set
+            {
+                if (sortKind != value)
+                {
+                    sortKind = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
         /// ソートの昇順・降順
         /// </summary>
-        private Headline.SortScending sortScending = Headline.SortScending.Ascending;
+        private Headline.SortScendings sortScending = Headline.SortScendings.Ascending;
 
         /// <summary>
         /// ソートの昇順・降順
         /// </summary>
-        public Headline.SortScending SortScending
+        public Headline.SortScendings SortScending
         {
             get { return sortScending; }
-            set { sortScending = value; }
+            set
+            {
+                if (sortScending != value)
+                {
+                    sortScending = value;
+                    OnFilterChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -258,10 +288,32 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// 単語フィルターをセットする
         /// </summary>
-        /// <param name="filterWord">単語フィルター</param>
-        public void SetFilterWords(string[] filterWord)
+        /// <param name="filterWords">単語フィルター</param>
+        public void SetFilterWords(string[] filterWords)
         {
-            filterWords = filterWord;
+            // フィルタの内容が変化したかを調べる
+            bool isChanged = false;
+            if (filterWords.Length != this.filterWords.Length)
+            {
+                isChanged = true;
+            }
+            else
+            {
+                for (int i = 0; i < filterWords.Length && i < this.filterWords.Length; ++i)
+                {
+                    if (filterWords[i] != this.filterWords[i])
+                    {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isChanged == true)
+            {
+                this.filterWords = filterWords;
+                OnFilterChanged();
+            }
         }
 
         /// <summary>
@@ -449,25 +501,25 @@ namespace PocketLadio.Stations.ShoutCast
                                 if (reader.MoveToFirstAttribute())
                                 {
                                     string kind = reader.GetAttribute("kind");
-                                    if (kind == Headline.SortKind.None.ToString())
+                                    if (kind == Headline.SortKinds.None.ToString())
                                     {
-                                        SortKind = Headline.SortKind.None;
+                                        SortKind = Headline.SortKinds.None;
                                     }
-                                    else if (kind == Headline.SortKind.Title.ToString())
+                                    else if (kind == Headline.SortKinds.Title.ToString())
                                     {
-                                        SortKind = Headline.SortKind.Title;
+                                        SortKind = Headline.SortKinds.Title;
                                     }
-                                    else if (kind == Headline.SortKind.Listener.ToString())
+                                    else if (kind == Headline.SortKinds.Listener.ToString())
                                     {
-                                        SortKind = Headline.SortKind.Listener;
+                                        SortKind = Headline.SortKinds.Listener;
                                     }
-                                    else if (kind == Headline.SortKind.ListenerTotal.ToString())
+                                    else if (kind == Headline.SortKinds.ListenerTotal.ToString())
                                     {
-                                        SortKind = Headline.SortKind.ListenerTotal;
+                                        SortKind = Headline.SortKinds.ListenerTotal;
                                     }
-                                    else if (kind == Headline.SortKind.BitRate.ToString())
+                                    else if (kind == Headline.SortKinds.BitRate.ToString())
                                     {
-                                        SortKind = Headline.SortKind.BitRate;
+                                        SortKind = Headline.SortKinds.BitRate;
                                     }
                                     else
                                     {
@@ -476,13 +528,13 @@ namespace PocketLadio.Stations.ShoutCast
                                     }
 
                                     string scending = reader.GetAttribute("scending");
-                                    if (scending == Headline.SortScending.Ascending.ToString())
+                                    if (scending == Headline.SortScendings.Ascending.ToString())
                                     {
-                                        SortScending = Headline.SortScending.Ascending;
+                                        SortScending = Headline.SortScendings.Ascending;
                                     }
-                                    else if (scending == Headline.SortScending.Descending.ToString())
+                                    else if (scending == Headline.SortScendings.Descending.ToString())
                                     {
-                                        SortScending = Headline.SortScending.Descending;
+                                        SortScending = Headline.SortScendings.Descending;
                                     }
                                 }
                             } // End of Sort
@@ -605,6 +657,19 @@ namespace PocketLadio.Stations.ShoutCast
             if (File.Exists(GetSettingPath()))
             {
                 File.Delete(GetSettingPath());
+            }
+        }
+
+        /// <summary>
+        /// フィルターが変更された場合に発生するイベント
+        /// </summary>
+        public event EventHandler FilterChanged;
+
+        private void OnFilterChanged()
+        {
+            if (FilterChanged != null)
+            {
+                FilterChanged(this, EventArgs.Empty);
             }
         }
     }

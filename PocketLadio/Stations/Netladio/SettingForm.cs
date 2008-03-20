@@ -600,27 +600,27 @@ namespace PocketLadio.Stations.Netladio
             filterBelowBitRateTextBox.Text = setting.FilterBelowBitRate.ToString();
 
             // ソート種類を読み込む
-            if (setting.SortKind == Headline.SortKind.None)
+            if (setting.SortKind == Headline.SortKinds.None)
             {
                 sortKindComboBox.SelectedIndex = 0;
             }
-            else if (setting.SortKind == Headline.SortKind.Nam)
+            else if (setting.SortKind == Headline.SortKinds.Nam)
             {
                 sortKindComboBox.SelectedIndex = 1;
             }
-            else if (setting.SortKind == Headline.SortKind.Tims)
+            else if (setting.SortKind == Headline.SortKinds.Tims)
             {
                 sortKindComboBox.SelectedIndex = 2;
             }
-            else if (setting.SortKind == Headline.SortKind.Cln)
+            else if (setting.SortKind == Headline.SortKinds.Cln)
             {
                 sortKindComboBox.SelectedIndex = 3;
             }
-            else if (setting.SortKind == Headline.SortKind.Clns)
+            else if (setting.SortKind == Headline.SortKinds.Clns)
             {
                 sortKindComboBox.SelectedIndex = 4;
             }
-            else if (setting.SortKind == Headline.SortKind.Bit)
+            else if (setting.SortKind == Headline.SortKinds.Bit)
             {
                 sortKindComboBox.SelectedIndex = 5;
             }
@@ -630,12 +630,12 @@ namespace PocketLadio.Stations.Netladio
                 Trace.Assert(false, "想定外の動作のため、終了します");
             }
 
-            if (setting.SortScending == Headline.SortScending.Ascending)
+            if (setting.SortScending == Headline.SortScendings.Ascending)
             {
                 sortDescendingRadioButton.Checked = false;
                 sortAscendingRadioButton.Checked = true;
             }
-            else if (setting.SortScending == Headline.SortScending.Descending)
+            else if (setting.SortScending == Headline.SortScendings.Descending)
             {
                 sortAscendingRadioButton.Checked = false;
                 sortDescendingRadioButton.Checked = true;
@@ -779,27 +779,27 @@ namespace PocketLadio.Stations.Netladio
 
             if (sortKindComboBox.Text.Trim() == "並び替えしない")
             {
-                setting.SortKind = Headline.SortKind.None;
+                setting.SortKind = Headline.SortKinds.None;
             }
             else if (sortKindComboBox.Text.Trim() == "タイトル")
             {
-                setting.SortKind = Headline.SortKind.Nam;
+                setting.SortKind = Headline.SortKinds.Nam;
             }
             else if (sortKindComboBox.Text.Trim() == "放送開始日時")
             {
-                setting.SortKind = Headline.SortKind.Tims;
+                setting.SortKind = Headline.SortKinds.Tims;
             }
             else if (sortKindComboBox.Text.Trim() == "現リスナ数")
             {
-                setting.SortKind = Headline.SortKind.Cln;
+                setting.SortKind = Headline.SortKinds.Cln;
             }
             else if (sortKindComboBox.Text.Trim() == "総リスナ数")
             {
-                setting.SortKind = Headline.SortKind.Clns;
+                setting.SortKind = Headline.SortKinds.Clns;
             }
             else if (sortKindComboBox.Text.Trim() == "ビットレート")
             {
-                setting.SortKind = Headline.SortKind.Bit;
+                setting.SortKind = Headline.SortKinds.Bit;
             }
             else
             {
@@ -809,11 +809,11 @@ namespace PocketLadio.Stations.Netladio
 
             if (sortAscendingRadioButton.Checked == true)
             {
-                setting.SortScending = Headline.SortScending.Ascending;
+                setting.SortScending = Headline.SortScendings.Ascending;
             }
             else if (sortDescendingRadioButton.Checked == true)
             {
-                setting.SortScending = Headline.SortScending.Descending;
+                setting.SortScending = Headline.SortScendings.Descending;
             }
             else
             {
@@ -959,7 +959,7 @@ namespace PocketLadio.Stations.Netladio
             if (addWordTextBox.Text.Trim().Length != 0)
             {
                 filterListBox.Items.Add(addWordTextBox.Text.Trim());
-                addWordTextBox.Text = "";
+                addWordTextBox.Text = string.Empty;
             }
         }
 

@@ -165,7 +165,7 @@ namespace PocketLadio.Stations.ShoutCast
 
             string[] titleProperty = { "Title", channel.Title.Trim() };
             string[] categoryProperty = { "Category", channel.Category.Trim() };
-            string[] clusterProperty = { "Cluster", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : "") };
+            string[] clusterProperty = { "Cluster", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : string.Empty) };
             string[] playingProperty = { "Playing", channel.Playing.Trim() };
 
             // ÉäÉXÉiêîï\é¶äiî[ï∂éöóÒ

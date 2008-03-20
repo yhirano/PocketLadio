@@ -266,41 +266,39 @@ namespace PocketLadio
         private void CreateStation(string stationKind)
         {
             Station station = null;
-            if (stationKind == "ねとらじ")
+            switch (stationKind)
             {
-                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.Netladio);
-            }
-            else if (stationKind == "Podcast")
-            {
-                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.RssPodcast);
+                case "ねとらじ":
+                    station = StationList.CreateStation(stationNameTextBox.Text.Trim(), StationKinds.Netladio);
+                    break;
+                case "Podcast":
+                    station = StationList.CreateStation(stationNameTextBox.Text.Trim(), StationKinds.RssPodcast);
 
-                // 設定画面を呼び出す
-                station.Headline.ShowSettingForm();
-            }
-            else if (stationKind == "SHOUTcast")
-            {
-                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.ShoutCast);
+                    // 設定画面を呼び出す
+                    station.Headline.ShowSettingForm();
+                    break;
+                case "SHOUTcast":
+                    station = StationList.CreateStation(stationNameTextBox.Text.Trim(), StationKinds.ShoutCast);
 
-                // 設定画面を呼び出す
-                station.Headline.ShowSettingForm();
-            }
-            else if (stationKind == "Icecast")
-            {
-                station = new Station(DateTime.Now.ToString("yyyyMMddHHmmssff"), stationNameTextBox.Text.Trim(), Station.StationKind.Icecast);
+                    // 設定画面を呼び出す
+                    station.Headline.ShowSettingForm();
+                    break;
+                case "Icecast":
+                    station = StationList.CreateStation(stationNameTextBox.Text.Trim(), StationKinds.Icecast);
 
-                // 設定画面を呼び出す
-                station.Headline.ShowSettingForm();
-            }
-            else
-            {
-                // ここに到達することはあり得ない
-                Trace.Assert(false, "想定外の動作のため、終了します");
+                    // 設定画面を呼び出す
+                    station.Headline.ShowSettingForm();
+                    break;
+                default:
+                    // ここに到達することはあり得ない
+                    Trace.Assert(false, "想定外の動作のため、終了します");
+                    break;
             }
 
             // リストに追加
             alStationList.Add(station);
             stationListBox.Items.Add(station.DisplayName);
-            stationNameTextBox.Text = "";
+            stationNameTextBox.Text = string.Empty;
         }
 
         /// <summary>

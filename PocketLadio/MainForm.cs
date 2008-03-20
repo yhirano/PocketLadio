@@ -590,41 +590,49 @@ namespace PocketLadio
             }
             catch (WebException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show("番組表を取得できませんでした", "接続エラー");
             }
             catch (OutOfMemoryException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show("メモリが足りません", "メモリエラー");
             }
             catch (IOException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show("記録デバイスが何らかのエラーです", "デバイスエラー");
             }
             catch (UriFormatException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show(StationList.StationNameOfCurrentStation + "のURLが不正です", "URLエラー");
             }
             catch (SocketException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show("番組表を取得できませんでした", "ネットワークエラー");
             }
             catch (NotSupportedException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show(StationList.StationNameOfCurrentStation + "のURLが不正です", "URLエラー");
             }
             catch (XmlException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show("XML形式のヘッドラインが正常に処理できませんでした", "XMLエラー");
             }
             catch (ArgumentException)
             {
+                mainStatusBar.Text = "No Check - 0 CHs";
                 HeadlineCheckTimerStop();
                 MessageBox.Show(StationList.StationNameOfCurrentStation + "のURLが不正です", "URLエラー");
             }
@@ -639,6 +647,7 @@ namespace PocketLadio
                 stationListComboBox.Enabled = true;
                 headlineListBox.Enabled = true;
                 updateMenuItem.Enabled = true;
+                WriteSelectedChannelInfomation();
 
                 #endregion
 
@@ -680,6 +689,21 @@ namespace PocketLadio
                 {
                     playButton.Enabled = true;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 選択している番組の情報をラベルに書く
+        /// </summary>
+        private void WriteSelectedChannelInfomation()
+        {
+            if (headlineListBox.SelectedIndex != -1 && headlineListBox.SelectedIndex < headlineListBox.Items.Count)
+            {
+                headlineInfomationLabel.Text = (string)headlineListBox.Items[headlineListBox.SelectedIndex];
+            }
+            else
+            {
+                headlineInfomationLabel.Text = string.Empty;
             }
         }
 
@@ -918,8 +942,13 @@ namespace PocketLadio
         {
             #region UI前処理
 
-            // フォームをいったん選択不可にする
-            this.Enabled = false;
+            // フォーム内コントロールをいったん選択不可にする
+            updateButton.Enabled = false;
+            PlayButtonEnable(false);
+            filterCheckBox.Enabled = false;
+            stationListComboBox.Enabled = false;
+            headlineListBox.Enabled = false;
+            updateMenuItem.Enabled = false;
 
             #endregion
 
@@ -943,8 +972,14 @@ namespace PocketLadio
 
             #region UI後処理
 
-            // フォームを選択可能に回復する
-            this.Enabled = true;
+            // フォーム内コントロールを選択可能に回復する
+            updateButton.Enabled = true;
+            PlayButtonEnable(true);
+            filterCheckBox.Enabled = true;
+            stationListComboBox.Enabled = true;
+            headlineListBox.Enabled = true;
+            updateMenuItem.Enabled = true;
+            WriteSelectedChannelInfomation();
 
             #endregion
         }
@@ -1025,6 +1060,7 @@ namespace PocketLadio
             SetAnchorControl();
             FixWindowSize();
             PlayButtonEnable();
+            WriteSelectedChannelInfomation();
         }
 
         void StationList_HeadlineFetching(object sender, FetchEventArgs e)
@@ -1155,6 +1191,7 @@ namespace PocketLadio
             filterCheckBox.Enabled = true;
             headlineListBox.Enabled = true;
             updateMenuItem.Enabled = true;
+            WriteSelectedChannelInfomation();
 
             #endregion
         }
@@ -1182,14 +1219,7 @@ namespace PocketLadio
         {
             PlayButtonEnable();
 
-            if (headlineListBox.SelectedIndex != -1 && headlineListBox.SelectedIndex < headlineListBox.Items.Count)
-            {
-                headlineInfomationLabel.Text = (string)headlineListBox.Items[headlineListBox.SelectedIndex];
-            }
-            else
-            {
-                headlineInfomationLabel.Text = string.Empty;
-            }
+            WriteSelectedChannelInfomation();
         }
 
         private void playOfChannelMenuItem_Click(object sender, EventArgs e)

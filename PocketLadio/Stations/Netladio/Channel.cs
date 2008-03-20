@@ -28,7 +28,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// DSPツールで指定されるジャンル欄
         /// </summary>
-        private string gnl = "";
+        private string gnl = string.Empty;
 
         /// <summary>
         /// DSPツールで指定されるジャンル欄
@@ -42,7 +42,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// DSPツールで指定されるタイトル欄
         /// </summary>
-        private string nam = "";
+        private string nam = string.Empty;
 
         /// <summary>
         /// DSPツールで指定されるタイトル欄
@@ -56,7 +56,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// DSPツールが送信する現在の曲名情報
         /// </summary>
-        private string tit = "";
+        private string tit = string.Empty;
 
         /// <summary>
         /// DSPツールが送信する現在の曲名情報
@@ -70,7 +70,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// マウントポイント
         /// </summary>
-        private string mnt = "";
+        private string mnt = string.Empty;
 
         /// <summary>
         /// マウントポイント
@@ -142,7 +142,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 配信サーバホスト名
         /// </summary>
-        private string srv = "";
+        private string srv = string.Empty;
 
         /// <summary>
         /// 配信サーバホスト名
@@ -155,7 +155,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 配信サーバポート番号
         /// </summary>
-        private string prt = "";
+        private string prt = string.Empty;
 
         /// <summary>
         /// 配信サーバポート番号
@@ -168,7 +168,7 @@ namespace PocketLadio.Stations.Netladio
         /// <summary>
         /// 配信サーバの種類
         /// </summary>
-        private string typ = "";
+        private string typ = string.Empty;
 
         /// <summary>
         /// 配信サーバの種類
@@ -312,7 +312,7 @@ namespace PocketLadio.Stations.Netladio
                 }
                 else
                 {
-                    view = view.Replace("[[PLAYURL]]", "");
+                    view = view.Replace("[[PLAYURL]]", string.Empty);
                 }
             }
 

@@ -45,7 +45,25 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// 番組のリスト
         /// </summary>
-        private Channel[] channels = new Channel[0];
+        private Channel[] _channels = new Channel[0];
+
+        /// <summary>
+        /// 番組のリスト
+        /// </summary>
+        private Channel[] channels
+        {
+            get { return _channels; }
+            set
+            {
+                filtedChannelsCache = null;
+                _channels = value;
+            }
+        }
+
+        /// <summary>
+        /// フィルタ済み番組のキャッシュ
+        /// </summary>
+        private Channel[] filtedChannelsCache;
 
         /// <summary>
         /// ヘッドラインを取得した時間
@@ -63,7 +81,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ソートの種類
         /// </summary>
-        public enum SortKind
+        public enum SortKinds
         {
             None, Title, Listener, ListenerTotal, BitRate
         }
@@ -71,7 +89,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// ソートの昇順・降順
         /// </summary>
-        public enum SortScending
+        public enum SortScendings
         {
             Ascending, Descending
         }
@@ -172,10 +190,30 @@ namespace PocketLadio.Stations.ShoutCast
         /// <param name="parentStation">親放送局</param>
         public Headline(string id, Station parentStation)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException("HeadlineのIDにNullは指定できません");
+            }
+            if (id == string.Empty)
+            {
+                throw new ArgumentException("HeadlineのIDに空文字は指定できません");
+            }
+            if (parentStation == null)
+            {
+                throw new ArgumentNullException("Headlineの親放送局にNullは指定できません");
+            }
+
             this.id = id;
             this.parentStation = parentStation;
             setting = new UserSetting(this);
             setting.LoadSetting();
+            setting.FilterChanged += new EventHandler(setting_FilterChanged);
+        }
+
+        private void setting_FilterChanged(object sender, EventArgs e)
+        {
+            // フィルター条件が変わった場合は、フィルター番組キャッシュを空にする
+            filtedChannelsCache = null;
         }
 
         /// <summary>
@@ -219,118 +257,125 @@ namespace PocketLadio.Stations.ShoutCast
         /// <returns>フィルタリングした番組のリスト</returns>
         public virtual IChannel[] GetChannelsFiltered()
         {
-            ArrayList alChannels = new ArrayList();
-
-            #region 単語フィルタ処理
-
-            // 単語フィルタが存在する場合
-            if (setting.GetFilterWords().Length > 0)
+            // フィルター結果キャッシュが空の場合、フィルター結果をキャッシュに格納
+            if (filtedChannelsCache == null)
             {
-                foreach (IChannel channel in GetChannels())
+                ArrayList alChannels = new ArrayList();
+
+                #region 単語フィルタ処理
+
+                // 単語フィルタが存在する場合
+                if (setting.GetFilterWords().Length > 0)
                 {
-                    foreach (string filter in setting.GetFilterWords())
+                    foreach (IChannel channel in GetChannels())
                     {
-                        if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                        foreach (string filter in setting.GetFilterWords())
                         {
-                            alChannels.Add(channel);
-                            break;
+                            if (channel.GetFilteredWord().IndexOf(filter) != -1)
+                            {
+                                alChannels.Add(channel);
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            // 単語フィルタが存在しない場合
-            else
-            {
-                alChannels.AddRange(GetChannels());
-            }
-
-            #endregion
-
-            #region 最低ビットレートフィルタ処理
-
-            ArrayList alDeleteChannels = new ArrayList();
-
-            // 最低ビットレートフィルタが存在する場合
-            if (setting.FilterAboveBitRateUse == true)
-            {
-                // 削除する番組のリストを作成
-                foreach (Channel channel in alChannels)
+                // 単語フィルタが存在しない場合
+                else
                 {
-                    if (0 < channel.BitRate && channel.BitRate < setting.FilterAboveBitRate)
+                    alChannels.AddRange(GetChannels());
+                }
+
+                #endregion
+
+                #region 最低ビットレートフィルタ処理
+
+                ArrayList alDeleteChannels = new ArrayList();
+
+                // 最低ビットレートフィルタが存在する場合
+                if (setting.FilterAboveBitRateUse == true)
+                {
+                    // 削除する番組のリストを作成
+                    foreach (Channel channel in alChannels)
                     {
-                        alDeleteChannels.Add(channel);
+                        if (0 < channel.BitRate && channel.BitRate < setting.FilterAboveBitRate)
+                        {
+                            alDeleteChannels.Add(channel);
+                        }
+                    }
+                    // 番組を削除
+                    foreach (Channel deleteChannel in alDeleteChannels)
+                    {
+                        alChannels.Remove(deleteChannel);
                     }
                 }
-                // 番組を削除
-                foreach (Channel deleteChannel in alDeleteChannels)
+
+                #endregion
+
+                #region 最大ビットレートフィルタ処理
+
+                alDeleteChannels.Clear();
+
+                // 最大ビットレートフィルタが存在する場合
+                if (setting.FilterBelowBitRateUse == true)
                 {
-                    alChannels.Remove(deleteChannel);
-                }
-            }
-
-            #endregion
-
-            #region 最大ビットレートフィルタ処理
-
-            alDeleteChannels.Clear();
-
-            // 最大ビットレートフィルタが存在する場合
-            if (setting.FilterBelowBitRateUse == true)
-            {
-                foreach (Channel channel in alChannels)
-                {
-                    if (channel.BitRate > setting.FilterBelowBitRate)
+                    foreach (Channel channel in alChannels)
                     {
-                        alDeleteChannels.Add(channel);
+                        if (channel.BitRate > setting.FilterBelowBitRate)
+                        {
+                            alDeleteChannels.Add(channel);
+                        }
+                    }
+                    // 番組を削除
+                    foreach (Channel deleteChannel in alDeleteChannels)
+                    {
+                        alChannels.Remove(deleteChannel);
                     }
                 }
-                // 番組を削除
-                foreach (Channel deleteChannel in alDeleteChannels)
+
+                #endregion
+
+                #region ソート処理
+
+                if (setting.SortKind == SortKinds.None)
                 {
-                    alChannels.Remove(deleteChannel);
+                    ;
                 }
+                else if (setting.SortKind == SortKinds.Title)
+                {
+                    alChannels.Sort((IComparer)new ChannelTitleComparer());
+
+                }
+                else if (setting.SortKind == SortKinds.Listener)
+                {
+                    alChannels.Sort((IComparer)new ChannelListenerComparer());
+                }
+                else if (setting.SortKind == SortKinds.ListenerTotal)
+                {
+                    alChannels.Sort((IComparer)new ChannelListenerTotalComparer());
+                }
+                else if (setting.SortKind == SortKinds.BitRate)
+                {
+                    alChannels.Sort((IComparer)new ChannelBitRateComparer());
+                }
+                else
+                {
+                    // ここに到達することはあり得ない
+                    Trace.Assert(false, "想定外の動作のため、終了します");
+                }
+
+                // 降順の場合
+                if (setting.SortKind != SortKinds.None && setting.SortScending == SortScendings.Descending)
+                {
+                    alChannels.Reverse();
+                }
+
+                #endregion
+
+                // フィルター結果をキャッシュに格納
+                filtedChannelsCache = (Channel[])alChannels.ToArray(typeof(Channel));
             }
 
-            #endregion
-
-            #region ソート処理
-
-            if (setting.SortKind == SortKind.None)
-            {
-                ;
-            }
-            else if (setting.SortKind == SortKind.Title)
-            {
-                alChannels.Sort((IComparer)new ChannelTitleComparer());
-
-            }
-            else if (setting.SortKind == SortKind.Listener)
-            {
-                alChannels.Sort((IComparer)new ChannelListenerComparer());
-            }
-            else if (setting.SortKind == SortKind.ListenerTotal)
-            {
-                alChannels.Sort((IComparer)new ChannelListenerTotalComparer());
-            }
-            else if (setting.SortKind == SortKind.BitRate)
-            {
-                alChannels.Sort((IComparer)new ChannelBitRateComparer());
-            }
-            else
-            {
-                // ここに到達することはあり得ない
-                Trace.Assert(false, "想定外の動作のため、終了します");
-            }
-
-            // 降順の場合
-            if (setting.SortKind != SortKind.None && setting.SortScending == SortScending.Descending)
-            {
-                alChannels.Reverse();
-            }
-
-            #endregion
-
-            return (IChannel[])alChannels.ToArray(typeof(IChannel));
+            return filtedChannelsCache;
         }
 
         /// <summary>
@@ -349,11 +394,11 @@ namespace PocketLadio.Stations.ShoutCast
                 ArrayList alChannels = new ArrayList();
                 Channel channel = null;
 
-                string searchWord = ((setting.SearchWord.Length != 0) ? "&s=" + setting.SearchWord : "");
+                string searchWord = ((setting.SearchWord.Length != 0) ? "&s=" + setting.SearchWord : string.Empty);
                 // 半角スペースと全角スペースを+に置き換える SHOUTcast上のURLでAND検索のスペースが+に置き換えられるため
                 searchWord = searchWord.Replace(' ', '+').Replace("　", "+");
 
-                string perView = ((setting.PerView.ToString().Length != 0) ? "&numresult=" + setting.PerView : "");
+                string perView = ((setting.PerView.ToString().Length != 0) ? "&numresult=" + setting.PerView : string.Empty);
                 Uri url = new Uri(Headline.SHOUTCAST_URL + "/?" + searchWord + perView);
 
                 st = PocketLadioUtility.GetWebStream(url);

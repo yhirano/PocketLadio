@@ -39,15 +39,7 @@ namespace PocketLadio
         /// <summary>
         /// 放送局の種類
         /// </summary>
-        private StationKind kind;
-
-        /// <summary>
-        /// 放送局の種類列挙
-        /// </summary>
-        public enum StationKind
-        {
-            Netladio, RssPodcast, ShoutCast, Icecast
-        };
+        private StationKinds kind;
 
         /// <summary>
         /// 表示用の名前
@@ -77,7 +69,7 @@ namespace PocketLadio
         /// <summary>
         /// 放送局の種類を返す
         /// </summary>
-        public StationKind Kind
+        public StationKinds Kind
         {
             get { return kind; }
         }
@@ -88,32 +80,39 @@ namespace PocketLadio
         /// <param name="id">放送局のID</param>
         /// <param name="name">放送局の名前</param>
         /// <param name="stationKind">放送局の種類</param>
-        public Station(string id, string name, StationKind stationKind)
+        public Station(string id, string name, StationKinds stationKind)
         {
+            if (id == null)
+            {
+                throw new ArgumentNullException("StationのIDにNullは指定できません");
+            }
+            if (id == string.Empty)
+            {
+                throw new ArgumentException("StationのIDに空文字は指定できません");
+            }
+
             this.id = id;
             this.name = name;
             this.kind = stationKind;
 
-            if (kind == StationKind.Netladio)
+            switch (kind)
             {
-                headline = new PocketLadio.Stations.Netladio.Headline(id, this);
-            }
-            else if (kind== StationKind.RssPodcast)
-            {
-                headline = new PocketLadio.Stations.RssPodcast.Headline(id, this);
-            }
-            else if (kind==StationKind.ShoutCast)
-            {
-                headline = new PocketLadio.Stations.ShoutCast.Headline(id, this);
-            }
-            else if (kind == StationKind.Icecast)
-            {
-                headline = new PocketLadio.Stations.Icecast.Headline(id, this);
-            }
-            else
-            {
-                // ここには到達しない
-                Trace.Assert(false, "想定外の動作のため、終了します");
+                case StationKinds.Netladio:
+                    headline = new PocketLadio.Stations.Netladio.Headline(id, this);
+                    break;
+                case StationKinds.RssPodcast:
+                    headline = new PocketLadio.Stations.RssPodcast.Headline(id, this);
+                    break;
+                case StationKinds.ShoutCast:
+                    headline = new PocketLadio.Stations.ShoutCast.Headline(id, this);
+                    break;
+                case StationKinds.Icecast:
+                    headline = new PocketLadio.Stations.Icecast.Headline(id, this);
+                    break;
+                default:
+                    // ここには到達しない
+                    Trace.Assert(false, "想定外の動作のため、終了します");
+                    break;
             }
         }
     }

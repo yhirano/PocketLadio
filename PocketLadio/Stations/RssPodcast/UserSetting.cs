@@ -84,10 +84,32 @@ namespace PocketLadio.Stations.RssPodcast
         /// <summary>
         /// 単語フィルターをセットする
         /// </summary>
-        /// <param name="filterWord">単語フィルター</param>
-        public void SetFilterWords(string[] filterWord)
+        /// <param name="filterWords">単語フィルター</param>
+        public void SetFilterWords(string[] filterWords)
         {
-            filterWords = filterWord;
+            // フィルタの内容が変化したかを調べる
+            bool isChanged = false;
+            if (filterWords.Length != this.filterWords.Length)
+            {
+                isChanged = true;
+            }
+            else
+            {
+                for (int i = 0; i < filterWords.Length && i < this.filterWords.Length; ++i)
+                {
+                    if (filterWords[i] != this.filterWords[i])
+                    {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isChanged == true)
+            {
+                this.filterWords = filterWords;
+                OnFilterChanged();
+            }
         }
 
         /// <summary>
@@ -217,7 +239,7 @@ namespace PocketLadio.Stations.RssPodcast
                 writer.WriteStartElement("Content");
 
                 writer.WriteStartElement("RssUrl");
-                writer.WriteAttributeString("url", ((RssUrl != null) ? RssUrl.ToString() : ""));
+                writer.WriteAttributeString("url", ((RssUrl != null) ? RssUrl.ToString() : string.Empty));
                 writer.WriteEndElement(); // End of RssUrl
 
                 writer.WriteStartElement("HeadlineViewType");
@@ -254,6 +276,19 @@ namespace PocketLadio.Stations.RssPodcast
             if (File.Exists(GetSettingPath()))
             {
                 File.Delete(GetSettingPath());
+            }
+        }
+
+        /// <summary>
+        /// フィルターが変更された場合に発生するイベント
+        /// </summary>
+        public event EventHandler FilterChanged;
+
+        private void OnFilterChanged()
+        {
+            if (FilterChanged != null)
+            {
+                FilterChanged(this, EventArgs.Empty);
             }
         }
     }
