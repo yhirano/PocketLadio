@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections;
 using System.Xml;
+using System.Globalization;
 using PocketLadio.Stations;
 using MiscPocketCompactLibrary.Net;
 
@@ -167,13 +168,9 @@ namespace PocketLadio.Stations.RssPodcast
                 {
                     foreach (IChannel channel in GetChannels())
                     {
-                        foreach (string filter in setting.GetFilterWords())
+                        if (IsMatchFilterWords(channel) == true)
                         {
-                            if (channel.GetFilteredWord().IndexOf(filter) != -1)
-                            {
-                                alChannels.Add(channel);
-                                break;
-                            }
+                            alChannels.Add(channel);
                         }
                     }
                 }
@@ -190,6 +187,26 @@ namespace PocketLadio.Stations.RssPodcast
             }
 
             return filtedChannelsCache;
+        }
+
+        /// <summary>
+        /// 番組がフィルターに合致するかを調べる
+        /// </summary>
+        /// <param name="channel">番組</param>
+        /// <returns>番組がフィルターに合致したらtrue、それ以外はfalse</returns>
+        private bool IsMatchFilterWords(IChannel channel)
+        {
+            foreach (string filter in setting.GetFilterWords())
+            {
+                foreach (string filted in channel.GetFilteredWords())
+                {
+                    if (filted.ToLower(CultureInfo.InvariantCulture).IndexOf(filter.ToLower(CultureInfo.InvariantCulture)) != -1)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>

@@ -207,7 +207,7 @@ namespace PocketLadio.Stations.ShoutCast
                     .Replace("[[LISTENER]]", ((Listener != Channel.UNKNOWN_LISTENER_NUM) ? Listener.ToString() : "na"))
                     .Replace("[[LISTENERTOTAL]]", ((ListenerTotal != Channel.UNKNOWN_LISTENER_NUM) ? ListenerTotal.ToString() : "na"))
                     .Replace("[[CATEGORY]]", Category)
-                    .Replace("[[BIT]]", ((BitRate!=Channel.UNKNOWN_BITRATE) ? BitRate.ToString() : "na"));
+                    .Replace("[[BIT]]", ((BitRate != Channel.UNKNOWN_BITRATE) ? BitRate.ToString() : "na"));
             }
 
             return view;
@@ -218,9 +218,9 @@ namespace PocketLadio.Stations.ShoutCast
         /// 返されたワードに従い、フィルタリングを行う。
         /// </summary>
         /// <returns>フィルタリング対象のワード</returns>
-        public virtual string GetFilteredWord()
+        public virtual string[] GetFilteredWords()
         {
-            return Title + " " + Category;
+            return new string[] { Title, Category };
         }
 
         /// <summary>

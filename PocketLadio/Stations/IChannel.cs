@@ -39,7 +39,7 @@ namespace PocketLadio.Stations
         /// 返されたワードに従い、フィルタリングを行う。
         /// </summary>
         /// <returns>フィルタリング対象のワード</returns>
-        string GetFilteredWord();
+        string[] GetFilteredWords();
 
         /// <summary>
         /// 番組の詳細フォームを表示する

@@ -199,9 +199,9 @@ namespace PocketLadio.Stations.Icecast
         /// 返されたワードに従い、フィルタリングを行う。
         /// </summary>
         /// <returns>フィルタリング対象のワード</returns>
-        public virtual string GetFilteredWord()
+        public virtual string[] GetFilteredWords()
         {
-            return ServerName + " " + Genre + " " + CurrentSong;
+            return new string[] { ServerName, Genre, CurrentSong };
         }
 
         /// <summary>

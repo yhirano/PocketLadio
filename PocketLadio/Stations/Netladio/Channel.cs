@@ -324,15 +324,21 @@ namespace PocketLadio.Stations.Netladio
         /// 返されたワードに従い、フィルタリングを行う。
         /// </summary>
         /// <returns>フィルタリング対象のワード</returns>
-        public virtual string GetFilteredWord()
+        public virtual string[] GetFilteredWords()
         {
+            string[] words;
+
             string filteredWord = Nam + " " + Gnl;
             if (GetPlayUrl() != null)
             {
-                filteredWord += " " + GetPlayUrl().ToString();
+                words = new string[] { Nam, Gnl, GetPlayUrl().ToString() };
+            }
+            else
+            {
+                words = new string[] { Nam, Gnl };
             }
 
-            return filteredWord;
+            return words;
         }
 
         /// <summary>

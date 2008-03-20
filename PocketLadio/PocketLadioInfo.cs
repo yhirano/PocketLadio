@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.40";
+        private const string VERSION_NUMBER = "0.41";
 
         /// <summary>
         /// アプリケーションのバージョン
