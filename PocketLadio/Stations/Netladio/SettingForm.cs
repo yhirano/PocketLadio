@@ -45,7 +45,7 @@ namespace PocketLadio.Stations.Netladio
         private Label addFilterLabel;
         private Button deleteButton;
         private ListBox filterListBox;
-        private Button addWordButton;
+        private Button addMatchWordButton;
         private TextBox addWordTextBox;
         private ContextMenu filterListBoxContextMenu;
         private MenuItem deleteFilterListMenuItem;
@@ -75,12 +75,22 @@ namespace PocketLadio.Stations.Netladio
         private MenuItem copyHeadlineDatV2UrlMenuItem;
         private MenuItem pasteHeadlineDatV2UrlMenuItem;
         private RadioButton headlineGetWayDatV2RadioButton;
+        private Button addExclusionWordButton;
 
         /// <summary>
         /// 設定
         /// </summary>
         private UserSetting setting;
 
+        /// <summary>
+        /// 一致単語フィルター
+        /// </summary>
+        private ArrayList alFilterMatchWords = new ArrayList();
+
+        /// <summary>
+        /// 除外単語フィルター
+        /// </summary>
+        private ArrayList alFilterExclusionWords = new ArrayList();
 
         public SettingForm(UserSetting setting)
         {
@@ -146,7 +156,7 @@ namespace PocketLadio.Stations.Netladio
             this.filterListBox = new System.Windows.Forms.ListBox();
             this.filterListBoxContextMenu = new System.Windows.Forms.ContextMenu();
             this.deleteFilterListMenuItem = new System.Windows.Forms.MenuItem();
-            this.addWordButton = new System.Windows.Forms.Button();
+            this.addMatchWordButton = new System.Windows.Forms.Button();
             this.addWordTextBox = new System.Windows.Forms.TextBox();
             this.addWordContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutAddWordMenuItem = new System.Windows.Forms.MenuItem();
@@ -164,6 +174,7 @@ namespace PocketLadio.Stations.Netladio
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
+            this.addExclusionWordButton = new System.Windows.Forms.Button();
             // 
             // mainMenu
             // 
@@ -215,7 +226,7 @@ namespace PocketLadio.Stations.Netladio
             this.netladioTabPage.Controls.Add(this.headlineXmlUrlLabel);
             this.netladioTabPage.Controls.Add(this.headlineCvsUrlLabel);
             this.netladioTabPage.Location = new System.Drawing.Point(0, 0);
-            this.netladioTabPage.Size = new System.Drawing.Size(240, 245);
+            this.netladioTabPage.Size = new System.Drawing.Size(232, 242);
             this.netladioTabPage.Text = "ねとらじ";
             // 
             // headlineDatV2TextBox
@@ -223,8 +234,8 @@ namespace PocketLadio.Stations.Netladio
             this.headlineDatV2TextBox.ContextMenu = this.headlineDatV2UrlContextMenu;
             this.headlineDatV2TextBox.Location = new System.Drawing.Point(3, 23);
             this.headlineDatV2TextBox.Size = new System.Drawing.Size(234, 21);
-            this.headlineDatV2TextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.headlineDatV2TextBox_KeyUp);
             this.headlineDatV2TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.headlineDatV2TextBox_KeyDown);
+            this.headlineDatV2TextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.headlineDatV2TextBox_KeyUp);
             // 
             // headlineDatV2UrlContextMenu
             // 
@@ -258,8 +269,8 @@ namespace PocketLadio.Stations.Netladio
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
             this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 205);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
-            this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
             this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
+            this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
             // 
             // headlineViewTypeContextMenu
             // 
@@ -334,8 +345,8 @@ namespace PocketLadio.Stations.Netladio
             this.headlineCsvUrlTextBox.ContextMenu = this.headlineCvsUrlContextMenu;
             this.headlineCsvUrlTextBox.Location = new System.Drawing.Point(3, 66);
             this.headlineCsvUrlTextBox.Size = new System.Drawing.Size(234, 21);
-            this.headlineCsvUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineCsvUrlTextBox_KeyUp);
             this.headlineCsvUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineCsvUrlTextBox_KeyDown);
+            this.headlineCsvUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineCsvUrlTextBox_KeyUp);
             // 
             // headlineCvsUrlContextMenu
             // 
@@ -372,19 +383,20 @@ namespace PocketLadio.Stations.Netladio
             // 
             // filterTabPage
             // 
+            this.filterTabPage.Controls.Add(this.addExclusionWordButton);
             this.filterTabPage.Controls.Add(this.filterListLabel);
             this.filterTabPage.Controls.Add(this.addFilterLabel);
             this.filterTabPage.Controls.Add(this.deleteButton);
             this.filterTabPage.Controls.Add(this.filterListBox);
-            this.filterTabPage.Controls.Add(this.addWordButton);
+            this.filterTabPage.Controls.Add(this.addMatchWordButton);
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
-            this.filterTabPage.Size = new System.Drawing.Size(232, 242);
+            this.filterTabPage.Size = new System.Drawing.Size(240, 245);
             this.filterTabPage.Text = "フィルター";
             // 
             // filterListLabel
             // 
-            this.filterListLabel.Location = new System.Drawing.Point(3, 51);
+            this.filterListLabel.Location = new System.Drawing.Point(3, 76);
             this.filterListLabel.Size = new System.Drawing.Size(100, 20);
             this.filterListLabel.Text = "フィルター一覧";
             // 
@@ -404,8 +416,8 @@ namespace PocketLadio.Stations.Netladio
             // filterListBox
             // 
             this.filterListBox.ContextMenu = this.filterListBoxContextMenu;
-            this.filterListBox.Location = new System.Drawing.Point(3, 71);
-            this.filterListBox.Size = new System.Drawing.Size(234, 142);
+            this.filterListBox.Location = new System.Drawing.Point(3, 99);
+            this.filterListBox.Size = new System.Drawing.Size(234, 114);
             // 
             // filterListBoxContextMenu
             // 
@@ -417,21 +429,21 @@ namespace PocketLadio.Stations.Netladio
             this.deleteFilterListMenuItem.Text = "削除(&D)";
             this.deleteFilterListMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
             // 
-            // addWordButton
+            // addMatchWordButton
             // 
-            this.addWordButton.Location = new System.Drawing.Point(165, 27);
-            this.addWordButton.Size = new System.Drawing.Size(72, 20);
-            this.addWordButton.Text = "追加(&A)";
-            this.addWordButton.Click += new System.EventHandler(this.AddWordButton_Click);
+            this.addMatchWordButton.Location = new System.Drawing.Point(87, 54);
+            this.addMatchWordButton.Size = new System.Drawing.Size(72, 20);
+            this.addMatchWordButton.Text = "追加(&A)";
+            this.addMatchWordButton.Click += new System.EventHandler(this.AddMatchWordButton_Click);
             // 
             // addWordTextBox
             // 
             this.addWordTextBox.ContextMenu = this.addWordContextMenu;
             this.addWordTextBox.Location = new System.Drawing.Point(3, 27);
-            this.addWordTextBox.Size = new System.Drawing.Size(156, 21);
+            this.addWordTextBox.Size = new System.Drawing.Size(234, 21);
+            this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
             this.addWordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyUp);
             this.addWordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddWordTextBox_KeyPress);
-            this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
             // 
             // addWordContextMenu
             // 
@@ -540,6 +552,13 @@ namespace PocketLadio.Stations.Netladio
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
+            // addExclusionWordButton
+            // 
+            this.addExclusionWordButton.Location = new System.Drawing.Point(165, 54);
+            this.addExclusionWordButton.Size = new System.Drawing.Size(72, 20);
+            this.addExclusionWordButton.Text = "除外(&E)";
+            this.addExclusionWordButton.Click += new System.EventHandler(this.addExclusionWordButton_Click);
+            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -547,8 +566,8 @@ namespace PocketLadio.Stations.Netladio
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "ねとらじ設定";
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
             this.Load += new System.EventHandler(this.SettingForm_Load);
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
 
         }
         #endregion
@@ -588,9 +607,17 @@ namespace PocketLadio.Stations.Netladio
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
             // フィルターリストに単語フィルタの内容を追加する
-            foreach (string word in setting.GetFilterWords())
+            alFilterMatchWords.AddRange(setting.GetFilterMatchWords());
+            foreach (string word in setting.GetFilterMatchWords())
             {
-                filterListBox.Items.Add(word);
+                filterListBox.Items.Add("+ " + word);
+            }
+
+            // フィルターリストに単語フィルタの内容を追加する
+            alFilterExclusionWords.AddRange(setting.GetFilterExclusionWords());
+            foreach (string word in setting.GetFilterExclusionWords())
+            {
+                filterListBox.Items.Add("- " + word);
             }
 
             // ビットレートフィルターを読み込む
@@ -660,6 +687,7 @@ namespace PocketLadio.Stations.Netladio
                     , "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (result == DialogResult.Yes)
                 {
+                    alFilterExclusionWords.Add(addWordTextBox.Text.Trim());
                     filterListBox.Items.Add(addWordTextBox.Text.Trim());
                     addWordTextBox.Text = string.Empty;
                 }
@@ -723,17 +751,8 @@ namespace PocketLadio.Stations.Netladio
 
             #endregion
 
-            #region 単語フィルターの書き込み
-
-            ArrayList alFilterWord = new ArrayList();
-            IEnumerator filterEnumerator = filterListBox.Items.GetEnumerator();
-            while (filterEnumerator.MoveNext())
-            {
-                alFilterWord.Add(((string)filterEnumerator.Current).Trim());
-            }
-            setting.SetFilterWords((string[])alFilterWord.ToArray(typeof(string)));
-
-            #endregion
+            setting.SetFilterMatchWords((string[])alFilterMatchWords.ToArray(typeof(string)));
+            setting.SetFilterExclusionWords((string[])alFilterExclusionWords.ToArray(typeof(string)));
 
             #region ビットレートフィルターの有効・無効設定書き込み
 
@@ -954,11 +973,22 @@ namespace PocketLadio.Stations.Netladio
             }
         }
 
-        private void AddWordButton_Click(object sender, System.EventArgs e)
+        private void AddMatchWordButton_Click(object sender, System.EventArgs e)
         {
             if (addWordTextBox.Text.Trim().Length != 0)
             {
-                filterListBox.Items.Add(addWordTextBox.Text.Trim());
+                alFilterMatchWords.Add(addWordTextBox.Text.Trim());
+                filterListBox.Items.Add("+ " + addWordTextBox.Text.Trim());
+                addWordTextBox.Text = string.Empty;
+            }
+        }
+
+        private void addExclusionWordButton_Click(object sender, EventArgs e)
+        {
+            if (addWordTextBox.Text.Trim().Length != 0)
+            {
+                alFilterExclusionWords.Add(addWordTextBox.Text.Trim());
+                filterListBox.Items.Add("- " + addWordTextBox.Text.Trim());
                 addWordTextBox.Text = string.Empty;
             }
         }
@@ -967,6 +997,18 @@ namespace PocketLadio.Stations.Netladio
         {
             if (filterListBox.SelectedIndex != -1)
             {
+                switch (((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(0, 2))
+                {
+                    case "+ ":
+                        alFilterMatchWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    case "- ":
+                        alFilterExclusionWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    default:
+                        break;
+                }
+
                 filterListBox.Items.RemoveAt(filterListBox.SelectedIndex);
             }
         }
@@ -975,6 +1017,18 @@ namespace PocketLadio.Stations.Netladio
         {
             if (filterListBox.SelectedIndex != -1)
             {
+                switch (((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(0, 2))
+                {
+                    case "+ ":
+                        alFilterMatchWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    case "- ":
+                        alFilterExclusionWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    default:
+                        break;
+                }
+
                 filterListBox.Items.RemoveAt(filterListBox.SelectedIndex);
             }
         }
@@ -1011,7 +1065,7 @@ namespace PocketLadio.Stations.Netladio
             // 入力ボタンを押したとき
             if (e.KeyCode == Keys.Enter)
             {
-                AddWordButton_Click(sender, e);
+                AddMatchWordButton_Click(sender, e);
             }
             // 切り取りショートカット
             else if (e.KeyCode == Keys.X && e.Control)

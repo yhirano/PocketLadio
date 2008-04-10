@@ -65,9 +65,14 @@ namespace PocketLadio.Stations.Icecast
         }
 
         /// <summary>
-        /// 単語フィルター
+        /// 一致単語フィルター
         /// </summary>
-        private String[] filterWords = new String[0];
+        private string[] filterMatchWords = new string[0];
+
+        /// <summary>
+        /// 除外単語フィルター
+        /// </summary>
+        private string[] filterExclusionWords = new string[0];
 
         /// <summary>
         /// ビットレート（～以下）フィルターを使用するか
@@ -213,31 +218,31 @@ namespace PocketLadio.Stations.Icecast
         }
 
         /// <summary>
-        /// 単語フィルターを返す
+        /// 一致単語フィルターを返す
         /// </summary>
-        /// <returns>単語フィルター</returns>
-        public string[] GetFilterWords()
+        /// <returns>一致単語フィルター</returns>
+        public string[] GetFilterMatchWords()
         {
-            return filterWords;
+            return filterMatchWords;
         }
 
         /// <summary>
-        /// 単語フィルターをセットする
+        /// 一致単語フィルターをセットする
         /// </summary>
         /// <param name="filterWords">単語フィルター</param>
-        public void SetFilterWords(string[] filterWords)
+        public void SetFilterMatchWords(string[] filterWords)
         {
             // フィルタの内容が変化したかを調べる
             bool isChanged = false;
-            if (filterWords.Length != this.filterWords.Length)
+            if (filterWords.Length != filterMatchWords.Length)
             {
                 isChanged = true;
             }
             else
             {
-                for (int i = 0; i < filterWords.Length && i < this.filterWords.Length; ++i)
+                for (int i = 0; i < filterWords.Length && i < filterMatchWords.Length; ++i)
                 {
-                    if (filterWords[i] != this.filterWords[i])
+                    if (filterWords[i] != filterMatchWords[i])
                     {
                         isChanged = true;
                         break;
@@ -247,7 +252,47 @@ namespace PocketLadio.Stations.Icecast
 
             if (isChanged == true)
             {
-                this.filterWords = filterWords;
+                filterMatchWords = filterWords;
+                OnFilterChanged();
+            }
+        }
+
+        /// <summary>
+        /// 除外単語フィルターを返す
+        /// </summary>
+        /// <returns>除外単語フィルター</returns>
+        public string[] GetFilterExclusionWords()
+        {
+            return filterExclusionWords;
+        }
+
+        /// <summary>
+        /// 除外単語フィルターをセットする
+        /// </summary>
+        /// <param name="filterWords">除外フィルター</param>
+        public void SetFilterExclusionWords(string[] filterWords)
+        {
+            // フィルタの内容が変化したかを調べる
+            bool isChanged = false;
+            if (filterWords.Length != filterExclusionWords.Length)
+            {
+                isChanged = true;
+            }
+            else
+            {
+                for (int i = 0; i < filterWords.Length && i < filterExclusionWords.Length; ++i)
+                {
+                    if (filterWords[i] != filterExclusionWords[i])
+                    {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isChanged == true)
+            {
+                filterExclusionWords = filterWords;
                 OnFilterChanged();
             }
         }
@@ -276,7 +321,8 @@ namespace PocketLadio.Stations.Icecast
             FileStream fs = null;
             XmlTextReader reader = null;
 
-            ArrayList alFilterWords = new ArrayList();
+            ArrayList alMatchFilterWords = new ArrayList();
+            ArrayList alExclusionFilterWords = new ArrayList();
 
             // Filterタグの中にいるか
             bool inFilterFlag = false;
@@ -330,7 +376,17 @@ namespace PocketLadio.Stations.Icecast
                             {
                                 if (reader.MoveToFirstAttribute())
                                 {
-                                    alFilterWords.Add(reader.GetAttribute("word"));
+                                    string type = reader.GetAttribute("type");
+                                    switch (type)
+                                    {
+                                        case "exclusion":
+                                            alExclusionFilterWords.Add(reader.GetAttribute("word"));
+                                            break;
+                                        case "match":
+                                        default:
+                                            alMatchFilterWords.Add(reader.GetAttribute("word"));
+                                            break;
+                                    }
                                 }
                             } // End of Word
                             else if (reader.LocalName == "AboveBitRate")
@@ -406,7 +462,8 @@ namespace PocketLadio.Stations.Icecast
                         if (reader.LocalName == "Filter")
                         {
                             inFilterFlag = false;
-                            SetFilterWords((string[])alFilterWords.ToArray(typeof(string)));
+                            SetFilterMatchWords((string[])alMatchFilterWords.ToArray(typeof(string)));
+                            SetFilterExclusionWords((string[])alExclusionFilterWords.ToArray(typeof(string)));
                         }
                     }
                 }
@@ -462,9 +519,18 @@ namespace PocketLadio.Stations.Icecast
                 writer.WriteEndElement(); // End of HeadlineViewType
 
                 writer.WriteStartElement("Filter");
-                foreach (string filterWord in GetFilterWords())
+                foreach (string filterWord in GetFilterMatchWords())
                 {
                     writer.WriteStartElement("Word");
+                    writer.WriteAttributeString("type", "match");
+                    writer.WriteAttributeString("word", filterWord);
+                    writer.WriteEndElement(); // End of Word
+                }
+
+                foreach (string filterWord in GetFilterExclusionWords())
+                {
+                    writer.WriteStartElement("Word");
+                    writer.WriteAttributeString("type", "exclusion");
                     writer.WriteAttributeString("word", filterWord);
                     writer.WriteEndElement(); // End of Word
                 }

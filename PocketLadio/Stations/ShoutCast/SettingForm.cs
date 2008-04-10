@@ -41,7 +41,7 @@ namespace PocketLadio.Stations.ShoutCast
         private Label addFilterLabel;
         private Button deleteButton;
         private ListBox filterListBox;
-        private Button addWordButton;
+        private Button addMatchWordButton;
         private TextBox addWordTextBox;
         private ContextMenu filterListBoxContextMenu;
         private MenuItem deleteFilterListMenuItem;
@@ -61,14 +61,25 @@ namespace PocketLadio.Stations.ShoutCast
         private TextBox filterAboveBitRateTextBox;
         private RadioButton sortDescendingRadioButton;
         private RadioButton sortAscendingRadioButton;
+        private TabPage stationTabPage;
+        private TextBox stationNameTextBox;
+        private Label stationNameLabel;
+        private Button addExclusionWordButton;
 
         /// <summary>
         /// 設定
         /// </summary>
         private UserSetting setting;
-        private TabPage stationTabPage;
-        private TextBox stationNameTextBox;
-        private Label stationNameLabel;
+
+        /// <summary>
+        /// 一致単語フィルター
+        /// </summary>
+        private ArrayList alFilterMatchWords = new ArrayList();
+
+        /// <summary>
+        /// 除外単語フィルター
+        /// </summary>
+        private ArrayList alFilterExclusionWords = new ArrayList();
 
         /// <summary>
         /// SHOUTcastの番組表取得数のリスト
@@ -103,6 +114,9 @@ namespace PocketLadio.Stations.ShoutCast
             this.mainMenu = new System.Windows.Forms.MainMenu();
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.shoutCastSettingTabControl = new System.Windows.Forms.TabControl();
+            this.stationTabPage = new System.Windows.Forms.TabPage();
+            this.stationNameTextBox = new System.Windows.Forms.TextBox();
+            this.stationNameLabel = new System.Windows.Forms.Label();
             this.shoutCastTabPage = new System.Windows.Forms.TabPage();
             this.perViewComboBox = new System.Windows.Forms.ComboBox();
             this.perViewLabel = new System.Windows.Forms.Label();
@@ -125,7 +139,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterListBox = new System.Windows.Forms.ListBox();
             this.filterListBoxContextMenu = new System.Windows.Forms.ContextMenu();
             this.deleteFilterListMenuItem = new System.Windows.Forms.MenuItem();
-            this.addWordButton = new System.Windows.Forms.Button();
+            this.addMatchWordButton = new System.Windows.Forms.Button();
             this.addWordTextBox = new System.Windows.Forms.TextBox();
             this.addWordContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutAddWordMenuItem = new System.Windows.Forms.MenuItem();
@@ -143,9 +157,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
-            this.stationTabPage = new System.Windows.Forms.TabPage();
-            this.stationNameTextBox = new System.Windows.Forms.TextBox();
-            this.stationNameLabel = new System.Windows.Forms.Label();
+            this.addExclusionWordButton = new System.Windows.Forms.Button();
             // 
             // mainMenu
             // 
@@ -166,6 +178,25 @@ namespace PocketLadio.Stations.ShoutCast
             this.shoutCastSettingTabControl.SelectedIndex = 0;
             this.shoutCastSettingTabControl.Size = new System.Drawing.Size(240, 268);
             // 
+            // stationTabPage
+            // 
+            this.stationTabPage.Controls.Add(this.stationNameTextBox);
+            this.stationTabPage.Controls.Add(this.stationNameLabel);
+            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
+            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
+            this.stationTabPage.Text = "放送局";
+            // 
+            // stationNameTextBox
+            // 
+            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
+            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // stationNameLabel
+            // 
+            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
+            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
+            this.stationNameLabel.Text = "放送局名";
+            // 
             // shoutCastTabPage
             // 
             this.shoutCastTabPage.Controls.Add(this.perViewComboBox);
@@ -175,7 +206,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.shoutCastTabPage.Controls.Add(this.searchWordTextBox);
             this.shoutCastTabPage.Controls.Add(this.searchWordLabel);
             this.shoutCastTabPage.Location = new System.Drawing.Point(0, 0);
-            this.shoutCastTabPage.Size = new System.Drawing.Size(240, 245);
+            this.shoutCastTabPage.Size = new System.Drawing.Size(232, 242);
             this.shoutCastTabPage.Text = "SHOUTcast";
             // 
             // perViewComboBox
@@ -194,8 +225,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
             this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 114);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
-            this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
             this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
+            this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
             // 
             // headlineViewTypeContextMenu
             // 
@@ -229,8 +260,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.searchWordTextBox.ContextMenu = this.searchWordContextMenu;
             this.searchWordTextBox.Location = new System.Drawing.Point(3, 23);
             this.searchWordTextBox.Size = new System.Drawing.Size(234, 21);
-            this.searchWordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SearchWordTextBox_KeyUp);
             this.searchWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchWordTextBox_KeyDown);
+            this.searchWordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SearchWordTextBox_KeyUp);
             // 
             // searchWordContextMenu
             // 
@@ -261,19 +292,20 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // filterTabPage
             // 
+            this.filterTabPage.Controls.Add(this.addExclusionWordButton);
             this.filterTabPage.Controls.Add(this.filterListLabel);
             this.filterTabPage.Controls.Add(this.addFilterLabel);
             this.filterTabPage.Controls.Add(this.deleteButton);
             this.filterTabPage.Controls.Add(this.filterListBox);
-            this.filterTabPage.Controls.Add(this.addWordButton);
+            this.filterTabPage.Controls.Add(this.addMatchWordButton);
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
-            this.filterTabPage.Size = new System.Drawing.Size(232, 242);
+            this.filterTabPage.Size = new System.Drawing.Size(240, 245);
             this.filterTabPage.Text = "フィルター";
             // 
             // filterListLabel
             // 
-            this.filterListLabel.Location = new System.Drawing.Point(3, 51);
+            this.filterListLabel.Location = new System.Drawing.Point(3, 76);
             this.filterListLabel.Size = new System.Drawing.Size(100, 20);
             this.filterListLabel.Text = "フィルター一覧";
             // 
@@ -293,8 +325,8 @@ namespace PocketLadio.Stations.ShoutCast
             // filterListBox
             // 
             this.filterListBox.ContextMenu = this.filterListBoxContextMenu;
-            this.filterListBox.Location = new System.Drawing.Point(3, 71);
-            this.filterListBox.Size = new System.Drawing.Size(234, 142);
+            this.filterListBox.Location = new System.Drawing.Point(3, 99);
+            this.filterListBox.Size = new System.Drawing.Size(234, 114);
             // 
             // filterListBoxContextMenu
             // 
@@ -306,21 +338,21 @@ namespace PocketLadio.Stations.ShoutCast
             this.deleteFilterListMenuItem.Text = "削除(&D)";
             this.deleteFilterListMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
             // 
-            // addWordButton
+            // addMatchWordButton
             // 
-            this.addWordButton.Location = new System.Drawing.Point(165, 27);
-            this.addWordButton.Size = new System.Drawing.Size(72, 20);
-            this.addWordButton.Text = "追加(&A)";
-            this.addWordButton.Click += new System.EventHandler(this.AddWordButton_Click);
+            this.addMatchWordButton.Location = new System.Drawing.Point(87, 54);
+            this.addMatchWordButton.Size = new System.Drawing.Size(72, 20);
+            this.addMatchWordButton.Text = "一致(&M)";
+            this.addMatchWordButton.Click += new System.EventHandler(this.AddMatchWordButton_Click);
             // 
             // addWordTextBox
             // 
             this.addWordTextBox.ContextMenu = this.addWordContextMenu;
             this.addWordTextBox.Location = new System.Drawing.Point(3, 27);
-            this.addWordTextBox.Size = new System.Drawing.Size(156, 21);
+            this.addWordTextBox.Size = new System.Drawing.Size(234, 21);
+            this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
             this.addWordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyUp);
             this.addWordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddWordTextBox_KeyPress);
-            this.addWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddWordTextBox_KeyDown);
             // 
             // addWordContextMenu
             // 
@@ -428,24 +460,12 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
-            // stationTabPage
+            // addExclusionWordButton
             // 
-            this.stationTabPage.Controls.Add(this.stationNameTextBox);
-            this.stationTabPage.Controls.Add(this.stationNameLabel);
-            this.stationTabPage.Location = new System.Drawing.Point(0, 0);
-            this.stationTabPage.Size = new System.Drawing.Size(240, 245);
-            this.stationTabPage.Text = "放送局";
-            // 
-            // stationNameTextBox
-            // 
-            this.stationNameTextBox.Location = new System.Drawing.Point(3, 27);
-            this.stationNameTextBox.Size = new System.Drawing.Size(234, 21);
-            // 
-            // stationNameLabel
-            // 
-            this.stationNameLabel.Location = new System.Drawing.Point(3, 4);
-            this.stationNameLabel.Size = new System.Drawing.Size(234, 20);
-            this.stationNameLabel.Text = "放送局名";
+            this.addExclusionWordButton.Location = new System.Drawing.Point(165, 54);
+            this.addExclusionWordButton.Size = new System.Drawing.Size(72, 20);
+            this.addExclusionWordButton.Text = "除外(&E)";
+            this.addExclusionWordButton.Click += new System.EventHandler(this.addExclusionWordButton_Click);
             // 
             // SettingForm
             // 
@@ -454,8 +474,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "SHOUTcast設定";
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
             this.Load += new System.EventHandler(this.SettingForm_Load);
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.SettingForm_Closing);
 
         }
         #endregion
@@ -494,9 +514,17 @@ namespace PocketLadio.Stations.ShoutCast
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
             // フィルターリストに単語フィルタの内容を追加する
-            foreach (string word in setting.GetFilterWords())
+            alFilterMatchWords.AddRange(setting.GetFilterMatchWords());
+            foreach (string word in setting.GetFilterMatchWords())
             {
-                filterListBox.Items.Add(word);
+                filterListBox.Items.Add("+ " + word);
+            }
+
+            // フィルターリストに単語フィルタの内容を追加する
+            alFilterExclusionWords.AddRange(setting.GetFilterExclusionWords());
+            foreach (string word in setting.GetFilterExclusionWords())
+            {
+                filterListBox.Items.Add("- " + word);
             }
 
             // ビットレートフィルターを読み込む
@@ -562,6 +590,7 @@ namespace PocketLadio.Stations.ShoutCast
                     , "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (result == DialogResult.Yes)
                 {
+                    alFilterExclusionWords.Add(addWordTextBox.Text.Trim());
                     filterListBox.Items.Add(addWordTextBox.Text.Trim());
                     addWordTextBox.Text = string.Empty;
                 }
@@ -575,18 +604,8 @@ namespace PocketLadio.Stations.ShoutCast
             setting.PerView = perViewComboBox.SelectedItem.ToString().Trim();
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
 
-            #region 単語フィルターの書き込み
-
-            ArrayList alFilterWord = new ArrayList();
-            IEnumerator filterEnumerator = filterListBox.Items.GetEnumerator();
-            while (filterEnumerator.MoveNext())
-            {
-                alFilterWord.Add(((string)filterEnumerator.Current).Trim());
-            }
-            setting.SetFilterWords((string[])alFilterWord.ToArray(typeof(string)));
-
-
-            #endregion
+            setting.SetFilterMatchWords((string[])alFilterMatchWords.ToArray(typeof(string)));
+            setting.SetFilterExclusionWords((string[])alFilterExclusionWords.ToArray(typeof(string)));
 
             #region ビットレートフィルターの有効・無効設定書き込み
 
@@ -765,11 +784,22 @@ namespace PocketLadio.Stations.ShoutCast
             }
         }
 
-        private void AddWordButton_Click(object sender, System.EventArgs e)
+        private void AddMatchWordButton_Click(object sender, System.EventArgs e)
         {
             if (addWordTextBox.Text.Trim().Length != 0)
             {
-                filterListBox.Items.Add(addWordTextBox.Text.Trim());
+                alFilterMatchWords.Add(addWordTextBox.Text.Trim());
+                filterListBox.Items.Add("+ " + addWordTextBox.Text.Trim());
+                addWordTextBox.Text = string.Empty;
+            }
+        }
+
+        private void addExclusionWordButton_Click(object sender, EventArgs e)
+        {
+            if (addWordTextBox.Text.Trim().Length != 0)
+            {
+                alFilterExclusionWords.Add(addWordTextBox.Text.Trim());
+                filterListBox.Items.Add("- " + addWordTextBox.Text.Trim());
                 addWordTextBox.Text = string.Empty;
             }
         }
@@ -778,6 +808,18 @@ namespace PocketLadio.Stations.ShoutCast
         {
             if (filterListBox.SelectedIndex != -1)
             {
+                switch (((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(0, 2))
+                {
+                    case "+ ":
+                        alFilterMatchWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    case "- ":
+                        alFilterExclusionWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    default:
+                        break;
+                }
+
                 filterListBox.Items.RemoveAt(filterListBox.SelectedIndex);
             }
         }
@@ -786,6 +828,18 @@ namespace PocketLadio.Stations.ShoutCast
         {
             if (filterListBox.SelectedIndex != -1)
             {
+                switch (((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(0, 2))
+                {
+                    case "+ ":
+                        alFilterMatchWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    case "- ":
+                        alFilterExclusionWords.Remove(((string)filterListBox.Items[filterListBox.SelectedIndex]).Substring(2));
+                        break;
+                    default:
+                        break;
+                }
+
                 filterListBox.Items.RemoveAt(filterListBox.SelectedIndex);
             }
         }
@@ -822,7 +876,7 @@ namespace PocketLadio.Stations.ShoutCast
             // 入力ボタンを押したとき
             if (e.KeyCode == Keys.Enter)
             {
-                AddWordButton_Click(sender, e);
+                AddMatchWordButton_Click(sender, e);
             }
             // 切り取りショートカット
             else if (e.KeyCode == Keys.X && e.Control)

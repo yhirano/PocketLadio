@@ -171,12 +171,34 @@ namespace PocketLadio.Stations.Icecast
 
                 #region 単語フィルタ処理
 
-                // 単語フィルタが存在する場合
-                if (setting.GetFilterWords().Length > 0)
+                // 一致単語フィルタ・除外フィルタが存在する場合
+                if (setting.GetFilterMatchWords().Length > 0 && setting.GetFilterExclusionWords().Length > 0)
                 {
                     foreach (IChannel channel in GetChannels())
                     {
-                        if (IsMatchFilterWords(channel) == true)
+                        if (IsMatchFilterMatchWords(channel) == true && IsMatchFilterExclusionWords(channel) == false)
+                        {
+                            alChannels.Add(channel);
+                        }
+                    }
+                }
+                // 一致単語フィルタのみが存在する場合
+                else if (setting.GetFilterMatchWords().Length > 0 && setting.GetFilterExclusionWords().Length <= 0)
+                {
+                    foreach (IChannel channel in GetChannels())
+                    {
+                        if (IsMatchFilterMatchWords(channel) == true)
+                        {
+                            alChannels.Add(channel);
+                        }
+                    }
+                }
+                // 除外フィルタのみが存在する場合
+                else if (setting.GetFilterMatchWords().Length <= 0 && setting.GetFilterExclusionWords().Length > 0)
+                {
+                    foreach (IChannel channel in GetChannels())
+                    {
+                        if (IsMatchFilterExclusionWords(channel) == false)
                         {
                             alChannels.Add(channel);
                         }
@@ -246,13 +268,33 @@ namespace PocketLadio.Stations.Icecast
         }
 
         /// <summary>
-        /// 番組がフィルターに合致するかを調べる
+        /// 番組が一致単語フィルターに合致するかを調べる
         /// </summary>
         /// <param name="channel">番組</param>
-        /// <returns>番組がフィルターに合致したらtrue、それ以外はfalse</returns>
-        private bool IsMatchFilterWords(IChannel channel)
+        /// <returns>番組が一致単語フィルターに合致したらtrue、それ以外はfalse</returns>
+        private bool IsMatchFilterMatchWords(IChannel channel)
         {
-            foreach (string filter in setting.GetFilterWords())
+            foreach (string filter in setting.GetFilterMatchWords())
+            {
+                foreach (string filted in channel.GetFilteredWords())
+                {
+                    if (filted.ToLower(CultureInfo.InvariantCulture).IndexOf(filter.ToLower(CultureInfo.InvariantCulture)) != -1)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 番組が除外単語フィルターに合致するかを調べる
+        /// </summary>
+        /// <param name="channel">番組</param>
+        /// <returns>番組が除外単語フィルターに合致したらtrue、それ以外はfalse</returns>
+        private bool IsMatchFilterExclusionWords(IChannel channel)
+        {
+            foreach (string filter in setting.GetFilterExclusionWords())
             {
                 foreach (string filted in channel.GetFilteredWords())
                 {
