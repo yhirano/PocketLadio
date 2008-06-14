@@ -18,7 +18,27 @@ namespace PocketLadio.Stations.ShoutCast
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
-        private TabControl shoutCastSettingTabControl;
+        /// <summary>
+        /// 設定
+        /// </summary>
+        private UserSetting setting;
+
+        /// <summary>
+        /// 一致単語フィルター
+        /// </summary>
+        private ArrayList alFilterMatchWords = new ArrayList();
+
+        /// <summary>
+        /// 除外単語フィルター
+        /// </summary>
+        private ArrayList alFilterExclusionWords = new ArrayList();
+
+        /// <summary>
+        /// SHOUTcastの番組表取得数のリスト
+        /// </summary>
+        private static readonly string[] shoutcastPerViewNums = { "5", "10", "25", "30", "50", "100" };
+
+        private TabControl shoutCastTabControl;
         private TabPage shoutCastTabPage;
         private MenuItem okMenuItem;
         private MainMenu mainMenu;
@@ -66,26 +86,6 @@ namespace PocketLadio.Stations.ShoutCast
         private Label stationNameLabel;
         private Button addExclusionWordButton;
 
-        /// <summary>
-        /// 設定
-        /// </summary>
-        private UserSetting setting;
-
-        /// <summary>
-        /// 一致単語フィルター
-        /// </summary>
-        private ArrayList alFilterMatchWords = new ArrayList();
-
-        /// <summary>
-        /// 除外単語フィルター
-        /// </summary>
-        private ArrayList alFilterExclusionWords = new ArrayList();
-
-        /// <summary>
-        /// SHOUTcastの番組表取得数のリスト
-        /// </summary>
-        private static readonly string[] shoutcastPerViewNums = { "5", "10", "25", "30", "50", "100" };
-
         public SettingForm(UserSetting setting)
         {
             this.setting = setting;
@@ -113,7 +113,7 @@ namespace PocketLadio.Stations.ShoutCast
         {
             this.mainMenu = new System.Windows.Forms.MainMenu();
             this.okMenuItem = new System.Windows.Forms.MenuItem();
-            this.shoutCastSettingTabControl = new System.Windows.Forms.TabControl();
+            this.shoutCastTabControl = new System.Windows.Forms.TabControl();
             this.stationTabPage = new System.Windows.Forms.TabPage();
             this.stationNameTextBox = new System.Windows.Forms.TextBox();
             this.stationNameLabel = new System.Windows.Forms.Label();
@@ -170,13 +170,13 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // shoutCastSettingTabControl
             // 
-            this.shoutCastSettingTabControl.Controls.Add(this.stationTabPage);
-            this.shoutCastSettingTabControl.Controls.Add(this.shoutCastTabPage);
-            this.shoutCastSettingTabControl.Controls.Add(this.filterTabPage);
-            this.shoutCastSettingTabControl.Controls.Add(this.filter2TabPage);
-            this.shoutCastSettingTabControl.Location = new System.Drawing.Point(0, 0);
-            this.shoutCastSettingTabControl.SelectedIndex = 0;
-            this.shoutCastSettingTabControl.Size = new System.Drawing.Size(240, 268);
+            this.shoutCastTabControl.Controls.Add(this.stationTabPage);
+            this.shoutCastTabControl.Controls.Add(this.shoutCastTabPage);
+            this.shoutCastTabControl.Controls.Add(this.filterTabPage);
+            this.shoutCastTabControl.Controls.Add(this.filter2TabPage);
+            this.shoutCastTabControl.Location = new System.Drawing.Point(0, 0);
+            this.shoutCastTabControl.SelectedIndex = 0;
+            this.shoutCastTabControl.Size = new System.Drawing.Size(240, 268);
             // 
             // stationTabPage
             // 
@@ -470,7 +470,7 @@ namespace PocketLadio.Stations.ShoutCast
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.shoutCastSettingTabControl);
+            this.Controls.Add(this.shoutCastTabControl);
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "SHOUTcast設定";
@@ -479,6 +479,17 @@ namespace PocketLadio.Stations.ShoutCast
 
         }
         #endregion
+
+        /// <summary>
+        /// 単語フィルターを追加するために設定ダイアログを開く
+        /// </summary>
+        /// <param name="filterWord">単語フィルターに追加する単語</param>
+        public void ShowDialogForAddWordFilter(string filterWord)
+        {
+            shoutCastTabControl.SelectedIndex = 2;
+            addWordTextBox.Text = filterWord;
+            ShowDialog();
+        }
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {

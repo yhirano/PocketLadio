@@ -47,6 +47,14 @@ namespace PocketLadio
         private static Station currentStation;
 
         /// <summary>
+        /// 現在の放送局のヘッドラインを返す
+        /// </summary>
+        public static IHeadline StationHeadlineOfCurrentStation
+        {
+            get { return ((currentStation != null) ? currentStation.Headline : null); }
+        }
+
+        /// <summary>
         /// 放送局のIDを返す
         /// </summary>
         public static string StationIdOfCurrentStation
@@ -107,7 +115,8 @@ namespace PocketLadio
             string id;
             bool isExistId = false;
 
-            do {
+            do
+            {
                 id = DateTime.Now.ToString("yyyyMMddHHmmssff");
                 isExistId = false;
                 foreach (Station station in GetStationList())
@@ -156,7 +165,7 @@ namespace PocketLadio
 
                 // 現在の放送局をクリアする
                 currentStation = null;
-                
+
                 OnStationListChanged();
             }
         }

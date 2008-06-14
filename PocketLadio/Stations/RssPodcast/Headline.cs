@@ -542,6 +542,17 @@ namespace PocketLadio.Stations.RssPodcast
         }
 
         /// <summary>
+        /// フィルターに単語を登録するためにヘッドライン設定フォームを表示する
+        /// </summary>
+        /// <param name="filterWord">フィルターに追加する単語</param>
+        public void ShowSettingFormForAddFilter(string filterWord)
+        {
+            SettingForm settingForm = new SettingForm(setting);
+            settingForm.ShowDialogForAddWordFilter(filterWord);
+            settingForm.Dispose();
+        }
+
+        /// <summary>
         /// 設定を保存していたファイルを削除する
         /// </summary>
         public virtual void DeleteUserSettingFile()

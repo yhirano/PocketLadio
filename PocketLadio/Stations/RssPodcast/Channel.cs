@@ -229,7 +229,14 @@ namespace PocketLadio.Stations.RssPodcast
         /// <returns>フィルタリング対象のワード</returns>
         public virtual string[] GetFilteredWords()
         {
-            return new string[] { Title, Description, Author };
+            if (GetPlayUrl() != null)
+            {
+                return new string[] { Title, Description, Author, GetPlayUrl().ToString() };
+            }
+            else
+            {
+                return new string[] { Title, Description, Author };
+            }
         }
 
         /// <summary>

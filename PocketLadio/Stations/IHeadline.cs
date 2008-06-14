@@ -95,6 +95,12 @@ namespace PocketLadio.Stations
         void ShowSettingForm();
 
         /// <summary>
+        /// フィルターに単語を登録するためにヘッドライン設定フォームを表示する
+        /// </summary>
+        /// <param name="filterWord">フィルターに追加する単語</param>
+        void ShowSettingFormForAddFilter(string filterWord);
+
+        /// <summary>
         /// 設定を保存していたファイルを削除する
         /// </summary>
         void DeleteUserSettingFile();

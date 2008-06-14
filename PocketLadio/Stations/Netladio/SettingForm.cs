@@ -18,6 +18,21 @@ namespace PocketLadio.Stations.Netladio
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
+        /// <summary>
+        /// 設定
+        /// </summary>
+        private UserSetting setting;
+
+        /// <summary>
+        /// 一致単語フィルター
+        /// </summary>
+        private ArrayList alFilterMatchWords = new ArrayList();
+
+        /// <summary>
+        /// 除外単語フィルター
+        /// </summary>
+        private ArrayList alFilterExclusionWords = new ArrayList();
+
         private TabControl netladioTabControl;
         private TabPage netladioTabPage;
         private Label headlineCvsUrlLabel;
@@ -76,21 +91,6 @@ namespace PocketLadio.Stations.Netladio
         private MenuItem pasteHeadlineDatV2UrlMenuItem;
         private RadioButton headlineGetWayDatV2RadioButton;
         private Button addExclusionWordButton;
-
-        /// <summary>
-        /// 設定
-        /// </summary>
-        private UserSetting setting;
-
-        /// <summary>
-        /// 一致単語フィルター
-        /// </summary>
-        private ArrayList alFilterMatchWords = new ArrayList();
-
-        /// <summary>
-        /// 除外単語フィルター
-        /// </summary>
-        private ArrayList alFilterExclusionWords = new ArrayList();
 
         public SettingForm(UserSetting setting)
         {
@@ -571,6 +571,17 @@ namespace PocketLadio.Stations.Netladio
 
         }
         #endregion
+
+        /// <summary>
+        /// 単語フィルターを追加するために設定ダイアログを開く
+        /// </summary>
+        /// <param name="filterWord">単語フィルターに追加する単語</param>
+        public void ShowDialogForAddWordFilter(string filterWord)
+        {
+            netladioTabControl.SelectedIndex = 2;
+            addWordTextBox.Text = filterWord;
+            ShowDialog();
+        }
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {

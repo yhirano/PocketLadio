@@ -70,6 +70,9 @@ namespace PocketLadio
         private MenuItem separateMenuItem6;
         private MenuItem selectStationMenuItem;
         private MenuItem selectChannelMenuItem;
+        private MenuItem separateMenuItem7;
+        private MenuItem addPlayUrlToFilterMenuItem;
+        private MenuItem addFilterMenuItem;
 
         /// <summary>
         /// アンカーコントロールのリスト
@@ -125,6 +128,9 @@ namespace PocketLadio
             this.playMenuItem = new System.Windows.Forms.MenuItem();
             this.browserMenuItem = new System.Windows.Forms.MenuItem();
             this.channelPropertyMenuItem = new System.Windows.Forms.MenuItem();
+            this.separateMenuItem7 = new System.Windows.Forms.MenuItem();
+            this.addFilterMenuItem = new System.Windows.Forms.MenuItem();
+            this.addPlayUrlToFilterMenuItem = new System.Windows.Forms.MenuItem();
             this.updateButton = new System.Windows.Forms.Button();
             this.filterCheckBox = new System.Windows.Forms.CheckBox();
             this.headlineCheckTimer = new System.Windows.Forms.Timer();
@@ -267,6 +273,9 @@ namespace PocketLadio
             this.headlineContextMenu.MenuItems.Add(this.playMenuItem);
             this.headlineContextMenu.MenuItems.Add(this.browserMenuItem);
             this.headlineContextMenu.MenuItems.Add(this.channelPropertyMenuItem);
+            this.headlineContextMenu.MenuItems.Add(this.separateMenuItem7);
+            this.headlineContextMenu.MenuItems.Add(this.addFilterMenuItem);
+            this.headlineContextMenu.MenuItems.Add(this.addPlayUrlToFilterMenuItem);
             this.headlineContextMenu.Popup += new System.EventHandler(this.HeadlineContextMenu_Popup);
             // 
             // playMenuItem
@@ -283,6 +292,20 @@ namespace PocketLadio
             // 
             this.channelPropertyMenuItem.Text = "番組の詳細(&R)";
             this.channelPropertyMenuItem.Click += new System.EventHandler(this.ChannelPropertyMenuItem_Click);
+            // 
+            // separateMenuItem7
+            // 
+            this.separateMenuItem7.Text = "-";
+            // 
+            // addFilterMenuItem
+            // 
+            this.addFilterMenuItem.Text = "フィルターに登録(&F)";
+            this.addFilterMenuItem.Click += new System.EventHandler(this.addFilterMenuItem_Click);
+            // 
+            // addPlayUrlToFilterMenuItem
+            // 
+            this.addPlayUrlToFilterMenuItem.Text = "再生URLをフィルターに登録(&I)";
+            this.addPlayUrlToFilterMenuItem.Click += new System.EventHandler(this.addPlayUrlToFilterMenuItem_Click);
             // 
             // updateButton
             // 
@@ -332,9 +355,9 @@ namespace PocketLadio
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "PocketLadio";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
-            this.Load += new System.EventHandler(this.MainForm_Load);
 
         }
         #endregion
@@ -428,7 +451,7 @@ namespace PocketLadio
         /// </summary>
         private void PlayStreaming()
         {
-            if (headlineListBox.SelectedIndex != -1)
+            if (headlineListBox.SelectedIndex != -1 && headlineListBox.SelectedIndex < StationList.GetChannelsFilteredOfCurrentStation().Length)
             {
                 Uri playUrl = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl();
 
@@ -805,16 +828,20 @@ namespace PocketLadio
                 channelPropertyMenuItem.Enabled = false;
                 playMenuItem.Enabled = false;
                 browserMenuItem.Enabled = false;
+                addFilterMenuItem.Enabled = false;
+                addPlayUrlToFilterMenuItem.Enabled = false;
             }
             else
             {
                 if (StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetPlayUrl() != null)
                 {
                     playMenuItem.Enabled = true;
+                    addPlayUrlToFilterMenuItem.Enabled = true;
                 }
                 else
                 {
                     playMenuItem.Enabled = false;
+                    addPlayUrlToFilterMenuItem.Enabled = false;
                 }
 
                 if (StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex].GetWebsiteUrl() != null)
@@ -829,10 +856,12 @@ namespace PocketLadio
                 if (headlineListBox.SelectedIndex < StationList.GetChannelsFilteredOfCurrentStation().Length)
                 {
                     channelPropertyMenuItem.Enabled = true;
+                    addFilterMenuItem.Enabled = true;
                 }
                 else
                 {
                     channelPropertyMenuItem.Enabled = false;
+                    addFilterMenuItem.Enabled = false;
                 }
             }
         }
@@ -987,6 +1016,34 @@ namespace PocketLadio
         private void ChannelPropertyMenuItem_Click(object sender, System.EventArgs e)
         {
             ShowStationProperty();
+        }
+
+        private void addFilterMenuItem_Click(object sender, EventArgs e)
+        {
+            if (StationList.StationHeadlineOfCurrentStation != null 
+                && headlineListBox.SelectedIndex != -1
+                && headlineListBox.SelectedIndex < StationList.GetChannelsFilteredOfCurrentStation().Length)
+            {
+                // 選択中の番組
+                IChannel channel = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex];
+
+                // 選択中の番組の表示名をフィルターに登録する
+                StationList.StationHeadlineOfCurrentStation.ShowSettingFormForAddFilter(channel.GetChannelView());
+            }
+        }
+
+        private void addPlayUrlToFilterMenuItem_Click(object sender, EventArgs e)
+        {
+            if (StationList.StationHeadlineOfCurrentStation != null
+                && headlineListBox.SelectedIndex != -1
+                && headlineListBox.SelectedIndex < StationList.GetChannelsFilteredOfCurrentStation().Length)
+            {
+                // 選択中の番組
+                IChannel channel = StationList.GetChannelsFilteredOfCurrentStation()[headlineListBox.SelectedIndex];
+
+                // 選択中の番組のPlayURLをフィルターに登録する
+                StationList.StationHeadlineOfCurrentStation.ShowSettingFormForAddFilter(channel.GetPlayUrl().ToString());
+            }
         }
 
         private void MainForm_Load(object sender, System.EventArgs e)
@@ -1324,7 +1381,7 @@ namespace PocketLadio
         /// <param name="comboBox">ドロップダウンを開くコンボボックス</param>
         private void droppedDownCombobox(ComboBox comboBox)
         {
-            SendMessage(GetHWnd(comboBox), CB_SHOWDROPDOWN, TRUE, 0); 
+            SendMessage(GetHWnd(comboBox), CB_SHOWDROPDOWN, TRUE, 0);
         }
 
         #endregion // コンボボックスのドロップダウンを開く

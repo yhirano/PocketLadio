@@ -220,7 +220,14 @@ namespace PocketLadio.Stations.ShoutCast
         /// <returns>フィルタリング対象のワード</returns>
         public virtual string[] GetFilteredWords()
         {
-            return new string[] { Title, Category };
+            if (GetPlayUrl() != null)
+            {
+                return new string[] { Title, Category, GetPlayUrl().ToString() };
+            }
+            else
+            {
+                return new string[] { Title, Category };
+            }
         }
 
         /// <summary>

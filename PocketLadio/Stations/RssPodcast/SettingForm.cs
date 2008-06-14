@@ -17,6 +17,21 @@ namespace PocketLadio.Stations.RssPodcast
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
+        /// <summary>
+        /// 設定
+        /// </summary>
+        private UserSetting setting;
+
+        /// <summary>
+        /// 一致単語フィルター
+        /// </summary>
+        private ArrayList alFilterMatchWords = new ArrayList();
+
+        /// <summary>
+        /// 除外単語フィルター
+        /// </summary>
+        private ArrayList alFilterExclusionWords = new ArrayList();
+
         private TabControl podcastTabControl;
         private TabPage podcastTabPage;
         private Label rssUrlLabel;
@@ -50,21 +65,6 @@ namespace PocketLadio.Stations.RssPodcast
         private TextBox stationNameTextBox;
         private Label stationNameLabel;
         private Button addExclusionWordButton;
-
-        /// <summary>
-        /// 設定
-        /// </summary>
-        private UserSetting setting;
-
-        /// <summary>
-        /// 一致単語フィルター
-        /// </summary>
-        private ArrayList alFilterMatchWords = new ArrayList();
-
-        /// <summary>
-        /// 除外単語フィルター
-        /// </summary>
-        private ArrayList alFilterExclusionWords = new ArrayList();
 
         public SettingForm(UserSetting setting)
         {
@@ -346,6 +346,17 @@ namespace PocketLadio.Stations.RssPodcast
 
         }
         #endregion
+
+        /// <summary>
+        /// 単語フィルターを追加するために設定ダイアログを開く
+        /// </summary>
+        /// <param name="filterWord">単語フィルターに追加する単語</param>
+        public void ShowDialogForAddWordFilter(string filterWord)
+        {
+            podcastTabControl.SelectedIndex = 2;
+            addWordTextBox.Text = filterWord;
+            ShowDialog();
+        }
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {

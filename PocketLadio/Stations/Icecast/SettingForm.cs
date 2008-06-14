@@ -17,6 +17,31 @@ namespace PocketLadio.Stations.Icecast
     /// </summary>
     public class SettingForm : System.Windows.Forms.Form
     {
+        /// <summary>
+        /// 設定
+        /// </summary>
+        private UserSetting setting;
+
+        /// <summary>
+        /// 一致単語フィルター
+        /// </summary>
+        private ArrayList alFilterMatchWords = new ArrayList();
+
+        /// <summary>
+        /// 除外単語フィルター
+        /// </summary>
+        private ArrayList alFilterExclusionWords = new ArrayList();
+
+        /// <summary>
+        /// Icecastの番組表取得数のリスト
+        /// </summary>
+        private static readonly string[] icecastFetchChannelNums = { FETCH_ALL_CHANNEL, "10", "20", "50", "100", "200", "500", "1000" };
+
+        /// <summary>
+        /// 全ての番組を取得する
+        /// </summary>
+        private const string FETCH_ALL_CHANNEL = "All";
+
         private TabControl icecastTabControl;
         private TabPage icecastTabPage;
         private MenuItem okMenuItem;
@@ -36,8 +61,6 @@ namespace PocketLadio.Stations.Icecast
         private TextBox addWordTextBox;
         private ContextMenu filterListBoxContextMenu;
         private MenuItem deleteFilterListMenuItem;
-
-        private ComboBox fetchChannelComboBox;
         private Label fetchChannelLabel;
 
         private TabPage stationTabPage;
@@ -50,32 +73,8 @@ namespace PocketLadio.Stations.Icecast
         private Label filterAboveBitRateLabel;
         private CheckBox filterAboveBitRateUseCheckBox;
         private TextBox filterAboveBitRateTextBox;
+        private DomainUpDown fetchChannelDomainUpDown;
         private Button addExclusionWordButton;
-
-        /// <summary>
-        /// 設定
-        /// </summary>
-        private UserSetting setting;
-
-        /// <summary>
-        /// 一致単語フィルター
-        /// </summary>
-        private ArrayList alFilterMatchWords = new ArrayList();
-
-        /// <summary>
-        /// 除外単語フィルター
-        /// </summary>
-        private ArrayList alFilterExclusionWords = new ArrayList();
-
-        /// <summary>
-        /// Icecastの番組表取得数のリスト
-        /// </summary>
-        private static readonly string[] icecastFetchChannelNums = { "10", "20", "50", "100", "200", "500", "1000", FETCH_ALL_CHANNEL };
-
-        /// <summary>
-        /// 全ての番組を取得する
-        /// </summary>
-        private const string FETCH_ALL_CHANNEL = "All";
 
         public SettingForm(UserSetting setting)
         {
@@ -109,7 +108,7 @@ namespace PocketLadio.Stations.Icecast
             this.stationNameTextBox = new System.Windows.Forms.TextBox();
             this.stationNameLabel = new System.Windows.Forms.Label();
             this.icecastTabPage = new System.Windows.Forms.TabPage();
-            this.fetchChannelComboBox = new System.Windows.Forms.ComboBox();
+            this.fetchChannelDomainUpDown = new System.Windows.Forms.DomainUpDown();
             this.fetchChannelLabel = new System.Windows.Forms.Label();
             this.headlineViewTypeTextBox = new System.Windows.Forms.TextBox();
             this.headlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
@@ -118,6 +117,7 @@ namespace PocketLadio.Stations.Icecast
             this.pasteHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
             this.headlineViewTypeLabel = new System.Windows.Forms.Label();
             this.filterTabPage = new System.Windows.Forms.TabPage();
+            this.addExclusionWordButton = new System.Windows.Forms.Button();
             this.filterListLabel = new System.Windows.Forms.Label();
             this.addFilterLabel = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
@@ -133,7 +133,6 @@ namespace PocketLadio.Stations.Icecast
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
-            this.addExclusionWordButton = new System.Windows.Forms.Button();
             // 
             // mainMenu
             // 
@@ -175,18 +174,19 @@ namespace PocketLadio.Stations.Icecast
             // 
             // icecastTabPage
             // 
-            this.icecastTabPage.Controls.Add(this.fetchChannelComboBox);
+            this.icecastTabPage.Controls.Add(this.fetchChannelDomainUpDown);
             this.icecastTabPage.Controls.Add(this.fetchChannelLabel);
             this.icecastTabPage.Controls.Add(this.headlineViewTypeTextBox);
             this.icecastTabPage.Controls.Add(this.headlineViewTypeLabel);
             this.icecastTabPage.Location = new System.Drawing.Point(0, 0);
-            this.icecastTabPage.Size = new System.Drawing.Size(232, 242);
+            this.icecastTabPage.Size = new System.Drawing.Size(240, 245);
             this.icecastTabPage.Text = "Icecast";
             // 
-            // fetchChannelComboBox
+            // fetchChannelDomainUpDown
             // 
-            this.fetchChannelComboBox.Location = new System.Drawing.Point(3, 23);
-            this.fetchChannelComboBox.Size = new System.Drawing.Size(122, 22);
+            this.fetchChannelDomainUpDown.Location = new System.Drawing.Point(3, 23);
+            this.fetchChannelDomainUpDown.Size = new System.Drawing.Size(100, 22);
+            this.fetchChannelDomainUpDown.Text = "domainUpDown1";
             // 
             // fetchChannelLabel
             // 
@@ -239,8 +239,15 @@ namespace PocketLadio.Stations.Icecast
             this.filterTabPage.Controls.Add(this.addMatchWordButton);
             this.filterTabPage.Controls.Add(this.addWordTextBox);
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
-            this.filterTabPage.Size = new System.Drawing.Size(240, 245);
+            this.filterTabPage.Size = new System.Drawing.Size(232, 242);
             this.filterTabPage.Text = "フィルター";
+            // 
+            // addExclusionWordButton
+            // 
+            this.addExclusionWordButton.Location = new System.Drawing.Point(161, 53);
+            this.addExclusionWordButton.Size = new System.Drawing.Size(72, 20);
+            this.addExclusionWordButton.Text = "除外(&E)";
+            this.addExclusionWordButton.Click += new System.EventHandler(this.AddExclusionWordButton_Click);
             // 
             // filterListLabel
             // 
@@ -338,13 +345,6 @@ namespace PocketLadio.Stations.Icecast
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
-            // addExclusionWordButton
-            // 
-            this.addExclusionWordButton.Location = new System.Drawing.Point(161, 53);
-            this.addExclusionWordButton.Size = new System.Drawing.Size(72, 20);
-            this.addExclusionWordButton.Text = "除外(&E)";
-            this.addExclusionWordButton.Click += new System.EventHandler(this.AddExclusionWordButton_Click);
-            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -358,12 +358,23 @@ namespace PocketLadio.Stations.Icecast
         }
         #endregion
 
+        /// <summary>
+        /// 単語フィルターを追加するために設定ダイアログを開く
+        /// </summary>
+        /// <param name="filterWord">単語フィルターに追加する単語</param>
+        public void ShowDialogForAddWordFilter(string filterWord)
+        {
+            icecastTabControl.SelectedIndex = 2;
+            addWordTextBox.Text = filterWord;
+            ShowDialog();
+        }
+
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
             // コンボボックスの初期化
             foreach (string fetchChannelKey in icecastFetchChannelNums)
             {
-                fetchChannelComboBox.Items.Add(fetchChannelKey);
+                fetchChannelDomainUpDown.Items.Add(fetchChannelKey);
             }
 
             #region 設定の読み込み
@@ -371,16 +382,13 @@ namespace PocketLadio.Stations.Icecast
             stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
 
             // fetchChannelComboBoxの位置あわせ
-            fetchChannelComboBox.SelectedIndex = 0;
-            string fetchChannelString =
-                (setting.FetchChannelNum == UserSetting.ALL_CHANNEL_FETCH ? FETCH_ALL_CHANNEL : setting.FetchChannelNum.ToString());
-            for (int count = 0; count < fetchChannelComboBox.Items.Count; ++count)
+            if (setting.FetchChannelNum == UserSetting.ALL_CHANNEL_FETCH)
             {
-                fetchChannelComboBox.SelectedIndex = count;
-                if (fetchChannelComboBox.SelectedItem.ToString() == fetchChannelString)
-                {
-                    break;
-                }
+                fetchChannelDomainUpDown.SelectedIndex = 0;
+            }
+            else
+            {
+                fetchChannelDomainUpDown.Text = setting.FetchChannelNum.ToString();
             }
 
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
@@ -429,7 +437,7 @@ namespace PocketLadio.Stations.Icecast
 
             setting.ParentHeadline.ParentStation.Name = stationNameTextBox.Text.Trim();
 
-            if (fetchChannelComboBox.SelectedItem.ToString() == FETCH_ALL_CHANNEL)
+            if (fetchChannelDomainUpDown.Text == FETCH_ALL_CHANNEL)
             {
                 setting.FetchNumAllChannel();
             }
@@ -437,7 +445,7 @@ namespace PocketLadio.Stations.Icecast
             {
                 try
                 {
-                    int fetchNum = int.Parse(fetchChannelComboBox.SelectedItem.ToString());
+                    int fetchNum = int.Parse(fetchChannelDomainUpDown.Text.ToString());
                     setting.FetchChannelNum = fetchNum;
                 }
                 catch (ArgumentException)

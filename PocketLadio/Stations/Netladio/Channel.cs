@@ -328,7 +328,6 @@ namespace PocketLadio.Stations.Netladio
         {
             string[] words;
 
-            string filteredWord = Nam + " " + Gnl;
             if (GetPlayUrl() != null)
             {
                 words = new string[] { Nam, Gnl, GetPlayUrl().ToString() };
