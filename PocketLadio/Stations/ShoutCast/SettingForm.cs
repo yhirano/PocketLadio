@@ -524,14 +524,14 @@ namespace PocketLadio.Stations.ShoutCast
             //ヘッドライン表示方法の読み込み
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
-            // フィルターリストに単語フィルタの内容を追加する
+            // フィルターリストに単語フィルターの内容を追加する
             alFilterMatchWords.AddRange(setting.GetFilterMatchWords());
             foreach (string word in setting.GetFilterMatchWords())
             {
                 filterListBox.Items.Add("+ " + word);
             }
 
-            // フィルターリストに単語フィルタの内容を追加する
+            // フィルターリストに単語フィルターの内容を追加する
             alFilterExclusionWords.AddRange(setting.GetFilterExclusionWords());
             foreach (string word in setting.GetFilterExclusionWords())
             {

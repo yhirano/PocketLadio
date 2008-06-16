@@ -27,6 +27,26 @@ namespace PocketLadio
     /// </summary>
     public class MainForm : System.Windows.Forms.Form
     {
+        /// <summary>
+        /// 選択されていた放送局のID
+        /// </summary>
+        private string selectedStationID = string.Empty;
+
+        /// <summary>
+        /// CheckHeadline()の動作排他処理のためのフラグ
+        /// </summary>
+        private bool checkHeadlineNowFlag;
+
+        /// <summary>
+        /// アンカーコントロールのリスト
+        /// </summary>
+        private ArrayList anchorControlList = new ArrayList();
+
+        /// <summary>
+        /// フィルタリング中か
+        /// </summary>
+        private bool isFiltering;
+
         private MenuItem menuMenuItem;
         private MenuItem headlineCheckTimerMenuItem;
         private MenuItem stationSettingMenuItem;
@@ -49,16 +69,6 @@ namespace PocketLadio
         private MenuItem separateMenuItem2;
         private MenuItem separateMenuItem3;
         private MenuItem separateMenuItem4;
-
-        /// <summary>
-        /// 選択されていた放送局のID
-        /// </summary>
-        private string selectedStationID = string.Empty;
-
-        /// <summary>
-        /// CheckHeadline()の動作排他処理のためのフラグ
-        /// </summary>
-        private bool checkHeadlineNowFlag;
         private StatusBar mainStatusBar;
         private MenuItem channelMenuItem;
         private MenuItem playOfChannelMenuItem;
@@ -73,11 +83,7 @@ namespace PocketLadio
         private MenuItem separateMenuItem7;
         private MenuItem addPlayUrlToFilterMenuItem;
         private MenuItem addFilterMenuItem;
-
-        /// <summary>
-        /// アンカーコントロールのリスト
-        /// </summary>
-        private ArrayList anchorControlList = new ArrayList();
+        private MenuItem filterMenuItem;
 
         public MainForm()
         {
@@ -137,6 +143,7 @@ namespace PocketLadio
             this.stationListComboBox = new System.Windows.Forms.ComboBox();
             this.mainStatusBar = new System.Windows.Forms.StatusBar();
             this.headlineInfomationLabel = new System.Windows.Forms.Label();
+            this.filterMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // mainMenu
             // 
@@ -202,19 +209,6 @@ namespace PocketLadio
             this.exitMenuItem.Text = "終了(&X)";
             this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
-            // channelMenuItem
-            // 
-            this.channelMenuItem.MenuItems.Add(this.playOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.browserOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.channelPropertyOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.separateMenuItem5);
-            this.channelMenuItem.MenuItems.Add(this.updateMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.separateMenuItem6);
-            this.channelMenuItem.MenuItems.Add(this.selectStationMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.selectChannelMenuItem);
-            this.channelMenuItem.Text = "番組(&C)";
-            this.channelMenuItem.Popup += new System.EventHandler(this.channelMenuItem_Popup);
-            // 
             // playOfChannelMenuItem
             // 
             this.playOfChannelMenuItem.Text = "再生(&P)";
@@ -253,6 +247,25 @@ namespace PocketLadio
             this.selectChannelMenuItem.Text = "番組の選択(&C)";
             this.selectChannelMenuItem.Click += new System.EventHandler(this.selectChannelMenuItem_Click);
             // 
+            // filterMenuItem
+            // 
+            this.filterMenuItem.Text = "フィルター(&F)";
+            this.filterMenuItem.Click += new System.EventHandler(this.filterMenuItem_Click);
+            // 
+            // channelMenuItem
+            // 
+            this.channelMenuItem.MenuItems.Add(this.playOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.browserOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.channelPropertyOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.separateMenuItem5);
+            this.channelMenuItem.MenuItems.Add(this.updateMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.filterMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.separateMenuItem6);
+            this.channelMenuItem.MenuItems.Add(this.selectStationMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.selectChannelMenuItem);
+            this.channelMenuItem.Text = "番組(&C)";
+            this.channelMenuItem.Popup += new System.EventHandler(this.channelMenuItem_Popup);
+            // 
             // playButton
             // 
             this.playButton.Location = new System.Drawing.Point(81, 3);
@@ -267,16 +280,6 @@ namespace PocketLadio
             this.headlineListBox.Size = new System.Drawing.Size(234, 142);
             this.headlineListBox.SelectedIndexChanged += new System.EventHandler(this.headlineListBox_SelectedIndexChanged);
             this.headlineListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineListBox_KeyDown);
-            // 
-            // headlineContextMenu
-            // 
-            this.headlineContextMenu.MenuItems.Add(this.playMenuItem);
-            this.headlineContextMenu.MenuItems.Add(this.browserMenuItem);
-            this.headlineContextMenu.MenuItems.Add(this.channelPropertyMenuItem);
-            this.headlineContextMenu.MenuItems.Add(this.separateMenuItem7);
-            this.headlineContextMenu.MenuItems.Add(this.addFilterMenuItem);
-            this.headlineContextMenu.MenuItems.Add(this.addPlayUrlToFilterMenuItem);
-            this.headlineContextMenu.Popup += new System.EventHandler(this.HeadlineContextMenu_Popup);
             // 
             // playMenuItem
             // 
@@ -306,6 +309,16 @@ namespace PocketLadio
             // 
             this.addPlayUrlToFilterMenuItem.Text = "再生URLをフィルターに登録(&I)";
             this.addPlayUrlToFilterMenuItem.Click += new System.EventHandler(this.addPlayUrlToFilterMenuItem_Click);
+            // 
+            // headlineContextMenu
+            // 
+            this.headlineContextMenu.MenuItems.Add(this.playMenuItem);
+            this.headlineContextMenu.MenuItems.Add(this.browserMenuItem);
+            this.headlineContextMenu.MenuItems.Add(this.channelPropertyMenuItem);
+            this.headlineContextMenu.MenuItems.Add(this.separateMenuItem7);
+            this.headlineContextMenu.MenuItems.Add(this.addFilterMenuItem);
+            this.headlineContextMenu.MenuItems.Add(this.addPlayUrlToFilterMenuItem);
+            this.headlineContextMenu.Popup += new System.EventHandler(this.HeadlineContextMenu_Popup);
             // 
             // updateButton
             // 
@@ -575,7 +588,7 @@ namespace PocketLadio
             #region UI前処理
 
             // フォーム内コントロールをいったん選択不可にする
-            updateButton.Enabled = false;
+            UpdateButtonEnable(false);
             PlayButtonEnable(false);
             filterCheckBox.Enabled = false;
             stationListComboBox.Enabled = false;
@@ -664,7 +677,7 @@ namespace PocketLadio
                 #region  UI後処理
 
                 // フォーム内コントロールを選択可能に回復する
-                updateButton.Enabled = true;
+                UpdateButtonEnable(true);
                 PlayButtonEnable(true);
                 filterCheckBox.Enabled = true;
                 stationListComboBox.Enabled = true;
@@ -680,8 +693,97 @@ namespace PocketLadio
         }
 
         /// <summary>
+        /// フィルタリングを切り替える
+        /// </summary>
+        /// <param name="filtering">フィルタリングを有効にするか</param>
+        private void Filtering(bool filtering)
+        {
+            if (isFiltering != filtering)
+            {
+                #region UI前処理
+
+                // フォーム内コントロールをいったん選択不可にする
+                UpdateButtonEnable(false);
+                PlayButtonEnable(false);
+                filterCheckBox.Enabled = false;
+                stationListComboBox.Enabled = false;
+                headlineListBox.Enabled = false;
+                updateMenuItem.Enabled = false;
+
+                #endregion
+
+                #region フィルタリング処理
+
+                if (filtering == true)
+                {
+                    StationList.FilterEnable = true;
+                    // フィルターの有効無効設定をオンにする
+                    UserSetting.FilterEnable = true;
+                }
+                else
+                {
+                    StationList.FilterEnable = false;
+                    // フィルターの有効無効設定をオフにする
+                    UserSetting.FilterEnable = false;
+                }
+                DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
+
+                #endregion
+
+                #region UI後処理
+
+                // フォーム内コントロールを選択可能に回復する
+                UpdateButtonEnable(true);
+                PlayButtonEnable(true);
+                filterCheckBox.Enabled = true;
+                stationListComboBox.Enabled = true;
+                headlineListBox.Enabled = true;
+                updateMenuItem.Enabled = true;
+                WriteSelectedChannelInfomation();
+
+                #endregion
+            }
+            isFiltering = filtering;
+            filterCheckBox.Checked = filtering;
+            filterMenuItem.Checked = filtering;
+        }
+
+        /// <summary>
+        /// UpdateButtonを有効にする。
+        /// UpdateButtonが有効の指定でも、法則局の選択がない場合にはUpdateButtonを無効にする。
+        /// </summary>
+        private void UpdateButtonEnable()
+        {
+            UpdateButtonEnable(true);
+        }
+
+        /// <summary>
+        /// UpdateButtonを有効にする。
+        /// UpdateButtonが有効の指定でも、法則局の選択がない場合にはUpdateButtonを無効にする。
+        /// </summary>
+        /// <param name="enable">UpdateButtonを有効にするか</param>
+        private void UpdateButtonEnable(bool enable)
+        {
+            if (enable == false)
+            {
+                updateButton.Enabled = false;
+            }
+            else
+            {
+                if (stationListComboBox.SelectedIndex == -1)
+                {
+                    updateButton.Enabled = false;
+                }
+                else
+                {
+                    updateButton.Enabled = true;
+                }
+            }
+        }
+
+        /// <summary>
         /// PlayButtonの有効にする。
-        /// PlayButtonが有効の指定でも、リストボックスに洗濯がない場合と、選択したリストボックスのコンテンツが
+        /// PlayButtonが有効の指定でも、リストボックスに選択がない場合と、選択したリストボックスのコンテンツが
         /// 再生内容を持っていないときにはPlayButtonを無効にする。
         /// </summary>
         private void PlayButtonEnable()
@@ -691,7 +793,7 @@ namespace PocketLadio
 
         /// <summary>
         /// PlayButtonの有効無効を切り替える。
-        /// PlayButtonが有効の指定でも、リストボックスに洗濯がない場合と、選択したリストボックスのコンテンツが
+        /// PlayButtonが有効の指定でも、リストボックスに選択がない場合と、選択したリストボックスのコンテンツが
         /// 再生内容を持っていないときにはPlayButtonを無効にする。
         /// </summary>
         /// <param name="enable">PlayButtonを有効にするか</param>
@@ -969,48 +1071,7 @@ namespace PocketLadio
 
         private void FilterCheckBox_CheckStateChanged(object sender, System.EventArgs e)
         {
-            #region UI前処理
-
-            // フォーム内コントロールをいったん選択不可にする
-            updateButton.Enabled = false;
-            PlayButtonEnable(false);
-            filterCheckBox.Enabled = false;
-            stationListComboBox.Enabled = false;
-            headlineListBox.Enabled = false;
-            updateMenuItem.Enabled = false;
-
-            #endregion
-
-            #region フィルタリング処理
-
-            if (filterCheckBox.Checked == true)
-            {
-                StationList.FilterEnable = true;
-                // フィルターの有効無効設定をオンにする
-                UserSetting.FilterEnable = true;
-            }
-            else
-            {
-                StationList.FilterEnable = false;
-                // フィルターの有効無効設定をオフにする
-                UserSetting.FilterEnable = false;
-            }
-            DrawChannelList(StationList.GetChannelsFilteredOfCurrentStation());
-
-            #endregion
-
-            #region UI後処理
-
-            // フォーム内コントロールを選択可能に回復する
-            updateButton.Enabled = true;
-            PlayButtonEnable(true);
-            filterCheckBox.Enabled = true;
-            stationListComboBox.Enabled = true;
-            headlineListBox.Enabled = true;
-            updateMenuItem.Enabled = true;
-            WriteSelectedChannelInfomation();
-
-            #endregion
+            Filtering(filterCheckBox.Checked);
         }
 
         private void ChannelPropertyMenuItem_Click(object sender, System.EventArgs e)
@@ -1091,11 +1152,13 @@ namespace PocketLadio
                 // フィルターの有効無効設定が有効な場合、フィルターを動作させる
                 if (UserSetting.FilterEnable == true)
                 {
-                    filterCheckBox.Checked = true;
+                    Filtering(true);
+                    isFiltering = true;
                 }
                 else
                 {
-                    filterCheckBox.Checked = false;
+                    Filtering(false);
+                    isFiltering = false;
                 }
             }
             catch (XmlException)
@@ -1116,6 +1179,7 @@ namespace PocketLadio
 
             SetAnchorControl();
             FixWindowSize();
+            UpdateButtonEnable();
             PlayButtonEnable();
             WriteSelectedChannelInfomation();
         }
@@ -1211,7 +1275,7 @@ namespace PocketLadio
             #region UI前処理
 
             // フォーム内コントロールをいったん選択不可にする
-            updateButton.Enabled = false;
+            UpdateButtonEnable(false);
             PlayButtonEnable(false);
             filterCheckBox.Enabled = false;
             headlineListBox.Enabled = false;
@@ -1243,7 +1307,7 @@ namespace PocketLadio
             #region UI後処理
 
             // フォーム内コントロールを選択可能に回復する
-            updateButton.Enabled = true;
+            UpdateButtonEnable(true);
             PlayButtonEnable(true);
             filterCheckBox.Enabled = true;
             headlineListBox.Enabled = true;
@@ -1400,6 +1464,11 @@ namespace PocketLadio
             {
                 headlineListBox.SelectedIndex = 0;
             }
+        }
+
+        private void filterMenuItem_Click(object sender, EventArgs e)
+        {
+            Filtering((isFiltering == true ? false : true));
         }
     }
 }

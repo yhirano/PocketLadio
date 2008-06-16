@@ -367,14 +367,14 @@ namespace PocketLadio.Stations.RssPodcast
             rssUrlTextBox.Text = ((setting.RssUrl != null) ? setting.RssUrl.ToString() : string.Empty);
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
 
-            // フィルターリストに単語フィルタの内容を追加する
+            // フィルターリストに単語フィルターの内容を追加する
             alFilterMatchWords.AddRange(setting.GetFilterMatchWords());
             foreach (string word in setting.GetFilterMatchWords())
             {
                 filterListBox.Items.Add("+ " + word);
             }
 
-            // フィルターリストに単語フィルタの内容を追加する
+            // フィルターリストに単語フィルターの内容を追加する
             alFilterExclusionWords.AddRange(setting.GetFilterExclusionWords());
             foreach (string word in setting.GetFilterExclusionWords())
             {

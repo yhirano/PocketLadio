@@ -182,7 +182,7 @@ namespace PocketLadio
         /// <summary>
         /// 取得している番組のリストを返す。
         /// フィルタリングが有効な場合にはフィルタリングした番組の結果を返す。
-        /// フィルタリングは指定されたフィルタのor条件となる。
+        /// フィルタリングは指定されたフィルターのor条件となる。
         /// </summary>
         /// <returns>フィルタリングされた番組のリスト</returns>
         public static IChannel[] GetChannelsFilteredOfCurrentStation()
@@ -192,12 +192,12 @@ namespace PocketLadio
                 return new IChannel[0];
             }
 
-            // フィルタが存在する場合
+            // フィルターが存在する場合
             if (FilterEnable == true)
             {
                 return currentStation.Headline.GetChannelsFiltered();
             }
-            // フィルタが存在しない場合
+            // フィルターが存在しない場合
             else
             {
                 return currentStation.Headline.GetChannels();

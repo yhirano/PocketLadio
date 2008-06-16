@@ -51,7 +51,7 @@ namespace PocketLadio.Stations.RssPodcast
         }
 
         /// <summary>
-        /// フィルタ済み番組のキャッシュ
+        /// フィルター済み番組のキャッシュ
         /// </summary>
         private Channel[] filtedChannelsCache;
 
@@ -161,9 +161,9 @@ namespace PocketLadio.Stations.RssPodcast
             {
                 ArrayList alChannels = new ArrayList();
 
-                #region 単語フィルタ処理
+                #region 単語フィルター処理
 
-                // 一致単語フィルタ・除外フィルタが存在する場合
+                // 一致単語フィルター・除外フィルターが存在する場合
                 if (setting.GetFilterMatchWords().Length > 0 && setting.GetFilterExclusionWords().Length > 0)
                 {
                     foreach (IChannel channel in GetChannels())
@@ -174,7 +174,7 @@ namespace PocketLadio.Stations.RssPodcast
                         }
                     }
                 }
-                // 一致単語フィルタのみが存在する場合
+                // 一致単語フィルターのみが存在する場合
                 else if (setting.GetFilterMatchWords().Length > 0 && setting.GetFilterExclusionWords().Length <= 0)
                 {
                     foreach (IChannel channel in GetChannels())
@@ -185,7 +185,7 @@ namespace PocketLadio.Stations.RssPodcast
                         }
                     }
                 }
-                // 除外フィルタのみが存在する場合
+                // 除外フィルターのみが存在する場合
                 else if (setting.GetFilterMatchWords().Length <= 0 && setting.GetFilterExclusionWords().Length > 0)
                 {
                     foreach (IChannel channel in GetChannels())
@@ -196,7 +196,7 @@ namespace PocketLadio.Stations.RssPodcast
                         }
                     }
                 }
-                // 単語フィルタが存在しない場合
+                // 単語フィルターが存在しない場合
                 else
                 {
                     alChannels.AddRange(GetChannels());

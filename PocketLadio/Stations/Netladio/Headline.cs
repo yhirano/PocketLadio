@@ -71,7 +71,7 @@ namespace PocketLadio.Stations.Netladio
         }
 
         /// <summary>
-        /// フィルタ済み番組のキャッシュ
+        /// フィルター済み番組のキャッシュ
         /// </summary>
         private Channel[] filtedChannelsCache;
 
@@ -196,9 +196,9 @@ namespace PocketLadio.Stations.Netladio
             {
                 ArrayList alChannels = new ArrayList();
 
-                #region 単語フィルタ処理
+                #region 単語フィルター処理
 
-                // 一致単語フィルタ・除外フィルタが存在する場合
+                // 一致単語フィルター・除外フィルターが存在する場合
                 if (setting.GetFilterMatchWords().Length > 0 && setting.GetFilterExclusionWords().Length > 0)
                 {
                     foreach (IChannel channel in GetChannels())
@@ -209,7 +209,7 @@ namespace PocketLadio.Stations.Netladio
                         }
                     }
                 }
-                // 一致単語フィルタのみが存在する場合
+                // 一致単語フィルターのみが存在する場合
                 else if (setting.GetFilterMatchWords().Length > 0 && setting.GetFilterExclusionWords().Length <= 0)
                 {
                     foreach (IChannel channel in GetChannels())
@@ -220,7 +220,7 @@ namespace PocketLadio.Stations.Netladio
                         }
                     }
                 }
-                // 除外フィルタのみが存在する場合
+                // 除外フィルターのみが存在する場合
                 else if (setting.GetFilterMatchWords().Length <= 0 && setting.GetFilterExclusionWords().Length > 0)
                 {
                     foreach (IChannel channel in GetChannels())
@@ -231,7 +231,7 @@ namespace PocketLadio.Stations.Netladio
                         }
                     }
                 }
-                // 単語フィルタが存在しない場合
+                // 単語フィルターが存在しない場合
                 else
                 {
                     alChannels.AddRange(GetChannels());
@@ -239,11 +239,11 @@ namespace PocketLadio.Stations.Netladio
 
                 #endregion
 
-                #region 最低ビットレートフィルタ処理
+                #region 最低ビットレートフィルター処理
 
                 ArrayList alDeleteChannels = new ArrayList();
 
-                // 最低ビットレートフィルタが存在する場合
+                // 最低ビットレートフィルターが存在する場合
                 if (setting.FilterAboveBitRateUse == true)
                 {
                     // 削除する番組のリストを作成
@@ -263,11 +263,11 @@ namespace PocketLadio.Stations.Netladio
 
                 #endregion
 
-                #region 最大ビットレートフィルタ処理
+                #region 最大ビットレートフィルター処理
 
                 alDeleteChannels.Clear();
 
-                // 最大ビットレートフィルタが存在する場合
+                // 最大ビットレートフィルターが存在する場合
                 if (setting.FilterBelowBitRateUse == true)
                 {
                     foreach (Channel channel in alChannels)

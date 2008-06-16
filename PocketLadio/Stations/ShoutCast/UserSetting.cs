@@ -296,7 +296,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <param name="filterWords">単語フィルター</param>
         public void SetFilterMatchWords(string[] filterWords)
         {
-            // フィルタの内容が変化したかを調べる
+            // フィルターの内容が変化したかを調べる
             bool isChanged = false;
             if (filterWords.Length != filterMatchWords.Length)
             {
@@ -336,7 +336,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <param name="filterWords">除外フィルター</param>
         public void SetFilterExclusionWords(string[] filterWords)
         {
-            // フィルタの内容が変化したかを調べる
+            // フィルターの内容が変化したかを調べる
             bool isChanged = false;
             if (filterWords.Length != filterExclusionWords.Length)
             {
