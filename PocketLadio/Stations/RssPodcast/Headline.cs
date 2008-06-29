@@ -256,6 +256,11 @@ namespace PocketLadio.Stations.RssPodcast
         /// </summary>
         public virtual void FetchHeadline()
         {
+            if (setting.RssUrl == null)
+            {
+                return;
+            }
+
             // 時刻をセットする
             lastCheckTime = DateTime.Now;
 
