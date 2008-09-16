@@ -83,6 +83,7 @@ namespace PocketLadio
         private MenuItem separateMenuItem7;
         private MenuItem addPlayUrlToFilterMenuItem;
         private MenuItem addFilterMenuItem;
+        private MenuItem separateMenuItem8;
         private MenuItem filterMenuItem;
 
         public MainForm()
@@ -125,6 +126,7 @@ namespace PocketLadio
             this.channelPropertyOfChannelMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem5 = new System.Windows.Forms.MenuItem();
             this.updateMenuItem = new System.Windows.Forms.MenuItem();
+            this.filterMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem6 = new System.Windows.Forms.MenuItem();
             this.selectStationMenuItem = new System.Windows.Forms.MenuItem();
             this.selectChannelMenuItem = new System.Windows.Forms.MenuItem();
@@ -133,17 +135,17 @@ namespace PocketLadio
             this.headlineContextMenu = new System.Windows.Forms.ContextMenu();
             this.playMenuItem = new System.Windows.Forms.MenuItem();
             this.browserMenuItem = new System.Windows.Forms.MenuItem();
-            this.channelPropertyMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem7 = new System.Windows.Forms.MenuItem();
             this.addFilterMenuItem = new System.Windows.Forms.MenuItem();
             this.addPlayUrlToFilterMenuItem = new System.Windows.Forms.MenuItem();
+            this.separateMenuItem8 = new System.Windows.Forms.MenuItem();
+            this.channelPropertyMenuItem = new System.Windows.Forms.MenuItem();
             this.updateButton = new System.Windows.Forms.Button();
             this.filterCheckBox = new System.Windows.Forms.CheckBox();
             this.headlineCheckTimer = new System.Windows.Forms.Timer();
             this.stationListComboBox = new System.Windows.Forms.ComboBox();
             this.mainStatusBar = new System.Windows.Forms.StatusBar();
             this.headlineInfomationLabel = new System.Windows.Forms.Label();
-            this.filterMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // mainMenu
             // 
@@ -209,6 +211,20 @@ namespace PocketLadio
             this.exitMenuItem.Text = "終了(&X)";
             this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
+            // channelMenuItem
+            // 
+            this.channelMenuItem.MenuItems.Add(this.playOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.browserOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.channelPropertyOfChannelMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.separateMenuItem5);
+            this.channelMenuItem.MenuItems.Add(this.updateMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.filterMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.separateMenuItem6);
+            this.channelMenuItem.MenuItems.Add(this.selectStationMenuItem);
+            this.channelMenuItem.MenuItems.Add(this.selectChannelMenuItem);
+            this.channelMenuItem.Text = "番組(&C)";
+            this.channelMenuItem.Popup += new System.EventHandler(this.channelMenuItem_Popup);
+            // 
             // playOfChannelMenuItem
             // 
             this.playOfChannelMenuItem.Text = "再生(&P)";
@@ -233,6 +249,11 @@ namespace PocketLadio
             this.updateMenuItem.Text = "ヘッドライン更新(&U)";
             this.updateMenuItem.Click += new System.EventHandler(this.updateMenuItem_Click);
             // 
+            // filterMenuItem
+            // 
+            this.filterMenuItem.Text = "フィルター(&F)";
+            this.filterMenuItem.Click += new System.EventHandler(this.filterMenuItem_Click);
+            // 
             // separateMenuItem6
             // 
             this.separateMenuItem6.Text = "-";
@@ -246,25 +267,6 @@ namespace PocketLadio
             // 
             this.selectChannelMenuItem.Text = "番組の選択(&C)";
             this.selectChannelMenuItem.Click += new System.EventHandler(this.selectChannelMenuItem_Click);
-            // 
-            // filterMenuItem
-            // 
-            this.filterMenuItem.Text = "フィルター(&F)";
-            this.filterMenuItem.Click += new System.EventHandler(this.filterMenuItem_Click);
-            // 
-            // channelMenuItem
-            // 
-            this.channelMenuItem.MenuItems.Add(this.playOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.browserOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.channelPropertyOfChannelMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.separateMenuItem5);
-            this.channelMenuItem.MenuItems.Add(this.updateMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.filterMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.separateMenuItem6);
-            this.channelMenuItem.MenuItems.Add(this.selectStationMenuItem);
-            this.channelMenuItem.MenuItems.Add(this.selectChannelMenuItem);
-            this.channelMenuItem.Text = "番組(&C)";
-            this.channelMenuItem.Popup += new System.EventHandler(this.channelMenuItem_Popup);
             // 
             // playButton
             // 
@@ -291,11 +293,6 @@ namespace PocketLadio
             this.browserMenuItem.Text = "Webサイトにアクセス(&A)";
             this.browserMenuItem.Click += new System.EventHandler(this.BrowserMenuItem_Click);
             // 
-            // channelPropertyMenuItem
-            // 
-            this.channelPropertyMenuItem.Text = "番組の詳細(&R)";
-            this.channelPropertyMenuItem.Click += new System.EventHandler(this.ChannelPropertyMenuItem_Click);
-            // 
             // separateMenuItem7
             // 
             this.separateMenuItem7.Text = "-";
@@ -310,14 +307,24 @@ namespace PocketLadio
             this.addPlayUrlToFilterMenuItem.Text = "再生URLをフィルターに登録(&I)";
             this.addPlayUrlToFilterMenuItem.Click += new System.EventHandler(this.addPlayUrlToFilterMenuItem_Click);
             // 
+            // separateMenuItem8
+            // 
+            this.separateMenuItem8.Text = "-";
+            // 
+            // channelPropertyMenuItem
+            // 
+            this.channelPropertyMenuItem.Text = "番組の詳細(&R)";
+            this.channelPropertyMenuItem.Click += new System.EventHandler(this.ChannelPropertyMenuItem_Click);
+            // 
             // headlineContextMenu
             // 
             this.headlineContextMenu.MenuItems.Add(this.playMenuItem);
             this.headlineContextMenu.MenuItems.Add(this.browserMenuItem);
-            this.headlineContextMenu.MenuItems.Add(this.channelPropertyMenuItem);
             this.headlineContextMenu.MenuItems.Add(this.separateMenuItem7);
             this.headlineContextMenu.MenuItems.Add(this.addFilterMenuItem);
             this.headlineContextMenu.MenuItems.Add(this.addPlayUrlToFilterMenuItem);
+            this.headlineContextMenu.MenuItems.Add(this.separateMenuItem8);
+            this.headlineContextMenu.MenuItems.Add(this.channelPropertyMenuItem);
             this.headlineContextMenu.Popup += new System.EventHandler(this.HeadlineContextMenu_Popup);
             // 
             // updateButton

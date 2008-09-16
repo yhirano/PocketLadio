@@ -164,7 +164,7 @@ namespace PocketLadio.Stations.ShoutCast
             FixWindowSize();
 
             string[] titleProperty = { "Title", channel.Title.Trim() };
-            string[] categoryProperty = { "Category", channel.Category.Trim() };
+            string[] genreProperty = { "Genre", channel.Genre.Trim() };
             string[] clusterProperty = { "Cluster", ((channel.GetWebsiteUrl() != null) ? channel.GetWebsiteUrl().ToString().Trim() : string.Empty) };
             string[] playingProperty = { "Playing", channel.Playing.Trim() };
 
@@ -173,10 +173,6 @@ namespace PocketLadio.Stations.ShoutCast
             if (channel.Listener >= 0)
             {
                 listener = channel.Listener.ToString();
-            }
-            if (channel.ListenerTotal >= 0)
-            {
-                listener += " / " + channel.ListenerTotal.ToString();
             }
             string[] listenerProperty = { "Listener", listener };
 
@@ -189,7 +185,7 @@ namespace PocketLadio.Stations.ShoutCast
             string[] bitRateProperty = { "Bit rate", bitRate };
 
             propertyListView.Items.Add(new ListViewItem(titleProperty));
-            propertyListView.Items.Add(new ListViewItem(categoryProperty));
+            propertyListView.Items.Add(new ListViewItem(genreProperty));
             propertyListView.Items.Add(new ListViewItem(clusterProperty));
             propertyListView.Items.Add(new ListViewItem(playingProperty));
             propertyListView.Items.Add(new ListViewItem(listenerProperty));
