@@ -652,6 +652,7 @@ namespace PocketLadio
             {
                 mediaPlayerPathTextBox.Text = fd.FileName;
             }
+            fd.Dispose();
         }
 
         private void BrowserPathReferenceButton_Click(object sender, EventArgs e)
@@ -670,6 +671,7 @@ namespace PocketLadio
             {
                 browserPathTextBox.Text = fd.FileName;
             }
+            fd.Dispose();
         }
 
         private void MediaPlayerPathTextBox_KeyDown(object sender, KeyEventArgs e)
