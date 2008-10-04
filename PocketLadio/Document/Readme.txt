@@ -4,14 +4,17 @@ PocketLadio
 
 【主な機能】
 PocketLadioはMicrosoft Windows Mobile 5.0 Pocket PC上で動作する「ねとらじ」
-「Podcast」「SHOUTcast」のヘッドラインをインターネットより取得、表示するツール
-です。
+「Podcast」「SHOUTcast」「Icecast」のヘッドラインをインターネットより取得、表示
+するツールです。
 
 ねとらじ
 http://live.ladio.livedoor.com/
 
 SHOUTcast
 http://www.shoutcast.com/
+
+Icecast
+http://dir.xiph.org/index.php
 
 
 【必要環境】
