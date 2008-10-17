@@ -12,16 +12,30 @@ namespace PocketLadio.Stations.ShoutCast
     public class Channel : PocketLadio.Stations.IChannel
     {
         /// <summary>
-        /// 再生URL
+        /// 再生URLへのパス
         /// </summary>
-        private Uri playUrl;
+        private string path = string.Empty;
 
         /// <summary>
-        /// 再生URL
+        /// 再生URLへのパス
         /// </summary>
-        public Uri PlayUrl
+        public string Path
         {
-            set { playUrl = value; }
+            set { path = value; }
+        }
+
+        /// <summary>
+        /// ランク
+        /// </summary>
+        private string rank = string.Empty;
+
+        /// <summary>
+        /// ランク
+        /// </summary>
+        public string Rank
+        {
+            get { return rank; }
+            set { rank = value; }
         }
 
         /// <summary>
@@ -85,17 +99,31 @@ namespace PocketLadio.Stations.ShoutCast
         public const int UNKNOWN_LISTENER_NUM = -1;
 
         /// <summary>
-        /// ジャンル
+        /// 述べリスナ数
         /// </summary>
-        private string genre = string.Empty;
+        private int listenerTotal = UNKNOWN_LISTENER_NUM;
 
         /// <summary>
-        /// ジャンル
+        /// 述べリスナ数
         /// </summary>
-        public string Genre
+        public int ListenerTotal
         {
-            get { return genre; }
-            set { genre = value; }
+            get { return listenerTotal; }
+            set { listenerTotal = value; }
+        }
+
+        /// <summary>
+        /// カテゴリ
+        /// </summary>
+        private string category = string.Empty;
+
+        /// <summary>
+        /// カテゴリ
+        /// </summary>
+        public string Category
+        {
+            get { return category; }
+            set { category = value; }
         }
 
         /// <summary>
@@ -147,7 +175,7 @@ namespace PocketLadio.Stations.ShoutCast
         {
             try
             {
-                return playUrl;
+                return new Uri(Headline.SHOUTCAST_URL + path);
             }
             catch (UriFormatException)
             {
@@ -173,15 +201,13 @@ namespace PocketLadio.Stations.ShoutCast
             string view = parentHeadline.HeadlineViewType;
             if (view.Length != 0)
             {
-                view = view.Replace("[[TITLE]]", Title)
+                view = view.Replace("[[RANK]]", Rank)
+                    .Replace("[[TITLE]]", Title)
                     .Replace("[[PLAYING]]", Playing)
                     .Replace("[[LISTENER]]", ((Listener != Channel.UNKNOWN_LISTENER_NUM) ? Listener.ToString() : "na"))
-                    .Replace("[[GENRE]]", Genre)
-                    .Replace("[[CATEGORY]]", Genre)
-                    .Replace("[[BIT]]", ((BitRate != Channel.UNKNOWN_BITRATE) ? BitRate.ToString() : "na"))
-                    .Replace("[[RANK]]", string.Empty) // Ver 0.46より[[RANK]]は非サポート
-                    .Replace("[[LISTENERTOTAL]]", string.Empty) // Ver 0.46より[[LISTENERTOTAL]]は非サポート
-                    ;
+                    .Replace("[[LISTENERTOTAL]]", ((ListenerTotal != Channel.UNKNOWN_LISTENER_NUM) ? ListenerTotal.ToString() : "na"))
+                    .Replace("[[CATEGORY]]", Category)
+                    .Replace("[[BIT]]", ((BitRate != Channel.UNKNOWN_BITRATE) ? BitRate.ToString() : "na"));
             }
 
             return view;
@@ -196,11 +222,11 @@ namespace PocketLadio.Stations.ShoutCast
         {
             if (GetPlayUrl() != null)
             {
-                return new string[] { Title, Genre, GetPlayUrl().ToString() };
+                return new string[] { Title, Category, GetPlayUrl().ToString() };
             }
             else
             {
-                return new string[] { Title, Genre };
+                return new string[] { Title, Category };
             }
         }
 

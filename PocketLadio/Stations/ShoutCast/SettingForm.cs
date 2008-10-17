@@ -54,6 +54,8 @@ namespace PocketLadio.Stations.ShoutCast
         private Label headlineViewTypeLabel;
         private TextBox searchWordTextBox;
         private Label searchWordLabel;
+        private ComboBox perViewComboBox;
+        private Label perViewLabel;
         private TabPage filterTabPage;
         private Label filterListLabel;
         private Label addFilterLabel;
@@ -116,6 +118,8 @@ namespace PocketLadio.Stations.ShoutCast
             this.stationNameTextBox = new System.Windows.Forms.TextBox();
             this.stationNameLabel = new System.Windows.Forms.Label();
             this.shoutCastTabPage = new System.Windows.Forms.TabPage();
+            this.perViewComboBox = new System.Windows.Forms.ComboBox();
+            this.perViewLabel = new System.Windows.Forms.Label();
             this.headlineViewTypeTextBox = new System.Windows.Forms.TextBox();
             this.headlineViewTypeContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutHeadlineViewTypeMenuItem = new System.Windows.Forms.MenuItem();
@@ -129,7 +133,6 @@ namespace PocketLadio.Stations.ShoutCast
             this.pastSearchWordMenuItem = new System.Windows.Forms.MenuItem();
             this.searchWordLabel = new System.Windows.Forms.Label();
             this.filterTabPage = new System.Windows.Forms.TabPage();
-            this.addExclusionWordButton = new System.Windows.Forms.Button();
             this.filterListLabel = new System.Windows.Forms.Label();
             this.addFilterLabel = new System.Windows.Forms.Label();
             this.deleteButton = new System.Windows.Forms.Button();
@@ -154,6 +157,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterAboveBitRateLabel = new System.Windows.Forms.Label();
             this.filterAboveBitRateUseCheckBox = new System.Windows.Forms.CheckBox();
             this.filterAboveBitRateTextBox = new System.Windows.Forms.TextBox();
+            this.addExclusionWordButton = new System.Windows.Forms.Button();
             // 
             // mainMenu
             // 
@@ -164,7 +168,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.okMenuItem.Text = "&OK";
             this.okMenuItem.Click += new System.EventHandler(this.OkMenuItem_Click);
             // 
-            // shoutCastTabControl
+            // shoutCastSettingTabControl
             // 
             this.shoutCastTabControl.Controls.Add(this.stationTabPage);
             this.shoutCastTabControl.Controls.Add(this.shoutCastTabPage);
@@ -195,6 +199,8 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // shoutCastTabPage
             // 
+            this.shoutCastTabPage.Controls.Add(this.perViewComboBox);
+            this.shoutCastTabPage.Controls.Add(this.perViewLabel);
             this.shoutCastTabPage.Controls.Add(this.headlineViewTypeTextBox);
             this.shoutCastTabPage.Controls.Add(this.headlineViewTypeLabel);
             this.shoutCastTabPage.Controls.Add(this.searchWordTextBox);
@@ -203,10 +209,21 @@ namespace PocketLadio.Stations.ShoutCast
             this.shoutCastTabPage.Size = new System.Drawing.Size(232, 242);
             this.shoutCastTabPage.Text = "SHOUTcast";
             // 
+            // perViewComboBox
+            // 
+            this.perViewComboBox.Location = new System.Drawing.Point(3, 66);
+            this.perViewComboBox.Size = new System.Drawing.Size(122, 22);
+            // 
+            // perViewLabel
+            // 
+            this.perViewLabel.Location = new System.Drawing.Point(3, 47);
+            this.perViewLabel.Size = new System.Drawing.Size(86, 16);
+            this.perViewLabel.Text = "Per View";
+            // 
             // headlineViewTypeTextBox
             // 
             this.headlineViewTypeTextBox.ContextMenu = this.headlineViewTypeContextMenu;
-            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 70);
+            this.headlineViewTypeTextBox.Location = new System.Drawing.Point(3, 114);
             this.headlineViewTypeTextBox.Size = new System.Drawing.Size(234, 21);
             this.headlineViewTypeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyDown);
             this.headlineViewTypeTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HeadlineViewTypeTextBox_KeyUp);
@@ -234,7 +251,7 @@ namespace PocketLadio.Stations.ShoutCast
             // 
             // headlineViewTypeLabel
             // 
-            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 47);
+            this.headlineViewTypeLabel.Location = new System.Drawing.Point(3, 91);
             this.headlineViewTypeLabel.Size = new System.Drawing.Size(135, 20);
             this.headlineViewTypeLabel.Text = "ヘッドラインの表示方法";
             // 
@@ -285,13 +302,6 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterTabPage.Location = new System.Drawing.Point(0, 0);
             this.filterTabPage.Size = new System.Drawing.Size(240, 245);
             this.filterTabPage.Text = "フィルター";
-            // 
-            // addExclusionWordButton
-            // 
-            this.addExclusionWordButton.Location = new System.Drawing.Point(165, 54);
-            this.addExclusionWordButton.Size = new System.Drawing.Size(72, 20);
-            this.addExclusionWordButton.Text = "除外(&E)";
-            this.addExclusionWordButton.Click += new System.EventHandler(this.addExclusionWordButton_Click);
             // 
             // filterListLabel
             // 
@@ -377,7 +387,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.filter2TabPage.Controls.Add(this.filterAboveBitRateUseCheckBox);
             this.filter2TabPage.Controls.Add(this.filterAboveBitRateTextBox);
             this.filter2TabPage.Location = new System.Drawing.Point(0, 0);
-            this.filter2TabPage.Size = new System.Drawing.Size(240, 245);
+            this.filter2TabPage.Size = new System.Drawing.Size(232, 242);
             this.filter2TabPage.Text = "フィルター2";
             // 
             // sortScendingPanel
@@ -405,6 +415,7 @@ namespace PocketLadio.Stations.ShoutCast
             this.sortKindComboBox.Items.Add("並び替えしない");
             this.sortKindComboBox.Items.Add("タイトル");
             this.sortKindComboBox.Items.Add("リスナ数");
+            this.sortKindComboBox.Items.Add("述べリスナ数");
             this.sortKindComboBox.Items.Add("ビットレート");
             this.sortKindComboBox.Location = new System.Drawing.Point(66, 121);
             this.sortKindComboBox.Size = new System.Drawing.Size(171, 22);
@@ -449,6 +460,13 @@ namespace PocketLadio.Stations.ShoutCast
             this.filterAboveBitRateTextBox.Location = new System.Drawing.Point(3, 29);
             this.filterAboveBitRateTextBox.Size = new System.Drawing.Size(57, 21);
             // 
+            // addExclusionWordButton
+            // 
+            this.addExclusionWordButton.Location = new System.Drawing.Point(165, 54);
+            this.addExclusionWordButton.Size = new System.Drawing.Size(72, 20);
+            this.addExclusionWordButton.Text = "除外(&E)";
+            this.addExclusionWordButton.Click += new System.EventHandler(this.addExclusionWordButton_Click);
+            // 
             // SettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
@@ -475,12 +493,33 @@ namespace PocketLadio.Stations.ShoutCast
 
         private void SettingForm_Load(object sender, System.EventArgs e)
         {
+            #region コンボボックスの初期化
+
+            // Per Viewコンボボックスの初期化
+            foreach (string perViewKey in shoutcastPerViewNums)
+            {
+                perViewComboBox.Items.Add(perViewKey);
+            }
+
+            #endregion
+
             #region 設定の読み込み
 
             stationNameTextBox.Text = setting.ParentHeadline.ParentStation.Name;
 
             // 検索対象の読み込み
             searchWordTextBox.Text = setting.SearchWord.Trim();
+
+            // perViewComboBoxの位置あわせ
+            perViewComboBox.SelectedIndex = 0;
+            for (int count = 0; count < perViewComboBox.Items.Count; ++count)
+            {
+                perViewComboBox.SelectedIndex = count;
+                if (perViewComboBox.SelectedItem.ToString() == setting.PerView)
+                {
+                    break;
+                }
+            }
 
             //ヘッドライン表示方法の読み込み
             headlineViewTypeTextBox.Text = setting.HeadlineViewType;
@@ -518,9 +557,13 @@ namespace PocketLadio.Stations.ShoutCast
             {
                 sortKindComboBox.SelectedIndex = 2;
             }
-            else if (setting.SortKind == Headline.SortKinds.BitRate)
+            else if (setting.SortKind == Headline.SortKinds.ListenerTotal)
             {
                 sortKindComboBox.SelectedIndex = 3;
+            }
+            else if (setting.SortKind == Headline.SortKinds.BitRate)
+            {
+                sortKindComboBox.SelectedIndex = 4;
             }
             else
             {
@@ -569,6 +612,7 @@ namespace PocketLadio.Stations.ShoutCast
             setting.ParentHeadline.ParentStation.Name = stationNameTextBox.Text.Trim();
 
             setting.SearchWord = searchWordTextBox.Text.Trim();
+            setting.PerView = perViewComboBox.SelectedItem.ToString().Trim();
             setting.HeadlineViewType = headlineViewTypeTextBox.Text.Trim();
 
             setting.SetFilterMatchWords((string[])alFilterMatchWords.ToArray(typeof(string)));
@@ -627,6 +671,10 @@ namespace PocketLadio.Stations.ShoutCast
             else if (sortKindComboBox.Text.Trim() == "リスナ数")
             {
                 setting.SortKind = Headline.SortKinds.Listener;
+            }
+            else if (sortKindComboBox.Text.Trim() == "述べリスナ数")
+            {
+                setting.SortKind = Headline.SortKinds.ListenerTotal;
             }
             else if (sortKindComboBox.Text.Trim() == "ビットレート")
             {

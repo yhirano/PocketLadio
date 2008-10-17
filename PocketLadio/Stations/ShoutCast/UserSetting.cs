@@ -32,6 +32,56 @@ namespace PocketLadio.Stations.ShoutCast
         }
 
         /// <summary>
+        /// ヘッドライン取得数
+        /// </summary>
+        private string perView = "10";
+
+        /// <summary>
+        /// ヘッドライン取得数
+        /// </summary>
+        public string PerView
+        {
+            get { return perView; }
+            set { perView = value; }
+        }
+
+        /// <summary>
+        /// HTML解析時に、HTMLの解析をしない先頭からの行数。
+        /// 200を指定した場合には、0～200行目は解析しない。
+        /// （高速化のために使用する。）
+        /// </summary>
+        private int ignoreHtmlAnalyzeFirstTo = 200;
+
+        /// <summary>
+        /// HTML解析時に、HTMLの解析をしない先頭からの行数。
+        /// 200を指定した場合には、1～200行目は解析しない。
+        /// （高速化のために使用する。）
+        /// </summary>
+        public int IgnoreHtmlAnalyzeFirstTo
+        {
+            get { return ignoreHtmlAnalyzeFirstTo; }
+            set { ignoreHtmlAnalyzeFirstTo = value; }
+        }
+
+        /// <summary>
+        /// HTML解析時に、HTMLの解析をしない行末からの行数。
+        /// 250を指定した場合には、行末から250行前～行末は解析しない。
+        /// （高速化のために使用する。）
+        /// </summary>
+        private int ignoreHtmlAnalyzeEndFrom = 250;
+
+        /// <summary>
+        /// HTML解析時に、HTMLの解析をしない行末からの行数。
+        /// 250を指定した場合には、行末から250行前～行末は解析しない。
+        /// （高速化のために使用する。）
+        /// </summary>
+        public int IgnoreHtmlAnalyzeEndFrom
+        {
+            get { return ignoreHtmlAnalyzeEndFrom; }
+            set { ignoreHtmlAnalyzeEndFrom = value; }
+        }
+
+        /// <summary>
         /// Shoutcastヘッドラインの表示方法
         /// </summary>
         private string headlineViewType = "[[RANK]] [[TITLE]]";
@@ -361,6 +411,24 @@ namespace PocketLadio.Stations.ShoutCast
                                 SearchWord = reader.GetAttribute("word");
                             }
                         } // End of SearchWord
+                        else if (reader.LocalName == "PerView")
+                        {
+                            if (reader.MoveToFirstAttribute())
+                            {
+                                try
+                                {
+                                    perView = reader.GetAttribute("view");
+                                }
+                                catch (ArgumentException)
+                                {
+                                    ;
+                                }
+                                catch (FormatException)
+                                {
+                                    ;
+                                }
+                            }
+                        } // End of PerView
                         /*
                         else if (reader.LocalName == "IgnoreHtmlAnalyze")
                         {
@@ -501,6 +569,10 @@ namespace PocketLadio.Stations.ShoutCast
                                     {
                                         SortKind = Headline.SortKinds.Listener;
                                     }
+                                    else if (kind == Headline.SortKinds.ListenerTotal.ToString())
+                                    {
+                                        SortKind = Headline.SortKinds.ListenerTotal;
+                                    }
                                     else if (kind == Headline.SortKinds.BitRate.ToString())
                                     {
                                         SortKind = Headline.SortKinds.BitRate;
@@ -581,6 +653,15 @@ namespace PocketLadio.Stations.ShoutCast
                 writer.WriteStartElement("SearchWord");
                 writer.WriteAttributeString("word", SearchWord);
                 writer.WriteEndElement(); // End of SearchWord
+
+                writer.WriteStartElement("PerView");
+                writer.WriteAttributeString("view", perView);
+                writer.WriteEndElement(); // End of PerView
+
+                writer.WriteStartElement("IgnoreHtmlAnalyze");
+                writer.WriteAttributeString("firstto", IgnoreHtmlAnalyzeFirstTo.ToString());
+                writer.WriteAttributeString("endfrom", IgnoreHtmlAnalyzeEndFrom.ToString());
+                writer.WriteEndElement(); // End of IgnoreHtmlAnalyze
 
                 writer.WriteStartElement("HeadlineViewType");
                 writer.WriteAttributeString("type", HeadlineViewType);
