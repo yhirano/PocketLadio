@@ -29,7 +29,7 @@ namespace PocketLadio
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.47";
+        private const string VERSION_NUMBER = "0.48";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -42,7 +42,7 @@ namespace PocketLadio
         /// <summary>
         /// 著作権情報
         /// </summary>
-        private const string COPYRIGHT = "Copyright (C) 2005-2008 Y.Hirano";
+        private const string COPYRIGHT = "Copyright (C) 2005-2010 Y.Hirano";
 
         /// <summary>
         /// 著作権情報

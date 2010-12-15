@@ -31,7 +31,7 @@ namespace PocketLadio.Stations.ShoutCast
         /// <summary>
         /// SHOUTcastのURL
         /// </summary>
-        public const string SHOUTCAST_URL = "http://classic.shoutcast.com";
+        public const string SHOUTCAST_URL = "http://shoutcast.net";
 
         /// <summary>
         /// ヘッドラインのID（ヘッドラインを識別するためのキー）
